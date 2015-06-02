@@ -1,0 +1,258 @@
+// http://eternicode.github.io/bootstrap-datepicker/
+
+.uxcore-calendar {
+  box-sizing: border-box;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  border: 1px solid rgb(0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  width: 250px;
+  outline: none;
+  position: relative;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.428571429;
+  padding: 4px;
+  margin: 2px 0 0;
+}
+
+.uxcore-calendar * {
+  box-sizing: border-box;
+}
+
+.uxcore-calendar a, .uxcore-calendar a:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.uxcore-calendar:before {
+  display: none;
+  content: '';
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #ccc;
+  border-top: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+}
+
+.uxcore-calendar:after {
+  display: none;
+  content: '';
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #fff;
+  border-top: 0;
+  position: absolute;
+}
+
+.uxcore-calendar.uxcore-calendar-orient-left:before {
+  display: inline-block;
+  left: 6px;
+}
+
+.uxcore-calendar.uxcore-calendar-orient-left:after {
+  display: inline-block;
+  left: 7px;
+}
+
+.uxcore-calendar.uxcore-calendar-orient-right:before {
+  display: inline-block;
+  right: 6px;
+}
+
+.uxcore-calendar.uxcore-calendar-orient-right:after {
+  display: inline-block;
+  right: 7px;
+}
+
+.uxcore-calendar.uxcore-calendar-orient-top:before {
+  display: inline-block;
+  top: -7px;
+}
+
+.uxcore-calendar.uxcore-calendar-orient-top:after {
+  display: inline-block;
+  top: -6px;
+}
+
+.uxcore-calendar.uxcore-calendar-orient-bottom:before {
+  display: inline-block;
+  bottom: -7px;
+  border-bottom: 0;
+  border-top: 7px solid #999;
+}
+
+.uxcore-calendar.uxcore-calendar-orient-bottom:after {
+  display: inline-block;
+  bottom: -6px;
+  border-bottom: 0;
+  border-top: 6px solid #fff;
+}
+
+.uxcore-calendar-header {
+  height: 30px;
+  line-height: 30px;
+  position: relative;
+  text-align: center;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.uxcore-calendar-header > a {
+  font-weight: bold;
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 4px 5px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 22px;
+  border-radius: 4px;
+}
+
+.uxcore-calendar-header > a:hover {
+  background: #eeeeee;
+}
+
+.uxcore-calendar-prev-month-btn,
+.uxcore-calendar-next-month-btn,
+.uxcore-calendar-prev-year-btn,
+.uxcore-calendar-next-year-btn {
+  position: absolute;
+  top: 0;
+}
+
+.uxcore-calendar-next-year-btn {
+  right: 0;
+}
+
+.uxcore-calendar-header .uxcore-calendar-prev-month-btn {
+  position: absolute;
+  left: 25px;
+}
+
+.uxcore-calendar-prev-year-btn {
+  left: 0;
+}
+
+.uxcore-calendar-prev-year-btn:hover {
+}
+
+.uxcore-calendar-header .uxcore-calendar-next-month-btn {
+  position: absolute;
+  right: 25px;
+}
+
+.uxcore-calendar-header .uxcore-calendar-month-select {
+  width: 140px;
+}
+
+.uxcore-calendar-month-select-arrow {
+  display: none;
+}
+
+.uxcore-calendar-week-number-cell {
+  text-align: center;
+  line-height: 22px;
+}
+
+.uxcore-calendar-week-number-header {
+  text-indent: -9999px;
+}
+
+.uxcore-calendar-table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: separate;
+}
+
+.uxcore-calendar-table td,
+.uxcore-calendar-table th {
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  padding: 3px 4px;
+}
+
+.uxcore-calendar-column-header-inner {
+}
+
+.uxcore-calendar-cell {
+  text-align: center;
+  cursor: pointer;
+}
+
+.uxcore-calendar-cell:hover {
+  background: #eeeeee;
+}
+
+.uxcore-calendar-date {
+  width: 20px;
+  height: 22px;
+  line-height: 22px;
+  display: block;
+  outline: none;
+}
+
+.uxcore-calendar-last-month-cell .uxcore-calendar-date,
+.uxcore-calendar-next-month-btn-day .uxcore-calendar-date,
+.uxcore-calendar-disabled-cell .uxcore-calendar-date {
+  color: #bfbfbf;
+}
+
+.uxcore-calendar-disabled-cell:hover {
+  background: #ffffff;
+}
+
+.uxcore-calendar-disabled-cell .uxcore-calendar-date {
+  cursor: default;
+}
+
+.uxcore-calendar-disabled-cell .uxcore-calendar-date:hover {
+  border-color: transparent;
+}
+
+.uxcore-calendar-table .uxcore-calendar-today {
+  color: #357c00;
+  border: 1px solid #7dba4e;
+}
+
+.uxcore-calendar-table .uxcore-calendar-selected-day {
+  color: #ffffff;
+  background-color: #3276b1;
+  border-color: #285e8e;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.uxcore-calendar-footer {
+  padding: 3px 0;
+  text-align: center;
+}
+
+.uxcore-calendar-today-btn, .uxcore-calendar-clear-btn{
+  font-weight: bold;
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 4px 5px;
+  text-align: center;
+  width: 60px;
+  height: 30px;
+  line-height: 22px;
+  border-radius: 4px;
+  margin-left: 5px;
+}
+
+.uxcore-calendar-today-btn:hover,.uxcore-calendar-clear-btn:hover {
+  background: #eeeeee;
+}
+
+.uxcore-calendar-footer-btn {
+  margin-top:2px;
+}
+
+
+

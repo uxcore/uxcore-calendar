@@ -1,30 +1,43 @@
+/**
+ * @author: vincent
+ * @date: 15/5/19
+ */
+var webpack = require('webpack');
+var loaders = require('./loader.config');
+
 module.exports = {
-  entry: {
-    app: ['./index'],
-    example: ['./examples/example']
-  },
+    entry: {
+        simple: './example/simple.jsx'
+    },
+    output: {
+        publicPath: '/example',
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].[id].bundle.js'
+    },
+    module: {
+        loaders: loaders
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx'],
+        alias: {
+            'react': 'react/dist/react.js'
+        }
+    },
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vender',
+            filename: 'vender.js'
+        })
+    ],
+    debug: true,
+    devtool: 'eval',
+    devServer: {
+        info: true,
+        quiet: false,
 
-  output: {
-    // path: './dist',
-    filename: "[name].js"
-  },
-
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel'
-      },
-      {
-        test: /\.js?$/,
-        exclude: /node_modules/,
-        loader: 'babel'
-      },
-      {
-        test: /\.less$/,
-        loader: 'style!css!less'
-      }
-    ]
-  }
+        stats: {
+            colors: true,
+            progress: true
+        }
+    }
 };

@@ -1,56 +1,45 @@
 {
   "name": "uxcore-calendar",
-  "version": "1.0.0",
-  "description": "calendar ui component for react",
+  "version": "0.1.0",
+  "description": "calendar componment for react",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --progress --colors --port  9090",
+    "build": "webpack --config webpack.build.js",
+    "deploy": "git subtree push --prefix build origin gh-pages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uxcore/uxcore-calendar.git"
+  },
   "keywords": [
     "react",
     "react-calendar",
-    "react-component",
-    "calendar",
-    "ui component",
-    "ui",
-    "component"
+    "react-uxcore-calendar",
+    "uxcore-calendar"
   ],
-  "main": "src/index",
-  "homepage": "https://github.com/uxcore/calendar",
-  "author": "ermin.zem@alibaba-inc.com",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/uxcore/calendar.git"
-  },
-  "bugs": {
-    "url": "https://github.com/uxcore/calendar/issues"
-  },
+  "author": "vincent.bian",
   "license": "MIT",
-  "config": {
-    "port": 8080
+  "bugs": {
+    "url": "https://github.com/uxcore/uxcore-calendar/issues"
   },
-  "scripts": {
-    "dev": "webpack-dev-server --progress --colors"
-  },
+  "homepage": "https://github.com/uxcore/uxcore-calendar",
   "devDependencies": {
-    "async": "~0.9.0",
-    "bootstrap": "~3.3.2",
-    "expect.js": "~0.3.1",
-    "precommit-hook": "^1.0.7",
-    "rc-server": "3.x",
-    "rc-style": "1.0.x",
-    "rc-tools": "3.x",
-    "react": "^0.13.0",
-    "babel-core": "^5.4.3",
-    "babel-loader": "^5.1.2",
+    "babel-core": "^5.6.18",
+    "babel-loader": "^5.3.1",
     "css-loader": "^0.13.1",
-    "less": "^2.5.0",
+    "file-loader": "^0.8.4",
+    "html-webpack-plugin": "^1.6.0",
+    "less": "^2.5.1",
     "less-loader": "^2.2.0",
-    "node-libs-browser": "^0.5.0",
-    "style-loader": "^0.12.2",
-    "webpack": "^1.9.7",
-    "webpack-dev-server": "^1.8.2"
+    "node-libs-browser": "^0.5.2",
+    "style-loader": "^0.12.3",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.10.1"
   },
   "dependencies": {
-    "dom-align": "^1.0.1",
-    "gregorian-calendar": "3.x",
-    "gregorian-calendar-format": "3.x",
-    "rc-util": "^2.0.0"
+    "object-assign": "^3.0.0",
+    "rc-calendar": "^3.10.1",
+    "react": "^0.13.3"
   }
 }

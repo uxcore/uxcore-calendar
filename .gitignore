@@ -22,5 +22,4 @@ node_modules
 .cache
 dist
 assets/**/*.css
-build
 lib

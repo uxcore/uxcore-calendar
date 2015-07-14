@@ -1,3 +1,1 @@
-import Main from './src/index';
-
-module.exports = Main;
+module.exports = require('./lib/calendar.jsx');

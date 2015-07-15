@@ -8,9 +8,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        simple: './example/simple.jsx',
-        inline: './example/inline.jsx',
-        standalone: './example/standalone.jsx'
+        index: './example/index.jsx'
     },
     output: {
 		path: './build',

@@ -1,8 +1,8 @@
 # uxcore-dialog
 ---
 
-- tags: uxcore, dialog
-- description: uxcore dialog
+- tags: uxcore, calendar
+- description: uxcore calendar
 - maintainers: vincent.bian
 - version: 1.0.0
 - lastupdate: 2015/7/12
@@ -13,7 +13,7 @@
 #### setup develop environment
 
 ```sh
-$ git clone https://github.com/uxcore/uxcore-dialog
+$ git clone https://github.com/uxcore/uxcore-calendar
 $ cd uxcore-dialog
 $ npm install
 $ npm run dev
@@ -31,33 +31,26 @@ $ npm run deploy
 ## Usage
 
 ```js
-var Dialog = require('uxcore-dialog');
+var Calendar = require('uxcore-calendar');
 React.render(
-  (<Dialog title={title} onClose={callback1} onShow={callback2}>
-    <p>dialog content</p>
-  </Dialog>),
+  (<Calendar />),
   document.getElementById('content')
 );
 ```
 
 ### demo
-http://uxcore.github.io/uxcore-dialog/
+http://uxcore.github.io/uxcore-calendar/
 
 ## API
 
 ### props
 
-|name|type|default|description|
-|----|----|-------|-----------|
-|prefixCls|String|kuma-dialog|The dialog dom node's prefixCls|
-|visible|Boolean|false| |
-|mask|Boolean| |whether show mask|
-|renderToBody|Boolean|true|whether render dialog to body|
-|animation|String| |part of dialog animation css class name|
-|maskAnimation|String| |part of dialog's mask animation css class name|
-|title|String|React.Element|Title of the dialog|
-|footer|React.Element| |footer of the dialog|
-|closable|Boolean|true|whether show close button and click mask to close|
-|onBeforeClose|function(close)| |when click close button or mask. argument is a close function|
-|onShow|function| |called on dialog show|
-|onClose|function| |called on dialog close|
+|参数|说明|类型|默认值|
+|---|----|---|------|
+|value|日期|string|无|
+|name|表单name值|string|无|
+|format|展示的日期格式|string|'yyyy-MM-dd'|
+|disabledDate|日期|function|无|
+|onSelect|日期|function|无|
+|showTime|日期|boolean|false|
+|disabled|日期|boolean|false|

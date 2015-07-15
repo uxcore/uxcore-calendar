@@ -7,7 +7,7 @@ var loaders = require('./loader.config');
 
 module.exports = {
     entry: {
-        simple: './example/simple.jsx'
+        index: './example/index.jsx'
     },
     output: {
         publicPath: '/example',

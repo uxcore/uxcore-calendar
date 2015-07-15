@@ -17,7 +17,7 @@ module.exports = {
         chunkFilename: '[name].[id].bundle.js'
     },
 	plugins:
-        ['index', 'inline', 'simple', 'standalone'].map(function(name){
+        ['index'].map(function(name){
 			return new HtmlWebpackPlugin({
 				filename: name + '.html',
 	      		template: './example/' + name + '.html'

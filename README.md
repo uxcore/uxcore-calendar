@@ -4,7 +4,7 @@
 - tags: uxcore, calendar
 - description: uxcore calendar
 - maintainers: vincent.bian
-- version: 1.0.0
+- version: 0.1.0
 - lastupdate: 2015/7/12
 - screenshots:
 

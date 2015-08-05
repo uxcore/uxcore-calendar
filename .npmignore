@@ -21,9 +21,11 @@ out/
 .build
 node_modules
 .cache
-examples
+example
 tests
 src
 /index.js
 .*
-assets/**/*.less
+style/*
+webpack.*.js
+loader.config.js

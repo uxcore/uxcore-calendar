@@ -43,5 +43,8 @@
     "object-assign": "^3.0.0",
     "rc-calendar": "^3.10.1",
     "react": "^0.13.3"
-  }
+  },
+    "peerDependencies": {
+      "react": ">=0.13.0"
+    }
 }

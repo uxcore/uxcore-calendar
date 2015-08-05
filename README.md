@@ -1,5 +1,4 @@
-# uxcore-dialog
----
+# uxcore-calendar
 
 - tags: uxcore, calendar
 - description: uxcore calendar
@@ -7,6 +6,7 @@
 - version: 0.1.0
 - lastupdate: 2015/7/12
 - screenshots:
+---
 
 ## TL;DR
 
@@ -14,7 +14,7 @@
 
 ```sh
 $ git clone https://github.com/uxcore/uxcore-calendar
-$ cd uxcore-dialog
+$ cd uxcore-calendar
 $ npm install
 $ npm run dev
 ```

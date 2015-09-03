@@ -3,7 +3,7 @@
 - tags: uxcore, calendar
 - description: uxcore calendar
 - maintainers: vincent.bian
-- version: 0.1.2
+- version: 0.1.3
 - lastupdate: 2015/7/12
 - screenshots:
 ---

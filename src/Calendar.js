@@ -16,15 +16,6 @@ class Calendar extends React.Component {
         this.state = {
         }
     }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.value) {
-            var value = new GregorianCalendar(zhCn);
-            value.setTime(new Date(nextProps.value).valueOf());
-            this.setState({
-            value: value
-            });
-        }
-    }
     handleChange(v) {
         let me = this;
         me.setState({

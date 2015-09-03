@@ -34,7 +34,7 @@ class Demo extends React.Component {
 				</div>
 				<div className="kuma-form-item">
 					<label className="kuma-label">时间选择</label>
-					<Calendar showTime={true} format="yyyy-MM-dd HH:mm:ss" />
+					<Calendar focused={true} hasTrigger={true} showTime={true} format="yyyy-MM-dd HH:mm:ss" />
 				</div>
 				<div className="kuma-form-item">
 					<label className="kuma-label">禁用</label>

@@ -3,24 +3,17 @@ let Datepicker = RcCalendar.Picker;
 let GregorianCalendar = require('gregorian-calendar');
 let DateTimeFormat = require('gregorian-calendar-format');
 
-let zhCn = require('gregorian-calendar/lib/locale/zh-cn');
-let CalendarLocale = require('rc-calendar/lib/locale/zh-cn');
-let Locale = require('gregorian-calendar-format/lib/locale/zh-cn');
-
-// 和顶部文案保持一致
-Locale.shortMonths = ['1月', '2月', '3月', '4月', '5月', '6月',
-                      '7月', '8月', '9月', '10月', '11月', '12月'];
-
-// 以下两行代码
-// 给没有初始值的日期选择框提供本地化信息
-let defaultCalendarValue = new GregorianCalendar(zhCn);
-defaultCalendarValue.setTime(Date.now());
+let defaultValueLocale = {};
+let CalendarLocale = {};
+defaultValueLocale['zh-cn'] = require('gregorian-calendar/lib/locale/zh-cn');
+defaultValueLocale['en-us'] = require('gregorian-calendar/lib/locale/en-us');
+CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh-cn');
+CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en-us');
 
 class Calendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: !!props.value ? new GregorianCalendar(zhCn).setTime(new Date(props.value).valueOf()) : undefined
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -41,27 +34,43 @@ class Calendar extends React.Component {
     }
     render() {
         let me = this;
-        let calendar = <RcCalendar
-                    disabledDate={me.props.disabledDate}
-                    locale={CalendarLocale}
-                    orient={['top', 'left']}
-                    defaultValue={defaultCalendarValue}
-                    showTime={me.props.showTime}
-                    prefixCls="kuma-calendar"
-                    showOk={me.props.showTime}
-                    showClear={false}/>;
+        let p = me.props;
+        let fotmatter = new DateTimeFormat(p.format);
+        let calendarOptions = {
+            className: p.className,
+            style: p.style,
+            disabledDate: p.disabledDate,
+            showWeekNumber: p.showWeekNumber,
+            showToday: p.showToday,
+            showTime: p.showTime,
+            locale: CalendarLocale[p.locale],
+            orient: ['top', 'left'],
+            prefixCls: "kuma-calendar"
+        };
+        let pickerOptions = {
+            disabled: p.disabled,
+            formatter: fotmatter,
+            adjustOrientOnCalendarOverflow: false,
+            prefixCls: "kuma-calendar-picker"
+        };
+
+        if (p.value) {
+            pickerOptions.value = calendarOptions.value = new GregorianCalendar(defaultValueLocale[p.locale]).setTime(new Date(p.value).valueOf());
+        }
+        if (p.defaultValue) {
+            pickerOptions.defaultValue = calendarOptions.defaultValue = new GregorianCalendar(defaultValueLocale[p.locale]).setTime(new Date(p.defaultValue).valueOf());
+        }
+        if (p.hasTrigger) {
+            pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender"></i>;
+        }
+        let calendar = <RcCalendar {...calendarOptions}/>;
 
         return (
             <Datepicker
-            transitionName={me.props.transitionName}
-            trigger={<i className="kuma-icon kuma-icon-calender"></i>}
             calendar={calendar}
-            adjustOrientOnCalendarOverflow={false}
-            formatter={new DateTimeFormat(me.props.format)}
-            value={me.state.value}
-            prefixCls="kuma-calendar-picker"
-            onChange={me.handleChange.bind(me)}>
-                <input name={me.props.name} disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
+            onChange={me.handleChange.bind(me)}
+            {...pickerOptions}>
+                <input disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
             </Datepicker>
         );
     }
@@ -69,18 +78,18 @@ class Calendar extends React.Component {
 
 Calendar.displayName = "Calendar";
 Calendar.defaultProps = {
-    name: '',
     format: 'yyyy-MM-dd',
     placeholder: '请选择日期',
-    transitionName: 'slide-up',
-    onSelect: function () {}
+    onSelect: function () {},
+    locale: 'zh-cn',
+    hasTrigger: false
 };
 Calendar.propTypes = {
-    name: React.PropTypes.string,
     format: React.PropTypes.string,
     placeholder: React.PropTypes.string,
-    transitionName: React.PropTypes.string,
-    onSelect: React.PropTypes.func
+    onSelect: React.PropTypes.func,
+    locale: React.PropTypes.string,
+    hasTrigger: React.PropTypes.bool
 }
 
 module.exports = Calendar;

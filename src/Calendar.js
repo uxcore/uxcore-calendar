@@ -55,10 +55,14 @@ class Calendar extends React.Component {
         };
 
         if (p.value) {
-            pickerOptions.value = calendarOptions.value = new GregorianCalendar(defaultValueLocale[p.locale]).setTime(new Date(p.value).valueOf());
+            let value = new GregorianCalendar(defaultValueLocale[p.locale]);
+            value.setTime(new Date(p.value).valueOf());
+            pickerOptions.value = calendarOptions.value = value;
         }
         if (p.defaultValue) {
-            pickerOptions.defaultValue = calendarOptions.defaultValue = new GregorianCalendar(defaultValueLocale[p.locale]).setTime(new Date(p.defaultValue).valueOf());
+            let value = new GregorianCalendar(defaultValueLocale[p.locale]);
+            value.setTime(new Date(p.defaultValue).valueOf());
+            pickerOptions.defaultValue = calendarOptions.defaultValue = value;
         }
         if (p.hasTrigger) {
             pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender"></i>;

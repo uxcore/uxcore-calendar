@@ -16,28 +16,28 @@ class Demo extends React.Component {
 	render() {
 		return (
 			<div className="kuma-form">
-				<div className="kuma-form-item">
-					<label className="kuma-label">基本</label>
+				<div className="kuma-form-field" style={{width: 400}}>
+					<p>基本</p>
 					<Calendar value="" />
 				</div>
-				<div className="kuma-form-item">
-					<label className="kuma-label">日期格式</label>
+				<div className="kuma-form-field" style={{width: 400}}>
+					<p>日期格式</p>
 					<Calendar value="2015/01/01" format="yyyy/MM/dd" />
 				</div>
-				<div className="kuma-form-item">
-					<label className="kuma-label">选择日期</label>
+				<div className="kuma-form-field" style={{width: 400}}>
+					<p>选择日期</p>
 					<Calendar onSelect={onSelect} />
 				</div>
-				<div className="kuma-form-item">
-					<label className="kuma-label">范围</label>
+				<div className="kuma-form-field" style={{width: 400}}>
+					<p>范围</p>
 					<Calendar disabledDate={disabledDate} />
 				</div>
-				<div className="kuma-form-item">
-					<label className="kuma-label">时间选择</label>
+				<div className="kuma-form-field" style={{width: 400}}>
+					<p>时间选择</p>
 					<Calendar defaultValue={Date.now()} hasTrigger={true} showTime={true} format="yyyy-MM-dd HH:mm:ss" />
 				</div>
-				<div className="kuma-form-item">
-					<label className="kuma-label">禁用</label>
+				<div className="kuma-form-field" style={{width: 400}}>
+					<p>禁用</p>
 					<Calendar value="2015-06-06" disabled={true} />
 				</div>
 			</div>

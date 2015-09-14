@@ -42,7 +42,7 @@
     "object-assign": "^2.0.0",
     "react": "^0.13.3",
     "uxcore-kuma": "~1.0.6",
-    "rc-calendar": "~3.11.0",
+    "rc-calendar": "~3.16.0",
     "gregorian-calendar": "~3.0.0",
     "gregorian-calendar-format": "~3.0.1"
   },

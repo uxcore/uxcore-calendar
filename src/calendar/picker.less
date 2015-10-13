@@ -1,41 +1,23 @@
 .@{calendar-prefix-class}-picker {
-  > input {
-    outline:none;
-    box-sizing: border-box;
-    cursor: pointer;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    height: 32px;
-    width: 100%;
-    position: relative;
-    display: inline-block;
-    margin: 0 0;
-    padding: 7px 10px;
-    border: 1px solid #d9d9d9;
-    background-color: #ffffff;
-    color: #666;
-    line-height: 1.5;
-    font-family: inherit;
-    vertical-align: baseline;
+    > input {
+        position: relative;
+        display: inline-block;
+        vertical-align: baseline;
+        cursor: pointer;
 
-    &:focus {
-      border-color: @color-blue-dark;
+        &[disabled] {
+            cursor: @cursor-disabled;
+        }
     }
 
-    &:hover {
-      border-color: @color-blue-dark;
+    > .kuma-icon {
+        position: absolute;
+        right: 8px;
+        top: 1px;
     }
-
-    &[disabled] {
-      border-color: #d9d9d9;
-      background-color: #f3f5f7;
-      opacity: 1;
-      cursor: not-allowed;
+    &-open {
+        > input {
+            border-color: @input-border-focus!important;
+        }
     }
-  }
-
-  > .kuma-icon {
-    position: absolute;
-    right: 8px;
-    top: 1px;
-  }
 }

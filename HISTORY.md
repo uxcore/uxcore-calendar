@@ -1,3 +1,10 @@
+# History
+
+---
+
+## 0.1.7
+`CHANGED` upgrade to react@0.14
+
 ## 0.1.6
 
 `CHANGED` change to rc-calendar ver. 3.6.1

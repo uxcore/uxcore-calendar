@@ -18,9 +18,6 @@ class Calendar extends React.Component {
     }
     handleChange(v) {
         let me = this;
-        me.setState({
-          value: v
-        });
         me.props.onSelect(new Date(v.getTime()));
     }
     render() {
@@ -47,13 +44,13 @@ class Calendar extends React.Component {
 
         if (p.value) {
             let value = new GregorianCalendar(defaultValueLocale[p.locale]);
-            value.setTime(new Date(p.value).valueOf());
+            value.setTime(new Date(p.value || null).valueOf());
             pickerOptions.value = calendarOptions.value = value;
         }
         if (p.defaultValue) {
             let value = new GregorianCalendar(defaultValueLocale[p.locale]);
             value.setTime(new Date(p.defaultValue).valueOf());
-            pickerOptions.defaultValue = calendarOptions.defaultValue = value;
+            calendarOptions.defaultValue = value;
         }
         if (p.hasTrigger) {
             pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender"></i>;
@@ -75,6 +72,7 @@ Calendar.displayName = "Calendar";
 Calendar.defaultProps = {
     format: 'yyyy-MM-dd',
     placeholder: '请选择日期',
+    defaultValue: Date.now(),
     onSelect: function () {},
     locale: 'zh-cn',
     hasTrigger: false

@@ -1,4 +1,5 @@
 let Calendar = require('../src');
+let Button = require('uxcore-button');
 
 function onSelect(value){
 	alert(value);
@@ -12,8 +13,25 @@ function disabledDate(current, value){
 class Demo extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			value: undefined
+		}
+	}
+
+	handleClick() {
+		this.setState({
+			value: "2015-11-20"
+		})
+	}
+
+	onSelect(value) {
+		console.log(value);
+		this.setState({
+			value: value
+		});
 	}
 	render() {
+		let me = this;
 		return (
 			<div className="kuma-form">
 				<div className="kuma-form-field" style={{width: 400}}>
@@ -26,7 +44,7 @@ class Demo extends React.Component {
 				</div>
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>选择日期</p>
-					<Calendar onSelect={onSelect} />
+					<Calendar onSelect={this.onSelect.bind(this)} value={this.state.value}/>
 				</div>
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>范围</p>

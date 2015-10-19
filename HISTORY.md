@@ -2,6 +2,9 @@
 
 ---
 
+## 0.1.9
+`FIXED` https://github.com/uxcore/uxcore-calendar/issues/3
+
 ## 0.1.7
 `CHANGED` upgrade to react@0.14
 

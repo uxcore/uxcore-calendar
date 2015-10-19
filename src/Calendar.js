@@ -14,7 +14,7 @@ class Calendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        }
+        };
     }
     handleChange(v) {
         let me = this;
@@ -58,12 +58,14 @@ class Calendar extends React.Component {
         let calendar = <RcCalendar {...calendarOptions}/>;
 
         return (
-            <Datepicker
-            calendar={calendar}
-            onChange={me.handleChange.bind(me)}
-            {...pickerOptions}>
-                <input disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
-            </Datepicker>
+            <div className='uxcore'>
+                <Datepicker
+                calendar={calendar}
+                onChange={me.handleChange.bind(me)}
+                {...pickerOptions}>
+                    <input disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
+                </Datepicker>
+            </div>
         );
     }
 }

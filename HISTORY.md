@@ -1,6 +1,8 @@
 # History
 
 ---
+## 0.1.10
+`FIXED` sorry, fix https://github.com/uxcore/uxcore-calendar/issues/3 again
 
 ## 0.1.9
 `FIXED` https://github.com/uxcore/uxcore-calendar/issues/3

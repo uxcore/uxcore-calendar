@@ -58,20 +58,19 @@ class Calendar extends React.Component {
         let calendar = <RcCalendar {...calendarOptions}/>;
 
         return (
-            <div className='uxcore'>
-                <Datepicker
-                calendar={calendar}
-                onChange={me.handleChange.bind(me)}
-                {...pickerOptions}>
-                    <input disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
-                </Datepicker>
-            </div>
+            <Datepicker
+            calendar={calendar}
+            onChange={me.handleChange.bind(me)}
+            {...pickerOptions}>
+                <input disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
+            </Datepicker>
         );
     }
 }
 
 Calendar.displayName = "Calendar";
 Calendar.defaultProps = {
+    className: 'uxcore',
     format: 'yyyy-MM-dd',
     placeholder: '请选择日期',
     defaultValue: Date.now(),
@@ -80,6 +79,7 @@ Calendar.defaultProps = {
     hasTrigger: false
 };
 Calendar.propTypes = {
+    className: 'React.PropTypes.string',
     format: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,

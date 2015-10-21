@@ -1,5 +1,5 @@
 let RcCalendar = require('rc-calendar');
-let Datepicker = RcCalendar.Picker;
+let Datepicker = require('./picker');
 let GregorianCalendar = require('gregorian-calendar');
 let DateTimeFormat = require('gregorian-calendar-format');
 
@@ -39,7 +39,13 @@ class Calendar extends React.Component {
             disabled: p.disabled,
             formatter: fotmatter,
             adjustOrientOnCalendarOverflow: false,
-            prefixCls: "kuma-calendar-picker"
+            prefixCls: "kuma-calendar-picker",
+            getCalendarContainer: function(){
+                let c = document.createElement('div');
+                c.className = 'uxcore';
+                document.body.appendChild(c);
+                return c;
+            }
         };
 
         if (p.value) {
@@ -70,7 +76,6 @@ class Calendar extends React.Component {
 
 Calendar.displayName = "Calendar";
 Calendar.defaultProps = {
-    className: 'uxcore',
     format: 'yyyy-MM-dd',
     placeholder: '请选择日期',
     defaultValue: Date.now(),
@@ -79,12 +84,11 @@ Calendar.defaultProps = {
     hasTrigger: false
 };
 Calendar.propTypes = {
-    className: 'React.PropTypes.string',
     format: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,
     locale: React.PropTypes.string,
     hasTrigger: React.PropTypes.bool
-}
+};
 
 module.exports = Calendar;

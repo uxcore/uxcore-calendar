@@ -20,7 +20,7 @@ class Demo extends React.Component {
 
 	handleClick() {
 		this.setState({
-			value: "2015-11-20"
+			value: null
 		})
 	}
 
@@ -58,6 +58,7 @@ class Demo extends React.Component {
 					<p>禁用</p>
 					<Calendar value="2015-06-06" disabled={true} />
 				</div>
+				<Button onClick={me.handleClick.bind(me)}>reset</Button>
 			</div>
 		)
 	}

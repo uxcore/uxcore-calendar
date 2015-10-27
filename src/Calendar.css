@@ -303,11 +303,11 @@
   background: #f2f2f2;
   cursor: pointer;
 }
-.kuma-calendar-time-panel-selected-cell .kuma-calendar-time-panel-time {
+.kuma-calendar-time-panel-selected-cell .kuma-calendar-time {
   background: #ff9900;
   color: #ffffff;
 }
-.kuma-calendar-time-panel-selected-cell .kuma-calendar-time-panel-time:hover {
+.kuma-calendar-time-panel-selected-cell .kuma-calendar-time:hover {
   background: #ff9900;
   color: #ffffff;
 }
@@ -320,7 +320,7 @@
   user-select: none;
   left: 0;
 }
-.kuma-calendar-month-panel .kuma-calendar-month-panel-year-select {
+.kuma-calendar-month-panel .kuma-calendar-year-select {
   width: 120px;
   font-size: 12px;
 }
@@ -331,7 +331,7 @@
   user-select: none;
   right: 0;
 }
-.kuma-calendar-month-panel-cell .kuma-calendar-month-panel-month {
+.kuma-calendar-month-panel-cell .kuma-calendar-month {
   display: block;
   margin: 0 auto;
   color: #666666;
@@ -341,22 +341,22 @@
   line-height: 36px;
   text-align: center;
 }
-.kuma-calendar-month-panel-cell .kuma-calendar-month-panel-month:hover {
+.kuma-calendar-month-panel-cell .kuma-calendar-month:hover {
   background: #f2f2f2;
   cursor: pointer;
 }
-.kuma-calendar-month-panel-disabled .kuma-calendar-month-panel-month {
+.kuma-calendar-month-panel-disabled .kuma-calendar-month {
   color: #bbbbbb;
 }
-.kuma-calendar-month-panel-disabled .kuma-calendar-month-panel-month:hover {
+.kuma-calendar-month-panel-disabled .kuma-calendar-month:hover {
   background: #ffffff;
   cursor: not-allowed;
 }
-.kuma-calendar-month-panel-selected-cell .kuma-calendar-month-panel-month {
+.kuma-calendar-month-panel-selected-cell .kuma-calendar-month {
   background: #ff9900;
   color: #ffffff;
 }
-.kuma-calendar-month-panel-selected-cell .kuma-calendar-month-panel-month:hover {
+.kuma-calendar-month-panel-selected-cell .kuma-calendar-month:hover {
   background: #ff9900;
   color: #ffffff;
 }
@@ -369,7 +369,7 @@
   user-select: none;
   left: 0;
 }
-.kuma-calendar-year-panel .kuma-calendar-year-panel-decade-select {
+.kuma-calendar-year-panel .kuma-calendar-decade-select {
   width: 120px;
   font-size: 12px;
 }
@@ -392,11 +392,11 @@
   background: #f2f2f2;
   cursor: pointer;
 }
-.kuma-calendar-year-panel-selected-cell .kuma-calendar-year-panel-year {
+.kuma-calendar-year-panel-selected-cell .kuma-calendar-year {
   background: #ff9900;
   color: #ffffff;
 }
-.kuma-calendar-year-panel-selected-cell .kuma-calendar-year-panel-year:hover {
+.kuma-calendar-year-panel-selected-cell .kuma-calendar-year:hover {
   background: #ff9900;
   color: #ffffff;
 }
@@ -435,11 +435,11 @@
   background: #f2f2f2;
   cursor: pointer;
 }
-.kuma-calendar-decade-panel-selected-cell .kuma-calendar-decade-panel-decade {
+.kuma-calendar-decade-panel-selected-cell .kuma-calendar-decade {
   background: #ff9900;
   color: #ffffff;
 }
-.kuma-calendar-decade-panel-selected-cell .kuma-calendar-decade-panel-decade:hover {
+.kuma-calendar-decade-panel-selected-cell .kuma-calendar-decade:hover {
   background: #ff9900;
   color: #ffffff;
 }

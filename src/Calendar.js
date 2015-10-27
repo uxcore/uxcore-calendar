@@ -50,9 +50,13 @@ class Calendar extends React.Component {
 
         if (p.value) {
             let value = new GregorianCalendar(defaultValueLocale[p.locale]);
-            value.setTime(new Date(p.value || null).valueOf());
+            value.setTime(new Date(p.value).valueOf());
             pickerOptions.value = calendarOptions.value = value;
         }
+        else {
+            pickerOptions.value = calendarOptions.value = null;
+        }
+
         if (p.defaultValue) {
             let value = new GregorianCalendar(defaultValueLocale[p.locale]);
             value.setTime(new Date(p.defaultValue).valueOf());

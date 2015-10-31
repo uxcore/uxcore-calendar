@@ -1,9 +1,11 @@
 # History
 
 ---
+## 0.1.14
+`FIXED` #6
 
 ## 0.1.13
-`FIXED` #6
+`FIXED` fix issue #5: calendar cannot be reset by null.
 
 ## 0.1.12
 `FIXED` use getCalendarContainer to add uxcore wrap

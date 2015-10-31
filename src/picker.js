@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import DateTimeFormat from 'gregorian-calendar-format';
 import rcUtil, {createChainedFunction, KeyCode, classSet} from 'rc-util';
 const toFragment = rcUtil.Children.mapSelf;
@@ -99,7 +100,7 @@ const Picker = React.createClass({
 
   componentDidUpdate() {
     if (this.haveOpened) {
-      React.render(this.getCalendarElement(), this.getCalendarContainer());
+      ReactDOM.render(this.getCalendarElement(), this.getCalendarContainer());
     }
   },
 
@@ -116,7 +117,7 @@ const Picker = React.createClass({
     const newOrient = orientMap[points[0]];
     this.calendarInstance.setOrient(newOrient);
     // focus after align
-    React.findDOMNode(this.calendarInstance).focus();
+    ReactDOM.findDOMNode(this.calendarInstance).focus();
   },
 
   onInputClick() {
@@ -185,7 +186,7 @@ const Picker = React.createClass({
   },
 
   getInputDOMNode() {
-    return React.findDOMNode(this.inputInstance);
+    return ReactDOM.findDOMNode(this.inputInstance);
   },
 
   getTransitionName() {

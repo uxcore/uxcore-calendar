@@ -10,20 +10,22 @@ defaultValueLocale['en-us'] = require('gregorian-calendar/lib/locale/en-us');
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh-cn');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en-us');
 
+function getGregorianCalendarDate(date, locale){
+    let value = new GregorianCalendar(defaultValueLocale[locale]);
+    value.setTime(new Date(date).valueOf());
+    return value;
+}
+
 class Calendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
         };
     }
-    handleChange(v) {
-        let me = this;
-        me.props.onSelect(new Date(v.getTime()));
-    }
     render() {
         let me = this;
         let p = me.props;
-        let fotmatter = new DateTimeFormat(p.format);
+        let formatter = new DateTimeFormat(p.format);
         let calendarOptions = {
             className: p.className,
             style: p.style,
@@ -37,7 +39,7 @@ class Calendar extends React.Component {
         };
         let pickerOptions = {
             disabled: p.disabled,
-            formatter: fotmatter,
+            formatter: formatter,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: "kuma-calendar-picker",
             getCalendarContainer: function(){
@@ -49,17 +51,14 @@ class Calendar extends React.Component {
         };
 
         if (p.value) {
-            let value = new GregorianCalendar(defaultValueLocale[p.locale]);
-            value.setTime(new Date(p.value).valueOf());
+            let value = getGregorianCalendarDate(p.value, p.locale);
             pickerOptions.value = calendarOptions.value = value;
-        }
-        else {
+        } else {
             pickerOptions.value = calendarOptions.value = null;
         }
 
         if (p.defaultValue) {
-            let value = new GregorianCalendar(defaultValueLocale[p.locale]);
-            value.setTime(new Date(p.defaultValue).valueOf());
+            let value = getGregorianCalendarDate(p.defaultValue, p.locale);
             calendarOptions.defaultValue = value;
         }
         if (p.hasTrigger) {
@@ -67,10 +66,16 @@ class Calendar extends React.Component {
         }
         let calendar = <RcCalendar {...calendarOptions}/>;
 
+        function _onChange(v){
+            let date = v.getTime();
+            let value = getGregorianCalendarDate(date, p.locale);
+            this.props.onSelect(new Date(date), formatter.format(value));
+        }
+
         return (
             <Datepicker
             calendar={calendar}
-            onChange={me.handleChange.bind(me)}
+            onChange={_onChange.bind(me)}
             {...pickerOptions}>
                 <input disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
             </Datepicker>

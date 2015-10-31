@@ -1,11 +1,6 @@
 let Calendar = require('../src');
 let Button = require('uxcore-button');
 
-function onSelect(value){
-	alert(value);
-	console.log(value);
-}
-
 function disabledDate(current, value){
 	return current.getTime() > Date.now();
 }
@@ -24,8 +19,8 @@ class Demo extends React.Component {
 		})
 	}
 
-	onSelect(value) {
-		console.log(value);
+	onSelect(value, formatted) {
+		console.log(value, formatted);
 		this.setState({
 			value: value
 		});

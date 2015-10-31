@@ -29,6 +29,9 @@ React.render(
 http://uxcore.github.io/uxcore/components/calendar/
 
 ## API
+- onSelect(date, formatDateString)
+    - date `date`
+    - formatDateString `string`
 
 ### props
 

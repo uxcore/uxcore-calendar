@@ -1,6 +1,10 @@
 # History
 
 ---
+
+## 0.1.13
+`FIXED` #6
+
 ## 0.1.12
 `FIXED` use getCalendarContainer to add uxcore wrap
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+// import React from 'react';
+// import ReactDOM from 'react-dom';
 import DateTimeFormat from 'gregorian-calendar-format';
 import rcUtil, {createChainedFunction, KeyCode, classSet} from 'rc-util';
 const toFragment = rcUtil.Children.mapSelf;

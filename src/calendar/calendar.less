@@ -119,6 +119,19 @@
     }
   }
 
+    &-cell {
+        &:nth-last-child(1), &:nth-last-child(2) {
+            .@{calendar-prefix-class}-date {
+                color: @calendar-holiday-color;
+            }
+            &.@{calendar-prefix-class}-selected-day {
+                .@{calendar-prefix-class}-date {
+                    color: @calendar-selected-text;
+                }
+            }
+        }
+    }
+
   &-date {
     display: block;
     color: @calendar-text;
@@ -137,17 +150,19 @@
 
     &:hover {
       background: @calendar-selected-color;
+      color: @calendar-selected-text;
     }
   }
 
   &-today .@{calendar-prefix-class}-date {
     background: @calendar-hover-bg;
     border: 1px solid @calendar-hover-bg;
+    color: @calendar-text;
   }
 
   &-disabled-cell .@{calendar-prefix-class}-date {
     cursor: @cursor-disabled;
-    color: @black-light;
+    color: @black-light!important;
     background: @calendar-disabled-bg;
 
     &:hover {
@@ -156,7 +171,7 @@
   }
 
   &-last-month-cell .@{calendar-prefix-class}-date, &-next-month-btn-day .@{calendar-prefix-class}-date {
-    color: @calendar-disabled-color;
+    color: @calendar-disabled-color!important;
   }
 
   &-footer {

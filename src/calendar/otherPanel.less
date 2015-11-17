@@ -106,7 +106,7 @@
 		right: 0;
     }
 
-	&-cell .@{calendar-prefix-class}-month {
+	&-cell &-month {
 		display: block;
 		margin: 0 auto;
 		color: @calendar-text;
@@ -122,7 +122,7 @@
 		}
 	}
 
-	&-disabled .@{calendar-prefix-class}-month {
+	&-disabled &-month {
 		color: @calendar-disabled-color;
 
 		&:hover {
@@ -131,7 +131,7 @@
 		}
     }
 
-    &-selected-cell .@{calendar-prefix-class}-month {
+    &-selected-cell &-month {
 		background: @calendar-selected-color;
 		color: @calendar-selected-text;
 
@@ -153,7 +153,7 @@
       left: 0;
     }
 
-    & .@{calendar-prefix-class}-decade-select {
+    & &-decade-select {
       width: 120px;
       font-size: 12px;
     }
@@ -181,7 +181,7 @@
       }
     }
 
-    &-selected-cell .@{calendar-prefix-class}-year {
+    &-selected-cell &-year {
       background: @calendar-selected-color;
       color: @calendar-selected-text;
 
@@ -235,7 +235,7 @@
       }
     }
 
-    &-selected-cell .@{calendar-prefix-class}-decade {
+    &-selected-cell &-decade {
       background: @calendar-selected-color;
       color: @calendar-selected-text;
 

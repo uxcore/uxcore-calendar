@@ -49,8 +49,5 @@
     "rc-align": "~1.2.1",
     "rc-calendar": "~3.16.0",
     "rc-util": "~2.0.3"
-  },
-  "peerDependencies": {
-    "react": ">=0.13.0"
   }
 }

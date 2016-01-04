@@ -1,6 +1,9 @@
 # History
 
 ---
+## 0.2.1
+`CHANGED` add year calendar
+
 ## 0.2.0
 `CHANGED` add month calendar
 

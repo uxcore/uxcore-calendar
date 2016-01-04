@@ -8,7 +8,7 @@ const orientMap = {
   tl: ['top', 'left'],
   tr: ['top', 'right'],
   bl: ['bottom', 'left'],
-  br: ['bottom', 'right'],
+  br: ['bottom', 'right']
 };
 
 function getImmutableOrient(orient) {

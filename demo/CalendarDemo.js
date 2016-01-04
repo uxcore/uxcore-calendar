@@ -1,6 +1,7 @@
 let Calendar = require('../src');
 let Button = require('uxcore-button');
 let MonthCalendar = Calendar.MonthCalendar;
+let YearCalendar = Calendar.YearCalendar;
 
 function disabledDate(current, value){
 	return current.getTime() > Date.now();
@@ -57,6 +58,10 @@ class Demo extends React.Component {
                 <div className="kuma-form-field" style={{width: 400}}>
 					<p>月份</p>
 					<MonthCalendar />
+				</div>
+                <div className="kuma-form-field" style={{width: 400}}>
+					<p>年份</p>
+					<YearCalendar onSelect={function(...args){console.log(args)}} />
 				</div>
 				<Button onClick={me.handleClick.bind(me)}>reset</Button>
 			</div>

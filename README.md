@@ -20,6 +20,7 @@ $ gulp server
 ```js
 var Calendar = require('uxcore-calendar');
 var MonthCalendar = Calendar.MonthCalendar;
+var YearCalendar = Calendar.YearCalendar;
 React.render(
   (<Calendar />),
   document.getElementById('target')
@@ -55,7 +56,19 @@ http://uxcore.github.io/uxcore/components/calendar/
 |value|日期|string|无|
 |defaultValue|日期|string|无|
 |placeholder|placeholder文案|string|请选择日期|
-|format|展示的日期格式|string|'yyyy-MM-dd'|
+|format|展示的日期格式|string|'yyyy-MM'|
+|locale|`en-us` 或`zh-cn`|string|`zh-cn`|
+|onSelect|日期|function|无|
+|disabled|日期|boolean|false|
+
+#### YearCalendar
+
+|参数|类型|默认值|说明|
+|---|----|---|------|
+|value|日期|string|无|
+|defaultValue|日期|string|无|
+|placeholder|placeholder文案|string|请选择日期|
+|format|展示的日期格式|string|'yyyy'|
 |locale|`en-us` 或`zh-cn`|string|`zh-cn`|
 |onSelect|日期|function|无|
 |disabled|日期|boolean|false|

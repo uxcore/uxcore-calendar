@@ -3,6 +3,8 @@ let Datepicker = require('./picker');
 let GregorianCalendar = require('gregorian-calendar');
 let DateTimeFormat = require('gregorian-calendar-format');
 let RcMonthCalendar = require('rc-calendar/lib/MonthCalendar');
+let RcYearCalendar = require('./YearCalendar');
+let classSet = require('rc-util').classSet;
 
 let defaultValueLocale = {};
 let CalendarLocale = {};
@@ -15,6 +17,13 @@ function getGregorianCalendarDate(date, locale){
     let value = new GregorianCalendar(defaultValueLocale[locale]);
     value.setTime(new Date(date).valueOf());
     return value;
+}
+
+function getCalendarContainer(){
+    let c = document.createElement('div');
+    c.className = 'uxcore';
+    document.body.appendChild(c);
+    return c;
 }
 
 class Calendar extends React.Component {
@@ -43,12 +52,7 @@ class Calendar extends React.Component {
             formatter: formatter,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
-            getCalendarContainer: function(){
-                let c = document.createElement('div');
-                c.className = 'uxcore';
-                document.body.appendChild(c);
-                return c;
-            }
+            getCalendarContainer: getCalendarContainer
         };
 
         if (p.value) {
@@ -114,7 +118,6 @@ class MonthCalendar extends React.Component {
         let calendarOptions = {
             className: p.className,
             style: p.style,
-            showWeekNumber: p.showWeekNumber,
             locale: CalendarLocale[p.locale],
             orient: ['top', 'left'],
             prefixCls: 'kuma-calendar'
@@ -124,12 +127,7 @@ class MonthCalendar extends React.Component {
             formatter: formatter,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
-            getCalendarContainer: function(){
-                let c = document.createElement('div');
-                c.className = 'uxcore';
-                document.body.appendChild(c);
-                return c;
-            }
+            getCalendarContainer: getCalendarContainer
         };
 
         if (p.value) {
@@ -142,9 +140,6 @@ class MonthCalendar extends React.Component {
         if (p.defaultValue) {
             let value = getGregorianCalendarDate(p.defaultValue, p.locale);
             calendarOptions.defaultValue = value;
-        }
-        if (p.hasTrigger) {
-            pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender"></i>;
         }
         let calendar = <RcMonthCalendar {...calendarOptions}/>;
 
@@ -171,17 +166,84 @@ MonthCalendar.defaultProps = {
     placeholder: '请选择月份',
     defaultValue: Date.now(),
     onSelect: function () {},
-    locale: 'zh-cn',
-    hasTrigger: false
+    locale: 'zh-cn'
 };
 MonthCalendar.propTypes = {
     format: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,
-    locale: React.PropTypes.string,
-    hasTrigger: React.PropTypes.bool
+    locale: React.PropTypes.string
+};
+
+class YearCalendar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
+    }
+    render() {
+        let me = this;
+        let p = me.props;
+        let formatter = new DateTimeFormat(p.format);
+        let calendarOptions = {
+            className: p.className,
+            style: p.style,
+            locale: CalendarLocale[p.locale],
+            orient: ['top', 'left'],
+            prefixCls: 'kuma-calendar'
+        };
+        let pickerOptions = {
+            disabled: p.disabled,
+            formatter: formatter,
+            adjustOrientOnCalendarOverflow: false,
+            prefixCls: 'kuma-calendar-picker',
+            getCalendarContainer: getCalendarContainer
+        };
+
+        if (p.value) {
+            let value = getGregorianCalendarDate(p.value, p.locale);
+            pickerOptions.value = calendarOptions.value = value;
+        } else {
+            pickerOptions.value = calendarOptions.value = null;
+        }
+
+        if (p.defaultValue) {
+            let value = getGregorianCalendarDate(p.defaultValue, p.locale);
+            calendarOptions.defaultValue = value;
+        }
+        let calendar = <RcYearCalendar {...calendarOptions}/>;
+
+        function _onChange(v){
+            let date = v.getTime();
+            let value = getGregorianCalendarDate(date, p.locale);
+            this.props.onSelect(new Date(date), formatter.format(value));
+        }
+
+        return (<Datepicker
+                calendar={calendar}
+                onChange={_onChange.bind(me)}
+                {...pickerOptions}>
+                    <input disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
+                </Datepicker>);    
+    }
+}
+
+YearCalendar.displayName = 'YearCalendar';
+YearCalendar.defaultProps = {
+    format: 'yyyy',
+    placeholder: '请选择年份',
+    defaultValue: Date.now(),
+    onSelect: function () {},
+    locale: 'zh-cn'
+};
+YearCalendar.propTypes = {
+    format: React.PropTypes.string,
+    placeholder: React.PropTypes.string,
+    onSelect: React.PropTypes.func,
+    locale: React.PropTypes.string
 };
 
 Calendar.MonthCalendar = MonthCalendar;
+Calendar.YearCalendar = YearCalendar; 
 
 module.exports = Calendar;

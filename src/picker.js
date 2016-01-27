@@ -2,7 +2,7 @@
 // import ReactDOM from 'react-dom';
 import DateTimeFormat from 'gregorian-calendar-format';
 import rcUtil, {createChainedFunction, KeyCode, classSet} from 'rc-util';
-const toFragment = rcUtil.Children.mapSelf;
+let toFragment = rcUtil.Children.mapSelf;
 import Align from 'rc-align';
 const orientMap = {
   tl: ['top', 'left'],

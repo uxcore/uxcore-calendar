@@ -1,5 +1,5 @@
 let RcCalendar = require('rc-calendar');
-let Datepicker = require('./picker');
+let Datepicker = require('./Picker');
 let GregorianCalendar = require('gregorian-calendar');
 let DateTimeFormat = require('gregorian-calendar-format');
 let RcMonthCalendar = require('rc-calendar/lib/MonthCalendar');

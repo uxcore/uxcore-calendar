@@ -92,7 +92,6 @@ Calendar.displayName = 'Calendar';
 Calendar.defaultProps = {
     format: 'yyyy-MM-dd',
     placeholder: '请选择日期',
-    defaultValue: Date.now(),
     onSelect: function () {},
     locale: 'zh-cn',
     hasTrigger: false
@@ -164,7 +163,6 @@ MonthCalendar.displayName = 'MonthCalendar';
 MonthCalendar.defaultProps = {
     format: 'yyyy-MM',
     placeholder: '请选择月份',
-    defaultValue: Date.now(),
     onSelect: function () {},
     locale: 'zh-cn'
 };
@@ -232,7 +230,6 @@ YearCalendar.displayName = 'YearCalendar';
 YearCalendar.defaultProps = {
     format: 'yyyy',
     placeholder: '请选择年份',
-    defaultValue: Date.now(),
     onSelect: function () {},
     locale: 'zh-cn'
 };

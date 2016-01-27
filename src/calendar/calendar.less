@@ -113,6 +113,12 @@
     }
   }
 
+  &-today .@{calendar-prefix-class}-date {
+    background: @calendar-hover-bg;
+    border: 1px solid @calendar-hover-bg;
+    color: @calendar-text;
+  }
+
   &-week-number-header {
     .@{calendar-prefix-class}-column-header-inner {
       display: none;
@@ -154,11 +160,7 @@
     }
   }
 
-  &-today .@{calendar-prefix-class}-date {
-    background: @calendar-hover-bg;
-    border: 1px solid @calendar-hover-bg;
-    color: @calendar-text;
-  }
+  
 
   &-disabled-cell .@{calendar-prefix-class}-date {
     cursor: @cursor-disabled;

@@ -1,6 +1,11 @@
 # History
 
 ---
+
+## 0.2.2
+
+`CHANGED` set timezoneOffset by user's local timezoneOffset
+
 ## 0.2.1
 `CHANGED` add year calendar
 

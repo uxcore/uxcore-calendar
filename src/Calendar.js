@@ -14,6 +14,7 @@ CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh-cn');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en-us');
 
 function getGregorianCalendarDate(date, locale){
+    defaultValueLocale[locale].timezoneOffset = - new Date().getTimezoneOffset();
     let value = new GregorianCalendar(defaultValueLocale[locale]);
     value.setTime(new Date(date).valueOf());
     return value;

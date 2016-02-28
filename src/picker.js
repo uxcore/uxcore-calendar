@@ -3,6 +3,8 @@
 import DateTimeFormat from 'gregorian-calendar-format';
 import rcUtil, {createChainedFunction, KeyCode, classSet} from 'rc-util';
 let toFragment = rcUtil.Children.mapSelf;
+let React = require('react'); 
+let ReactDOM = require('react-dom');
 import Align from 'rc-align';
 const orientMap = {
   tl: ['top', 'left'],

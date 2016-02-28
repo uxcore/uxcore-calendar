@@ -5,6 +5,8 @@ let DateTimeFormat = require('gregorian-calendar-format');
 let RcMonthCalendar = require('rc-calendar/lib/MonthCalendar');
 let RcYearCalendar = require('./YearCalendar');
 let classSet = require('rc-util').classSet;
+let React = require('react'); 
+let ReactDOM = require('react-dom');
 
 let defaultValueLocale = {};
 let CalendarLocale = {};

@@ -2,7 +2,7 @@
 
 ---
 
-## 0.2.3
+## 0.2.4
 `CHANGED` update scaffold
 
 ## 0.2.2

@@ -2,6 +2,9 @@
 
 ---
 
+## 0.2.5
+`FIXED` fix issue #12 
+
 ## 0.2.4
 `CHANGED` update scaffold
 

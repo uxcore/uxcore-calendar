@@ -68,10 +68,16 @@ class Calendar extends React.Component {
         if (p.defaultValue) {
             let value = getGregorianCalendarDate(p.defaultValue, p.locale);
             calendarOptions.defaultValue = value;
+            pickerOptions.defaultValue = value;
+        }
+        else {
+            let value = getGregorianCalendarDate(new Date().getTime(), p.locale);
+            calendarOptions.defaultValue = value;
         }
         if (p.hasTrigger) {
             pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender"></i>;
         }
+
         let calendar = <RcCalendar {...calendarOptions}/>;
 
         function _onChange(v){

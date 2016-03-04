@@ -2,6 +2,9 @@
 
 ---
 
+## 0.2.6
+`FIXED` fix camelcase of picker.js
+
 ## 0.2.5
 `FIXED` fix issue #12 
 

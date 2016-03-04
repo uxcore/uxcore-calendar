@@ -33,7 +33,7 @@ class Demo extends React.Component {
 			<div className="kuma-form">
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>基本</p>
-					<Calendar locale="en-us"/>
+					<Calendar locale="en-us" value={1456934400000}/>
 				</div>
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>日期格式</p>

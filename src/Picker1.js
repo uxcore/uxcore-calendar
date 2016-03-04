@@ -5,6 +5,7 @@ import rcUtil, {createChainedFunction, KeyCode, classSet} from 'rc-util';
 let toFragment = rcUtil.Children.mapSelf;
 let React = require('react'); 
 let ReactDOM = require('react-dom');
+
 import Align from 'rc-align';
 const orientMap = {
   tl: ['top', 'left'],
@@ -12,6 +13,7 @@ const orientMap = {
   bl: ['bottom', 'left'],
   br: ['bottom', 'right']
 };
+
 
 function getImmutableOrient(orient) {
   if (orient) {

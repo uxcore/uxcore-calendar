@@ -51,7 +51,7 @@
   "react": "~0.14.0",
   "react-dom": "~0.14.0",
   "uxcore-button": "~0.3.1",
-  "uxcore-kuma": "^1.1.0",
+  "uxcore-kuma": "~2.0.0",
   "webpack": "^1.10.5"
  },
  "dependencies": {

@@ -5,7 +5,7 @@
     top: 0;
     bottom: 0;
     right: 0;
-    background: @calendar-background;
+    background: white;
     z-index: 10;
     position: absolute;
     outline: none;
@@ -22,7 +22,7 @@
 		text-align: center;
 		user-select: none;
 		-webkit-user-select: none;
-		border-bottom: 1px solid @calendar-border;
+		border-bottom: 1px solid @border-color;
 
 		> a {
 			display: inline-block;
@@ -30,7 +30,7 @@
 			text-align: center;
 			font-size: 18px;
 			font-family: Arial;
-			color: @calendar-text;
+			color: @text-primary-color;
 
 			&:hover {
 				cursor: pointer;
@@ -62,21 +62,21 @@
 		display: block;
 		width: 20px;
 		margin: 0 auto;
-		color: @calendar-text;
+		color: @text-primary-color;
 
 		&:hover {
-			background: @calendar-hover-bg;
+			background: @bg-hover-color;
 			cursor: pointer;
 		}
     }
 
     &-selected-cell .@{calendar-prefix-class}-time {
-		background: @calendar-selected-color;
-		color: @calendar-selected-text;
+		background: @bg-selected-color;
+		color: white;
 
 		&:hover {
-			background: @calendar-selected-color;
-			color: @calendar-selected-text;
+			background: @bg-selected-color;
+			color: white;
 		}
     }
 }
@@ -109,7 +109,7 @@
 	&-cell &-month {
 		display: block;
 		margin: 0 auto;
-		color: @calendar-text;
+		color: @text-primary-color;
 		height: 36px;
 		padding: 0;
 		background: transparent;
@@ -117,27 +117,27 @@
 		text-align: center;
 
 		&:hover {
-			background: @calendar-hover-bg;
+			background: @bg-hover-color;
 			cursor: pointer;
 		}
 	}
 
 	&-disabled &-month {
-		color: @calendar-disabled-color;
+		color: @text-disabled-color;
 
 		&:hover {
-			background: @calendar-background;
+			background: white;
 			cursor: @cursor-disabled;
 		}
     }
 
     &-selected-cell &-month {
-		background: @calendar-selected-color;
-		color: @calendar-selected-text;
+		background: @bg-selected-color;
+		color: white;
 
 		&:hover {
-			background: @calendar-selected-color;
-			color: @calendar-selected-text;
+			background: @bg-selected-color;
+			color: white;
 		}
     }
 }
@@ -170,24 +170,24 @@
     &-year {
       display: block;
       margin: 0 auto;
-      color: @calendar-text;
+      color: @text-primary-color;
       padding: 0;
       line-height: 36px;
       text-align: center;
 
       &:hover {
-        background: @calendar-hover-bg;
+        background: @bg-hover-color;
         cursor: pointer;
       }
     }
 
     &-selected-cell &-year {
-      background: @calendar-selected-color;
-      color: @calendar-selected-text;
+      background: @bg-selected-color;
+      color: white;
 
       &:hover {
-        background: @calendar-selected-color;
-        color: @calendar-selected-text;
+        background: @bg-selected-color;
+        color: white;
       }
     }
 
@@ -224,24 +224,24 @@
     &-decade {
       display: block;
       margin: 0 auto;
-      color: @calendar-text;
+      color: @text-primary-color;
       padding: 0;
       line-height: 36px;
       text-align: center;
 
       &:hover {
-        background: @calendar-hover-bg;
+        background: @bg-hover-color;
         cursor: pointer;
       }
     }
 
     &-selected-cell &-decade {
-      background: @calendar-selected-color;
-      color: @calendar-selected-text;
+      background: @bg-selected-color;
+      color: white;
 
       &:hover {
-        background: @calendar-selected-color;
-        color: @calendar-selected-text;
+        background: @bg-selected-color;
+        color: white;
       }
     }
 

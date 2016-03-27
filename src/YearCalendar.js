@@ -62,7 +62,9 @@ const YearCalendar = React.createClass({
                 onSelect={this.onSelect}/>
             );
         return this.renderRoot({
-            children,
+            children: children,
+            className: `${props.prefixCls}-year-calendar-container`
+
         });
     }
 });

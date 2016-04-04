@@ -56,11 +56,10 @@
  },
  "dependencies": {
   "classnames": "^2.1.2",
-  "gregorian-calendar": "~3.1.0",
-  "gregorian-calendar-format": "~3.0.1",
+  "gregorian-calendar": "4.x",
+  "gregorian-calendar-format": "4.x",
   "object-assign": "^4.0.0",
-  "rc-align": "~1.2.1",
-  "rc-calendar": "~3.16.0",
-  "rc-util": "~2.0.3"
+  "rc-calendar": "~5.5.0",
+  "rc-util": "3.x"
  }
 }

@@ -1,0 +1,124 @@
+.@{calendarPrefixCls}-year-panel {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #ffffff;
+  z-index: 10;
+  position: absolute;
+  outline: none;
+}
+
+.@{calendarPrefixCls}-year-panel-hidden {
+  display: none;
+}
+
+.@{calendarPrefixCls}-year-panel-header {
+  padding: 0 10px;
+  height: 40px;
+  line-height: 30px;
+  background-color: @brand-primary;
+  position: relative;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  border-bottom: 1px solid #ccc;
+
+  > a {
+    font-weight: bold;
+    display: inline-block;
+    padding: 4px 5px;
+    text-align: center;
+    color: white;
+    width: 30px;
+
+    &:hover {
+      cursor: pointer;
+      color: #23c0fa;
+    }
+  }
+}
+
+.@{calendarPrefixCls}-year-panel-prev-decade-btn, .@{calendarPrefixCls}-year-panel-next-decade-btn {
+  position: absolute;
+  top: 0;
+}
+
+.@{calendarPrefixCls}-year-panel-prev-decade-btn {
+  user-select: none;
+  left: 0;
+}
+
+.@{calendarPrefixCls}-year-panel .@{calendarPrefixCls}-year-panel-decade-select {
+  width: 180px;
+}
+
+.@{calendarPrefixCls}-year-panel-decade-select-arrow {
+  display: none;
+}
+
+.@{calendarPrefixCls}-year-panel-next-decade-btn {
+  user-select: none;
+  right: 0;
+}
+
+.@{calendarPrefixCls}-year-panel-body {
+  padding: 9px 10px 10px;
+}
+
+.@{calendarPrefixCls}-year-panel-table {
+  table-layout: fixed;
+  width: 100%;
+  height: 255px;
+  border-collapse: separate;
+}
+
+.@{calendarPrefixCls}-year-panel-cell {
+  text-align: center;
+}
+
+.@{calendarPrefixCls}-year-panel-year {
+  display: block;
+  width: 46px;
+  margin: 0 auto;
+  color: #666;
+  border-radius: @input-border-radius;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  line-height: 36px;
+  text-align: center;
+
+  &:hover {
+    background: @brand-primary-lighter;
+    cursor: pointer;
+  }
+}
+
+.@{calendarPrefixCls}-year-panel-selected-cell .@{calendarPrefixCls}-year-panel-year {
+  background: @brand-primary;
+  color: #fff;
+
+  &:hover {
+    background: @brand-primary-lighter;
+    color: @text-primary-color;
+  }
+}
+
+.@{calendarPrefixCls}-year-panel-last-decade-cell, .@{calendarPrefixCls}-year-panel-next-decade-cell {
+  .@{calendarPrefixCls}-year-panel-year{
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .@{calendarPrefixCls}-year-panel-year:before {
+    content: ">";
+    font-family: "iconfont" !important;
+  }
+}
+
+.@{calendarPrefixCls}-year-panel-last-decade-cell {
+  .@{calendarPrefixCls}-year-panel-year {
+    transform: rotate(180deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  }
+}

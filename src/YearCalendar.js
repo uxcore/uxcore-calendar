@@ -1,11 +1,12 @@
 import YearPanel from 'rc-calendar/lib/year/YearPanel';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
+import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import {KeyCode} from 'rc-util';
-let React = require('react'); 
-let ReactDOM = require('react-dom');
+import React from 'react'; 
+import ReactDOM from 'react-dom';
 
 const YearCalendar = React.createClass({
-    mixins: [CalendarMixin],
+    mixins: [CalendarMixin, CommonMixin],
 
     onKeyDown(e) {
         const keyCode = e.keyCode;

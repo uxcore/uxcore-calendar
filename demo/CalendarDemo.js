@@ -11,13 +11,13 @@ class Demo extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			value: undefined
+			value: '2016-01-02'
 		}
 	}
 
 	handleClick() {
 		this.setState({
-			value: null
+			value: '2016-02-05'
 		})
 	}
 
@@ -33,11 +33,11 @@ class Demo extends React.Component {
 			<div className="kuma-form">
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>基本</p>
-					<Calendar locale="en-us" value={1456934400000}/>
+					<Calendar locale="en-us" value={this.state.value} onSelect={this.onSelect.bind(this)} />
 				</div>
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>日期格式</p>
-					<Calendar value="2015/01/01" format="yyyy/MM/dd" />
+					<Calendar value={this.state.value} format="yyyy/MM/dd" onSelect={this.onSelect.bind(this)} />
 				</div>
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>选择日期</p>
@@ -45,25 +45,25 @@ class Demo extends React.Component {
 				</div>
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>范围</p>
-					<Calendar disabledDate={disabledDate} />
+					<Calendar disabledDate={disabledDate} value={this.state.value} onSelect={this.onSelect.bind(this)} />
 				</div>
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>时间选择</p>
-					<Calendar defaultValue={Date.now()} hasTrigger={true} showTime={true} format="yyyy-MM-dd HH:mm:ss" />
+					<Calendar hasTrigger={true} showTime={true} format="yyyy-MM-dd HH:mm:ss" value={this.state.value} onSelect={this.onSelect.bind(this)} />
 				</div>
 				<div className="kuma-form-field" style={{width: 400}}>
 					<p>禁用</p>
-					<Calendar value="2015-06-06" disabled={true} />
+					<Calendar value={this.state.value} disabled={true} onSelect={this.onSelect.bind(this)}/>
 				</div>
                 <div className="kuma-form-field" style={{width: 400}}>
 					<p>月份</p>
-					<MonthCalendar />
+					<MonthCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} />
 				</div>
                 <div className="kuma-form-field" style={{width: 400}}>
 					<p>年份</p>
-					<YearCalendar onSelect={function(...args){console.log(args)}} />
+					<YearCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} />
 				</div>
-				<Button onClick={me.handleClick.bind(me)}>reset</Button>
+				<Button onClick={me.handleClick.bind(me)}>changeTime</Button>
 			</div>
 		)
 	}

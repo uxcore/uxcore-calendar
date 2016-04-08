@@ -153,11 +153,12 @@
     margin: 0 auto;
     color: @text-primary-color;
     border-radius: @input-border-radius;
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     padding: 0;
     background: transparent;
-    line-height: 38px;
+    line-height: 30px;
     text-align: center;
 
     &:hover {
@@ -165,7 +166,7 @@
       cursor: pointer;
     }
     &.weekend {
-      color: @brand-primary;
+      color: hsv(round(hsvhue(@brand-primary)), round(hsvsaturation(@brand-primary)) - 46%, round(hsvvalue(@brand-primary)) - 1%); // B1-1（s-46,b-1）
     }
   }
 
@@ -173,10 +174,6 @@
     background: @brand-primary;
     color: #fff;
 
-    &:hover {
-      background: @brand-primary-lighter;
-      color: @text-primary-color;
-    }
     &.weekend:hover {
       color: @brand-primary;
     }

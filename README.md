@@ -72,3 +72,11 @@ http://uxcore.github.io/uxcore/components/calendar/
 |locale|`en-us` 或`zh-cn`|string|`zh-cn`|
 |onSelect|日期|function|无|
 |disabled|日期|boolean|false|
+
+#### util
+
+> 一些辅助函数，用于某些套餐化定制
+
+* Calendar.util.generateContentRender(code, locale): 用于在日历上标注非常规的休假、上班以及日程。
+    * code should be an object like this {'xxxx-xx-xx': ['work/leave/schedule']}
+    * locale should be `zh-cn` or `en-us`

@@ -2,9 +2,12 @@
 
 ---
 
+## 0.3.1
+`new` add util.generateContentRender to provide a custom package for date render.
+
 ## 0.3.0
-`CHANGED` new style
-`CHANGED` change rc-calendar to ~5.5.0
+* `CHANGED` new style
+* `CHANGED` change rc-calendar to ~5.5.0
 
 ## 0.2.6
 `FIXED` fix camelcase of picker.js

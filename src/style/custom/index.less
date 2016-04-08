@@ -1,0 +1,24 @@
+.@{calendarPrefixCls}-date-content-box {
+    text-align: center;
+    .@{calendarPrefixCls}-date-content {
+        &.leave {
+            color: hsv(round(hsvhue(@brand-primary)), round(hsvsaturation(@brand-primary)) - 46%, round(hsvvalue(@brand-primary)) - 1%); // B1-1（s-46,b-1）
+        }
+        &.work {
+            color: @text-primary-color;
+        }
+    }
+    .@{calendarPrefixCls}-date-decoration {
+        display: block;
+        border-bottom: 2px solid @brand-primary;
+        width: 16px;
+        margin-top: -4px;
+        margin-left: 7px;
+    }
+}
+
+.@{calendarPrefixCls}-selected-day .@{calendarPrefixCls}-date {
+    .@{calendarPrefixCls}-date-content {
+        color: white;
+    }
+}

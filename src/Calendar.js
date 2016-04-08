@@ -4,15 +4,20 @@ let DateTimeFormat = require('gregorian-calendar-format');
 let Datepicker = require('rc-calendar/lib/Picker');
 let RcMonthCalendar = require('rc-calendar/lib/MonthCalendar');
 let RcYearCalendar = require('./YearCalendar');
+let TimePicker = require('rc-time-picker');
+let util = require('./util');
 let React = require('react');
 let ReactDOM = require('react-dom');
 
 let defaultValueLocale = {};
 let CalendarLocale = {};
+let TimePickerLocale = {};
 defaultValueLocale['zh-cn'] = require('gregorian-calendar/lib/locale/zh_CN');
 defaultValueLocale['en-us'] = require('gregorian-calendar/lib/locale/en_US');
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
+TimePickerLocale['zh-cn'] = require('rc-time-picker/lib/locale/zh_CN');
+TimePickerLocale['en-us'] = require('rc-time-picker/lib/locale/en_US');
 
 function getGregorianCalendarDate(date, locale) {
     defaultValueLocale[locale].timezoneOffset = -new Date().getTimezoneOffset();
@@ -34,6 +39,12 @@ class Calendar extends React.Component {
         this.state = {
         };
     }
+
+    componentWillMount() {
+        let me = this;
+        me.TimePickerElement = <TimePicker prefixCls="kuma-time-picker" locale={TimePickerLocale[me.props.locale]} />
+    }
+
     render() {
         let me = this;
         let p = me.props;
@@ -41,10 +52,11 @@ class Calendar extends React.Component {
         let calendarOptions = {
             className: p.className,
             style: p.style,
+            contentRender: p.contentRender,
             disabledDate: p.disabledDate,
             showWeekNumber: p.showWeekNumber,
             showToday: p.showToday,
-            showTime: p.showTime,
+            timePicker: p.showTime ? me.TimePickerElement : null,
             showDateInput: p.showDateInput,
             locale: CalendarLocale[p.locale],
             prefixCls: 'kuma-calendar'
@@ -121,6 +133,7 @@ class MonthCalendar extends React.Component {
         this.state = {
         };
     }
+
     render() {
         let me = this;
         let p = me.props;
@@ -257,5 +270,6 @@ YearCalendar.propTypes = {
 
 Calendar.MonthCalendar = MonthCalendar;
 Calendar.YearCalendar = YearCalendar;
+Calendar.util = util;
 
 module.exports = Calendar;

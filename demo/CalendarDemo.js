@@ -1,7 +1,12 @@
 let Calendar = require('../src');
+let RcCalendar = require('../src/RcCalendar');
 let Button = require('uxcore-button');
 let MonthCalendar = Calendar.MonthCalendar;
 let YearCalendar = Calendar.YearCalendar;
+let CalendarLocale = require('rc-calendar/lib/locale/zh_CN');
+let TimePickerLocale = require('rc-time-picker/lib/locale/zh_CN');
+let TimePicker = require('rc-time-picker');
+let TimePickerElement = <TimePicker prefixCls="kuma-time-picker" locale={TimePickerLocale} />;
 
 function disabledDate(current, value) {
     return current.getTime() > Date.now();
@@ -29,6 +34,14 @@ class Demo extends React.Component {
     }
     render() {
         let me = this;
+        let panelOptions = {
+            showToday: true,
+            timePicker: me.TimePickerElement,
+            showDateInput: false,
+            locale: CalendarLocale,
+            prefixCls: 'kuma-calendar'
+        };
+
         return (
             <div className="kuma-form">
 				<div className="kuma-form-field" style={{
@@ -90,6 +103,12 @@ class Demo extends React.Component {
 		                '2016-01-08': 'schedule'
 		            }, 'en')}/>
 				</div>
+                <div className="kuma-form-field" style={{
+                    width: 400
+                }}>
+                    <p>直接渲染面板</p>
+                    <RcCalendar {...panelOptions} />
+                </div>
 				<Button onClick={me.handleClick.bind(me)}>changeTime</Button>
 			</div>
         )

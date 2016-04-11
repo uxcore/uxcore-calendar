@@ -2,8 +2,11 @@
 
 ---
 
+## 0.3.2
+`NEW` add CalendarPanel in Calendar
+
 ## 0.3.1
-`new` add util.generateContentRender to provide a custom package for date render.
+`NEW` add util.generateContentRender to provide a custom package for date render.
 
 ## 0.3.0
 * `CHANGED` new style

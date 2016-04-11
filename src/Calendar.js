@@ -270,6 +270,7 @@ YearCalendar.propTypes = {
 
 Calendar.MonthCalendar = MonthCalendar;
 Calendar.YearCalendar = YearCalendar;
+Calendar.CalendarPanel = RcCalendar;
 Calendar.util = util;
 
 module.exports = Calendar;

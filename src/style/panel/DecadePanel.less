@@ -14,7 +14,7 @@
 }
 
 .@{calendarPrefixCls}-decade-panel-header {
-  padding: 0 10px;
+  padding: 0 24px;
   background-color: @brand-primary;
   height: 40px;
   line-height: 40px;
@@ -27,14 +27,13 @@
   > a {
     font-weight: bold;
     display: inline-block;
-    padding: 1px 5px;
     text-align: center;
     color: white;
-    width: 30px;
+    width: 24px;
 
     &:hover {
       cursor: pointer;
-      color: #23c0fa;
+      color: white;
     }
   }
 }
@@ -45,7 +44,13 @@
 
 .@{calendarPrefixCls}-decade-panel-prev-century-btn, .@{calendarPrefixCls}-decade-panel-next-century-btn {
   position: absolute;
-  top: 0;
+  top: 7px;
+  line-height: 24px;
+  display: inline-block;
+  border-radius: @global-border-radius;
+  &:hover {
+    background: @calendar-header-hover-bg;
+  }
 }
 
 .@{calendarPrefixCls}-decade-panel-prev-century-btn {
@@ -86,6 +91,7 @@
 
   &:hover {
     background: @brand-primary-lighter;
+    color: @text-primary-color;
     cursor: pointer;
   }
 }

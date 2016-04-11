@@ -47,7 +47,7 @@
 
       &:hover {
         cursor: pointer;
-        color: #23c0fa;
+        color: white;
       }
     }
 
@@ -62,21 +62,29 @@
     }
   }
 
+  &-ym-select {
+    line-height: 40px;
+    display: inline-block;
+  }
+
   &-year-select, &-month-select {
     display: inline-block;
     font-size: 12px;
     font-weight: bold;
     color: white;
-    line-height: 40px;
+    line-height: 24px;
+    padding: 0 8px;
+    border-radius: @global-border-radius;
 
     &:hover {
       cursor: pointer;
-      color: #23c0fa;
+      color: white;
+      background: @calendar-header-hover-bg;
     }
   }
 
   &-year-select {
-    padding: 0 8px;
+    
   }
 
 
@@ -86,16 +94,19 @@
   &-prev-year-btn,
   &-next-year-btn {
     position: absolute;
-    top: 0;
+    top: 7px;
     cursor: pointer;
     color: white;
-    padding: 0 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: @global-border-radius;
     font-size: 16px;
     display: inline-block;
-    line-height: 40px;
+    line-height: 24px;
 
     &:hover {
-      color: #23c0fa;
+      background: @calendar-header-hover-bg;
+      color: white;
     }
   }
 
@@ -232,7 +243,7 @@
 
     &:hover {
       cursor: pointer;
-      color: #23c0fa;
+      color: white;
     }
 
     &-disabled {

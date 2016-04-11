@@ -18,7 +18,7 @@
   height: 40px;
   background-color: @brand-primary;
   color: white;
-  line-height: 30px;
+  line-height: 40px;
   position: relative;
   text-align: center;
   user-select: none;
@@ -28,21 +28,27 @@
   > a {
     font-weight: bold;
     display: inline-block;
-    padding: 4px 5px;
     color: white;
     text-align: center;
-    width: 30px;
+    width: 24px;
 
     &:hover {
       cursor: pointer;
-      color: #23c0fa;
     }
   }
 }
 
 .@{calendarPrefixCls}-month-panel-prev-year-btn, .@{calendarPrefixCls}-month-panel-next-year-btn {
   position: absolute;
-  top: 0;
+  top: 7px;
+  line-height: 24px;
+  width: 24px;
+  padding: 0px;
+  border-radius: @global-border-radius;
+  &:hover {
+    color: white;
+    background: @calendar-header-hover-bg;
+  }
 }
 
 .@{calendarPrefixCls}-month-panel-prev-year-btn {
@@ -52,6 +58,19 @@
 
 .@{calendarPrefixCls}-month-panel .@{calendarPrefixCls}-month-panel-year-select {
   width: 180px;
+  &:hover {
+    color: white;
+  }
+}
+
+.@{calendarPrefixCls}-month-panel-year-select-content {
+  display: inline-block;
+  line-height: 24px;
+  padding: 0 8px;
+  border-radius: @global-border-radius;
+  &:hover {
+    background: @calendar-header-hover-bg;
+  }
 }
 
 .@{calendarPrefixCls}-month-panel-year-select-arrow {

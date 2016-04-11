@@ -16,7 +16,7 @@
 .@{calendarPrefixCls}-year-panel-header {
   padding: 0 10px;
   height: 40px;
-  line-height: 30px;
+  line-height: 40px;
   background-color: @brand-primary;
   position: relative;
   text-align: center;
@@ -27,21 +27,36 @@
   > a {
     font-weight: bold;
     display: inline-block;
-    padding: 4px 5px;
     text-align: center;
     color: white;
-    width: 30px;
+    width: 24px;
 
     &:hover {
       cursor: pointer;
-      color: #23c0fa;
     }
+  }
+}
+
+.@{calendarPrefixCls}-year-panel-decade-select-content {
+  line-height: 24px;
+  padding: 0 8px;
+  display: inline-block;
+  border-radius: @global-border-radius;
+  &:hover {
+    background: @calendar-header-hover-bg;
   }
 }
 
 .@{calendarPrefixCls}-year-panel-prev-decade-btn, .@{calendarPrefixCls}-year-panel-next-decade-btn {
   position: absolute;
   top: 0;
+  line-height: 24px;
+  top: 7px;
+  width: 24px;
+  border-radius: @global-border-radius;
+  &:hover {
+    background: @calendar-header-hover-bg;
+  }
 }
 
 .@{calendarPrefixCls}-year-panel-prev-decade-btn {

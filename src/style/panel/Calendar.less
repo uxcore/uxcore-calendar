@@ -239,11 +239,13 @@
     display: inline-block;
     padding: 4px 5px;
     text-align: center;
-    color: #f46830;
+    color: @brand-primary;
+    border-radius: @global-border-radius;
 
     &:hover {
       cursor: pointer;
-      color: white;
+      color: @brand-primary;
+      background: @brand-primary-lighter;
     }
 
     &-disabled {
@@ -252,9 +254,5 @@
         color: #bbb;
       }
     }
-  }
-
-  &-today-btn {
-    padding-left: 10px;
   }
 }

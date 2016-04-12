@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.3
+
+`NEW` add TransitionName prop
+
 ## 0.3.2
 `NEW` export CalendarPanel in Calendar
 

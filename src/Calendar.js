@@ -64,6 +64,7 @@ class Calendar extends React.Component {
         let pickerOptions = {
             disabled: p.disabled,
             formatter: formatter,
+            transitionName: p.transitionName,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
             placement: 'bottomLeft',
@@ -103,8 +104,8 @@ class Calendar extends React.Component {
             onChange={_onChange.bind(me)}
             {...pickerOptions}>
                 {({value}) => {
-                return <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
-            }}
+                    return <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
+                }}
             </Datepicker>
             );
     }
@@ -147,6 +148,7 @@ class MonthCalendar extends React.Component {
         };
         let pickerOptions = {
             disabled: p.disabled,
+            transitionName: p.transitionName,
             formatter: formatter,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
@@ -219,6 +221,7 @@ class YearCalendar extends React.Component {
         let pickerOptions = {
             disabled: p.disabled,
             formatter: formatter,
+            transitionName: p.transitionName,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
             getCalendarContainer: getCalendarContainer

@@ -23,7 +23,6 @@
   text-align: center;
   user-select: none;
   -webkit-user-select: none;
-  border-bottom: 1px solid #ccc;
 
   > a {
     font-weight: bold;
@@ -40,20 +39,42 @@
 
 .@{calendarPrefixCls}-month-panel-prev-year-btn, .@{calendarPrefixCls}-month-panel-next-year-btn {
   position: absolute;
-  top: 7px;
+  top: 9px;
   line-height: 24px;
   width: 24px;
   padding: 0px;
   border-radius: @global-border-radius;
+  text-indent: 999em;
+  
   &:hover {
     color: white;
     background: @calendar-header-hover-bg;
   }
+  
+    &:after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 24px;
+        font-family: 'kuma';
+        font-size: 20px;
+        text-indent: 0;
+    }
 }
 
 .@{calendarPrefixCls}-month-panel-prev-year-btn {
   user-select: none;
-  left: 0;
+  left: 10px;
+  &:after {
+      content: '\e616';
+  }
+}
+.@{calendarPrefixCls}-month-panel-next-year-btn {
+  user-select: none;
+  right: 10px;
+  &:after {
+      content: '\e615';
+  }
 }
 
 .@{calendarPrefixCls}-month-panel .@{calendarPrefixCls}-month-panel-year-select {
@@ -77,11 +98,6 @@
   display: none;
 }
 
-.@{calendarPrefixCls}-month-panel-next-year-btn {
-  user-select: none;
-  right: 0;
-}
-
 .@{calendarPrefixCls}-month-panel-body {
   padding: 9px 10px 10px;
 }
@@ -102,12 +118,12 @@
     display: block;
     width: 46px;
     margin: 0 auto;
-    color: #666;
-    border-radius: @global-border-radius;
-    height: 36px;
+    color: @text-secondary-color;
+    border-radius: 23px;
+    height: 46px;
     padding: 0;
     background: transparent;
-    line-height: 36px;
+    line-height: 46px;
     text-align: center;
 
     &:hover {
@@ -133,5 +149,7 @@
 .@{calendarPrefixCls}-month-panel-selected-cell .@{calendarPrefixCls}-month-panel-month {
   background: @brand-primary;
   color: #fff;
-
+  &:hover {
+    background: @brand-primary;
+  }
 }

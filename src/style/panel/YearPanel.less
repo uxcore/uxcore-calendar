@@ -22,7 +22,6 @@
   text-align: center;
   user-select: none;
   -webkit-user-select: none;
-  border-bottom: 1px solid #ccc;
 
   > a {
     font-weight: bold;
@@ -49,19 +48,32 @@
 
 .@{calendarPrefixCls}-year-panel-prev-decade-btn, .@{calendarPrefixCls}-year-panel-next-decade-btn {
   position: absolute;
-  top: 0;
   line-height: 24px;
-  top: 7px;
+  top: 9px;
   width: 24px;
   border-radius: @global-border-radius;
+  text-indent: 999em;
   &:hover {
     background: @calendar-header-hover-bg;
   }
+  
+    &:after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 24px;
+        font-family: 'kuma';
+        font-size: 20px;
+        text-indent: 0;
+    }
 }
 
 .@{calendarPrefixCls}-year-panel-prev-decade-btn {
   user-select: none;
-  left: 0;
+  left: 10px;
+  &:after {
+      content: '\e616';
+  }
 }
 
 .@{calendarPrefixCls}-year-panel .@{calendarPrefixCls}-year-panel-decade-select {
@@ -74,7 +86,10 @@
 
 .@{calendarPrefixCls}-year-panel-next-decade-btn {
   user-select: none;
-  right: 0;
+  right: 10px;
+  &:after {
+      content: '\e615';
+  }
 }
 
 .@{calendarPrefixCls}-year-panel-body {
@@ -96,12 +111,12 @@
   display: block;
   width: 46px;
   margin: 0 auto;
-  color: #666;
-  border-radius: @global-border-radius;
-  height: 36px;
+  color: @text-secondary-color;
+  border-radius: 46px;
+  height: 46px;
   padding: 0;
   background: transparent;
-  line-height: 36px;
+  line-height: 46px;
   text-align: center;
 
   &:hover {
@@ -123,14 +138,7 @@
     -webkit-user-select: none;
   }
   .@{calendarPrefixCls}-year-panel-year:before {
-    content: ">";
-    font-family: "iconfont" !important;
-  }
-}
-
-.@{calendarPrefixCls}-year-panel-last-decade-cell {
-  .@{calendarPrefixCls}-year-panel-year {
-    transform: rotate(180deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+    content: '\e645';
+    font-family: 'kuma' !important;
   }
 }

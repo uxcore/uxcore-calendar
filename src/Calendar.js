@@ -7,7 +7,6 @@ let RcYearCalendar = require('./YearCalendar');
 let TimePicker = require('rc-time-picker');
 let util = require('./util');
 let React = require('react');
-let ReactDOM = require('react-dom');
 
 let defaultValueLocale = {};
 let CalendarLocale = {};

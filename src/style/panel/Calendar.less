@@ -35,7 +35,6 @@
     -webkit-user-select: none;
     background-color: @brand-primary;
     color: white;
-    border-bottom: 1px solid #ccc;
 
     > a {
       font-weight: bold;
@@ -54,11 +53,19 @@
     .@{calendarPrefixCls}-prev-month-btn {
       position: absolute;
       left: 25px;
+      &:after {
+          content: '\e644';
+          font-size: 16px;
+      }
     }
 
     .@{calendarPrefixCls}-next-month-btn {
       position: absolute;
       right: 25px;
+      &:after {
+          content: '\e643';
+          font-size: 16px;
+      }
     }
   }
 
@@ -87,35 +94,49 @@
     
   }
 
-
-
   &-prev-month-btn,
   &-next-month-btn,
   &-prev-year-btn,
   &-next-year-btn {
     position: absolute;
-    top: 7px;
+    top: 9px;
     cursor: pointer;
     color: white;
     width: 24px;
     height: 24px;
     border-radius: @global-border-radius;
     font-size: 16px;
-    display: inline-block;
     line-height: 24px;
+    text-indent: 999em;
 
     &:hover {
       background: @calendar-header-hover-bg;
       color: white;
     }
+    
+    &:after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 24px;
+        font-family: 'kuma';
+        font-size: 20px;
+        text-indent: 0;
+    }
   }
-
+  
   &-next-year-btn {
     right: 0;
+    &:after {
+        content: '\e615';
+    }
   }
 
   &-prev-year-btn {
     left: 0;
+    &:after {
+        content: '\e616';
+    }
   }
 
   &-calendar-body {
@@ -146,6 +167,10 @@
     .@{calendarPrefixCls}-column-header-inner {
       display: block;
       font-weight: normal;
+      color: @brand-primary;
+      &.weekend {
+          color: hsv(round(hsvhue(@brand-primary)), round(hsvsaturation(@brand-primary)) - 46%, round(hsvvalue(@brand-primary)) - 1%); // B1-1（s-46,b-1）
+      }
     }
   }
 

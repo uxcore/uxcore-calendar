@@ -22,7 +22,6 @@
   text-align: center;
   user-select: none;
   -webkit-user-select: none;
-  border-bottom: 1px solid #ccc;
 
   > a {
     font-weight: bold;
@@ -44,23 +43,39 @@
 
 .@{calendarPrefixCls}-decade-panel-prev-century-btn, .@{calendarPrefixCls}-decade-panel-next-century-btn {
   position: absolute;
-  top: 7px;
+  top: 9px;
   line-height: 24px;
   display: inline-block;
   border-radius: @global-border-radius;
+  text-indent: 999em;
   &:hover {
     background: @calendar-header-hover-bg;
   }
+  &:after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 24px;
+        font-family: 'kuma';
+        font-size: 20px;
+        text-indent: 0;
+    }
 }
 
 .@{calendarPrefixCls}-decade-panel-prev-century-btn {
   user-select: none;
-  left: 0;
+  left: 10px;
+  &:after {
+      content: '\e616';
+  }
 }
 
 .@{calendarPrefixCls}-decade-panel-next-century-btn {
   user-select: none;
-  right: 0;
+  right: 10px;
+  &:after {
+      content: '\e615';
+  }
 }
 
 .@{calendarPrefixCls}-decade-panel-body {
@@ -108,14 +123,7 @@
     -webkit-user-select: none;
   }
   .@{calendarPrefixCls}-decade-panel-decade:before {
-    content: ">";
-    font-family: "iconfont" !important;
-  }
-}
-
-.@{calendarPrefixCls}-decade-panel-last-century-cell {
-  .@{calendarPrefixCls}-decade-panel-decade {
-    transform: rotate(180deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+    content: '\e645';
+    font-family: 'kuma' !important;
   }
 }

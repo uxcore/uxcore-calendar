@@ -1,7 +1,7 @@
 // customized rc-calendar https://github.com/react-component/calendar/blob/master/
 
 import React from 'react';
-import DateTHead from 'rc-calendar/lib/date/DateTHead';
+import DateTHead from './DateTHead';
 import DateTBody from './DateTBody';
 
 export default

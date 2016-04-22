@@ -117,7 +117,8 @@ Calendar.defaultProps = {
     onSelect: function() {},
     locale: 'zh-cn',
     showDateInput: false,
-    hasTrigger: false
+    hasTrigger: false,
+    transitionName: 'slideUp'
 };
 Calendar.propTypes = {
     format: React.PropTypes.string,
@@ -191,7 +192,8 @@ MonthCalendar.defaultProps = {
     format: 'yyyy-MM',
     placeholder: '请选择月份',
     onSelect: function() {},
-    locale: 'zh-cn'
+    locale: 'zh-cn',
+    transitionName: 'slideUp'
 };
 MonthCalendar.propTypes = {
     format: React.PropTypes.string,
@@ -261,7 +263,8 @@ YearCalendar.defaultProps = {
     format: 'yyyy',
     placeholder: '请选择年份',
     onSelect: function() {},
-    locale: 'zh-cn'
+    locale: 'zh-cn',
+    transitionName: 'slideUp'
 };
 YearCalendar.propTypes = {
     format: React.PropTypes.string,

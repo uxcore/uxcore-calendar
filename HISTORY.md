@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.5
+
+`NEW` add animate effect
+
 ## 0.3.3
 
 `NEW` add TransitionName prop

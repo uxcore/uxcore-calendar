@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.6
+
+`FIX` fix npm tarball download fail
+
 ## 0.3.5
 
 `NEW` add animate effect

@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.7
+
+`NEW` add prop `timePicker`
+
 ## 0.3.6
 
 `FIX` fix npm tarball download fail

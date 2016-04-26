@@ -37,7 +37,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 
 ### props
 
-|参数|类型|默认值|说明|
+|参数|说明|类型|默认值|
 |---|----|---|------|
 |value|日期|string|无|
 |defaultValue|日期|string|无|
@@ -48,10 +48,11 @@ http://uxcore.github.io/uxcore/components/calendar/
 |onSelect|日期|function|无|
 |showTime|日期|boolean|false|
 |disabled|日期|boolean|false|
+|timePicker|自己传入定制的 timePicker|React Element|-|
 
 #### MonthCalendar
 
-|参数|类型|默认值|说明|
+|参数|说明|类型|默认值|
 |---|----|---|------|
 |value|日期|string|无|
 |defaultValue|日期|string|无|
@@ -63,7 +64,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 
 #### YearCalendar
 
-|参数|类型|默认值|说明|
+|参数|说明|类型|默认值|
 |---|----|---|------|
 |value|日期|string|无|
 |defaultValue|日期|string|无|

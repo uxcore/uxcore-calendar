@@ -55,7 +55,7 @@ class Calendar extends React.Component {
             disabledDate: p.disabledDate,
             showWeekNumber: p.showWeekNumber,
             showToday: p.showToday,
-            timePicker: p.showTime ? me.TimePickerElement : null,
+            timePicker: p.timePicker ? p.timePicker : (p.showTime ? me.TimePickerElement : null),
             showDateInput: p.showDateInput,
             locale: CalendarLocale[p.locale],
             prefixCls: 'kuma-calendar'

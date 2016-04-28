@@ -49,6 +49,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 |showTime|日期|boolean|false|
 |disabled|日期|boolean|false|
 |timePicker|自己传入定制的 timePicker|React Element|-|
+|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
 
 #### MonthCalendar
 
@@ -61,6 +62,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 |locale|`en-us` 或`zh-cn`|string|`zh-cn`|
 |onSelect|日期|function|无|
 |disabled|日期|boolean|false|
+|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
 
 #### YearCalendar
 
@@ -73,6 +75,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 |locale|`en-us` 或`zh-cn`|string|`zh-cn`|
 |onSelect|日期|function|无|
 |disabled|日期|boolean|false|
+|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
 
 #### util
 

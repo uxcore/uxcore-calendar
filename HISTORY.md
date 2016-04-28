@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.8
+
+`NEW` add prop `getPopupContainer`
+
 ## 0.3.7
 
 `NEW` add prop `timePicker`

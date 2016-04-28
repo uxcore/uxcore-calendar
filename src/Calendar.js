@@ -67,7 +67,7 @@ class Calendar extends React.Component {
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
             placement: 'bottomLeft',
-            getCalendarContainer: getCalendarContainer
+            getCalendarContainer: p.getPopupContainer || getCalendarContainer
         };
 
         if (p.value) {
@@ -125,7 +125,8 @@ Calendar.propTypes = {
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,
     locale: React.PropTypes.string,
-    hasTrigger: React.PropTypes.bool
+    hasTrigger: React.PropTypes.bool,
+    getPopupContainer: React.PropTypes.func
 };
 
 class MonthCalendar extends React.Component {
@@ -152,7 +153,7 @@ class MonthCalendar extends React.Component {
             formatter: formatter,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
-            getCalendarContainer: getCalendarContainer
+            getCalendarContainer: p.getPopupContainer || getCalendarContainer
         };
 
         if (p.value) {
@@ -199,7 +200,8 @@ MonthCalendar.propTypes = {
     format: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,
-    locale: React.PropTypes.string
+    locale: React.PropTypes.string,
+    getPopupContainer: React.PropTypes.func
 };
 
 class YearCalendar extends React.Component {
@@ -225,7 +227,7 @@ class YearCalendar extends React.Component {
             transitionName: p.transitionName,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
-            getCalendarContainer: getCalendarContainer
+            getCalendarContainer: p.getPopupContainer || getCalendarContainer
         };
 
         if (p.value) {
@@ -270,7 +272,8 @@ YearCalendar.propTypes = {
     format: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,
-    locale: React.PropTypes.string
+    locale: React.PropTypes.string,
+    getPopupContainer: React.PropTypes.func
 };
 
 Calendar.MonthCalendar = MonthCalendar;

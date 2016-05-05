@@ -2,6 +2,10 @@
 
 ---
 
+## 0.3.9
+
+`FIX` fix style bug in `input[readonly]`
+
 ## 0.3.8
 
 `NEW` add prop `getPopupContainer`

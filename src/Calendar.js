@@ -161,6 +161,7 @@ class MonthCalendar extends React.Component {
         };
         let pickerOptions = {
             disabled: p.disabled,
+            align: p.align,
             transitionName: p.transitionName,
             formatter: formatter,
             adjustOrientOnCalendarOverflow: false,
@@ -193,7 +194,10 @@ class MonthCalendar extends React.Component {
             onChange={_onChange.bind(me)}
                 {...pickerOptions}>
                     {({value}) => {
-                    return <input readOnly value={value && formatter.format(value)} disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
+                    return <span className="kuma-calendar-picker-input">
+                        <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
+                        {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
+                    </span>
                 }}
             </Datepicker>
         );
@@ -206,7 +210,12 @@ MonthCalendar.defaultProps = {
     placeholder: '请选择月份',
     onSelect: function() {},
     locale: 'zh-cn',
-    transitionName: 'slideUp'
+    transitionName: 'slideUp',
+    align: {
+        offset: [0, 0]
+    },
+    showDateInput: false,
+    hasTrigger: true,
 };
 MonthCalendar.propTypes = {
     format: React.PropTypes.string,
@@ -235,6 +244,7 @@ class YearCalendar extends React.Component {
         };
         let pickerOptions = {
             disabled: p.disabled,
+            align: p.align,
             formatter: formatter,
             transitionName: p.transitionName,
             adjustOrientOnCalendarOverflow: false,
@@ -266,7 +276,10 @@ class YearCalendar extends React.Component {
             onChange={_onChange.bind(me)}
             {...pickerOptions}>
                     {({value}) => {
-                return <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
+                return <span className="kuma-calendar-picker-input">
+                        <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
+                        {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
+                    </span>
             }}
                 </Datepicker>);
     }
@@ -278,7 +291,12 @@ YearCalendar.defaultProps = {
     placeholder: '请选择年份',
     onSelect: function() {},
     locale: 'zh-cn',
-    transitionName: 'slideUp'
+    transitionName: 'slideUp',
+    align: {
+        offset: [0, 0]
+    },
+    showDateInput: false,
+    hasTrigger: true,
 };
 YearCalendar.propTypes = {
     format: React.PropTypes.string,

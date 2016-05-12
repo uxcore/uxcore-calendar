@@ -2,6 +2,11 @@
 
 ---
 
+## 0.4.1
+
+* `FIX` fix monthCalendar & yearCander picker input style bug
+* `FIX` disable input style bug
+
 ## 0.4.0
 
 `FIX` fix trigger icon

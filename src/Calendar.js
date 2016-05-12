@@ -63,6 +63,7 @@ class Calendar extends React.Component {
         let pickerOptions = {
             disabled: p.disabled,
             formatter: formatter,
+            align: p.align,
             transitionName: p.transitionName,
             adjustOrientOnCalendarOverflow: false,
             prefixCls: 'kuma-calendar-picker',
@@ -92,9 +93,14 @@ class Calendar extends React.Component {
         let calendar = <RcCalendar {...calendarOptions}/>;
 
         function _onChange(v) {
-            let date = v.getTime();
-            let value = getGregorianCalendarDate(date, p.locale);
-            this.props.onSelect(new Date(date), formatter.format(value));
+            if (v) {
+                let date = v.getTime();
+                let value = getGregorianCalendarDate(date, p.locale);
+                this.props.onSelect(new Date(date), formatter.format(value));
+            }
+            else {
+                this.props.onSelect(v, v);
+            }
         }
 
         return (
@@ -103,7 +109,10 @@ class Calendar extends React.Component {
             onChange={_onChange.bind(me)}
             {...pickerOptions}>
                 {({value}) => {
-                    return <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-calendar-picker-input kuma-input" />
+                    return <span className="kuma-calendar-picker-input">
+                        <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
+                        {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
+                    </span>
                 }}
             </Datepicker>
             );
@@ -116,8 +125,11 @@ Calendar.defaultProps = {
     placeholder: '请选择日期',
     onSelect: function() {},
     locale: 'zh-cn',
+    align: {
+        offset: [0, 0]
+    },
     showDateInput: false,
-    hasTrigger: false,
+    hasTrigger: true,
     transitionName: 'slideUp'
 };
 Calendar.propTypes = {

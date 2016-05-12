@@ -2,6 +2,10 @@
 
 ---
 
+## 0.4.0
+
+`FIX` fix trigger icon
+
 ## 0.3.9
 
 `FIX` fix style bug in `input[readonly]`

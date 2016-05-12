@@ -48,7 +48,7 @@ class Demo extends React.Component {
 	                width: 400
 	            }}>
 					<p>基本</p>
-					<Calendar locale="en-us" value={this.state.value} onSelect={this.onSelect.bind(this)} />
+					<Calendar locale="en-us" value={this.state.value} onSelect={this.onSelect.bind(this)} showDateInput={true}/>
 				</div>
 				<div className="kuma-form-field" style={{
 	                width: 400

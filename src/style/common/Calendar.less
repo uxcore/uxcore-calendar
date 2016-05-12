@@ -4,7 +4,7 @@
   }
   &-input-wrap {
     position: relative;
-    padding: 6px;
+    padding: 5px 10px;
     border-bottom: 1px solid #e9e9e9;
     &:after {
       content: '';
@@ -42,7 +42,7 @@
     cursor: text;
     line-height: 1.5;
     outline: 0;
-    height:22px;
+    height: 23px;
 
     &-invalid {
       border-color: red;
@@ -195,6 +195,17 @@
   }
 }
 
-.@{calendarPrefixCls}-picker-input[readonly] {
-  background-color: white;
+.@{calendarPrefixCls}-picker-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  .kuma-input[readonly] {
+    background-color: white;
+  }
+  .kuma-icon-calender {
+    position: absolute;
+    color: @text-thirdary-color;
+    top: 7px;
+    right: 10px;
+  }
 }

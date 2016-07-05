@@ -6,9 +6,14 @@ let locale = {
     'en-us': {
         'work': 'work',
         'leave': 'leave'
+    },
+    'pl-pl': {
+        'work': 'zadanie',
+        'leave': 'porzuć'
     }
 }
 
 locale['en'] = locale['en-us'];
+locale['pl'] = locale['pl-pl'];
 
 module.exports = locale;

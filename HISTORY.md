@@ -2,6 +2,10 @@
 
 ---
 
+## 0.4.2
+
+`NEW` add polish support.
+
 ## 0.4.1
 
 * `FIX` fix monthCalendar & yearCander picker input style bug

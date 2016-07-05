@@ -43,7 +43,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 |defaultValue|日期|string|无|
 |placeholder|placeholder文案|string|请选择日期|
 |format|展示的日期格式|string|'yyyy-MM-dd'|
-|locale|`en-us` 或`zh-cn`|string|`zh-cn`|
+|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`|
 |disabledDate|日期|function|无|
 |onSelect|日期|function|无|
 |showTime|日期|boolean|false|
@@ -59,7 +59,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 |defaultValue|日期|string|无|
 |placeholder|placeholder文案|string|请选择日期|
 |format|展示的日期格式|string|'yyyy-MM'|
-|locale|`en-us` 或`zh-cn`|string|`zh-cn`|
+|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`|
 |onSelect|日期|function|无|
 |disabled|日期|boolean|false|
 |getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
@@ -72,7 +72,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 |defaultValue|日期|string|无|
 |placeholder|placeholder文案|string|请选择日期|
 |format|展示的日期格式|string|'yyyy'|
-|locale|`en-us` 或`zh-cn`|string|`zh-cn`|
+|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`|
 |onSelect|日期|function|无|
 |disabled|日期|boolean|false|
 |getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|

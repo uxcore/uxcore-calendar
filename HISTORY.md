@@ -2,6 +2,10 @@
 
 ---
 
+## 0.4.3
+
+`NEW` add new prop `inputWidth` for adjusting the trigger width.
+
 ## 0.4.2
 
 `NEW` add polish support.

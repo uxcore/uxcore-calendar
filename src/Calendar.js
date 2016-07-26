@@ -103,13 +103,18 @@ class Calendar extends React.Component {
             }
         }
 
+        const triggerStyle = {};
+        if (p.inputWidth) {
+            triggerStyle.width = p.inputWidth;
+        }
+
         return (
             <Datepicker
             calendar={calendar}
             onChange={_onChange.bind(me)}
             {...pickerOptions}>
                 {({value}) => {
-                    return <span className="kuma-calendar-picker-input">
+                    return <span className="kuma-calendar-picker-input" style={triggerStyle} >
                         <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
                         {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
                     </span>
@@ -134,6 +139,7 @@ Calendar.defaultProps = {
 };
 Calendar.propTypes = {
     format: React.PropTypes.string,
+    inputWidth: React.PropTypes.number,
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,
     locale: React.PropTypes.string,
@@ -188,13 +194,18 @@ class MonthCalendar extends React.Component {
             this.props.onSelect(new Date(date), formatter.format(value));
         }
 
+        const triggerStyle = {};
+        if (p.inputWidth) {
+            triggerStyle.width = p.inputWidth;
+        }
+
         return (
             <Datepicker
             calendar={calendar}
             onChange={_onChange.bind(me)}
                 {...pickerOptions}>
                     {({value}) => {
-                    return <span className="kuma-calendar-picker-input">
+                    return <span className="kuma-calendar-picker-input" style={triggerStyle} >
                         <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
                         {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
                     </span>
@@ -219,6 +230,7 @@ MonthCalendar.defaultProps = {
 };
 MonthCalendar.propTypes = {
     format: React.PropTypes.string,
+    inputWidth: React.PropTypes.number,
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,
     locale: React.PropTypes.string,
@@ -271,12 +283,17 @@ class YearCalendar extends React.Component {
             this.props.onSelect(new Date(date), formatter.format(value));
         }
 
+        const triggerStyle = {};
+        if (p.inputWidth) {
+            triggerStyle.width = p.inputWidth;
+        }
+
         return (<Datepicker
             calendar={calendar}
             onChange={_onChange.bind(me)}
             {...pickerOptions}>
                     {({value}) => {
-                return <span className="kuma-calendar-picker-input">
+                return <span className="kuma-calendar-picker-input" style={triggerStyle}>
                         <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
                         {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
                     </span>
@@ -300,6 +317,7 @@ YearCalendar.defaultProps = {
 };
 YearCalendar.propTypes = {
     format: React.PropTypes.string,
+    inputWidth: React.PropTypes.number,
     placeholder: React.PropTypes.string,
     onSelect: React.PropTypes.func,
     locale: React.PropTypes.string,

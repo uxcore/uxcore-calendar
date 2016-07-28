@@ -48,13 +48,13 @@ class Demo extends React.Component {
 	                width: 400
 	            }}>
 					<p>基本</p>
-					<Calendar locale="en-us" value={this.state.value} onSelect={this.onSelect.bind(this)} showDateInput={true}/>
+					<Calendar showTime locale="en-us" value={this.state.value} onSelect={this.onSelect.bind(this)} showDateInput={true}/>
 				</div>
 				<div className="kuma-form-field" style={{
 	                width: 400
 	            }}>
 					<p>日期格式</p>
-					<Calendar value={this.state.value} format="yyyy/MM/dd" onSelect={this.onSelect.bind(this)} />
+					<Calendar value={this.state.value} format="yyyy/MM/dd" onSelect={this.onSelect.bind(this)} showDateInput />
 				</div>
 				<div className="kuma-form-field" style={{
 	                width: 400

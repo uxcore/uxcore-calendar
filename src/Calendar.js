@@ -4,7 +4,7 @@ let DateTimeFormat = require('gregorian-calendar-format');
 let Datepicker = require('rc-calendar/lib/Picker');
 let RcMonthCalendar = require('rc-calendar/lib/MonthCalendar');
 let RcYearCalendar = require('./YearCalendar');
-let TimePicker = require('rc-time-picker');
+let TimePicker = require('rc-time-picker/lib/module/Panel');
 let util = require('./util');
 let React = require('react');
 
@@ -41,7 +41,7 @@ class Calendar extends React.Component {
 
     componentWillMount() {
         let me = this;
-        me.TimePickerElement = <TimePicker prefixCls="kuma-time-picker" locale={TimePickerLocale[me.props.locale]} />
+        me.TimePickerElement = <TimePicker prefixCls="kuma-time-picker-panel" locale={TimePickerLocale[me.props.locale]} />
     }
 
     render() {
@@ -58,6 +58,7 @@ class Calendar extends React.Component {
             timePicker: p.timePicker ? p.timePicker : (p.showTime ? me.TimePickerElement : null),
             showDateInput: p.showDateInput,
             locale: CalendarLocale[p.locale],
+            formatter: formatter,
             prefixCls: 'kuma-calendar'
         };
         let pickerOptions = {
@@ -133,7 +134,7 @@ Calendar.defaultProps = {
     align: {
         offset: [0, 0]
     },
-    showDateInput: false,
+    showDateInput: true,
     hasTrigger: true,
     transitionName: 'slideUp'
 };

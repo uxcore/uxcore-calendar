@@ -1,6 +1,6 @@
 {
  "name": "uxcore-calendar",
- "version": "0.4.3",
+ "version": "0.5.0",
  "description": "calendar componment for react",
  "main": "build/index.js",
  "scripts": {
@@ -51,7 +51,7 @@
   "gregorian-calendar": "4.x",
   "gregorian-calendar-format": "4.x",
   "object-assign": "^4.0.0",
-  "rc-calendar": "~5.5.0",
+  "rc-calendar": "~6.0.0",
   "rc-time-picker": "~1.1.4",
   "rc-util": "3.x",
   "uxcore-formatter": "~0.1.2",

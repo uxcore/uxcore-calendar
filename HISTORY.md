@@ -2,6 +2,10 @@
 
 ---
 
+## 0.5.0
+
+`CHANGED` update dependency `rc-calendar` to ~6.0.0
+
 ## 0.4.3
 
 `NEW` add new prop `inputWidth` for adjusting the trigger width.

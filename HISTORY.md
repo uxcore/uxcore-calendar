@@ -2,6 +2,10 @@
 
 ---
 
+## 0.5.1
+
+`FIXED` fix contentRender bug
+
 ## 0.5.0
 
 `CHANGED` update dependency `rc-calendar` to ~6.0.0

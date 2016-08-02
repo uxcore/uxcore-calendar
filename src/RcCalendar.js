@@ -262,6 +262,7 @@ const Calendar = React.createClass({
             selectedValue={selectedValue}
             prefixCls={prefixCls}
             dateRender={props.dateRender}
+            contentRender={props.contentRender}
             onSelect={this.onDateTableSelect}
             disabledDate={disabledDate}
             showWeekNumber={props.showWeekNumber}

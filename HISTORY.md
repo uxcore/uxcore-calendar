@@ -2,6 +2,10 @@
 
 ---
 
+## 0.5.2
+
+`FIXED` fix select time btn style bug
+
 ## 0.5.1
 
 `FIXED` fix contentRender bug

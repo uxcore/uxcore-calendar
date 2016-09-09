@@ -2,6 +2,10 @@
 
 ---
 
+## 0.6.0
+
+`CHANGED` all panel support clear icon
+
 ## 0.5.2
 
 `FIXED` fix select time btn style bug

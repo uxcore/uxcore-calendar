@@ -37,11 +37,17 @@ class Calendar extends React.Component {
         super(props);
         this.state = {
         };
+        this.clearValue = this.clearValue.bind(this);
     }
 
     componentWillMount() {
         let me = this;
         me.TimePickerElement = <TimePicker prefixCls="kuma-time-picker-panel" locale={TimePickerLocale[me.props.locale]} />
+    }
+
+    clearValue(e) {
+        e.stopPropagation();
+        this.props.onSelect(null, null)
     }
 
     render() {
@@ -109,15 +115,19 @@ class Calendar extends React.Component {
             triggerStyle.width = p.inputWidth;
         }
 
+        
+
         return (
             <Datepicker
             calendar={calendar}
             onChange={_onChange.bind(me)}
             {...pickerOptions}>
                 {({value}) => {
+                    const showClear = value && !p.disabled
                     return <span className="kuma-calendar-picker-input" style={triggerStyle} >
                         <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
-                        {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
+                        {p.hasTrigger ? <i className={`kuma-icon kuma-icon-calender ${showClear ? 'kuma-icon-calender__has-clear' : ''}`}></i> : null}
+                        {showClear ? <i className="kuma-icon kuma-icon-close" onClick={this.clearValue}></i> : null }
                     </span>
                 }}
             </Datepicker>
@@ -153,6 +163,12 @@ class MonthCalendar extends React.Component {
         super(props);
         this.state = {
         };
+        this.clearValue = this.clearValue.bind(this);
+    }
+
+    clearValue(e) {
+        e.stopPropagation();
+        this.props.onSelect(null, null)
     }
 
     render() {
@@ -164,6 +180,7 @@ class MonthCalendar extends React.Component {
             style: p.style,
             locale: CalendarLocale[p.locale],
             orient: ['top', 'left'],
+            showDateInput: p.showDateInput,
             prefixCls: 'kuma-calendar'
         };
         let pickerOptions = {
@@ -205,10 +222,12 @@ class MonthCalendar extends React.Component {
             calendar={calendar}
             onChange={_onChange.bind(me)}
                 {...pickerOptions}>
-                    {({value}) => {
+                {({value}) => {
+                    const showClear = value && !p.disabled
                     return <span className="kuma-calendar-picker-input" style={triggerStyle} >
                         <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
-                        {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
+                        {p.hasTrigger ? <i className={`kuma-icon kuma-icon-calender ${showClear ? 'kuma-icon-calender__has-clear' : ''}`}></i> : null}
+                        {showClear ? <i className="kuma-icon kuma-icon-close" onClick={this.clearValue}></i> : null }
                     </span>
                 }}
             </Datepicker>
@@ -243,7 +262,14 @@ class YearCalendar extends React.Component {
         super(props);
         this.state = {
         };
+        this.clearValue = this.clearValue.bind(this);
     }
+
+    clearValue(e) {
+        e.stopPropagation();
+        this.props.onSelect(null, null)
+    }
+
     render() {
         let me = this;
         let p = me.props;
@@ -252,6 +278,7 @@ class YearCalendar extends React.Component {
             className: p.className,
             style: p.style,
             locale: CalendarLocale[p.locale],
+            showDateInput: p.showDateInput,
             orient: ['top', 'left'],
             prefixCls: 'kuma-calendar'
         };
@@ -289,17 +316,22 @@ class YearCalendar extends React.Component {
             triggerStyle.width = p.inputWidth;
         }
 
-        return (<Datepicker
-            calendar={calendar}
-            onChange={_onChange.bind(me)}
-            {...pickerOptions}>
-                    {({value}) => {
-                return <span className="kuma-calendar-picker-input" style={triggerStyle}>
+        return (
+            <Datepicker
+                calendar={calendar}
+                onChange={_onChange.bind(me)}
+                {...pickerOptions}
+            >
+                {({value}) => {
+                    const showClear = value && !p.disabled
+                    return <span className="kuma-calendar-picker-input" style={triggerStyle} >
                         <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
-                        {p.hasTrigger ? <i className="kuma-icon kuma-icon-calender"></i> : null}
+                        {p.hasTrigger ? <i className={`kuma-icon kuma-icon-calender ${showClear ? 'kuma-icon-calender__has-clear' : ''}`}></i> : null}
+                        {showClear ? <i className="kuma-icon kuma-icon-close" onClick={this.clearValue}></i> : null }
                     </span>
-            }}
-                </Datepicker>);
+                }}
+            </Datepicker>
+        );
     }
 }
 

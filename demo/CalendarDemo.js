@@ -84,7 +84,7 @@ class Demo extends React.Component {
 	                width: 400
 	            }}>
 					<p>月份</p>
-					<MonthCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} />
+					<MonthCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} showDateInput />
 				</div>
                 <div className="kuma-form-field" style={{
 	                width: 400

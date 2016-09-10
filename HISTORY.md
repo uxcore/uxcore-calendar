@@ -2,6 +2,10 @@
 
 ---
 
+## 0.6.1
+
+`CHANGED` add prop `timezone` to fix calendar timezone
+
 ## 0.6.0
 
 `CHANGED` all panel support clear icon

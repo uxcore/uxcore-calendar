@@ -18,8 +18,13 @@ CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
 TimePickerLocale['zh-cn'] = require('rc-time-picker/lib/locale/zh_CN');
 TimePickerLocale['en-us'] = require('rc-time-picker/lib/locale/en_US');
 
-function getGregorianCalendarDate(date, locale) {
-    defaultValueLocale[locale].timezoneOffset = -new Date().getTimezoneOffset();
+function getGregorianCalendarDate(date, locale, timezone) {
+    if (timezone) {
+        defaultValueLocale[locale].timezoneOffset = parseInt(timezone, 10) * 60;
+    }
+    else {
+        defaultValueLocale[locale].timezoneOffset = -new Date().getTimezoneOffset();
+    }
     let value = new GregorianCalendar(defaultValueLocale[locale]);
     value.setTime(new Date(date).valueOf());
     return value;
@@ -79,18 +84,18 @@ class Calendar extends React.Component {
         };
 
         if (p.value) {
-            let value = getGregorianCalendarDate(p.value, p.locale);
+            let value = getGregorianCalendarDate(p.value, p.locale, p.timezone);
             pickerOptions.value = calendarOptions.defaultValue = value;
         } else {
             pickerOptions.value = calendarOptions.defaultValue = null;
         }
 
         if (p.defaultValue) {
-            let value = getGregorianCalendarDate(p.defaultValue, p.locale);
+            let value = getGregorianCalendarDate(p.defaultValue, p.locale, p.timezone);
             calendarOptions.defaultValue = value;
             pickerOptions.defaultValue = value;
         } else {
-            let value = getGregorianCalendarDate(new Date().getTime(), p.locale);
+            let value = getGregorianCalendarDate(new Date().getTime(), p.locale, p.timezone);
             calendarOptions.defaultValue = value;
         }
         if (p.hasTrigger) {
@@ -102,7 +107,7 @@ class Calendar extends React.Component {
         function _onChange(v) {
             if (v) {
                 let date = v.getTime();
-                let value = getGregorianCalendarDate(date, p.locale);
+                let value = getGregorianCalendarDate(date, p.locale, p.timezone);
                 this.props.onSelect(new Date(date), formatter.format(value));
             }
             else {
@@ -194,21 +199,21 @@ class MonthCalendar extends React.Component {
         };
 
         if (p.value) {
-            let value = getGregorianCalendarDate(p.value, p.locale);
+            let value = getGregorianCalendarDate(p.value, p.locale, p.timezone);
             pickerOptions.value = calendarOptions.defaultValue = value;
         } else {
             pickerOptions.value = calendarOptions.defaultValue = null;
         }
 
         if (p.defaultValue) {
-            let value = getGregorianCalendarDate(p.defaultValue, p.locale);
+            let value = getGregorianCalendarDate(p.defaultValue, p.locale, p.timezone);
             calendarOptions.defaultValue = value;
         }
         let calendar = <RcMonthCalendar {...calendarOptions}/>;
 
         function _onChange(v) {
             let date = v.getTime();
-            let value = getGregorianCalendarDate(date, p.locale);
+            let value = getGregorianCalendarDate(date, p.locale, p.timezone);
             this.props.onSelect(new Date(date), formatter.format(value));
         }
 
@@ -293,21 +298,21 @@ class YearCalendar extends React.Component {
         };
 
         if (p.value) {
-            let value = getGregorianCalendarDate(p.value, p.locale);
+            let value = getGregorianCalendarDate(p.value, p.locale, p.timezone);
             pickerOptions.value = calendarOptions.defaultValue = value;
         } else {
             pickerOptions.value = calendarOptions.defaultValue = null;
         }
 
         if (p.defaultValue) {
-            let value = getGregorianCalendarDate(p.defaultValue, p.locale);
+            let value = getGregorianCalendarDate(p.defaultValue, p.locale, p.timezone);
             calendarOptions.defaultValue = value;
         }
         let calendar = <RcYearCalendar {...calendarOptions}/>;
 
         function _onChange(v) {
             let date = v.getTime();
-            let value = getGregorianCalendarDate(date, p.locale);
+            let value = getGregorianCalendarDate(date, p.locale, p.timezone);
             this.props.onSelect(new Date(date), formatter.format(value));
         }
 

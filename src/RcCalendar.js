@@ -200,7 +200,7 @@ const Calendar = React.createClass({
     const {
       locale, prefixCls, disabledDate,
       dateInputPlaceholder, timePicker,
-      disabledTime,
+      disabledTime, showHour, showSecond,
     } = props;
     const state = this.state;
     const { value, selectedValue, showTimePicker } = state;
@@ -208,9 +208,9 @@ const Calendar = React.createClass({
       getTimeConfig(selectedValue, disabledTime) : null;
 
     const timePickerEle = timePicker && showTimePicker ? React.cloneElement(timePicker, {
-      showHour: true,
+      showHour: showHour !== undefined ? showHour : true,
       formatter: this.getFormatter(),
-      showSecond: false,
+      showSecond: showSecond !== undefined ? showSecond : true,
       onChange: this.onDateInputChange,
       gregorianCalendarLocale: value.locale,
       value: selectedValue,

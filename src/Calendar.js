@@ -1,16 +1,18 @@
-let RcCalendar = require('./RcCalendar');
-let GregorianCalendar = require('gregorian-calendar');
-let DateTimeFormat = require('gregorian-calendar-format');
-let Datepicker = require('rc-calendar/lib/Picker');
-let RcMonthCalendar = require('rc-calendar/lib/MonthCalendar');
-let RcYearCalendar = require('./YearCalendar');
-let TimePicker = require('rc-time-picker/lib/module/Panel');
-let util = require('./util');
-let React = require('react');
+const RcCalendar = require('./RcCalendar');
+const GregorianCalendar = require('gregorian-calendar');
+const DateTimeFormat = require('gregorian-calendar-format');
+const Datepicker = require('rc-calendar/lib/Picker');
+const RcMonthCalendar = require('rc-calendar/lib/MonthCalendar');
+const RcYearCalendar = require('./YearCalendar');
+const TimePicker = require('rc-time-picker/lib/module/Panel');
+const util = require('./util');
+const React = require('react');
+const classnames = require('classnames');
 
-let defaultValueLocale = {};
-let CalendarLocale = {};
-let TimePickerLocale = {};
+const defaultValueLocale = {};
+const CalendarLocale = {};
+const TimePickerLocale = {};
+
 defaultValueLocale['zh-cn'] = require('gregorian-calendar/lib/locale/zh_CN');
 defaultValueLocale['en-us'] = require('gregorian-calendar/lib/locale/en_US');
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
@@ -46,8 +48,11 @@ class Calendar extends React.Component {
     }
 
     componentWillMount() {
-        let me = this;
-        me.TimePickerElement = <TimePicker prefixCls="kuma-time-picker-panel" locale={TimePickerLocale[me.props.locale]} />
+        const me = this;
+        
+        me.TimePickerElement = (
+            <TimePicker prefixCls="kuma-time-picker-panel" locale={TimePickerLocale[me.props.locale]} />  
+        );
     }
 
     clearValue(e) {
@@ -59,11 +64,19 @@ class Calendar extends React.Component {
         let me = this;
         let p = me.props;
         let formatter = new DateTimeFormat(p.format);
+        const timePaneNumber = 1 + p.showHour + p.showSecond;
         let calendarOptions = {
-            className: p.className,
+            className: classnames({
+                [p.className]: !!p.className,
+                [`kuma-calendar-two-time-panel`]: timePaneNumber === 2,
+                [`kuma-calendar-one-time-panel`]: timePaneNumber === 1,
+            }),
             style: p.style,
             contentRender: p.contentRender,
             disabledDate: p.disabledDate,
+            disabledTime: p.disabledTime,
+            showSecond: p.showSecond,
+            showHour: p.showHour,
             showWeekNumber: p.showWeekNumber,
             showToday: p.showToday,
             timePicker: p.timePicker ? p.timePicker : (p.showTime ? me.TimePickerElement : null),
@@ -149,6 +162,8 @@ Calendar.defaultProps = {
     align: {
         offset: [0, 0]
     },
+    showSecond: true,
+    showHour: true,
     showDateInput: true,
     hasTrigger: true,
     transitionName: 'slideUp'
@@ -160,6 +175,8 @@ Calendar.propTypes = {
     onSelect: React.PropTypes.func,
     locale: React.PropTypes.string,
     hasTrigger: React.PropTypes.bool,
+    showSecond: React.PropTypes.bool,
+    showHour: React.PropTypes.bool,
     getPopupContainer: React.PropTypes.func
 };
 

@@ -72,7 +72,7 @@ class Demo extends React.Component {
 	                width: 400
 	            }}>
 					<p>时间选择</p>
-					<Calendar hasTrigger={true} showTime={true} format="yyyy-MM-dd HH:mm:ss" value={this.state.value} onSelect={this.onSelect.bind(this)} />
+					<Calendar hasTrigger={true} showSecond={false} showHour={true} showTime={true} format="yyyy-MM-dd HH:mm:ss" value={this.state.value} onSelect={this.onSelect.bind(this)} />
 				</div>
 				<div className="kuma-form-field" style={{
 	                width: 400

@@ -2,6 +2,10 @@
 
 ---
 
+## 0.6.3
+
+`NEW` new props `showSecond` `showHour`
+
 ## 0.6.2
 
 `FIXED` missing method `getTimeConfig` 

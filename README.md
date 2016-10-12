@@ -37,19 +37,21 @@ http://uxcore.github.io/uxcore/components/calendar/
 
 ### props
 
-|参数|说明|类型|默认值|
-|---|----|---|------|
-|value|日期|string|无|
-|defaultValue|日期|string|无|
-|placeholder|placeholder文案|string|请选择日期|
-|format|展示的日期格式|string|'yyyy-MM-dd'|
-|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`|
-|disabledDate|日期|function|无|
-|onSelect|日期|function|无|
-|showTime|日期|boolean|false|
-|disabled|日期|boolean|false|
-|timePicker|自己传入定制的 timePicker|React Element|-|
-|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
+|参数|说明|类型|默认值|版本|
+|---|----|---|------|---|
+|value|日期|string|无||
+|defaultValue|日期|string|无||
+|placeholder|placeholder文案|string|请选择日期||
+|format|展示的日期格式|string|'yyyy-MM-dd'||
+|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`||
+|disabledDate|日期|function|无||
+|onSelect|日期|function|无||
+|showTime|日期|boolean|false||
+|showHour|日期面板是否显示小时|boolean|true|0.6.3|
+|showSecond|日期面板是否显示秒|boolean|true|0.6.3|
+|disabled|日期|boolean|false||
+|timePicker|自己传入定制的 timePicker|React Element|-||
+|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}||
 
 #### MonthCalendar
 

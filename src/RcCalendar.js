@@ -9,6 +9,7 @@ import CalendarFooter from 'rc-calendar/lib/calendar/CalendarFooter';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import DateInput from 'rc-calendar/lib/date/DateInput';
+import { getTimeConfig } from 'rc-calendar/lib/util/index';
 
 function noop() {
 }
@@ -209,7 +210,7 @@ const Calendar = React.createClass({
     const timePickerEle = timePicker && showTimePicker ? React.cloneElement(timePicker, {
       showHour: true,
       formatter: this.getFormatter(),
-      showSecond: true,
+      showSecond: false,
       onChange: this.onDateInputChange,
       gregorianCalendarLocale: value.locale,
       value: selectedValue,

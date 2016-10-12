@@ -2,6 +2,10 @@
 
 ---
 
+## 0.6.2
+
+`FIXED` missing method `getTimeConfig` 
+
 ## 0.6.1
 
 `CHANGED` add prop `timezone` to fix calendar timezone

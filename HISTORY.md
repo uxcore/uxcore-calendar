@@ -2,6 +2,9 @@
 
 ---
 
+## 0.6.4
+`FIXED` text-indent cause scroll issue.
+
 ## 0.6.3
 
 `NEW` new props `showSecond` `showHour`

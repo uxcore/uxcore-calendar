@@ -142,8 +142,14 @@ class Calendar extends React.Component {
             {...pickerOptions}>
                 {({value}) => {
                     const showClear = value && !p.disabled
+                    let newValue = value;
+                    if (newValue) {
+                        newValue = formatter.format(value);
+                    } else {
+                        newValue = '';
+                    }
                     return <span className="kuma-calendar-picker-input" style={triggerStyle} >
-                        <input value={value && formatter.format(value)} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
+                        <input value={newValue} readOnly disabled={me.props.disabled} placeholder={this.props.placeholder} className="kuma-input" />
                         {p.hasTrigger ? <i className={`kuma-icon kuma-icon-calender ${showClear ? 'kuma-icon-calender__has-clear' : ''}`}></i> : null}
                         {showClear ? <i className="kuma-icon kuma-icon-close" onClick={this.clearValue}></i> : null }
                     </span>

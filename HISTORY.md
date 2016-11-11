@@ -2,6 +2,10 @@
 
 ---
 
+## 0.6.5
+
+`FIXED` can not reset input value if value is null in React@15.x
+
 ## 0.6.4
 `FIXED` text-indent cause scroll issue.
 

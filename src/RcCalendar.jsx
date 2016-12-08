@@ -1,15 +1,17 @@
 // customized rc-calendar https://github.com/react-component/calendar/blob/master/src/Calendar.jsx
 
 import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import GregorianCalendar from 'gregorian-calendar';
 import KeyCode from 'rc-util/lib/KeyCode';
-import DateTable from './date/DateTable';
 import CalendarHeader from 'rc-calendar/lib/calendar/CalendarHeader';
 import CalendarFooter from 'rc-calendar/lib/calendar/CalendarFooter';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import DateInput from 'rc-calendar/lib/date/DateInput';
 import { getTimeConfig } from 'rc-calendar/lib/util/index';
+
+import DateTable from './date/DateTable';
 
 function noop() {
 }
@@ -62,6 +64,8 @@ const Calendar = React.createClass({
     showWeekNumber: PropTypes.bool,
     style: PropTypes.object,
     showToday: PropTypes.bool,
+    showHour: PropTypes.bool,
+    showSecond: PropTypes.bool,
     showDateInput: PropTypes.bool,
     visible: PropTypes.bool,
     onSelect: PropTypes.func,

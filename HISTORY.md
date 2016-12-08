@@ -2,6 +2,11 @@
 
 ---
 
+## 0.6.6
+
+`CHANGED` ESLint: 80%
+`NEW` add new method `getTriggerNode`
+
 ## 0.6.5
 
 `FIXED` can not reset input value if value is null in React@15.x

@@ -100,7 +100,12 @@ class YearCalendar extends React.Component {
     if (p.defaultValue) {
       const value = this.getGregorianCalendarDate(p.defaultValue);
       calendarOptions.defaultValue = value;
+      pickerOptions.defaultValue = value;
+    } else {
+      const value = this.getGregorianCalendarDate(new Date().getTime());
+      calendarOptions.defaultValue = value;
     }
+    
     const calendar = <RcYearCalendar {...calendarOptions} />;
 
     const triggerStyle = {};

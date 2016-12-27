@@ -2,8 +2,8 @@
 
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import GregorianCalendar from 'gregorian-calendar';
-import KeyCode from 'rc-util/lib/KeyCode';
+// import GregorianCalendar from 'gregorian-calendar';
+// import KeyCode from 'rc-util/lib/KeyCode';
 import CalendarHeader from 'rc-calendar/lib/calendar/CalendarHeader';
 import CalendarFooter from 'rc-calendar/lib/calendar/CalendarFooter';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
@@ -16,41 +16,41 @@ import DateTable from './date/DateTable';
 function noop() {
 }
 
-function goStartMonth() {
-  const next = this.state.value.clone();
-  next.setDayOfMonth(1);
-  this.setValue(next);
-}
+// function goStartMonth() {
+//   const next = this.state.value.clone();
+//   next.setDayOfMonth(1);
+//   this.setValue(next);
+// }
 
-function goEndMonth() {
-  const next = this.state.value.clone();
-  next.setDayOfMonth(next.getActualMaximum(GregorianCalendar.MONTH));
-  this.setValue(next);
-}
+// function goEndMonth() {
+//   const next = this.state.value.clone();
+//   next.setDayOfMonth(next.getActualMaximum(GregorianCalendar.MONTH));
+//   this.setValue(next);
+// }
 
-function goMonth(direction) {
-  const next = this.state.value.clone();
-  next.addMonth(direction);
-  this.setValue(next);
-}
+// function goMonth(direction) {
+//   const next = this.state.value.clone();
+//   next.addMonth(direction);
+//   this.setValue(next);
+// }
 
-function goYear(direction) {
-  const next = this.state.value.clone();
-  next.addYear(direction);
-  this.setValue(next);
-}
+// function goYear(direction) {
+//   const next = this.state.value.clone();
+//   next.addYear(direction);
+//   this.setValue(next);
+// }
 
-function goWeek(direction) {
-  const next = this.state.value.clone();
-  next.addWeekOfYear(direction);
-  this.setValue(next);
-}
+// function goWeek(direction) {
+//   const next = this.state.value.clone();
+//   next.addWeekOfYear(direction);
+//   this.setValue(next);
+// }
 
-function goDay(direction) {
-  const next = this.state.value.clone();
-  next.addDayOfMonth(direction);
-  this.setValue(next);
-}
+// function goDay(direction) {
+//   const next = this.state.value.clone();
+//   next.addDayOfMonth(direction);
+//   this.setValue(next);
+// }
 
 const Calendar = React.createClass({
   propTypes: {
@@ -102,54 +102,54 @@ const Calendar = React.createClass({
     }
     const keyCode = event.keyCode;
     // mac
-    const ctrlKey = event.ctrlKey || event.metaKey;
+    // const ctrlKey = event.ctrlKey || event.metaKey;
     switch (keyCode) {
-      case KeyCode.DOWN:
-        goWeek.call(this, 1);
-        event.preventDefault();
-        return 1;
-      case KeyCode.UP:
-        goWeek.call(this, -1);
-        event.preventDefault();
-        return 1;
-      case KeyCode.LEFT:
-        if (ctrlKey) {
-          goYear.call(this, -1);
-        } else {
-          goDay.call(this, -1);
-        }
-        event.preventDefault();
-        return 1;
-      case KeyCode.RIGHT:
-        if (ctrlKey) {
-          goYear.call(this, 1);
-        } else {
-          goDay.call(this, 1);
-        }
-        event.preventDefault();
-        return 1;
-      case KeyCode.HOME:
-        goStartMonth.call(this);
-        event.preventDefault();
-        return 1;
-      case KeyCode.END:
-        goEndMonth.call(this);
-        event.preventDefault();
-        return 1;
-      case KeyCode.PAGE_DOWN:
-        goMonth.call(this, 1);
-        event.preventDefault();
-        return 1;
-      case KeyCode.PAGE_UP:
-        goMonth.call(this, -1);
-        event.preventDefault();
-        return 1;
-      case KeyCode.ENTER:
-        this.onSelect(this.state.value, {
-          source: 'keyboard',
-        });
-        event.preventDefault();
-        return 1;
+      // case KeyCode.DOWN:
+      //   goWeek.call(this, 1);
+      //   event.preventDefault();
+      //   return 1;
+      // case KeyCode.UP:
+      //   goWeek.call(this, -1);
+      //   event.preventDefault();
+      //   return 1;
+      // case KeyCode.LEFT:
+      //   if (ctrlKey) {
+      //     goYear.call(this, -1);
+      //   } else {
+      //     goDay.call(this, -1);
+      //   }
+      //   event.preventDefault();
+      //   return 1;
+      // case KeyCode.RIGHT:
+      //   if (ctrlKey) {
+      //     goYear.call(this, 1);
+      //   } else {
+      //     goDay.call(this, 1);
+      //   }
+      //   event.preventDefault();
+      //   return 1;
+      // case KeyCode.HOME:
+      //   goStartMonth.call(this);
+      //   event.preventDefault();
+      //   return 1;
+      // case KeyCode.END:
+      //   goEndMonth.call(this);
+      //   event.preventDefault();
+      //   return 1;
+      // case KeyCode.PAGE_DOWN:
+      //   goMonth.call(this, 1);
+      //   event.preventDefault();
+      //   return 1;
+      // case KeyCode.PAGE_UP:
+      //   goMonth.call(this, -1);
+      //   event.preventDefault();
+      //   return 1;
+      // case KeyCode.ENTER:
+      //   this.onSelect(this.state.value, {
+      //     source: 'keyboard',
+      //   });
+      //   event.preventDefault();
+      //   return 1;
       default:
         this.props.onKeyDown(event);
         return 1;

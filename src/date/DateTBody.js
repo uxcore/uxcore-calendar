@@ -134,25 +134,7 @@ const DateTBody = React.createClass({
         const isBeforeCurrentMonthYear = beforeCurrentMonthYear(current, value);
         const isAfterCurrentMonthYear = afterCurrentMonthYear(current, value);
 
-        if (selectedValue && Array.isArray(selectedValue)) {
-          if (!isBeforeCurrentMonthYear && !isAfterCurrentMonthYear) {
-            const startValue = selectedValue[0];
-            const endValue = selectedValue[1];
-            if (startValue) {
-              if (isSameDay(current, startValue)) {
-                selected = true;
-              }
-            }
-            if (startValue && endValue) {
-              if (isSameDay(current, endValue) && !selectedValue.hovering) {
-                selected = true;
-              } else if (current.compareToDay(startValue) > 0 &&
-                current.compareToDay(endValue) < 0) {
-                cls += ` ${inRangeClass}`;
-              }
-            }
-          }
-        } else if (isSameDay(current, selectedValue)) {
+        if (isSameDay(current, selectedValue)) {
           selected = true;
         }
         if (isBeforeCurrentMonthYear) {

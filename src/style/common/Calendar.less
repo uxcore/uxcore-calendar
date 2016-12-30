@@ -135,145 +135,100 @@
   }
 }
 
-@keyframes slideUpIn {
+@keyframes calendarSlideInDown {
     0% {
         opacity: 0;
-        transform-origin: 0 0;
-        transform: scaleY(.8);
+        transform: translate(0, 10px);
     }
 
     100% {
         opacity: 1;
-        transform-origin: 0 0;
-        transform: scaleY(1);
+        transform: translate(0, 0);
     }
 }
 
-@keyframes slideUpOut {
+@keyframes calendarSlideOutDown {
     0% {
         opacity: 1;
-        transform-origin: 0 0;
-        transform: scaleY(1);
+        transform: translate(0, 0);
     }
 
     100% {
         opacity: 0;
-        transform-origin: 0 0;
-        transform: scaleY(.8);
+        transform: translate(0, 10px);
     }
 }
 
-
-@keyframes slideDownIn {
+@keyframes calendarSlideInUp {
     0% {
         opacity: 0;
-        transform-origin: 100% 100%;
-        transform: scaleY(.8);
+        transform: translate(0, -10px);
     }
 
     100% {
         opacity: 1;
-        transform-origin: 100% 100%;
-        transform: scaleY(1);
+        transform: translate(0, 0);
     }
 }
 
-@keyframes slideDownOut {
+@keyframes calendarSlideOutUp {
     0% {
         opacity: 1;
-        transform-origin: 100% 100%;
-        transform: scaleY(1);
+        transform: translate(0, 0);
     }
 
     100% {
         opacity: 0;
-        transform-origin: 100% 100%;
-        transform: scaleY(.8);
+        transform: translate(0, -10px);
     }
 }
 
 .@{calendarPrefixCls}-picker-placement-bottomLeft {
-  &.slideUp-enter,
-  &.slideUp-appear {
+  &.calendarSlideUp-enter,
+  &.calendarSlideUp-appear {
     opacity: 0;
-    transform-origin: 0 0;
-    transform: scaleY(.8);
-    animation-timing-function: ease;
+    transform: translate(0, 10px);
+    animation-timing-function: ease-out;
     animation-duration: .3s;
   }
-  &.slideUp-enter-active,
-  &.slideUp-appear-active {
+  &.calendarSlideUp-enter-active,
+  &.calendarSlideUp-appear-active {
     visibility: visible;
-    animation-name: slideUpIn;
+    animation-name: calendarSlideInDown;
   }
-  &.slideUp-leave {
+  &.calendarSlideUp-leave {
     opacity: 1;
-    transform-origin: 0 0;
-    transform: scaleY(1);
-    animation-timing-function: ease;
+    transform: translate(0, 0);
+    animation-timing-function: ease-out;
     animation-duration: .3s;
   }
-  &.slideUp-leave-active {
+  &.calendarSlideUp-leave-active {
     visibility: visible;
-    animation-name: slideUpOut;
+    animation-name: calendarSlideOutDown;
   }
 }
 
 .@{calendarPrefixCls}-picker-placement-topLeft {
-  &.slideUp-enter,
-  &.slideUp-appear {
+  &.calendarSlideUp-enter,
+  &.calendarSlideUp-appear {
     opacity: 0;
-    transform-origin: 100% 100%;
-    transform: scaleY(.8);
-    animation-timing-function: ease;
+    transform: translate(0, -10px);
+    animation-timing-function: ease-out;
     animation-duration: .3s;
   }
-  &.slideUp-enter-active,
-  &.slideUp-appear-active {
+  &.calendarSlideUp-enter-active,
+  &.calendarSlideUp-appear-active {
     visibility: visible;
-    animation-name: slideDownIn;
+    animation-name: calendarSlideInUp;
   }
-  &.slideUp-leave {
+  &.calendarSlideUp-leave {
     opacity: 1;
-    transform-origin: 100% 100%;
-    transform: scaleY(1);
-    animation-timing-function: ease;
+    transform: translate(0, 0);
+    animation-timing-function: ease-out;
     animation-duration: .3s;
   }
-  &.slideUp-leave-active {
+  &.calendarSlideUp-leave-active {
     visibility: visible;
-    animation-name: slideDownOut;
-  }
-}
-
-.@{calendarPrefixCls}-picker-input {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  .kuma-input[readonly] {
-    background-color: white;
-  }
-  .kuma-input[disabled] {
-    background-color: @bg-disabled-color;
-  }
-  .kuma-icon-calender,
-  .kuma-icon-close {
-    position: absolute;
-    color: @text-thirdary-color;
-    top: 7px;
-    right: 10px;
-    transition: color .3s ease,opacity .15s ease;
-  }
-  .kuma-icon-close {
-    opacity: 0;
-    cursor: pointer;
-  }
-  &:hover {
-    .kuma-icon-close {
-      opacity: 1;
-    }
-    .kuma-icon-calender__has-clear {
-      opacity: 0;
-    }
+    animation-name: calendarSlideOutUp;
   }
 }

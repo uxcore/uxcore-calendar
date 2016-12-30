@@ -192,7 +192,7 @@ Calendar.defaultProps = {
   showHour: true,
   showDateInput: true,
   hasTrigger: true,
-  transitionName: 'slideUp',
+  transitionName: 'calendarSlideUp',
 };
 Calendar.propTypes = {
   format: React.PropTypes.string,

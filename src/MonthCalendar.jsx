@@ -148,7 +148,7 @@ MonthCalendar.defaultProps = {
   placeholder: '请选择月份',
   onSelect() { },
   locale: 'zh-cn',
-  transitionName: 'slideUp',
+  transitionName: 'calendarSlideUp',
   align: {
     offset: [0, 0],
   },

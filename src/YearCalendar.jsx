@@ -148,7 +148,7 @@ YearCalendar.defaultProps = {
   placeholder: '请选择年份',
   onSelect() { },
   locale: 'zh-cn',
-  transitionName: 'slideUp',
+  transitionName: 'calendarSlideUp',
   align: {
     offset: [0, 0],
   },

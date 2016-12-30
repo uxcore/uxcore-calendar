@@ -2,10 +2,14 @@
 
 ---
 
+## 0.7.0
+
+* `NEW` new animation
+
 ## 0.6.6
 
-`CHANGED` ESLint: 80%
-`NEW` add new method `getTriggerNode`
+* `CHANGED` ESLint: 80%
+* `NEW` add new method `getTriggerNode`
 
 ## 0.6.5
 

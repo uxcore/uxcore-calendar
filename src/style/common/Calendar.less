@@ -232,3 +232,35 @@
     animation-name: calendarSlideOutUp;
   }
 }
+
+.@{calendarPrefixCls}-picker-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  .kuma-input[readonly] {
+    background-color: white;
+  }
+  .kuma-input[disabled] {
+    background-color: @bg-disabled-color;
+  }
+  .kuma-icon-calender,
+  .kuma-icon-close {
+    position: absolute;
+    color: @text-thirdary-color;
+    top: 7px;
+    right: 10px;
+    transition: color .3s ease,opacity .15s ease;
+  }
+  .kuma-icon-close {
+    opacity: 0;
+    cursor: pointer;
+  }
+  &:hover {
+    .kuma-icon-close {
+      opacity: 1;
+    }
+    .kuma-icon-calender__has-clear {
+      opacity: 0;
+    }
+  }
+}

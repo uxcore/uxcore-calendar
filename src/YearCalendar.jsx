@@ -1,20 +1,14 @@
-const DateTimeFormat = require('gregorian-calendar-format');
 const Datepicker = require('rc-calendar/lib/Picker');
 const RcYearCalendar = require('./RcYearCalendar');
-const util = require('./util');
 const React = require('react');
-const GregorianCalendar = require('gregorian-calendar');
+const moment = require('moment');
+const util = require('./util');
 
-const defaultValueLocale = {};
 const CalendarLocale = {};
-const TimePickerLocale = {};
 
-defaultValueLocale['zh-cn'] = require('gregorian-calendar/lib/locale/zh_CN');
-defaultValueLocale['en-us'] = require('gregorian-calendar/lib/locale/en_US');
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
-TimePickerLocale['zh-cn'] = require('rc-time-picker/lib/locale/zh_CN');
-TimePickerLocale['en-us'] = require('rc-time-picker/lib/locale/en_US');
+
 
 const { getCalendarContainer } = util;
 
@@ -31,16 +25,13 @@ class YearCalendar extends React.Component {
     return this.trigger;
   }
 
-  getGregorianCalendarDate(date) {
+  getDate(date) {
     const me = this;
     const { timezone, locale } = me.props;
+    const value = moment(date).locale(locale);
     if (timezone) {
-      defaultValueLocale[locale].timezoneOffset = parseInt(timezone, 10) * 60;
-    } else {
-      defaultValueLocale[locale].timezoneOffset = -new Date().getTimezoneOffset();
+      return value.utcOffset(parseInt(timezone, 10) * 60);
     }
-    const value = new GregorianCalendar(defaultValueLocale[locale]);
-    value.setTime(new Date(date).valueOf());
     return value;
   }
 
@@ -58,11 +49,9 @@ class YearCalendar extends React.Component {
 
   handleChange(v) {
     const p = this.props;
-    const formatter = new DateTimeFormat(p.format);
     if (v) {
-      const date = v.getTime();
-      const value = this.getGregorianCalendarDate(date);
-      this.props.onSelect(new Date(date), formatter.format(value));
+      const date = v.valueOf();
+      this.props.onSelect(new Date(date), v.format(p.format));
     } else {
       this.props.onSelect(v, v);
     }
@@ -71,7 +60,6 @@ class YearCalendar extends React.Component {
   render() {
     const me = this;
     const p = me.props;
-    const formatter = new DateTimeFormat(p.format);
     const calendarOptions = {
       className: p.className,
       style: p.style,
@@ -83,7 +71,6 @@ class YearCalendar extends React.Component {
     const pickerOptions = {
       disabled: p.disabled,
       align: p.align,
-      formatter,
       transitionName: p.transitionName,
       adjustOrientOnCalendarOverflow: false,
       prefixCls: 'kuma-calendar-picker',
@@ -91,21 +78,21 @@ class YearCalendar extends React.Component {
     };
 
     if (p.value) {
-      const value = this.getGregorianCalendarDate(p.value);
+      const value = this.getDate(p.value);
       pickerOptions.value = calendarOptions.defaultValue = value;
     } else {
       pickerOptions.value = calendarOptions.defaultValue = null;
     }
 
     if (p.defaultValue) {
-      const value = this.getGregorianCalendarDate(p.defaultValue);
+      const value = this.getDate(p.defaultValue);
       calendarOptions.defaultValue = value;
       pickerOptions.defaultValue = value;
     } else {
-      const value = this.getGregorianCalendarDate(new Date().getTime());
+      const value = this.getDate(new Date().getTime());
       calendarOptions.defaultValue = value;
     }
-    
+
     const calendar = <RcYearCalendar {...calendarOptions} />;
 
     const triggerStyle = {};
@@ -124,7 +111,7 @@ class YearCalendar extends React.Component {
           return (
             <span className="kuma-calendar-picker-input" style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
-                value={value && formatter.format(value)}
+                value={value && value.format(p.format)}
                 readOnly
                 disabled={me.props.disabled}
                 placeholder={this.props.placeholder}
@@ -144,7 +131,7 @@ class YearCalendar extends React.Component {
 
 YearCalendar.displayName = 'YearCalendar';
 YearCalendar.defaultProps = {
-  format: 'yyyy',
+  format: 'YYYY',
   placeholder: '请选择年份',
   onSelect() { },
   locale: 'zh-cn',

@@ -1,9 +1,16 @@
 /**
  * Calendar Component for uxcore
- * @author 
+ * @author
  *
  * Copyright 2014-2015, Uxcore Team, Alinw.
  * All rights reserved.
  */
 
-module.exports = require('./Calendar');
+
+const MonthCalendar = require('./MonthCalendar');
+const YearCalendar = require('./YearCalendar');
+const Calendar = require('./Calendar');
+
+Calendar.MonthCalendar = MonthCalendar;
+Calendar.YearCalendar = YearCalendar;
+module.exports = Calendar;

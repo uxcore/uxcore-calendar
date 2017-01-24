@@ -1,27 +1,18 @@
-const DateTimeFormat = require('gregorian-calendar-format');
 const Datepicker = require('rc-calendar/lib/Picker');
-const TimePicker = require('rc-time-picker/lib/module/Panel');
+const TimePicker = require('rc-time-picker/lib/Panel');
 const React = require('react');
 const classnames = require('classnames');
-const GregorianCalendar = require('gregorian-calendar');
+const moment = require('moment');
 
 const RcCalendar = require('./RcCalendar');
 const util = require('./util');
-const MonthCalendar = require('./MonthCalendar');
-const YearCalendar = require('./YearCalendar');
 
-const defaultValueLocale = {};
 const CalendarLocale = {};
-const TimePickerLocale = {};
 
-defaultValueLocale['zh-cn'] = require('gregorian-calendar/lib/locale/zh_CN');
-defaultValueLocale['en-us'] = require('gregorian-calendar/lib/locale/en_US');
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
-TimePickerLocale['zh-cn'] = require('rc-time-picker/lib/locale/zh_CN');
-TimePickerLocale['en-us'] = require('rc-time-picker/lib/locale/en_US');
 
-const { getCalendarContainer } = util;
+const { getCalendarContainer, generalizeFormat } = util;
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -36,7 +27,7 @@ class Calendar extends React.Component {
     const me = this;
 
     me.TimePickerElement = (
-      <TimePicker prefixCls="kuma-time-picker-panel" locale={TimePickerLocale[me.props.locale]} />
+      <TimePicker prefixCls="kuma-time-picker-panel" />
     );
   }
 
@@ -44,16 +35,13 @@ class Calendar extends React.Component {
     return this.trigger;
   }
 
-  getGregorianCalendarDate(date) {
+  getDate(date) {
     const me = this;
     const { timezone, locale } = me.props;
+    const value = moment(date).locale(locale);
     if (timezone) {
-      defaultValueLocale[locale].timezoneOffset = parseInt(timezone, 10) * 60;
-    } else {
-      defaultValueLocale[locale].timezoneOffset = -new Date().getTimezoneOffset();
+      return value.utcOffset(parseInt(timezone, 10) * 60);
     }
-    const value = new GregorianCalendar(defaultValueLocale[locale]);
-    value.setTime(new Date(date).valueOf());
     return value;
   }
 
@@ -71,11 +59,9 @@ class Calendar extends React.Component {
 
   handleChange(v) {
     const p = this.props;
-    const formatter = new DateTimeFormat(p.format);
     if (v) {
-      const date = v.getTime();
-      const value = this.getGregorianCalendarDate(date);
-      this.props.onSelect(new Date(date), formatter.format(value));
+      const date = v.valueOf();
+      this.props.onSelect(new Date(date), v.format(generalizeFormat(p.format)));
     } else {
       this.props.onSelect(v, v);
     }
@@ -84,7 +70,6 @@ class Calendar extends React.Component {
   render() {
     const me = this;
     const p = me.props;
-    const formatter = new DateTimeFormat(p.format);
     const timePaneNumber = 1 + p.showHour + p.showSecond;
     const calendarOptions = {
       className: classnames({
@@ -93,22 +78,43 @@ class Calendar extends React.Component {
         'kuma-calendar-one-time-panel': timePaneNumber === 1,
       }),
       style: p.style,
-      contentRender: p.contentRender,
-      disabledDate: p.disabledDate,
-      disabledTime: p.disabledTime,
+      contentRender: (current, value) => {
+        if (typeof p.contentRender === 'function') {
+          const date = current.clone();
+          date.getTime = current.valueOf;
+          date.getDayOfMonth = date.date;
+          return p.contentRender(date, value);
+        }
+        return current.date();
+      },
+      disabledDate: (current) => {
+        if (typeof p.disabledDate === 'function') {
+          const date = current.clone();
+          date.getTime = current.valueOf;
+          return p.disabledDate(date);
+        }
+        return false;
+      },
+      disabledTime: (current) => {
+        if (typeof p.disabledTime === 'function') {
+          const date = current.clone();
+          date.getTime = current.valueOf;
+          return p.disabledTime(date);
+        }
+        return false;
+      },
       showSecond: p.showSecond,
       showHour: p.showHour,
+      format: generalizeFormat(p.format),
       showWeekNumber: p.showWeekNumber,
       showToday: p.showToday,
       timePicker: p.timePicker || (p.showTime ? me.TimePickerElement : null),
       showDateInput: p.showDateInput,
       locale: CalendarLocale[p.locale],
-      formatter,
       prefixCls: 'kuma-calendar',
     };
     const pickerOptions = {
       disabled: p.disabled,
-      formatter,
       align: p.align,
       transitionName: p.transitionName,
       adjustOrientOnCalendarOverflow: false,
@@ -118,18 +124,18 @@ class Calendar extends React.Component {
     };
 
     if (p.value) {
-      const value = this.getGregorianCalendarDate(p.value);
+      const value = this.getDate(p.value);
       pickerOptions.value = calendarOptions.defaultValue = value;
     } else {
       pickerOptions.value = calendarOptions.defaultValue = null;
     }
 
     if (p.defaultValue) {
-      const value = this.getGregorianCalendarDate(p.defaultValue);
+      const value = this.getDate(p.defaultValue);
       calendarOptions.defaultValue = value;
       pickerOptions.defaultValue = value;
     } else {
-      const value = this.getGregorianCalendarDate(new Date().getTime());
+      const value = this.getDate(new Date().getTime());
       calendarOptions.defaultValue = value;
     }
     if (p.hasTrigger) {
@@ -154,7 +160,7 @@ class Calendar extends React.Component {
           const showClear = value && !p.disabled;
           let newValue = value;
           if (newValue) {
-            newValue = formatter.format(value);
+            newValue = moment(value).format(generalizeFormat(p.format));
           } else {
             newValue = '';
           }
@@ -181,7 +187,7 @@ class Calendar extends React.Component {
 
 Calendar.displayName = 'Calendar';
 Calendar.defaultProps = {
-  format: 'yyyy-MM-dd',
+  format: 'YYYY-MM-DD',
   placeholder: '请选择日期',
   onSelect() { },
   locale: 'zh-cn',
@@ -207,8 +213,6 @@ Calendar.propTypes = {
 };
 
 
-Calendar.MonthCalendar = MonthCalendar;
-Calendar.YearCalendar = YearCalendar;
 Calendar.CalendarPanel = RcCalendar;
 Calendar.util = util;
 

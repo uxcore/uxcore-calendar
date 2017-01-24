@@ -35,7 +35,7 @@ transfer ui component for react
 $ git clone https://github.com/uxcore/uxcore-calendar
 $ cd uxcore-calendar
 $ npm install
-$ gulp server
+$ npm start
 ```
 
 ## Usage
@@ -51,12 +51,16 @@ React.render(
 ```
 
 ### demo
-http://uxcore.github.io/uxcore/components/calendar/
+http://uxco.re/components/calendar/
 
 ## API
 - onSelect(date, formatDateString)
     - date `date`
     - formatDateString `string`
+
+## Attention
+
+0.8.0 之后，我们使用 moment 替代了 gregorianCalendar，在一些格式上和用法上有了一些变化。
 
 ### props
 
@@ -65,7 +69,7 @@ http://uxcore.github.io/uxcore/components/calendar/
 |value|日期|string|无||
 |defaultValue|日期|string|无||
 |placeholder|placeholder文案|string|请选择日期||
-|format|展示的日期格式|string|'yyyy-MM-dd'||
+|format|展示的日期格式|string|'YYYY-MM-DD'||
 |locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`||
 |disabledDate|日期|function|无||
 |onSelect|日期|function|无||

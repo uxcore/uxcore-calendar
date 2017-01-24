@@ -54,7 +54,15 @@ function getCalendarContainer() {
   return c;
 }
 
+/**
+   * for forward compatability
+   */
+function generalizeFormat(format) {
+  return format.replace(/y|d/g, value => value.toUpperCase());
+}
+
 module.exports = {
   generateContentRender,
   getCalendarContainer,
+  generalizeFormat,
 };

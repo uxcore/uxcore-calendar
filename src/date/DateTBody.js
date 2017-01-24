@@ -2,42 +2,30 @@
 
 import React, { PropTypes } from 'react';
 import DateConstants from 'rc-calendar/lib/date/DateConstants';
-import { getTitleString } from 'rc-calendar/lib/util/';
-import classnames from 'classnames';
+import { getTitleString, getTodayTime } from 'rc-calendar/lib/util/';
 
 function isSameDay(one, two) {
-  return one && two && one.compareToDay(two) === 0;
+  return one && two && one.isSame(two, 'day');
 }
 
 function beforeCurrentMonthYear(current, today) {
-  if (current.getYear() < today.getYear()) {
+  if (current.year() < today.year()) {
     return 1;
   }
-  return current.getYear() === today.getYear() &&
-    current.getMonth() < today.getMonth();
+  return current.year() === today.year() &&
+    current.month() < today.month();
 }
 
 function afterCurrentMonthYear(current, today) {
-  if (current.getYear() > today.getYear()) {
+  if (current.year() > today.year()) {
     return 1;
   }
-  return current.getYear() === today.getYear() &&
-    current.getMonth() > today.getMonth();
+  return current.year() === today.year() &&
+    current.month() > today.month();
 }
 
 function getIdFromDate(date) {
-  return `rc-calendar-${date.getYear()}-${date.getMonth()}-${date.getDayOfMonth()}`;
-}
-
-function noop() {
-}
-
-function handleDayClick(current) {
-  this.props.onSelect(current);
-}
-
-function handleCellMouseEnter(current) {
-  this.props.onDayHover(current);
+  return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
 }
 
 const DateTBody = React.createClass({
@@ -46,52 +34,56 @@ const DateTBody = React.createClass({
     dateRender: PropTypes.func,
     disabledDate: PropTypes.func,
     prefixCls: PropTypes.string,
-    selectedValue: PropTypes.object,
+    selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
     value: PropTypes.object,
+    hoverValue: PropTypes.any,
     showWeekNumber: PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
-      onDayHover: noop,
+      hoverValue: [],
     };
   },
 
   render() {
     const props = this.props;
-    const { contentRender, prefixCls, selectedValue, value,
-      showWeekNumber, dateRender, disabledDate } = props;
+    const {
+      contentRender, prefixCls, selectedValue, value,
+      showWeekNumber, dateRender, disabledDate,
+      hoverValue,
+    } = props;
     let iIndex;
     let jIndex;
     let current;
     const dateTable = [];
-    const today = value.clone();
+    const today = getTodayTime(value);
     const cellClass = `${prefixCls}-cell`;
     const weekNumberCellClass = `${prefixCls}-week-number-cell`;
     const dateClass = `${prefixCls}-date`;
     const todayClass = `${prefixCls}-today`;
     const selectedClass = `${prefixCls}-selected-day`;
+    const selectedDateClass = `${prefixCls}-selected-date`;  // do not move with mouse operation
     const inRangeClass = `${prefixCls}-in-range-cell`;
     const lastMonthDayClass = `${prefixCls}-last-month-cell`;
     const nextMonthDayClass = `${prefixCls}-next-month-btn-day`;
     const disabledClass = `${prefixCls}-disabled-cell`;
     const firstDisableClass = `${prefixCls}-disabled-cell-first-of-row`;
     const lastDisableClass = `${prefixCls}-disabled-cell-last-of-row`;
-    today.setTime(Date.now());
     const month1 = value.clone();
-    month1.set(value.getYear(), value.getMonth(), 1);
-    const day = month1.getDayOfWeek();
-    const lastMonthDiffDay = (day + 7 - value.getFirstDayOfWeek()) % 7;
+    month1.date(1);
+    const day = month1.day();
+    const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
-    lastMonth1.addDayOfMonth(0 - lastMonthDiffDay);
+    lastMonth1.add(0 - lastMonthDiffDay, 'days');
     let passed = 0;
     for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
         if (passed) {
           current = current.clone();
-          current.addDayOfMonth(passed);
+          current.add(passed, 'days');
         }
         dateTable.push(current);
         passed++;
@@ -99,17 +91,18 @@ const DateTBody = React.createClass({
     }
     const tableHtml = [];
     passed = 0;
+
     for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
       let weekNumberCell;
       const dateCells = [];
       if (showWeekNumber) {
         weekNumberCell = (
           <td
-            key={dateTable[passed].getWeekOfYear()}
+            key={dateTable[passed].week()}
             role="gridcell"
             className={weekNumberCellClass}
           >
-            {dateTable[passed].getWeekOfYear()}
+            {dateTable[passed].week()}
           </td>
         );
       }
@@ -134,9 +127,34 @@ const DateTBody = React.createClass({
         const isBeforeCurrentMonthYear = beforeCurrentMonthYear(current, value);
         const isAfterCurrentMonthYear = afterCurrentMonthYear(current, value);
 
-        if (isSameDay(current, selectedValue)) {
+        if (selectedValue && Array.isArray(selectedValue)) {
+          const rangeValue = hoverValue.length ? hoverValue : selectedValue;
+          if (!isBeforeCurrentMonthYear && !isAfterCurrentMonthYear) {
+            const startValue = rangeValue[0];
+            const endValue = rangeValue[1];
+            if (startValue) {
+              if (isSameDay(current, startValue)) {
+                selected = true;
+              }
+            }
+            if (startValue && endValue) {
+              if (isSameDay(current, endValue)) {
+                selected = true;
+              } else if (current.isAfter(startValue, 'day') &&
+                current.isBefore(endValue, 'day')) {
+                cls += ` ${inRangeClass}`;
+              }
+            }
+          }
+        } else if (isSameDay(current, value)) {
+          // keyboard change value, highlight works
           selected = true;
         }
+
+        if (isSameDay(current, selectedValue)) {
+          cls += ` ${selectedDateClass}`;
+        }
+
         if (isBeforeCurrentMonthYear) {
           cls += ` ${lastMonthDayClass}`;
         }
@@ -170,15 +188,11 @@ const DateTBody = React.createClass({
         if (dateRender) {
           dateHtml = dateRender(current, value);
         } else {
-          const content = contentRender ? contentRender(current, value) : current.getDayOfMonth();
-          let dayOfWeek = current.getDayOfWeek();
+          const content = contentRender ? contentRender(current, value) : current.date();
           dateHtml = (
             <div
               key={getIdFromDate(current)}
-              className={classnames({
-                [dateClass]: true,
-                weekend: dayOfWeek == 0 || dayOfWeek == 6
-              })}
+              className={dateClass}
               aria-selected={selected}
               aria-disabled={disabled}
             >
@@ -189,8 +203,9 @@ const DateTBody = React.createClass({
         dateCells.push(
           <td
             key={passed}
-            onClick={disabled ? noop : handleDayClick.bind(this, current)}
-            onMouseEnter={disabled ? noop : handleCellMouseEnter.bind(this, current)}
+            onClick={disabled ? undefined : props.onSelect.bind(null, current)}
+            onMouseEnter={disabled ?
+              undefined : props.onDayHover && props.onDayHover.bind(null, current) || undefined}
             role="gridcell"
             title={getTitleString(current)} className={cls}
           >
@@ -208,7 +223,7 @@ const DateTBody = React.createClass({
           {dateCells}
         </tr>);
     }
-    return (<tbody className={`${prefixCls}tbody`}>
+    return (<tbody className={`${prefixCls}-tbody`}>
     {tableHtml}
     </tbody>);
   },

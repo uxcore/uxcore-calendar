@@ -20,7 +20,7 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '2016-01-02',
+      value: new Date().getTime(),
     };
   }
 
@@ -74,7 +74,7 @@ class Demo extends React.Component {
           <p>日期格式</p>
           <Calendar
             value={this.state.value}
-            format="yyyy/MM/dd"
+            format="YYYY/MM/DD"
             onSelect={this.onSelect.bind(this)}
             showDateInput
           />
@@ -113,7 +113,8 @@ class Demo extends React.Component {
             showSecond={false}
             showHour
             showTime
-            format="yyyy-MM-dd HH:mm:ss"
+            timezone={8}
+            format="YYYY-MM-DD HH:mm:ss"
             value={this.state.value}
             onSelect={this.onSelect.bind(this)}
           />

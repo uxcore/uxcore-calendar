@@ -1,10 +1,9 @@
 .@{calendarPrefixCls} {
   position: relative;
   outline: none;
-  width: 305px;
   border: 1px solid #ccc;
   list-style: none;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left;
   background-color: #fff;
   border-radius: 3px;
@@ -12,20 +11,18 @@
   background-clip: padding-box;
   border: 1px solid #ccc;
   line-height: 1.5;
-
   &-date-panel {
+    width: 302px;
     position: relative;
     outline: none;
+    float: left;
   }
-
   &-week-number {
     width: 286px;
-
     &-cell {
       text-align: center;
     }
   }
-
   &-header {
     padding: 0 10px;
     height: 40px;
@@ -33,67 +30,88 @@
     text-align: center;
     user-select: none;
     -webkit-user-select: none;
-    background-color: @brand-primary;
-    color: white;
-
-    > a {
+    background-color: white;
+    border-bottom: 1px solid @border-color;
+    >a {
       font-weight: bold;
       display: inline-block;
       padding: 0px 5px;
       line-height: 40px;
       text-align: center;
       width: 30px;
-
       &:hover {
         cursor: pointer;
-        color: white;
       }
     }
-
     .@{calendarPrefixCls}-prev-month-btn {
       position: absolute;
       left: 25px;
+      display: none;
       &:after {
-          content: '\e644';
-          font-size: 16px;
+        content: '\e644';
+        font-size: 16px;
       }
     }
-
     .@{calendarPrefixCls}-next-month-btn {
       position: absolute;
       right: 25px;
+      display: none;
       &:after {
-          content: '\e643';
-          font-size: 16px;
+        content: '\e643';
+        font-size: 16px;
       }
     }
   }
-
-  &-ym-select,&-my-select {
+  &-ym-select,
+  &-my-select {
     line-height: 40px;
     display: inline-block;
+    padding-left: 16px;
   }
-
-  &-year-select, &-month-select, &-day-select {
+  &-year-select,
+  &-month-select,
+  &-day-select {
     display: inline-block;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
-    color: white;
     line-height: 24px;
     padding: 0 8px;
     border-radius: @global-border-radius;
-
+    color: @text-color;
     &:hover {
       cursor: pointer;
-      color: white;
-      background: @calendar-header-hover-bg;
+      color: @brand-primary;
+      .@{calendarSelectPrefixCls}-arrow b {
+        border-color: @brand-primary transparent transparent transparent;
+      }
     }
   }
-
-  &-year-select {
-    
+  &-year-select,
+  &-month-select {
+    padding: 0;
+    margin-right: 16px;
+    margin-top: -1px; // for firefox
+    .@{calendarSelectPrefixCls}-selection {
+      border: none;
+      &__rendered {
+        padding: 0;
+        margin: 0;
+      }
+      &-selected-value {
+        left: 0;
+        transition: color 0.15s @transition-ease, background-color 0.15s @transition-ease;
+      }
+    }
   }
-
+  &-year-select {
+    width: 55px;
+    &.@{calendarPrefixCls}-cn-select {
+      width: 70px;
+    }
+  }
+  &-month-select {
+    width: 50px;
+  }
   &-prev-month-btn,
   &-next-month-btn,
   &-prev-year-btn,
@@ -101,102 +119,94 @@
     position: absolute;
     top: 9px;
     cursor: pointer;
-    color: white;
+    color: @brand-primary;
     width: 24px;
     height: 24px;
     border-radius: @global-border-radius;
     font-size: 16px;
     line-height: 24px;
     text-indent: -999em;
-
-    &:hover {
-      background: @calendar-header-hover-bg;
-      color: white;
-    }
-    
+    // &:hover {
+    //   background: @calendar-header-hover-bg;
+    //   color: white;
+    // }
     &:after {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 24px;
-        font-family: 'kuma';
-        font-size: 20px;
-        text-indent: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      font-family: 'kuma';
+      font-size: 20px;
+      text-indent: 0;
     }
   }
-  
   &-next-year-btn {
     right: 0;
     &:after {
-        content: '\e615';
+      content: '\e643';
     }
   }
-
   &-prev-year-btn {
     left: 0;
     &:after {
-        content: '\e616';
+      content: '\e644';
     }
   }
-
   &-calendar-body {
     padding: 9px 10px 10px;
   }
-
   table {
     border-collapse: collapse;
-    max-width: 100%;
+    max-width: 282px;
+    margin: 10px;
     background-color: transparent;
-    width: 100%;
+    width: 282px;
   }
-
-  table, td, th, td {
+  table,
+  td,
+  th,
+  td {
     border: none;
   }
-
   &-calendar-table {
     border-spacing: 0;
     margin-bottom: 0;
   }
-
   &-column-header {
     line-height: 18px;
-    padding: 6px 0;
+    padding: 11px 0;
     width: 33px;
     text-align: center;
     .@{calendarPrefixCls}-column-header-inner {
       display: block;
       font-weight: normal;
-      color: @brand-primary;
+      color: @text-secondary-color;
       &.weekend {
-          color: hsv(round(hsvhue(@brand-primary)), round(hsvsaturation(@brand-primary)) - 46%, round(hsvvalue(@brand-primary)) - 1%); // B1-1（s-46,b-1）
+        color: hsv(round(hsvhue(@brand-primary)), round(hsvsaturation(@brand-primary)) - 46%, round(hsvvalue(@brand-primary)) - 1%); // B1-1（s-46,b-1）
       }
     }
   }
-
   &-week-number-header {
     .@{calendarPrefixCls}-column-header-inner {
       display: none;
     }
   }
-
   &-cell {
-    padding: 1px 0;
+    padding: 4px 0;
   }
-
   &-date {
     display: block;
     margin: 0 auto;
-    color: @text-primary-color;
+    color: @text-secondary-color;
     border-radius: @input-border-radius;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    transition: all 0.15s @transition-ease;
+    width: 32px;
+    height: 32px;
     padding: 0;
     background: transparent;
     line-height: 30px;
     text-align: center;
-
+    border-radius: 2px;
     &:hover {
       background: @brand-primary-lighter;
       cursor: pointer;
@@ -205,49 +215,41 @@
       color: hsv(round(hsvhue(@brand-primary)), round(hsvsaturation(@brand-primary)) - 46%, round(hsvvalue(@brand-primary)) - 1%); // B1-1（s-46,b-1）
     }
   }
-
+  &-today &-date {
+    border: 1px solid @brand-primary;
+    color: @brand-primary;
+  }
   &-selected-day &-date {
     background: @brand-primary;
     color: #fff;
-
   }
-
-  &-today &-date {
-    // border: 1px solid #3fc7fa;
-  }
-
   &-disabled-cell &-date {
     cursor: not-allowed;
     color: #bcbcbc;
     background: #f3f3f3;
     border-radius: 0;
     width: auto;
-
     &:hover {
       background: #f3f3f3;
     }
   }
-
   &-disabled-cell-first-of-row &-date {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
   }
-
   &-disabled-cell-last-of-row &-date {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
-
-  &-last-month-cell &-date, &-next-month-btn-day &-date {
+  &-last-month-cell &-date,
+  &-next-month-btn-day &-date {
     color: #bbb;
   }
-
   &-footer {
     border-top: 1px solid #ccc;
-    padding: 10px 0;
+    padding: 8px 0;
     text-align: center;
     position: relative;
-
     .@{timePickerClass} {
       width: 90px;
       &-input {
@@ -255,24 +257,22 @@
       }
     }
   }
-
   &-footer-btn {
     margin-top: 2px;
   }
-
-  &-today-btn, &-ok-btn, &-time-picker-btn {
+  &-today-btn,
+  &-ok-btn,
+  &-time-picker-btn {
     display: inline-block;
     padding: 4px 5px;
     text-align: center;
     color: @brand-primary;
     border-radius: @global-border-radius;
-
     &:hover {
       cursor: pointer;
       color: @brand-primary;
       background: @brand-primary-lighter;
     }
-
     &-disabled {
       color: #bbb;
       &:hover {

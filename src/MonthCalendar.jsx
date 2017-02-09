@@ -121,7 +121,7 @@ class MonthCalendar extends React.Component {
                 : null}
             </span>
           );
-        } }
+        }}
       </Datepicker>
     );
   }

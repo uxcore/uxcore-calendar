@@ -1,16 +1,20 @@
 const Datepicker = require('rc-calendar/lib/Picker');
-const TimePicker = require('rc-time-picker/lib/Panel');
 const React = require('react');
 const classnames = require('classnames');
 const moment = require('moment');
 
+const TimePicker = require('./timePicker/Normal');
 const RcCalendar = require('./RcCalendar');
 const util = require('./util');
+const i18n = require('./locale');
 
 const CalendarLocale = {};
 
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
+
+CalendarLocale['zh-cn'] = { ...CalendarLocale['zh-cn'], ...i18n['zh-cn'] };
+CalendarLocale['en-us'] = { ...CalendarLocale['en-us'], ...i18n['en-us'] };
 
 const { getCalendarContainer, generalizeFormat } = util;
 
@@ -88,7 +92,7 @@ class Calendar extends React.Component {
         return current.date();
       },
       disabledDate: (current) => {
-        if (typeof p.disabledDate === 'function') {
+        if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
           return p.disabledDate(date);
@@ -96,7 +100,7 @@ class Calendar extends React.Component {
         return false;
       },
       disabledTime: (current) => {
-        if (typeof p.disabledTime === 'function') {
+        if (typeof p.disabledTime === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
           return p.disabledTime(date);

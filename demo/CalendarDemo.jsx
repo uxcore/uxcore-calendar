@@ -1,6 +1,7 @@
 const Button = require('uxcore-button');
 const CalendarLocale = require('rc-calendar/lib/locale/zh_CN');
 const React = require('react');
+const moment = require('moment');
 // const TimePickerLocale = require('rc-time-picker/lib/locale/zh_CN');
 // const TimePicker = require('rc-time-picker');
 
@@ -14,6 +15,14 @@ const YearCalendar = Calendar.YearCalendar;
 
 function disabledDate(current) {
   return current.getTime() > Date.now();
+}
+
+const enabledMinutes = [0, 15, 30, 45];
+const disabledMinutes = [];
+for (let i = 0; i < 60; i++) {
+  if (enabledMinutes.indexOf(i) === -1) {
+    disabledMinutes.push(i);
+  }
 }
 
 class Demo extends React.Component {
@@ -33,7 +42,7 @@ class Demo extends React.Component {
 
   handleClick() {
     this.setState({
-      value: '2016-02-05',
+      value: '2017-01-05',
     });
   }
 
@@ -45,6 +54,7 @@ class Demo extends React.Component {
       showDateInput: false,
       locale: CalendarLocale,
       prefixCls: 'kuma-calendar',
+      value: moment(me.state.value).locale('zh-cn'),
     };
 
     return (
@@ -58,14 +68,21 @@ class Demo extends React.Component {
           <p>基本</p>
           <Calendar
             showTime
-            locale="en-us"
-            timezone={8}
+            showSecond={false}
+            locale="zh-cn"
+            format="YYYY-MM-DD HH:mm:ss"
+            disabledTime={() => (
+              {
+                disabledMinutes: () => disabledMinutes,
+              }
+            )}
+            timePicker={<Calendar.Pmam />}
             value={this.state.value}
             onSelect={this.onSelect.bind(this)}
             showDateInput
           />
         </div>
-        <div
+        {/* <div
           className="kuma-form-field"
           style={{
             width: 400,
@@ -176,7 +193,7 @@ class Demo extends React.Component {
         >
           <p>直接渲染面板</p>
           <RcCalendar {...panelOptions} />
-        </div>
+        </div>*/}
         <Button onClick={me.handleClick.bind(me)}>changeTime</Button>
       </div>
     );

@@ -55,7 +55,9 @@
     "rc-calendar": "~7.4.0",
     "rc-time-picker": "~2.2.1",
     "rc-util": "3.x",
+    "uxcore-button": "^0.4.6",
     "uxcore-formatter": "~0.1.2",
+    "uxcore-select2": "^0.4.3",
     "uxcore-tooltip": "~0.4.0"
   }
 }

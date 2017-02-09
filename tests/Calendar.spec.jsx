@@ -36,7 +36,7 @@ describe('Calendar', () => {
       wrapper = mount(<Calendar locale="en-us" />);
       wrapper.find('.kuma-calendar-picker-input').simulate('click');
       const dropdownWrapper = mount(wrapper.find('Trigger').node.getComponent());
-      expect(dropdownWrapper.find('.kuma-calendar-today-btn').text()).to.be('Today');
+      expect(dropdownWrapper.find('.kuma-calendar-column-header-inner').at(0).text()).to.be('Su');
     });
 
     it('disabledDate', () => {
@@ -76,7 +76,7 @@ describe('Calendar', () => {
       expect(wrapper.find('Trigger').node.state.popupVisible).to.be(false);
     });
 
-    it('choose today', (done) => {
+    it.skip('choose today', (done) => {
       wrapper = mount(
         <Calendar
           onSelect={(value) => {

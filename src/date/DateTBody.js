@@ -3,6 +3,7 @@
 import React, { PropTypes } from 'react';
 import DateConstants from 'rc-calendar/lib/date/DateConstants';
 import { getTitleString, getTodayTime } from 'rc-calendar/lib/util/';
+import classnames from 'classnames';
 
 function isSameDay(one, two) {
   return one && two && one.isSame(two, 'day');
@@ -189,10 +190,13 @@ const DateTBody = React.createClass({
           dateHtml = dateRender(current, value);
         } else {
           const content = contentRender ? contentRender(current, value) : current.date();
+          const dayOfweek = current.day();
           dateHtml = (
             <div
               key={getIdFromDate(current)}
-              className={dateClass}
+              className={classnames(dateClass, {
+                weekend: dayOfweek === 0 || dayOfweek === 6,
+              })}
               aria-selected={selected}
               aria-disabled={disabled}
             >
@@ -224,7 +228,7 @@ const DateTBody = React.createClass({
         </tr>);
     }
     return (<tbody className={`${prefixCls}-tbody`}>
-    {tableHtml}
+      {tableHtml}
     </tbody>);
   },
 });

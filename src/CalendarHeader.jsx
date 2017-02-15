@@ -104,9 +104,13 @@ const CalendarHeader = React.createClass({
           [`${prefixCls}-cn-select`]: isLocaleCn,
         })}
         showSearch={false}
+        dropdownClassName={`${prefixCls}-year-select-dropdown`}
         optionLabelProp="label"
         transitionName=""
         getPopupContainer={() => this.getSelectContainer()}
+        dropdownAlign={{
+          offset: [0, -1],
+        }}
         onChange={this.onYearChange}
       >
         {yearOptions}
@@ -127,6 +131,7 @@ const CalendarHeader = React.createClass({
       <Select
         value={`${value.month()}`}
         dropdownMatchSelectWidth={false}
+        dropdownClassName={`${prefixCls}-month-select-dropdown`}
         className={classnames(`${prefixCls}-month-select`, {
           [`${prefixCls}-cn-select`]: isLocaleCn,
         })}
@@ -135,6 +140,9 @@ const CalendarHeader = React.createClass({
         transitionName=""
         getPopupContainer={() => this.getSelectContainer()}
         onChange={this.onMonthChange}
+        dropdownAlign={{
+          offset: [0, -1],
+        }}
       >
         {monthOptions}
       </Select>
@@ -194,7 +202,7 @@ const CalendarHeader = React.createClass({
           this.root = c;
         }}
       >
-      <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative' }}>
         {this.showIf(enablePrev,
           <a
             className={`${prefixCls}-prev-year-btn`}
@@ -223,8 +231,8 @@ const CalendarHeader = React.createClass({
             title={locale.nextYear}
           />)}
       </div>
-      {panel}
-    </div>
+        {panel}
+      </div>
     );
   },
 });

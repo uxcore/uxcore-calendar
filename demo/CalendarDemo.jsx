@@ -70,7 +70,6 @@ class Demo extends React.Component {
             showTime
             showSecond={false}
             locale="zh-cn"
-            format="YYYY-MM-DD HH:mm:ss"
             disabledTime={() => (
               {
                 disabledMinutes: () => disabledMinutes,

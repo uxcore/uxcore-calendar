@@ -2,6 +2,10 @@
 
 ---
 
+## 0.8.0
+
+* `NEW` new style & timePicker
+
 ## 0.7.0
 
 * `NEW` new animation

@@ -49,6 +49,26 @@ class Calendar extends React.Component {
     return value;
   }
 
+  getFormat() {
+    const { format, locale, showTime } = this.props;
+    if (format) return format;
+    const defaultFormatMap = {
+      'zh-cn': {
+        day: 'YYYY-MM-DD',
+        time: 'YYYY-MM-DD HH:mm:ss',
+      },
+      'en-us': {
+        day: 'DD/MM/YYYY',
+        time: 'DD/MM/YYYY HH:mm:ss',
+      },
+      en: {
+        day: 'DD/MM/YYYY',
+        time: 'DD/MM/YYYY HH:mm:ss',
+      },
+    };
+    return defaultFormatMap[locale][showTime ? 'time' : 'day'];
+  }
+
   clearValue(e) {
     e.stopPropagation();
     this.props.onSelect(null, null);
@@ -62,10 +82,9 @@ class Calendar extends React.Component {
   }
 
   handleChange(v) {
-    const p = this.props;
     if (v) {
       const date = v.valueOf();
-      this.props.onSelect(new Date(date), v.format(generalizeFormat(p.format)));
+      this.props.onSelect(new Date(date), v.format(generalizeFormat(this.getFormat())));
     } else {
       this.props.onSelect(v, v);
     }
@@ -109,7 +128,7 @@ class Calendar extends React.Component {
       },
       showSecond: p.showSecond,
       showHour: p.showHour,
-      format: generalizeFormat(p.format),
+      format: generalizeFormat(this.getFormat()),
       showWeekNumber: p.showWeekNumber,
       showToday: p.showToday,
       timePicker: p.timePicker || (p.showTime ? me.TimePickerElement : null),
@@ -164,7 +183,7 @@ class Calendar extends React.Component {
           const showClear = value && !p.disabled;
           let newValue = value;
           if (newValue) {
-            newValue = moment(value).format(generalizeFormat(p.format));
+            newValue = moment(value).format(generalizeFormat(this.getFormat()));
           } else {
             newValue = '';
           }
@@ -191,7 +210,6 @@ class Calendar extends React.Component {
 
 Calendar.displayName = 'Calendar';
 Calendar.defaultProps = {
-  format: 'YYYY-MM-DD',
   placeholder: '请选择日期',
   onSelect() { },
   locale: 'zh-cn',
@@ -212,6 +230,7 @@ Calendar.propTypes = {
   locale: React.PropTypes.string,
   hasTrigger: React.PropTypes.bool,
   showSecond: React.PropTypes.bool,
+  showTime: React.PropTypes.bool,
   showHour: React.PropTypes.bool,
   getPopupContainer: React.PropTypes.func,
 };

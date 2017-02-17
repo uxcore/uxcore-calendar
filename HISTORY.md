@@ -2,6 +2,11 @@
 
 ---
 
+## 0.8.1
+
+
+* `FIX` fix style bug
+
 ## 0.8.0
 
 * `NEW` new style & timePicker

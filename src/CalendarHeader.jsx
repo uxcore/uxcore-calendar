@@ -79,7 +79,7 @@ const CalendarHeader = React.createClass({
     return this.root;
   },
 
-  monthYearElement(showTimePicker) {
+  monthYearElement() {
     const props = this.props;
     const prefixCls = props.prefixCls;
     const locale = props.locale;
@@ -203,34 +203,34 @@ const CalendarHeader = React.createClass({
         }}
       >
         <div style={{ position: 'relative' }}>
-        {this.showIf(enablePrev,
-          <a
-            className={`${prefixCls}-prev-year-btn`}
-            role="button"
-            onClick={this.previousYear}
-            title={locale.previousYear}
-          />)}
-        {this.showIf(enablePrev,
-          <a
-            className={`${prefixCls}-prev-month-btn`}
-            role="button"
-            onClick={this.previousMonth}
-            title={locale.previousMonth}
-          />)}
-        {this.monthYearElement(showTimePicker)}
-        {this.showIf(enableNext,
-          <a
-            className={`${prefixCls}-next-month-btn`}
-            onClick={this.nextMonth}
-            title={locale.nextMonth}
-          />)}
-        {this.showIf(enableNext,
-          <a
-            className={`${prefixCls}-next-year-btn`}
-            onClick={this.nextYear}
-            title={locale.nextYear}
-          />)}
-      </div>
+          {this.showIf(enablePrev,
+            <a
+              className={`${prefixCls}-prev-year-btn`}
+              role="button"
+              onClick={this.previousYear}
+              title={locale.previousYear}
+            />)}
+          {this.showIf(enablePrev,
+            <a
+              className={`${prefixCls}-prev-month-btn`}
+              role="button"
+              onClick={this.previousMonth}
+              title={locale.previousMonth}
+            />)}
+          {this.monthYearElement(showTimePicker)}
+          {this.showIf(enableNext,
+            <a
+              className={`${prefixCls}-next-month-btn`}
+              onClick={this.nextMonth}
+              title={locale.nextMonth}
+            />)}
+          {this.showIf(enableNext,
+            <a
+              className={`${prefixCls}-next-year-btn`}
+              onClick={this.nextYear}
+              title={locale.nextYear}
+            />)}
+        </div>
         {panel}
       </div>
     );

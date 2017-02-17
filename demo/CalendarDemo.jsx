@@ -67,7 +67,7 @@ class Demo extends React.Component {
         >
           <p>基本</p>
           <Calendar
-            showTime
+            showTime={false}
             showSecond={false}
             locale="zh-cn"
             disabledTime={() => (
@@ -75,7 +75,7 @@ class Demo extends React.Component {
                 disabledMinutes: () => disabledMinutes,
               }
             )}
-            timePicker={<Calendar.Pmam />}
+            // timePicker={<Calendar.Pmam />}
             value={this.state.value}
             onSelect={this.onSelect.bind(this)}
             showDateInput

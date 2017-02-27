@@ -10,8 +10,8 @@ const RcCalendar = require('../src/RcCalendar');
 const Calendar = require('../src');
 
 // const TimePickerElement = <TimePicker prefixCls="kuma-time-picker" locale={TimePickerLocale} />;
-const MonthCalendar = Calendar.MonthCalendar;
-const YearCalendar = Calendar.YearCalendar;
+
+const { MonthCalendar, YearCalendar, RangeCalendar } = Calendar;
 
 function disabledDate(current) {
   return current.getTime() > Date.now();
@@ -37,6 +37,12 @@ class Demo extends React.Component {
     console.log(value, formatted);
     this.setState({
       value,
+    });
+  }
+
+  onRangeSelect(value) {
+    this.setState({
+      rangeValue: value,
     });
   }
 
@@ -81,7 +87,7 @@ class Demo extends React.Component {
             showDateInput
           />
         </div>
-        {/* <div
+        <div
           className="kuma-form-field"
           style={{
             width: 400,
@@ -191,9 +197,24 @@ class Demo extends React.Component {
           }}
         >
           <p>直接渲染面板</p>
-          <RcCalendar {...panelOptions} />
-        </div>*/}
+          <RcCalendar {...panelOptions} className="panel-demo" />
+        </div>
         <Button onClick={me.handleClick.bind(me)}>changeTime</Button>
+        <div
+          className="kuma-form-field"
+          style={{
+            width: 400,
+          }}
+        >
+          <p>区间日期选择</p>
+          <RangeCalendar
+            value={this.state.rangeValue}
+            onSelect={(v, formatted) => {
+              console.log(v, formatted);
+              this.onRangeSelect(v, formatted);
+            }}
+          />
+        </div>
       </div>
     );
   }

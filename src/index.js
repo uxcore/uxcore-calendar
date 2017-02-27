@@ -10,10 +10,12 @@
 const MonthCalendar = require('./MonthCalendar');
 const YearCalendar = require('./YearCalendar');
 const Calendar = require('./Calendar');
+const RangeCalendar = require('./RangeCalendar');
 const Pmam = require('./timePicker/Pmam');
 
 Calendar.MonthCalendar = MonthCalendar;
 Calendar.YearCalendar = YearCalendar;
+Calendar.RangeCalendar = RangeCalendar;
 Calendar.Pmam = Pmam;
 
 module.exports = Calendar;

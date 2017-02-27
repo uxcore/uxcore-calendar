@@ -2,8 +2,12 @@
 
 ---
 
-## 0.8.1
+## 0.8.2
 
+* `NEW` add new sub Component `RangeCalendar`
+* `CHANGED` default `yearSelectOffset` & `yearSelectTotal` change
+
+## 0.8.1
 
 * `FIX` fix style bug
 

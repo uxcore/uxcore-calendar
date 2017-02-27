@@ -36,8 +36,8 @@ const CalendarHeader = React.createClass({
     return {
       enableNext: 1,
       enablePrev: 1,
-      yearSelectOffset: 30,
-      yearSelectTotal: 60,
+      yearSelectOffset: 50,
+      yearSelectTotal: 100,
     };
   },
 

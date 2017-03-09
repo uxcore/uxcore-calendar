@@ -222,6 +222,14 @@
   width: 100%;
   .kuma-input[readonly] {
     background-color: white;
+    border-color: @border-color;
+    color: @text-primary-color;
+    &:hover {
+      border-color: @border-hover-color;
+    }
+    &:focus {
+      border-color: @border-focus-color;
+    }
   }
   .kuma-input[disabled] {
     background-color: @bg-disabled-color;

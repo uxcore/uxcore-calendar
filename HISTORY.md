@@ -2,6 +2,10 @@
 
 ---
 
+## 0.8.4
+
+* `CHANGED` base style change
+
 ## 0.8.2
 
 * `NEW` add new sub Component `RangeCalendar`

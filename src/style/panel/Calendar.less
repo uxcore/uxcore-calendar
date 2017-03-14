@@ -27,11 +27,11 @@
     padding: 0 10px;
     height: 40px;
     line-height: 30px;
+    background-color: @normal-alpha-9;
     text-align: center;
     user-select: none;
     -webkit-user-select: none;
-    background-color: white;
-    border-bottom: 1px solid @border-color;
+    border-bottom: 1px solid @split-line-color;
     >a {
       font-weight: bold;
       display: inline-block;
@@ -95,6 +95,7 @@
     .@{calendarSelectPrefixCls}-selection {
       border: none;
       height: 28px;
+      background: transparent;
       .@{calendarSelectPrefixCls}-selection__rendered {
         padding: 0;
         margin: 0;
@@ -132,7 +133,6 @@
   &-year-select-dropdown,
   &-month-select-dropdown {
     &.@{calendarSelectPrefixCls}-dropdown {
-      box-shadow: none;
       .@{calendarSelectPrefixCls}-dropdown-menu-item {
         padding: 0 10px;
       }
@@ -145,17 +145,13 @@
     position: absolute;
     top: 9px;
     cursor: pointer;
-    color: @brand-primary;
+    color: @normal-alpha-4;
     width: 24px;
     height: 24px;
     border-radius: @global-border-radius;
     font-size: 16px;
     line-height: 24px;
     text-indent: -999em;
-    // &:hover {
-    //   background: @calendar-header-hover-bg;
-    //   color: white;
-    // }
     &:after {
       position: absolute;
       left: 0;
@@ -234,7 +230,7 @@
     text-align: center;
     border-radius: 2px;
     &:hover {
-      background: @brand-primary-lighter;
+      background: @normal-alpha-9;
       cursor: pointer;
     }
     &.weekend {

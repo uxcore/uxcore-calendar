@@ -75,7 +75,7 @@ class Demo extends React.Component {
           <Calendar
             showTime={false}
             showSecond={false}
-            locale="zh-cn"
+            locale="en-us"
             disabledTime={() => (
               {
                 disabledMinutes: () => disabledMinutes,

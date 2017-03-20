@@ -2,6 +2,10 @@
 
 ---
 
+## 0.8.5
+
+* `FIXED` fix year select menu will overflow if locale is en-us
+
 ## 0.8.4
 
 * `CHANGED` base style change

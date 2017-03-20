@@ -104,6 +104,7 @@ const CalendarHeader = React.createClass({
           [`${prefixCls}-cn-select`]: isLocaleCn,
         })}
         showSearch={false}
+        dropdownMatchSelectWidth={false}
         dropdownClassName={`${prefixCls}-year-select-dropdown`}
         optionLabelProp="label"
         getPopupContainer={() => this.getSelectContainer()}

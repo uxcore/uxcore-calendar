@@ -223,7 +223,7 @@
   .kuma-input[readonly] {
     background-color: white;
     border-color: @border-color;
-    color: @text-primary-color;
+    color: @dark-alpha-2;
     &:hover {
       border-color: @border-hover-color;
     }
@@ -232,6 +232,8 @@
     }
   }
   .kuma-input[disabled] {
+    cursor: not-allowed;
+    color: @text-disabled-color;
     background-color: @bg-disabled-color;
   }
   .kuma-calendar-trigger-icon,

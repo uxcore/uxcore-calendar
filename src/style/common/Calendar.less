@@ -19,7 +19,7 @@
 
   &-time-picker {
     float: left;
-    border-left: 1px solid @border-color;
+    border-left: 1px solid @split-line-color;
     height: 340px;
     background-color: white;
     &-panel {
@@ -234,10 +234,10 @@
   .kuma-input[disabled] {
     background-color: @bg-disabled-color;
   }
-  .kuma-icon-calender,
+  .kuma-calendar-trigger-icon,
   .kuma-icon-close {
     position: absolute;
-    color: @text-thirdary-color;
+    color: @normal-alpha-4;
     top: 7px;
     right: 10px;
     transition: color .3s ease,opacity .15s ease;
@@ -250,7 +250,7 @@
     .kuma-icon-close {
       opacity: 1;
     }
-    .kuma-icon-calender__has-clear {
+    .kuma-calendar-trigger-icon__has-clear {
       opacity: 0;
     }
   }

@@ -2,6 +2,7 @@ const Datepicker = require('rc-calendar/lib/Picker');
 const React = require('react');
 const classnames = require('classnames');
 const moment = require('moment');
+const Icon = require('uxcore-icon');
 
 const TimePicker = require('./timePicker/Normal');
 const RcRangeCalendar = require('./RcRangeCalendar');
@@ -201,7 +202,7 @@ class Calendar extends React.Component {
                 placeholder={this.props.placeholder}
                 className="kuma-input"
               />
-              {p.hasTrigger ? <i className={`kuma-icon kuma-icon-calender ${showClear ? 'kuma-icon-calender__has-clear' : ''}`} /> : null}
+              {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
                 ? <i className="kuma-icon kuma-icon-close" onClick={this.clearValue} />
                 : null}

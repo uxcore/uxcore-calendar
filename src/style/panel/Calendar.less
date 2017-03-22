@@ -45,19 +45,17 @@
     }
     .@{calendarPrefixCls}-prev-month-btn {
       position: absolute;
-      left: 25px;
-      display: none;
+      left: 0px;
       &:after {
-        content: '\e644';
+        content: '\e65c';
         font-size: 16px;
       }
     }
     .@{calendarPrefixCls}-next-month-btn {
       position: absolute;
-      right: 25px;
-      display: none;
+      right: 0px;
       &:after {
-        content: '\e643';
+        content: '\e65b';
         font-size: 16px;
       }
     }
@@ -157,21 +155,23 @@
       left: 0;
       top: 0;
       width: 24px;
-      font-family: 'kuma';
+      font-family: 'uxcore';
       font-size: 20px;
       text-indent: 0;
     }
   }
   &-next-year-btn {
     right: 0;
+    display: none;
     &:after {
-      content: '\e643';
+      content: '\e65f';
     }
   }
   &-prev-year-btn {
     left: 0;
+    display: none;
     &:after {
-      content: '\e644';
+      content: '\e65e';
     }
   }
   &-calendar-body {
@@ -268,7 +268,7 @@
     color: #bbb;
   }
   &-footer {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid @split-line-color;
     padding: 8px 0;
     text-align: center;
     position: relative;

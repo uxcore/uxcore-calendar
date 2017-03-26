@@ -1,6 +1,7 @@
 import React from 'react';
-import DateConstants from './DateConstants';
 import moment from 'moment';
+import classnames from 'classnames';
+import DateConstants from './DateConstants';
 
 export default class DateTHead extends React.Component {
   render() {
@@ -10,12 +11,16 @@ export default class DateTHead extends React.Component {
     const prefixCls = props.prefixCls;
     const veryShortWeekdays = [];
     const weekDays = [];
+    const weekendDays = [];
     const firstDayOfWeek = localeData.firstDayOfWeek();
     let showWeekNumberEl;
     const now = moment();
     for (let dateColIndex = 0; dateColIndex < DateConstants.DATE_COL_COUNT; dateColIndex++) {
       const index = (firstDayOfWeek + dateColIndex) % DateConstants.DATE_COL_COUNT;
       now.day(index);
+      if (index === 0 || index === 6) {
+        weekendDays.push(dateColIndex);
+      }
       veryShortWeekdays[dateColIndex] = localeData.weekdaysMin(now);
       weekDays[dateColIndex] = localeData.weekdaysShort(now);
     }
@@ -37,7 +42,11 @@ export default class DateTHead extends React.Component {
           title={day}
           className={`${prefixCls}-column-header`}
         >
-          <span className={`${prefixCls}-column-header-inner`}>
+          <span
+            className={classnames(`${prefixCls}-column-header-inner`, {
+              weekend: weekendDays.indexOf(xindex) !== -1,
+            })}
+          >
             {veryShortWeekdays[xindex]}
           </span>
         </th>);

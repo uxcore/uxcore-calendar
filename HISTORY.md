@@ -2,6 +2,11 @@
 
 ---
 
+## 0.9.0
+
+* `CHANGED` use new icon
+* `CHANGED` style details adjustment
+
 ## 0.8.5
 
 * `FIXED` fix year select menu will overflow if locale is en-us

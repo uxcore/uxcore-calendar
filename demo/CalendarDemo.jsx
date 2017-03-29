@@ -159,6 +159,7 @@ class Demo extends React.Component {
           <p>月份</p>
           <MonthCalendar
             value={this.state.value}
+            disabledDate={disabledDate}
             onSelect={this.onSelect.bind(this)}
             showDateInput
           />
@@ -170,7 +171,10 @@ class Demo extends React.Component {
           }}
         >
           <p>年份</p>
-          <YearCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} />
+          <YearCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} disabledDate={(current) => {
+            console.log(current);
+          }}
+          />
         </div>
         <div
           className="kuma-form-field"

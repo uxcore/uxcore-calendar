@@ -103,10 +103,6 @@
   border-collapse: separate;
 }
 
-.@{calendarPrefixCls}-year-panel-cell {
-  text-align: center;
-}
-
 .@{calendarPrefixCls}-year-panel-year {
   display: block;
   width: 46px;
@@ -129,8 +125,23 @@
 .@{calendarPrefixCls}-year-panel-selected-cell .@{calendarPrefixCls}-year-panel-year {
   background: @brand-primary;
   color: #fff;
-
 }
+
+.@{calendarPrefixCls}-year-panel-cell {
+  text-align: center;
+  &-disabled {
+    .@{calendarPrefixCls}-year-panel-year {
+      background: #f3f3f3;
+      color: #bfbfbf;
+      &:hover {
+        background: #f3f3f3;
+        color: #bfbfbf;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
 
 .@{calendarPrefixCls}-year-panel-last-decade-cell, .@{calendarPrefixCls}-year-panel-next-decade-cell {
   .@{calendarPrefixCls}-year-panel-year{

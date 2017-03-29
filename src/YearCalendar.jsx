@@ -67,6 +67,14 @@ class YearCalendar extends React.Component {
       showDateInput: p.showDateInput,
       orient: ['top', 'left'],
       prefixCls: 'kuma-calendar',
+      disabledDate: (current) => {
+        if (typeof p.disabledDate === 'function' && current) {
+          const date = current.clone();
+          date.getTime = current.valueOf;
+          return p.disabledDate(date);
+        }
+        return false;
+      },
     };
     const pickerOptions = {
       disabled: p.disabled,

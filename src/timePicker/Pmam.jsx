@@ -47,4 +47,6 @@ Pmam.defaultProps = {
   prefixCls: 'kuma-time-picker',
 };
 
+Pmam.displayName = 'Pmam';
+
 export default Pmam;

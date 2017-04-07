@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.2
+
+* `CHANGED` default format for pmam timepicker
+
 ## 0.9.1
 
 * `CHANGED` month & year panel style change

@@ -128,7 +128,10 @@ class YearCalendar extends React.Component {
               />
               {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
-                ? <i className="kuma-icon kuma-icon-close" onClick={this.clearValue} />
+                ? <i
+                  className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
+                  onClick={this.clearValue}
+                />
                 : null}
             </span>
           );

@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.3
+
+* `FIXED` incorrect style
+
 ## 0.9.2
 
 * `CHANGED` default format for pmam timepicker

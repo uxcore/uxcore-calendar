@@ -51,23 +51,35 @@ class Calendar extends React.Component {
   }
 
   getFormat() {
-    const { format, locale, showTime } = this.props;
+    const { format, locale, showTime, timePicker } = this.props;
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': {
         day: 'YYYY-MM-DD',
         time: 'YYYY-MM-DD HH:mm:ss',
+        am: 'YYYY-MM-DD a',
       },
       'en-us': {
         day: 'DD/MM/YYYY',
         time: 'DD/MM/YYYY HH:mm:ss',
+        am: 'DD/MM/YYYY a',
       },
       en: {
         day: 'DD/MM/YYYY',
         time: 'DD/MM/YYYY HH:mm:ss',
+        am: 'DD/MM/YYYY a',
       },
     };
-    return defaultFormatMap[locale][showTime ? 'time' : 'day'];
+    const isAm = timePicker && (typeof timePicker.type === 'function') && timePicker.type.displayName === 'Pmam';
+    let key = 'day';
+    if (showTime) {
+      if (isAm) {
+        key = 'am';
+      } else {
+        key = 'time';
+      }
+    }
+    return defaultFormatMap[locale][key];
   }
 
   clearValue(e) {
@@ -199,7 +211,10 @@ class Calendar extends React.Component {
               />
               {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
-                ? <i className="kuma-icon kuma-icon-close" onClick={this.clearValue} />
+                ? <i
+                  className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
+                  onClick={this.clearValue}
+                />
                 : null}
             </span>
           );

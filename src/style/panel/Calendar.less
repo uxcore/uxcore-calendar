@@ -12,7 +12,7 @@
   border: 1px solid #ccc;
   line-height: 1.5;
   &-date-panel {
-    width: 302px;
+    width: 300px;
     position: relative;
     outline: none;
     float: left;
@@ -25,7 +25,7 @@
   }
   &-header {
     padding: 0 10px;
-    height: 40px;
+    height: 36px;
     line-height: 30px;
     background-color: @normal-alpha-9;
     text-align: center;
@@ -36,7 +36,7 @@
       font-weight: bold;
       display: inline-block;
       padding: 0px 5px;
-      line-height: 40px;
+      line-height: 35px;
       text-align: center;
       width: 30px;
       &:hover {
@@ -45,25 +45,23 @@
     }
     .@{calendarPrefixCls}-prev-month-btn {
       position: absolute;
-      left: 0px;
+      left: 25px;
       &:after {
         content: '\e65c';
-        font-size: 16px;
       }
     }
     .@{calendarPrefixCls}-next-month-btn {
       position: absolute;
-      right: 0px;
+      right: 25px;
       &:after {
         content: '\e65b';
-        font-size: 16px;
       }
     }
     
   }
   &-ym-select,
   &-my-select {
-    line-height: 40px;
+    line-height: 35px;
     display: inline-block;
   }
   &-year-select,
@@ -75,12 +73,12 @@
     line-height: 24px;
     padding: 0 8px;
     border-radius: @global-border-radius;
-    color: @text-color;
+    color: @dark-alpha-3;
     &:hover {
       cursor: pointer;
-      color: @brand-primary;
+      color: @dark-alpha-2;
       .@{calendarSelectPrefixCls}-arrow b {
-        border-color: @brand-primary transparent transparent transparent;
+        border-color: @normal-alpha-3 transparent transparent transparent;
       }
     }
   }
@@ -102,15 +100,15 @@
         transition: color 0.15s @transition-ease, background-color 0.15s @transition-ease;
       }
     }
-    &.@{calendarSelectPrefixCls}-open {
-      border: 1px solid @border-color;
-    }
+    // &.@{calendarSelectPrefixCls}-open {
+    //   border: 1px solid @border-color;
+    // }
     .@{calendarSelectPrefixCls}-arrow {
       height: 28px;
     }
   }
   &-year-select {
-    width: 55px;
+    width: 60px;
     &.@{calendarPrefixCls}-cn-select {
       width: 75px;
     }
@@ -140,7 +138,7 @@
   &-prev-year-btn,
   &-next-year-btn {
     position: absolute;
-    top: 9px;
+    top: 5px;
     cursor: pointer;
     color: @normal-alpha-4;
     width: 24px;
@@ -155,20 +153,23 @@
       top: 0;
       width: 24px;
       font-family: 'uxcore';
-      font-size: 20px;
+      font-size: 16px;
       text-indent: 0;
+    }
+    &:hover {
+      color: @normal-alpha-3;
     }
   }
   &-next-year-btn {
     right: 0;
-    display: none;
+    // display: none;
     &:after {
       content: '\e65f';
     }
   }
   &-prev-year-btn {
     left: 0;
-    display: none;
+    // display: none;
     &:after {
       content: '\e65e';
     }
@@ -179,7 +180,7 @@
   table {
     border-collapse: collapse;
     max-width: 282px;
-    margin: 10px;
+    margin: 10px 9px;
     background-color: transparent;
     width: 282px;
   }
@@ -218,7 +219,7 @@
   &-date {
     display: block;
     margin: 0 auto;
-    color: @text-secondary-color;
+    color: @dark-alpha-2;
     border-radius: @input-border-radius;
     transition: all 0.15s @transition-ease;
     width: 32px;
@@ -229,7 +230,7 @@
     text-align: center;
     border-radius: 2px;
     &:hover {
-      background: @normal-alpha-9;
+      background: @brand-primary-alpha-7;
       cursor: pointer;
     }
     &.weekend {

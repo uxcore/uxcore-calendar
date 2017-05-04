@@ -108,6 +108,9 @@ const CalendarHeader = React.createClass({
         dropdownClassName={`${prefixCls}-year-select-dropdown`}
         optionLabelProp="label"
         getPopupContainer={() => this.getSelectContainer()}
+        dropdownAlign={{
+          offset: [0, -2],
+        }}
         onChange={this.onYearChange}
       >
         {yearOptions}
@@ -135,6 +138,9 @@ const CalendarHeader = React.createClass({
         showSearch={false}
         optionLabelProp="label"
         getPopupContainer={() => this.getSelectContainer()}
+        dropdownAlign={{
+          offset: [0, -2],
+        }}
         onChange={this.onMonthChange}
       >
         {monthOptions}

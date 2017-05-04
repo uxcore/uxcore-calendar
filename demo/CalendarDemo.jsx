@@ -2,14 +2,9 @@ const Button = require('uxcore-button');
 const CalendarLocale = require('rc-calendar/lib/locale/zh_CN');
 const React = require('react');
 const moment = require('moment');
-// const TimePickerLocale = require('rc-time-picker/lib/locale/zh_CN');
-// const TimePicker = require('rc-time-picker');
-
-
 const RcCalendar = require('../src/RcCalendar');
 const Calendar = require('../src');
 
-// const TimePickerElement = <TimePicker prefixCls="kuma-time-picker" locale={TimePickerLocale} />;
 
 const { MonthCalendar, YearCalendar, RangeCalendar } = Calendar;
 
@@ -81,7 +76,6 @@ class Demo extends React.Component {
                 disabledMinutes: () => disabledMinutes,
               }
             )}
-            // timePicker={<Calendar.Pmam />}
             value={this.state.value}
             onSelect={this.onSelect.bind(this)}
             showDateInput
@@ -136,7 +130,7 @@ class Demo extends React.Component {
             showHour
             showTime
             timezone={8}
-            format="YYYY-MM-DD HH:mm:ss"
+            locale="en-us"
             value={this.state.value}
             onSelect={this.onSelect.bind(this)}
           />
@@ -159,6 +153,7 @@ class Demo extends React.Component {
           <p>月份</p>
           <MonthCalendar
             value={this.state.value}
+            disabledDate={disabledDate}
             onSelect={this.onSelect.bind(this)}
             showDateInput
           />
@@ -170,7 +165,10 @@ class Demo extends React.Component {
           }}
         >
           <p>年份</p>
-          <YearCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} />
+          <YearCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} disabledDate={(current) => {
+            console.log(current);
+          }}
+          />
         </div>
         <div
           className="kuma-form-field"

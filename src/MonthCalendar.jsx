@@ -66,6 +66,14 @@ class MonthCalendar extends React.Component {
       orient: ['top', 'left'],
       showDateInput: p.showDateInput,
       prefixCls: 'kuma-calendar',
+      // disabledDate: (current) => {
+      //   if (typeof p.disabledDate === 'function' && current) {
+      //     const date = current.clone();
+      //     date.getTime = current.valueOf;
+      //     return p.disabledDate(date);
+      //   }
+      //   return false;
+      // },
     };
     const pickerOptions = {
       disabled: p.disabled,
@@ -118,7 +126,10 @@ class MonthCalendar extends React.Component {
               />
               {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
-                ? <i className="kuma-icon kuma-icon-close" onClick={this.clearValue} />
+                ? <i
+                  className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
+                  onClick={this.clearValue}
+                />
                 : null}
             </span>
           );

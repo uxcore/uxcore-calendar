@@ -15,49 +15,54 @@
 
 .@{calendarPrefixCls}-decade-panel-header {
   padding: 0 24px;
-  background-color: @brand-primary;
-  height: 40px;
-  line-height: 40px;
+  background-color: @normal-alpha-9;
+  height: 36px;
+  line-height: 35px;
   position: relative;
   text-align: center;
   user-select: none;
-  -webkit-user-select: none;
+  border-bottom: 1px solid @split-line-color;
 
   > a {
     font-weight: bold;
     display: inline-block;
     text-align: center;
-    color: white;
+    color: @dark-alpha-3;
     width: 24px;
 
     &:hover {
       cursor: pointer;
-      color: white;
+      color: @dark-alpha-2;
+    }
+
+    &.@{calendarPrefixCls}-decade-panel-prev-century-btn,
+    &.@{calendarPrefixCls}-decade-panel-next-century-btn {
+      color: @normal-alpha-4;
+      &:hover {
+        color: @normal-alpha-4;
+      }
     }
   }
 }
 
 .@{calendarPrefixCls}-decade-panel-century {
-  color: white;
+  color: @dark-alpha-3;
 }
 
 .@{calendarPrefixCls}-decade-panel-prev-century-btn, .@{calendarPrefixCls}-decade-panel-next-century-btn {
   position: absolute;
-  top: 9px;
+  top: 5px;
   line-height: 24px;
   display: inline-block;
   border-radius: @global-border-radius;
   text-indent: -999em;
-  &:hover {
-    background: @calendar-header-hover-bg;
-  }
   &:after {
         position: absolute;
         left: 0;
         top: 0;
         width: 24px;
-        font-family: 'kuma';
-        font-size: 20px;
+        font-family: 'uxcore';
+        font-size: 16px;
         text-indent: 0;
     }
 }
@@ -66,7 +71,7 @@
   user-select: none;
   left: 10px;
   &:after {
-      content: '\e616';
+      content: '\e65e';
   }
 }
 
@@ -74,14 +79,9 @@
   user-select: none;
   right: 10px;
   &:after {
-      content: '\e615';
+      content: '\e65f';
   }
 }
-
-.@{calendarPrefixCls}-decade-panel-body {
-  padding: 9px 10px 10px;
-}
-
 .@{calendarPrefixCls}-decade-panel-table {
   table-layout: fixed;
   width: 100%;
@@ -96,8 +96,8 @@
 .@{calendarPrefixCls}-decade-panel-decade {
   display: block;
   margin: 0 auto;
-  color: #666;
-  border-radius: 4px 4px;
+  color: @dark-alpha-3;
+  border-radius: @global-border-radius;
   height: 36px;
   padding: 0;
   background: transparent;
@@ -105,8 +105,8 @@
   text-align: center;
 
   &:hover {
-    background: @brand-primary-lighter;
-    color: @text-primary-color;
+    background: @brand-primary-alpha-7;
+    color: @dark-alpha-3;
     cursor: pointer;
   }
 }

@@ -2,6 +2,18 @@
 
 ---
 
+## 0.9.3
+
+* `FIXED` incorrect style
+
+## 0.9.2
+
+* `CHANGED` default format for pmam timepicker
+
+## 0.9.1
+
+* `CHANGED` month & year panel style change
+
 ## 0.9.0
 
 * `CHANGED` use new icon

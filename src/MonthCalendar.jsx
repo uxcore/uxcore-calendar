@@ -6,7 +6,7 @@ const Icon = require('uxcore-icon');
 const util = require('./util');
 
 const CalendarLocale = {};
-const { getCalendarContainer } = util;
+const { getCalendarContainer, generalizeFormat } = util;
 
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
@@ -118,7 +118,7 @@ class MonthCalendar extends React.Component {
           return (
             <span className="kuma-calendar-picker-input" style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
-                value={value && value.format(p.format)}
+                value={value && value.format(generalizeFormat(p.format))}
                 readOnly
                 disabled={me.props.disabled}
                 placeholder={this.props.placeholder}

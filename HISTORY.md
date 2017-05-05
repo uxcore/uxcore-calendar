@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.4
+
+* `FIXED` add `generalizeFormat` in Month & Year Calendar
+
 ## 0.9.3
 
 * `FIXED` incorrect style

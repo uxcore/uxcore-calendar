@@ -55,8 +55,8 @@ function getCalendarContainer() {
 }
 
 /**
-   * for forward compatability
-   */
+ * for forward compatability
+ */
 function generalizeFormat(format) {
   return format.replace(/y|d/g, value => value.toUpperCase());
 }

@@ -11,7 +11,7 @@ CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
 
 
-const { getCalendarContainer } = util;
+const { getCalendarContainer, generalizeFormat } = util;
 
 class YearCalendar extends React.Component {
   constructor(props) {
@@ -120,7 +120,7 @@ class YearCalendar extends React.Component {
           return (
             <span className="kuma-calendar-picker-input" style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
-                value={value && value.format(p.format)}
+                value={value && value.format(generalizeFormat(p.format))}
                 readOnly
                 disabled={me.props.disabled}
                 placeholder={this.props.placeholder}

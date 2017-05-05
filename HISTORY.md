@@ -2,6 +2,11 @@
 
 ---
 
+## 0.9.5
+
+* `FIXED` HeaderSelect can select disabled date.
+* `FIXED` HeaderSelect style adaption
+
 ## 0.9.4
 
 * `FIXED` add `generalizeFormat` in Month & Year Calendar

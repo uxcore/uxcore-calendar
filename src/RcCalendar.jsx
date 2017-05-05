@@ -172,9 +172,7 @@ const Calendar = React.createClass({
     this.onSelect(value);
   },
   onHeaderSelect(value) {
-    this.onSelect(value, {
-      source: 'dateInput',
-    });
+    this.setValue(value);
   },
   onToday() {
     const { value } = this.state;

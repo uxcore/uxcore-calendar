@@ -2,6 +2,11 @@
 
 ---
 
+## 0.9.6
+
+* `FIXED` range picker selected color
+* `FIXED` range picker width
+
 ## 0.9.5
 
 * `FIXED` HeaderSelect can select disabled date.

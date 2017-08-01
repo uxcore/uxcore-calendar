@@ -71,6 +71,8 @@ class Demo extends React.Component {
             showTime={false}
             showSecond={false}
             locale="en-us"
+            yearSelectOffset={20}
+            yearSelectTotal={50}
             disabledTime={() => (
               {
                 disabledMinutes: () => disabledMinutes,

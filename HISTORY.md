@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.7
+
+* `CHANGED` support new props `yearSelectOffset` & `yearSelectTotal` 
+
 ## 0.9.6
 
 * `FIXED` range picker selected color

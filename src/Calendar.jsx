@@ -148,6 +148,8 @@ class Calendar extends React.Component {
       showDateInput: p.showDateInput,
       locale: CalendarLocale[p.locale],
       prefixCls: 'kuma-calendar',
+      yearSelectOffset: p.yearSelectOffset,
+      yearSelectTotal: p.yearSelectTotal,
     };
     const pickerOptions = {
       disabled: p.disabled,

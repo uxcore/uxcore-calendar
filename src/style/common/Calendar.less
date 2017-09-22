@@ -4,22 +4,19 @@
   }
   &-input-wrap {
     position: relative;
-    height: 35px;
-    padding: 5px 10px;
+    height: @trigger-height-large - 1;
     border-bottom: 1px solid @split-line-color;
     &:after {
       content: '';
       clear: both;
     }
   }
-
   &-date-input-wrap {
     overflow: hidden;
+    height: 100%;
   }
-
   &-time-picker {
-    float: left;
-    // border-left: 1px solid @split-line-color;
+    float: left; // border-left: 1px solid @split-line-color;
     height: 340px;
     background-color: white;
     &-panel {
@@ -51,38 +48,34 @@
   &-time-picker-wrap {
     float: left;
     width: 100%;
-
     .@{timePickerClass} {
       width: 100%;
-
       &-input {
         padding: 0;
         border: 1px solid transparent;
-        outline: 0;;
-        height:22px;
+        outline: 0;
+        ;
+        height: 22px;
       }
-
       &-icon {
         display: none;
       }
     }
   }
-
   &-input {
     border: 1px solid transparent;
+    padding: 5px 12px;
     width: 100%;
+    height: 100%;
     font-size: 12px;
-    color: #666;
+    color: @dark-alpha-2;
     cursor: text;
     line-height: 1.5;
     outline: 0;
-    height: 23px;
-
     &-invalid {
       border-color: red;
     }
   }
-
   &-clear-btn {
     z-index: 9999;
     position: absolute;
@@ -96,7 +89,6 @@
     top: 6px;
     margin: 0;
   }
-
   &-clear-btn:after {
     content: "x";
     font-size: 12px;
@@ -106,7 +98,6 @@
     width: 20px;
     transition: color 0.3s ease;
   }
-
   &-clear-btn:hover:after {
     color: #666;
   }
@@ -118,53 +109,48 @@
   }
 }
 
-
 @keyframes calendarSlideInDown {
-    0% {
-        opacity: 0;
-        transform: translate(0, 10px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
+  0% {
+    opacity: 0;
+    transform: translate(0, 10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes calendarSlideOutDown {
-    0% {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(0, 10px);
-    }
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, 10px);
+  }
 }
 
 @keyframes calendarSlideInUp {
-    0% {
-        opacity: 0;
-        transform: translate(0, -10px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
+  0% {
+    opacity: 0;
+    transform: translate(0, -10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes calendarSlideOutUp {
-    0% {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(0, -10px);
-    }
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -10px);
+  }
 }
 
 .@{calendarPrefixCls}-picker-placement-bottomLeft {
@@ -237,13 +223,13 @@
     color: @text-disabled-color;
     background-color: @bg-disabled-color;
   }
-  .kuma-calendar-trigger-icon,
+  .@{calendarPrefixCls}-trigger-icon,
   .kuma-icon-close {
     position: absolute;
     color: @normal-alpha-4;
-    top: 7px;
+    top: (@trigger-height-large - 24) / 2;
     right: 10px;
-    transition: color .3s ease,opacity .15s ease;
+    transition: color .3s ease, opacity .15s ease;
   }
   .kuma-icon-close {
     opacity: 0;
@@ -253,8 +239,34 @@
     .kuma-icon-close {
       opacity: 1;
     }
-    .kuma-calendar-trigger-icon__has-clear {
+    .@{calendarPrefixCls}-trigger-icon__has-clear {
       opacity: 0;
     }
+  }
+}
+
+.@{calendarPrefixCls}-picker-input-middle {
+  .@{calendarPrefixCls}-trigger-icon,
+  .kuma-icon-close {
+    top: (@trigger-height-middle - 24) / 2;
+  }
+}
+
+.@{calendarPrefixCls}-middle {
+  .@{calendarPrefixCls}-input-wrap {
+    height: @trigger-height-middle - 1;
+  }
+}
+
+.@{calendarPrefixCls}-picker-input-small {
+  .@{calendarPrefixCls}-trigger-icon,
+  .kuma-icon-close {
+    top: (@trigger-height-small - 24) / 2;
+  }
+}
+
+.@{calendarPrefixCls}-small {
+  .@{calendarPrefixCls}-input-wrap {
+    height: @trigger-height-small - 1;
   }
 }

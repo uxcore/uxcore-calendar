@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.8
+
+* `CHANGED` support new prop `size`
+
 ## 0.9.7
 
 * `CHANGED` support new props `yearSelectOffset` & `yearSelectTotal` 

@@ -7,7 +7,7 @@
   text-align: left;
   background-color: #fff;
   border-radius: 3px;
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.15);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
   background-clip: padding-box;
   border: 1px solid #ccc;
   line-height: 1.5;
@@ -25,7 +25,7 @@
   }
   &-header {
     padding: 0 10px;
-    height: 36px;
+    height: @trigger-height-large;
     line-height: 30px;
     background-color: @normal-alpha-9;
     text-align: center;
@@ -57,7 +57,6 @@
         content: '\e65b';
       }
     }
-    
   }
   &-ym-select,
   &-my-select {
@@ -100,8 +99,7 @@
         transition: color 0.15s @transition-ease, background-color 0.15s @transition-ease;
         padding-right: 25px;
       }
-    }
-    // &.@{calendarSelectPrefixCls}-open {
+    } // &.@{calendarSelectPrefixCls}-open {
     //   border: 1px solid @border-color;
     // }
     .@{calendarSelectPrefixCls}-arrow {
@@ -162,15 +160,13 @@
     }
   }
   &-next-year-btn {
-    right: 0;
-    // display: none;
+    right: 0; // display: none;
     &:after {
       content: '\e65f';
     }
   }
   &-prev-year-btn {
-    left: 0;
-    // display: none;
+    left: 0; // display: none;
     &:after {
       content: '\e65e';
     }
@@ -302,5 +298,61 @@
         color: #bbb;
       }
     }
+  }
+}
+
+
+.@{calendarPrefixCls}-middle {
+  .@{calendarPrefixCls}-header {
+    height: @trigger-height-middle;
+    line-height: @trigger-height-middle - 1;
+  }
+  .@{calendarPrefixCls}-ym-select,
+  .@{calendarPrefixCls}-my-select {
+    line-height: @trigger-height-middle - 1;
+  }
+  .@{calendarPrefixCls}-prev-month-btn,
+  .@{calendarPrefixCls}-next-month-btn,
+  .@{calendarPrefixCls}-prev-year-btn,
+  .@{calendarPrefixCls}-next-year-btn {
+    top: (@trigger-height-middle - 26) / 2;
+  }
+  .@{calendarPrefixCls}-cell {
+    padding: 3px 0;
+  } 
+  .@{calendarPrefixCls}-date-panel {
+    width: 288px;
+  }
+  .@{calendarPrefixCls}-table {
+    width: 266px;
+    margin: 9px 11px;
+  }
+}
+
+.@{calendarPrefixCls}-small {
+  .@{calendarPrefixCls}-header {
+    height: @trigger-height-small;
+    line-height: @trigger-height-small - 1;
+  }
+  .@{calendarPrefixCls}-ym-select,
+  .@{calendarPrefixCls}-my-select {
+    line-height: @trigger-height-small - 1;
+  }
+  .@{calendarPrefixCls}-prev-month-btn,
+  .@{calendarPrefixCls}-next-month-btn,
+  .@{calendarPrefixCls}-prev-year-btn,
+  .@{calendarPrefixCls}-next-year-btn {
+    top: (@trigger-height-small - 26) / 2;
+  }
+  .@{calendarPrefixCls}-date {
+    width: 28px;
+    height: 28px;
+  }
+  .@{calendarPrefixCls}-date-panel {
+    width: 268px;
+  }
+  .@{calendarPrefixCls}-table {
+    width: 252px;
+    margin: 7px 8px;
   }
 }

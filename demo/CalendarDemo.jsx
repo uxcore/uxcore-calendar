@@ -73,6 +73,7 @@ class Demo extends React.Component {
             locale="en-us"
             yearSelectOffset={20}
             yearSelectTotal={50}
+            size="small"
             disabledTime={() => (
               {
                 disabledMinutes: () => disabledMinutes,

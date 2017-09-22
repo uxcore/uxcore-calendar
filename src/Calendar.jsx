@@ -112,6 +112,7 @@ class Calendar extends React.Component {
         [p.className]: !!p.className,
         'kuma-calendar-two-time-panel': timePaneNumber === 2,
         'kuma-calendar-one-time-panel': timePaneNumber === 1,
+        [`kuma-calendar-${p.size}`]: !!p.size,
       }),
       style: p.style,
       contentRender: (current, value) => {
@@ -187,6 +188,13 @@ class Calendar extends React.Component {
       triggerStyle.width = p.inputWidth;
     }
 
+    const inputClassName = classnames('kuma-input', {
+      [`kuma-input-${p.size}-size`]: !!p.size,
+    });
+
+    const triggerClassName = classnames('kuma-calendar-picker-input', {
+      [`kuma-calendar-picker-input-${p.size}`]: !!p.size,
+    });
 
     return (
       <Datepicker
@@ -203,13 +211,13 @@ class Calendar extends React.Component {
             newValue = '';
           }
           return (
-            <span className="kuma-calendar-picker-input" style={triggerStyle} ref={me.saveRef('trigger')}>
+            <span className={triggerClassName} style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
                 value={newValue}
                 readOnly
                 disabled={me.props.disabled}
                 placeholder={this.props.placeholder}
-                className="kuma-input"
+                className={inputClassName}
               />
               {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
@@ -251,6 +259,7 @@ Calendar.propTypes = {
   showTime: React.PropTypes.bool,
   showHour: React.PropTypes.bool,
   getPopupContainer: React.PropTypes.func,
+  size: React.PropTypes.oneOf(['large', 'middle', 'small']),
 };
 
 

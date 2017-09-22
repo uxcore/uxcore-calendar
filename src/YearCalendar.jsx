@@ -3,6 +3,7 @@ const RcYearCalendar = require('./RcYearCalendar');
 const React = require('react');
 const moment = require('moment');
 const Icon = require('uxcore-icon');
+const classnames = require('classnames');
 const util = require('./util');
 
 const CalendarLocale = {};
@@ -62,20 +63,14 @@ class YearCalendar extends React.Component {
     const me = this;
     const p = me.props;
     const calendarOptions = {
-      className: p.className,
+      className: classnames(p.className, {
+        [`kuma-calendar-${p.size}`]: !!p.size,
+      }),
       style: p.style,
       locale: CalendarLocale[p.locale],
       showDateInput: p.showDateInput,
       orient: ['top', 'left'],
       prefixCls: 'kuma-calendar',
-      // disabledDate: (current) => {
-      //   if (typeof p.disabledDate === 'function' && current) {
-      //     const date = current.clone();
-      //     date.getTime = current.valueOf;
-      //     return p.disabledDate(date);
-      //   }
-      //   return false;
-      // },
     };
     const pickerOptions = {
       disabled: p.disabled,
@@ -109,6 +104,14 @@ class YearCalendar extends React.Component {
       triggerStyle.width = p.inputWidth;
     }
 
+    const inputClassName = classnames('kuma-input', {
+      [`kuma-input-${p.size}-size`]: !!p.size,
+    });
+
+    const triggerClassName = classnames('kuma-calendar-picker-input', {
+      [`kuma-calendar-picker-input-${p.size}`]: !!p.size,
+    });
+
     return (
       <Datepicker
         calendar={calendar}
@@ -118,13 +121,13 @@ class YearCalendar extends React.Component {
         {({ value }) => {
           const showClear = value && !p.disabled;
           return (
-            <span className="kuma-calendar-picker-input" style={triggerStyle} ref={me.saveRef('trigger')}>
+            <span className={triggerClassName} style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
                 value={value && value.format(generalizeFormat(p.format))}
                 readOnly
                 disabled={me.props.disabled}
                 placeholder={this.props.placeholder}
-                className="kuma-input"
+                className={inputClassName}
               />
               {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear

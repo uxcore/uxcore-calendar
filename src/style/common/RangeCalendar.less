@@ -1,10 +1,13 @@
-@input-box-height: 35px;
+@input-box-height-large: @trigger-height-large - 1;
+@input-box-height-middle: @trigger-height-middle - 1;
+@input-box-height-small: @trigger-height-small - 1;
+
 .@{calendarPrefixCls}-range {
   overflow: hidden;
-  width: 602px;
   &-part {
     position: relative;
-    float: left;
+    // float: left;
+    display: inline-block;
     .@{calendarPrefixCls}-time-picker {
       top: 69px;
       &-panel {
@@ -14,15 +17,18 @@
       }
     }
   }
-  .@{calendarPrefixCls}-date-panel {
-    width: auto;
+  .@{calendarPrefixCls}-panel {
+    .@{calendarPrefixCls}-date-panel {
+      width: auto;
+      white-space: nowrap;
+    }
   }
   &-middle {
     position: absolute;
     margin-left: -10px;
     text-align: center;
-    height: @input-box-height;
-    line-height: @input-box-height;
+    height: @input-box-height-large;
+    line-height: @input-box-height-large;
   }
   .@{calendarPrefixCls}-date-panel::after {
     content: ".";
@@ -32,12 +38,12 @@
     visibility: hidden;
   }
   .@{calendarPrefixCls}-input-wrap {
-    height: @input-box-height;
+    height: @input-box-height-large;
   }
   .@{calendarPrefixCls}-input,
   .@{timePickerClass}-input {
     padding: 1px 7px;
-    height: 22px;
+    height: 100%;
   }
   .@{calendarPrefixCls}-body,
   .@{calendarPrefixCls}-decade-panel-body,
@@ -68,7 +74,7 @@
   }
   .@{calendarPrefixCls}-year-panel,
   .@{calendarPrefixCls}-month-panel {
-    top: @input-box-height;
+    top: @input-box-height-large;
   }
   .@{calendarPrefixCls}-month-panel .@{calendarPrefixCls}-year-panel {
     top: 0;
@@ -102,10 +108,27 @@
     text-align: right;
   }
   .@{calendarPrefixCls}-footer {
+    display: none;
     border-top: none;
     padding: 0;
     &-btn {
       padding: 10px 12px 10px 0;
+    }
+  }
+}
+
+.@{calendarPrefixCls}-small {
+  &.@{calendarPrefixCls}-range {
+    .@{calendarPrefixCls}-input-wrap {
+      height: @input-box-height-small;
+    }
+  }
+}
+
+.@{calendarPrefixCls}-middle {
+  &.@{calendarPrefixCls}-range {
+    .@{calendarPrefixCls}-input-wrap {
+      height: @input-box-height-middle;
     }
   }
 }

@@ -9,9 +9,9 @@
   }
 
   &-selected-value {
-    height: 36px;
+    height: @trigger-height-large;
     font-size: 14px;
-    line-height: 35px;
+    line-height: @trigger-height-large - 1;
     text-align: center;
     font-weight: bold;
     border-bottom: 1px solid @split-line-color;
@@ -33,3 +33,25 @@
     line-height: 1.5;
   }
 }
+
+.@{calendarPrefixCls}-small {
+  .@{timePrefixClass}-panel {
+    &-selected-value  {
+      height: @trigger-height-small;
+      line-height: @trigger-height-small - 1;
+    }
+    &-select li {
+      height: 28px;
+    }
+  }
+}
+
+.@{calendarPrefixCls}-middle {
+  .@{timePrefixClass}-panel {
+    &-selected-value  {
+      height: @trigger-height-middle;
+      line-height: @trigger-height-middle - 1;
+    }
+  }
+}
+

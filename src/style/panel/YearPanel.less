@@ -156,3 +156,29 @@
     font-family: 'kuma' !important;
   }
 }
+
+.@{calendarPrefixCls}-small {
+  .@{calendarPrefixCls}-year-panel-header {
+    height: @trigger-height-small;
+    line-height: @trigger-height-small - 1;
+  }
+  .@{calendarPrefixCls}-year-panel-prev-decade-btn,
+  .@{calendarPrefixCls}-year-panel-next-decade-btn {
+    top: (@trigger-height-small - 26) / 2;
+  }
+  .@{calendarPrefixCls}-year-panel-table {
+    height: 228px;
+    width: 266px;
+  }
+}
+
+.@{calendarPrefixCls}-middle {
+  .@{calendarPrefixCls}-year-panel-header {
+    height: @trigger-height-middle;
+    line-height: @trigger-height-middle - 1;
+  }
+  .@{calendarPrefixCls}-year-panel-prev-decade-btn,
+  .@{calendarPrefixCls}-year-panel-next-decade-btn {
+    top: (@trigger-height-middle - 26) / 2;
+  }
+}

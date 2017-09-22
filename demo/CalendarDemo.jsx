@@ -73,7 +73,7 @@ class Demo extends React.Component {
             locale="en-us"
             yearSelectOffset={20}
             yearSelectTotal={50}
-            size="small"
+            size="middle"
             disabledTime={() => (
               {
                 disabledMinutes: () => disabledMinutes,
@@ -132,6 +132,7 @@ class Demo extends React.Component {
             showSecond={false}
             showHour
             showTime
+            size="small"
             timezone={8}
             locale="en-us"
             value={this.state.value}
@@ -155,6 +156,7 @@ class Demo extends React.Component {
         >
           <p>月份</p>
           <MonthCalendar
+            size="middle"
             value={this.state.value}
             disabledDate={disabledDate}
             onSelect={this.onSelect.bind(this)}
@@ -168,9 +170,12 @@ class Demo extends React.Component {
           }}
         >
           <p>年份</p>
-          <YearCalendar value={this.state.value} onSelect={this.onSelect.bind(this)} disabledDate={(current) => {
-            console.log(current);
-          }}
+          <YearCalendar
+            size="large"
+            value={this.state.value}
+            onSelect={this.onSelect.bind(this)} disabledDate={(current) => {
+              console.log(current);
+            }}
           />
         </div>
         <div
@@ -209,6 +214,7 @@ class Demo extends React.Component {
         >
           <p>区间日期选择</p>
           <RangeCalendar
+            size="large"
             value={this.state.rangeValue}
             onSelect={(v, formatted) => {
               console.log(v, formatted);

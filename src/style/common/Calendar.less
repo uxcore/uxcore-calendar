@@ -256,6 +256,14 @@
   .@{calendarPrefixCls}-input-wrap {
     height: @trigger-height-middle - 1;
   }
+  .@{calendarPrefixCls}-time-picker {
+    height: 316px;
+  }
+  .@{calendarPrefixCls}-time-picker-panel {
+    .kuma-time-picker-panel-select {
+      height: 316 - @trigger-height-middle;
+    }
+  }
 }
 
 .@{calendarPrefixCls}-picker-input-small {
@@ -268,5 +276,13 @@
 .@{calendarPrefixCls}-small {
   .@{calendarPrefixCls}-input-wrap {
     height: @trigger-height-small - 1;
+  }
+  .@{calendarPrefixCls}-time-picker {
+    height: 300px;
+  }
+  .@{calendarPrefixCls}-time-picker-panel {
+    .kuma-time-picker-panel-select {
+      height: 300 - @trigger-height-small;
+    }
   }
 }

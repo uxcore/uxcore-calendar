@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.9
+
+* `CHANGED` style adjustment for small & middle size
+
 ## 0.9.8
 
 * `CHANGED` support new prop `size`

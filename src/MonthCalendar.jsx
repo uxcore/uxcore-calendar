@@ -1,10 +1,11 @@
-const Datepicker = require('rc-calendar/lib/Picker');
-const RcMonthCalendar = require('rc-calendar/lib/MonthCalendar');
-const React = require('react');
-const moment = require('moment');
-const Icon = require('uxcore-icon');
-const classnames = require('classnames');
-const util = require('./util');
+import Datepicker from 'rc-calendar/lib/Picker';
+import RcMonthCalendar from 'rc-calendar/lib/MonthCalendar';
+import React from 'react';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import Icon from 'uxcore-icon';
+import classnames from 'classnames';
+import util from './util';
 
 const CalendarLocale = {};
 const { getCalendarContainer, generalizeFormat } = util;
@@ -99,7 +100,7 @@ class MonthCalendar extends React.Component {
 
     const triggerStyle = {};
     if (p.inputWidth) {
-      triggerStyle.width = p.inputWidth;
+      triggerStyle.width = `${p.inputWidth}px`;
     }
 
     const inputClassName = classnames('kuma-input', {
@@ -109,7 +110,6 @@ class MonthCalendar extends React.Component {
     const triggerClassName = classnames('kuma-calendar-picker-input', {
       [`kuma-calendar-picker-input-${p.size}`]: !!p.size,
     });
-
     return (
       <Datepicker
         calendar={calendar}
@@ -118,10 +118,16 @@ class MonthCalendar extends React.Component {
       >
         {({ value }) => {
           const showClear = value && !p.disabled;
+          let newValue = value;
+          if (newValue) {
+            newValue = newValue.format(generalizeFormat(p.format));
+          } else {
+            newValue = '';
+          }
           return (
             <span className={triggerClassName} style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
-                value={value && value.format(generalizeFormat(p.format))}
+                value={newValue}
                 readOnly
                 disabled={me.props.disabled}
                 placeholder={this.props.placeholder}
@@ -156,13 +162,13 @@ MonthCalendar.defaultProps = {
   hasTrigger: true,
 };
 MonthCalendar.propTypes = {
-  format: React.PropTypes.string,
-  inputWidth: React.PropTypes.number,
-  placeholder: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
-  locale: React.PropTypes.string,
-  getPopupContainer: React.PropTypes.func,
+  format: PropTypes.string,
+  inputWidth: PropTypes.number,
+  placeholder: PropTypes.string,
+  onSelect: PropTypes.func,
+  locale: PropTypes.string,
+  getPopupContainer: PropTypes.func,
 };
 
 
-module.exports = MonthCalendar;
+export default MonthCalendar;

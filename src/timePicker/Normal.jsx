@@ -1,5 +1,6 @@
 import TimePicker from 'rc-time-picker/lib/Panel';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Normal = (props) => {
   const { showHour, showSecond, value } = props;
@@ -15,9 +16,9 @@ const Normal = (props) => {
 };
 
 Normal.propTypes = {
-  showHour: React.PropTypes.bool,
-  showSecond: React.PropTypes.bool,
-  value: React.PropTypes.any,
+  showHour: PropTypes.bool,
+  showSecond: PropTypes.bool,
+  value: PropTypes.any,
 };
 
 export default Normal;

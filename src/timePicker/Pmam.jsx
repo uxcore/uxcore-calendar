@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 class Pmam extends React.Component {
@@ -27,7 +28,8 @@ class Pmam extends React.Component {
               key={item}
               className={classnames(`${prefixCls}-pmam-item`, {
                 [`${prefixCls}-pmam-item-active`]: item === pmam,
-              })} onClick={this.handleClick.bind(this, item)}
+              })}
+              onClick={this.handleClick.bind(this, item)}
             >{locale[item]}</li>
           ))}
         </ul>
@@ -37,10 +39,10 @@ class Pmam extends React.Component {
 }
 
 Pmam.propTypes = {
-  locale: React.PropTypes.object,
-  value: React.PropTypes.any,
-  prefixCls: React.PropTypes.string,
-  onChange: React.PropTypes.func,
+  locale: PropTypes.object,
+  value: PropTypes.any,
+  prefixCls: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 Pmam.defaultProps = {

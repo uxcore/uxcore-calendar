@@ -1,6 +1,8 @@
 // customized rc-calendar https://github.com/react-component/calendar/blob/master/src/Calendar.jsx
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import CreateClass from 'create-react-class';
 import ReactDOM from 'react-dom';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
@@ -49,7 +51,7 @@ function goDay(direction) {
   return goTime.call(this, direction, 'days');
 }
 
-const Calendar = React.createClass({
+const Calendar = CreateClass({
   propTypes: {
     disabledDate: PropTypes.func,
     disabledTime: PropTypes.any,

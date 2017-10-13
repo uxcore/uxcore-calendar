@@ -7,15 +7,16 @@
  */
 
 
-const MonthCalendar = require('./MonthCalendar');
-const YearCalendar = require('./YearCalendar');
-const Calendar = require('./Calendar');
-const RangeCalendar = require('./RangeCalendar');
-const Pmam = require('./timePicker/Pmam');
+import MonthCalendar from './MonthCalendar';
+
+import YearCalendar from './YearCalendar';
+import Calendar from './Calendar';
+import RangeCalendar from './RangeCalendar';
+import Pmam from './timePicker/Pmam';
 
 Calendar.MonthCalendar = MonthCalendar;
 Calendar.YearCalendar = YearCalendar;
 Calendar.RangeCalendar = RangeCalendar;
 Calendar.Pmam = Pmam;
 
-module.exports = Calendar;
+export default Calendar;

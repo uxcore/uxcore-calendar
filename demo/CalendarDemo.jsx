@@ -1,9 +1,9 @@
-const Button = require('uxcore-button');
-const CalendarLocale = require('rc-calendar/lib/locale/zh_CN');
-const React = require('react');
-const moment = require('moment');
-const RcCalendar = require('../src/RcCalendar');
-const Calendar = require('../src');
+import Button from 'uxcore-button';
+import CalendarLocale from 'rc-calendar/lib/locale/zh_CN';
+import React from 'react';
+import moment from 'moment';
+import RcCalendar from '../src/RcCalendar';
+import Calendar from '../src';
 
 
 const { MonthCalendar, YearCalendar, RangeCalendar } = Calendar;
@@ -57,13 +57,12 @@ class Demo extends React.Component {
       prefixCls: 'kuma-calendar',
       value: moment(me.state.value).locale('zh-cn'),
     };
-
     return (
       <div className="kuma-form">
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>基本</p>
@@ -87,7 +86,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>日期格式</p>
@@ -101,7 +100,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>选择日期</p>
@@ -110,7 +109,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>范围</p>
@@ -123,7 +122,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>时间选择</p>
@@ -142,7 +141,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>禁用</p>
@@ -151,7 +150,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>月份</p>
@@ -166,14 +165,15 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>年份</p>
           <YearCalendar
             size="large"
             value={this.state.value}
-            onSelect={this.onSelect.bind(this)} disabledDate={(current) => {
+            onSelect={this.onSelect.bind(this)}
+            disabledDate={(current) => {
               console.log(current);
             }}
           />
@@ -181,7 +181,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>显示日期和日程</p>
@@ -199,7 +199,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>直接渲染面板</p>
@@ -209,7 +209,7 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: 400,
+            width: '400px',
           }}
         >
           <p>区间日期选择</p>
@@ -227,4 +227,4 @@ class Demo extends React.Component {
   }
 }
 
-module.exports = Demo;
+export default Demo;

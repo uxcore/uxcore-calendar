@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DecadePanel from 'rc-calendar/lib/decade/DecadePanel';
 
@@ -67,7 +68,7 @@ class YearPanel extends React.Component {
           year,
           title: content,
         };
-        index++;
+        index += 1;
       }
     }
     return years;

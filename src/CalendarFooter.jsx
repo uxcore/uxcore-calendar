@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from 'uxcore-button';
 
 const CalendarFooter = props => (
@@ -8,8 +9,8 @@ const CalendarFooter = props => (
 );
 
 CalendarFooter.propTypes = {
-  locale: React.PropTypes.object,
-  prefixCls: React.PropTypes.string,
+  locale: PropTypes.object,
+  prefixCls: PropTypes.string,
   onOk: React.PropTypes.func,
 };
 

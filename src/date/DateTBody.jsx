@@ -213,8 +213,7 @@ const DateTBody = CreateClass({
             onMouseEnter={disabled ?
               undefined : (props.onDayHover && props.onDayHover.bind(null, current)) || undefined}
             role="gridcell"
-            title={
-              getTitleString(current)}
+            title={getTitleString(current)} 
             className={cls}
           >
             {dateHtml}

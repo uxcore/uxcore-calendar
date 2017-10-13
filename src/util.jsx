@@ -32,7 +32,7 @@ const generateContentRender = (str, lang = 'zh-cn') =>
           leave: isLeave,
           schedule: isSchedule,
         })}
-      >{current.getDayOfMonth()}</span>
+      >{current.getDayOfMonth()}</span>,
     );
     if (isSchedule) {
       content.push(<span key="bottom-line" className="kuma-calendar-date-decoration" />);

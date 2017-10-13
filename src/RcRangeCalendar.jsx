@@ -154,8 +154,7 @@ const RangeCalendar = CreateClass({
       }
       changed = true;
     } else {
-      let startValue;
-      startValue = type === 'end' ? selectedValue[0] : hoverValue[0];
+      const startValue = type === 'end' ? selectedValue[0] : hoverValue[0];
       if (startValue && this.compare(startValue, value) <= 0) {
         nextSelectedValue = [startValue, value];
         changed = true;
@@ -277,7 +276,7 @@ const RangeCalendar = CreateClass({
   // get disabled hours for second picker
   getEndDisableTime() {
     const { selectedValue, value } = this.state;
-    const startValue = selectedValue && selectedValue[0] || value.clone();
+    const startValue = (selectedValue && selectedValue[0]) || value.clone();
     // if startTime and endTime is same day..
     // the second time picker will not able to pick time before first time picker
     if (!selectedValue[1] || startValue.isSame(selectedValue[1], 'day')) {
@@ -346,7 +345,7 @@ const RangeCalendar = CreateClass({
       });
     }
     this.props.onChange(selectedValue);
-    if (direct || selectedValue[0] && selectedValue[1]) {
+    if ((direct || selectedValue[0]) && selectedValue[1]) {
       this.setState({
         hoverValue: [],
       });
@@ -429,7 +428,7 @@ const RangeCalendar = CreateClass({
 
     return (
       <div
-        ref="root"
+        ref={(c) => { this.root = c; }}
         className={classes}
         style={props.style}
         tabIndex="0"

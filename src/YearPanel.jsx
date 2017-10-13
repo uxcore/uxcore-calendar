@@ -149,12 +149,14 @@ class YearPanel extends React.Component {
             <a
               className={`${prefixCls}-prev-decade-btn`}
               role="button"
+              tabIndex={0}
               onClick={this.previousDecade}
               title={locale.previousDecade}
             />
             <a
               className={`${prefixCls}-decade-select`}
               role="button"
+              tabIndex={0}
               onClick={this.showDecadePanel}
               title={locale.decadeSelect}
             >
@@ -167,6 +169,7 @@ class YearPanel extends React.Component {
             <a
               className={`${prefixCls}-next-decade-btn`}
               role="button"
+              tabIndex={0}
               onClick={this.nextDecade}
               title={locale.nextDecade}
             />

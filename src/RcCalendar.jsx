@@ -3,7 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CreateClass from 'create-react-class';
-import ReactDOM from 'react-dom';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import DateInput from 'rc-calendar/lib/date/DateInput';
@@ -188,8 +187,9 @@ const Calendar = CreateClass({
       source: 'todayButton',
     });
   },
-  getRootDOMNode() {
-    return ReactDOM.findDOMNode(this);
+  getRootDOMNode(node) {
+    // return ReactDOM.findDOMNode(this);
+    return this[node];
   },
   openTimePicker() {
     this.setState({
@@ -226,7 +226,7 @@ const Calendar = CreateClass({
     }) : null;
     const dateInputElement = props.showDateInput ? (
       <DateInput
-        ref="dateInput"
+        ref={(c) => { this.dateInput = c; }}
         format={this.getFormat()}
         key="date-input"
         value={value}
@@ -279,12 +279,12 @@ const Calendar = CreateClass({
             : null}
         </div>
         {timePicker && showTimePicker ?
-            (<CalendarFooter
-              locale={locale}
-              prefixCls={prefixCls}
-              onOk={this.onOk}
-            />)
-            : null}
+          (<CalendarFooter
+            locale={locale}
+            prefixCls={prefixCls}
+            onOk={this.onOk}
+          />)
+          : null}
       </div>),
     ];
 

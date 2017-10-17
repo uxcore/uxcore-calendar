@@ -1,10 +1,12 @@
 import expect from 'expect.js';
 import React from 'react';
-import { mount } from 'enzyme';
-
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
 import Calendar from '../src';
 
 const { YearCalendar } = Calendar;
+
+Enzyme.configure({ adapter: new Adapter() });
 
 describe('YearCalendar', () => {
   let wrapper;
@@ -13,11 +15,11 @@ describe('YearCalendar', () => {
   });
   it('value', () => {
     wrapper = mount(<YearCalendar value="2016-01-02" />);
-    expect(wrapper.find('.kuma-calendar-picker-input > input').node.value).to.be('2016');
+    expect(wrapper.find('.kuma-calendar-picker-input > input').instance().value).to.be('2016');
   });
 
   it('defaultValue', () => {
     wrapper = mount(<YearCalendar defaultValue="2016-01-02" />);
-    expect(wrapper.find('.kuma-calendar-picker-input > input').node.value).to.be('2016');
+    expect(wrapper.find('.kuma-calendar-picker-input > input').instance().value).to.be('2016');
   });
 });

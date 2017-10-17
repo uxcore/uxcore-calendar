@@ -1,13 +1,13 @@
-const Datepicker = require('rc-calendar/lib/Picker');
-const React = require('react');
-const classnames = require('classnames');
-const moment = require('moment');
-const Icon = require('uxcore-icon');
-
-const TimePicker = require('./timePicker/Normal');
-const RcCalendar = require('./RcCalendar');
-const util = require('./util');
-const i18n = require('./locale');
+import Datepicker from 'rc-calendar/lib/Picker';
+import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import moment from 'moment';
+import Icon from 'uxcore-icon';
+import TimePicker from './timePicker/Normal';
+import RcCalendar from './RcCalendar';
+import util from './util';
+import i18n from './locale';
 
 const CalendarLocale = {};
 
@@ -168,7 +168,6 @@ class Calendar extends React.Component {
     } else {
       pickerOptions.value = calendarOptions.defaultValue = null;
     }
-
     if (p.defaultValue) {
       const value = this.getDate(p.defaultValue);
       calendarOptions.defaultValue = value;
@@ -185,7 +184,7 @@ class Calendar extends React.Component {
 
     const triggerStyle = {};
     if (p.inputWidth) {
-      triggerStyle.width = p.inputWidth;
+      triggerStyle.width = `${p.inputWidth}px`;
     }
 
     const inputClassName = classnames('kuma-input', {
@@ -249,21 +248,21 @@ Calendar.defaultProps = {
   transitionName: 'calendarSlideUp',
 };
 Calendar.propTypes = {
-  format: React.PropTypes.string,
-  inputWidth: React.PropTypes.number,
-  placeholder: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
-  locale: React.PropTypes.string,
-  hasTrigger: React.PropTypes.bool,
-  showSecond: React.PropTypes.bool,
-  showTime: React.PropTypes.bool,
-  showHour: React.PropTypes.bool,
-  getPopupContainer: React.PropTypes.func,
-  size: React.PropTypes.oneOf(['large', 'middle', 'small']),
+  format: PropTypes.string,
+  inputWidth: PropTypes.number,
+  placeholder: PropTypes.string,
+  onSelect: PropTypes.func,
+  locale: PropTypes.string,
+  hasTrigger: PropTypes.bool,
+  showSecond: PropTypes.bool,
+  showTime: PropTypes.bool,
+  showHour: PropTypes.bool,
+  getPopupContainer: PropTypes.func,
+  size: PropTypes.oneOf(['large', 'middle', 'small']),
 };
 
 
 Calendar.CalendarPanel = RcCalendar;
 Calendar.util = util;
 
-module.exports = Calendar;
+export default Calendar;

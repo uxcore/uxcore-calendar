@@ -1,8 +1,8 @@
-const Formatter = require('uxcore-formatter');
-const Tooltip = require('uxcore-tooltip');
-const classnames = require('classnames');
-const i18n = require('./locale');
-const React = require('react');
+import React from 'react';
+import Formatter from 'uxcore-formatter';
+import Tooltip from 'uxcore-tooltip';
+import classnames from 'classnames';
+import i18n from './locale';
 
 /**
  * code should be an object like this {'xxxx-xx-xx': 'work/leave/schedule'}
@@ -32,7 +32,7 @@ const generateContentRender = (str, lang = 'zh-cn') =>
           leave: isLeave,
           schedule: isSchedule,
         })}
-      >{current.getDayOfMonth()}</span>
+      >{current.getDayOfMonth()}</span>,
     );
     if (isSchedule) {
       content.push(<span key="bottom-line" className="kuma-calendar-date-decoration" />);
@@ -61,7 +61,7 @@ function generalizeFormat(format) {
   return format.replace(/y|d/g, value => value.toUpperCase());
 }
 
-module.exports = {
+export default {
   generateContentRender,
   getCalendarContainer,
   generalizeFormat,

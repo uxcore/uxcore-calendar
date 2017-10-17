@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import CreateClass from 'create-react-class';
 import moment from 'moment';
 import classnames from 'classnames';
 import { syncTime, getTodayTime, isAllowedDate } from 'rc-calendar/lib/util/index';
@@ -55,7 +57,7 @@ function onInputSelect(direction, value) {
   this.fireSelectValueChange(selectedValue);
 }
 
-const RangeCalendar = React.createClass({
+const RangeCalendar = CreateClass({
   propTypes: {
     prefixCls: PropTypes.string,
     dateInputPlaceholder: PropTypes.any,
@@ -152,8 +154,7 @@ const RangeCalendar = React.createClass({
       }
       changed = true;
     } else {
-      let startValue;
-      startValue = type === 'end' ? selectedValue[0] : hoverValue[0];
+      const startValue = type === 'end' ? selectedValue[0] : hoverValue[0];
       if (startValue && this.compare(startValue, value) <= 0) {
         nextSelectedValue = [startValue, value];
         changed = true;
@@ -275,7 +276,7 @@ const RangeCalendar = React.createClass({
   // get disabled hours for second picker
   getEndDisableTime() {
     const { selectedValue, value } = this.state;
-    const startValue = selectedValue && selectedValue[0] || value.clone();
+    const startValue = (selectedValue && selectedValue[0]) || value.clone();
     // if startTime and endTime is same day..
     // the second time picker will not able to pick time before first time picker
     if (!selectedValue[1] || startValue.isSame(selectedValue[1], 'day')) {
@@ -344,7 +345,7 @@ const RangeCalendar = React.createClass({
       });
     }
     this.props.onChange(selectedValue);
-    if (direct || selectedValue[0] && selectedValue[1]) {
+    if ((direct || selectedValue[0]) && selectedValue[1]) {
       this.setState({
         hoverValue: [],
       });
@@ -427,7 +428,7 @@ const RangeCalendar = React.createClass({
 
     return (
       <div
-        ref="root"
+        ref={(c) => { this.root = c; }}
         className={classes}
         style={props.style}
         tabIndex="0"

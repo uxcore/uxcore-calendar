@@ -1,6 +1,8 @@
 // customized rc-calendar https://github.com/react-component/calendar/blob/master/
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import CreateClass from 'create-react-class';
 import DateConstants from 'rc-calendar/lib/date/DateConstants';
 import { getTitleString, getTodayTime } from 'rc-calendar/lib/util/';
 import classnames from 'classnames';
@@ -29,7 +31,7 @@ function getIdFromDate(date) {
   return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
 }
 
-const DateTBody = React.createClass({
+const DateTBody = CreateClass({
   propTypes: {
     contentRender: PropTypes.func,
     dateRender: PropTypes.func,
@@ -64,7 +66,7 @@ const DateTBody = React.createClass({
     const dateClass = `${prefixCls}-date`;
     const todayClass = `${prefixCls}-today`;
     const selectedClass = `${prefixCls}-selected-day`;
-    const selectedDateClass = `${prefixCls}-selected-date`;  // do not move with mouse operation
+    const selectedDateClass = `${prefixCls}-selected-date`; // do not move with mouse operation
     const inRangeClass = `${prefixCls}-in-range-cell`;
     const lastMonthDayClass = `${prefixCls}-last-month-cell`;
     const nextMonthDayClass = `${prefixCls}-next-month-btn-day`;
@@ -74,7 +76,7 @@ const DateTBody = React.createClass({
     const month1 = value.clone();
     month1.date(1);
     const day = month1.day();
-    const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
+    const lastMonthDiffDay = ((day + 7) - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
@@ -87,7 +89,7 @@ const DateTBody = React.createClass({
           current.add(passed, 'days');
         }
         dateTable.push(current);
-        passed++;
+        passed += 1;
       }
     }
     const tableHtml = [];
@@ -209,14 +211,15 @@ const DateTBody = React.createClass({
             key={passed}
             onClick={disabled ? undefined : props.onSelect.bind(null, current)}
             onMouseEnter={disabled ?
-              undefined : props.onDayHover && props.onDayHover.bind(null, current) || undefined}
+              undefined : (props.onDayHover && props.onDayHover.bind(null, current)) || undefined}
             role="gridcell"
-            title={getTitleString(current)} className={cls}
+            title={getTitleString(current)} 
+            className={cls}
           >
             {dateHtml}
           </td>);
 
-        passed++;
+        passed += 1;
       }
       tableHtml.push(
         <tr

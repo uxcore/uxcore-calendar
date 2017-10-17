@@ -1,10 +1,11 @@
-const Datepicker = require('rc-calendar/lib/Picker');
-const RcYearCalendar = require('./RcYearCalendar');
-const React = require('react');
-const moment = require('moment');
-const Icon = require('uxcore-icon');
-const classnames = require('classnames');
-const util = require('./util');
+import React from 'react';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import Icon from 'uxcore-icon';
+import classnames from 'classnames';
+import Datepicker from 'rc-calendar/lib/Picker';
+import RcYearCalendar from './RcYearCalendar';
+import util from './util';
 
 const CalendarLocale = {};
 
@@ -101,7 +102,7 @@ class YearCalendar extends React.Component {
 
     const triggerStyle = {};
     if (p.inputWidth) {
-      triggerStyle.width = p.inputWidth;
+      triggerStyle.width = `${p.inputWidth}px`;
     }
 
     const inputClassName = classnames('kuma-input', {
@@ -120,10 +121,14 @@ class YearCalendar extends React.Component {
       >
         {({ value }) => {
           const showClear = value && !p.disabled;
+          let newValue = value;
+          if (newValue === null) {
+            newValue = '';
+          }
           return (
             <span className={triggerClassName} style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
-                value={value && value.format(generalizeFormat(p.format))}
+                value={newValue && newValue.format(generalizeFormat(p.format))}
                 readOnly
                 disabled={me.props.disabled}
                 placeholder={this.props.placeholder}
@@ -158,12 +163,12 @@ YearCalendar.defaultProps = {
   hasTrigger: true,
 };
 YearCalendar.propTypes = {
-  format: React.PropTypes.string,
-  inputWidth: React.PropTypes.number,
-  placeholder: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
-  locale: React.PropTypes.string,
-  getPopupContainer: React.PropTypes.func,
+  format: PropTypes.string,
+  inputWidth: PropTypes.number,
+  placeholder: PropTypes.string,
+  onSelect: PropTypes.func,
+  locale: PropTypes.string,
+  getPopupContainer: PropTypes.func,
 };
 
-module.exports = YearCalendar;
+export default YearCalendar;

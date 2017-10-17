@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DecadePanel from 'rc-calendar/lib/decade/DecadePanel';
 
@@ -67,7 +68,7 @@ class YearPanel extends React.Component {
           year,
           title: content,
         };
-        index++;
+        index += 1;
       }
     }
     return years;
@@ -148,12 +149,14 @@ class YearPanel extends React.Component {
             <a
               className={`${prefixCls}-prev-decade-btn`}
               role="button"
+              tabIndex={0}
               onClick={this.previousDecade}
               title={locale.previousDecade}
             />
             <a
               className={`${prefixCls}-decade-select`}
               role="button"
+              tabIndex={0}
               onClick={this.showDecadePanel}
               title={locale.decadeSelect}
             >
@@ -166,6 +169,7 @@ class YearPanel extends React.Component {
             <a
               className={`${prefixCls}-next-decade-btn`}
               role="button"
+              tabIndex={0}
               onClick={this.nextDecade}
               title={locale.nextDecade}
             />

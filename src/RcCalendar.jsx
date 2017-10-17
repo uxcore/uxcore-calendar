@@ -1,7 +1,8 @@
 // customized rc-calendar https://github.com/react-component/calendar/blob/master/src/Calendar.jsx
 
-import React, { PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
+import CreateClass from 'create-react-class';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import DateInput from 'rc-calendar/lib/date/DateInput';
@@ -49,7 +50,7 @@ function goDay(direction) {
   return goTime.call(this, direction, 'days');
 }
 
-const Calendar = React.createClass({
+const Calendar = CreateClass({
   propTypes: {
     disabledDate: PropTypes.func,
     disabledTime: PropTypes.any,
@@ -186,8 +187,9 @@ const Calendar = React.createClass({
       source: 'todayButton',
     });
   },
-  getRootDOMNode() {
-    return ReactDOM.findDOMNode(this);
+  getRootDOMNode(node) {
+    // return ReactDOM.findDOMNode(this);
+    return this[node];
   },
   openTimePicker() {
     this.setState({
@@ -224,7 +226,7 @@ const Calendar = React.createClass({
     }) : null;
     const dateInputElement = props.showDateInput ? (
       <DateInput
-        ref="dateInput"
+        ref={(c) => { this.dateInput = c; }}
         format={this.getFormat()}
         key="date-input"
         value={value}
@@ -277,12 +279,12 @@ const Calendar = React.createClass({
             : null}
         </div>
         {timePicker && showTimePicker ?
-            (<CalendarFooter
-              locale={locale}
-              prefixCls={prefixCls}
-              onOk={this.onOk}
-            />)
-            : null}
+          (<CalendarFooter
+            locale={locale}
+            prefixCls={prefixCls}
+            onOk={this.onOk}
+          />)
+          : null}
       </div>),
     ];
 

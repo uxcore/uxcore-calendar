@@ -2,6 +2,11 @@
 
 ---
 
+
+## 0.9.10
+
+`CHANGED` fit React@15
+
 ## 0.9.9
 
 * `CHANGED` style adjustment for small & middle size

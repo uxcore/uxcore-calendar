@@ -70,6 +70,7 @@ class Demo extends React.Component {
           <p>基本</p>
           <Calendar
             showTime={false}
+            allowClear={false}
             showSecond={false}
             locale="en-us"
             yearSelectOffset={20}

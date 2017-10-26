@@ -120,7 +120,7 @@ class YearCalendar extends React.Component {
         {...pickerOptions}
       >
         {({ value }) => {
-          const showClear = value && !p.disabled;
+          const showClear = p.allowClear ? (value && !p.disabled) : false;
           let newValue = value;
           if (newValue === null) {
             newValue = '';
@@ -159,10 +159,12 @@ YearCalendar.defaultProps = {
   align: {
     offset: [0, 0],
   },
+  allowClear: true,
   showDateInput: false,
   hasTrigger: true,
 };
 YearCalendar.propTypes = {
+  allowClear: PropTypes.bool,
   format: PropTypes.string,
   inputWidth: PropTypes.number,
   placeholder: PropTypes.string,

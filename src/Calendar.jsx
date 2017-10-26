@@ -202,7 +202,7 @@ class Calendar extends React.Component {
         {...pickerOptions}
       >
         {({ value }) => {
-          const showClear = value && !p.disabled;
+          const showClear = p.allowClear ? (value && !p.disabled) : false;
           let newValue = value;
           if (newValue) {
             newValue = moment(value).format(generalizeFormat(this.getFormat()));
@@ -245,6 +245,7 @@ Calendar.defaultProps = {
   showHour: true,
   showDateInput: true,
   hasTrigger: true,
+  allowClear: true,
   transitionName: 'calendarSlideUp',
 };
 Calendar.propTypes = {
@@ -256,6 +257,7 @@ Calendar.propTypes = {
   hasTrigger: PropTypes.bool,
   showSecond: PropTypes.bool,
   showTime: PropTypes.bool,
+  allowClear: PropTypes.bool,
   showHour: PropTypes.bool,
   getPopupContainer: PropTypes.func,
   size: PropTypes.oneOf(['large', 'middle', 'small']),

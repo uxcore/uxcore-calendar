@@ -2,10 +2,14 @@
 
 ---
 
+## 0.9.11
+
+* `NEW` support new prop `allowClear`
+
 
 ## 0.9.10
 
-`CHANGED` fit React@15
+* `CHANGED` fit React@15
 
 ## 0.9.9
 

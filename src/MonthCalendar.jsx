@@ -117,7 +117,7 @@ class MonthCalendar extends React.Component {
         {...pickerOptions}
       >
         {({ value }) => {
-          const showClear = value && !p.disabled;
+          const showClear = p.allowClear ? (value && !p.disabled) : false;
           let newValue = value;
           if (newValue) {
             newValue = newValue.format(generalizeFormat(p.format));
@@ -152,6 +152,7 @@ MonthCalendar.displayName = 'MonthCalendar';
 MonthCalendar.defaultProps = {
   format: 'YYYY-MM',
   placeholder: '请选择月份',
+  allowClear: true,
   onSelect() { },
   locale: 'zh-cn',
   transitionName: 'calendarSlideUp',
@@ -162,6 +163,7 @@ MonthCalendar.defaultProps = {
   hasTrigger: true,
 };
 MonthCalendar.propTypes = {
+  allowClear: PropTypes.bool,
   format: PropTypes.string,
   inputWidth: PropTypes.number,
   placeholder: PropTypes.string,

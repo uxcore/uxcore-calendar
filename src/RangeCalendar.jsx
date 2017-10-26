@@ -195,7 +195,7 @@ class Calendar extends React.Component {
         {...pickerOptions}
       >
         {({ value }) => {
-          const showClear = value && !p.disabled;
+          const showClear = p.allowClear ? (value && !p.disabled) : false;
           let newValue = value;
           if (newValue) {
             newValue = newValue.map(item => moment(item).format(generalizeFormat(this.getFormat()))).join(' - ');
@@ -234,6 +234,7 @@ Calendar.defaultProps = {
   align: {
     offset: [0, 0],
   },
+  allowClear: true,
   showSecond: true,
   showHour: true,
   showDateInput: true,
@@ -246,6 +247,7 @@ Calendar.propTypes = {
   placeholder: PropTypes.string,
   onSelect: PropTypes.func,
   locale: PropTypes.string,
+  allowClear: PropTypes.bool,
   hasTrigger: PropTypes.bool,
   showSecond: PropTypes.bool,
   showTime: PropTypes.bool,

@@ -82,7 +82,7 @@ http://uxco.re/components/calendar/
 |yearSelectOffset | 年选择器中第一个年份与当前选中值之间的距离，例如当前为 1997 年，距离为 50，则最早可选择年份为 1947 年 | number | 50 | 0.9.7 |
 |yearSelectTotal| 年选择器中年份的总数，如最早可选为 1947 年，总数为 100，则可选年份范围为 1947 - 2047 | number | 100 | 0.9.7 |
 |size| 尺寸，支持 large/middle/small | string | large | 0.9.8 |
-|allowClear| 是否支持清空 | bool | true | 0.9.12 |
+|allowClear| 是否支持清空 | boolean | true | 0.9.12 |
 
 #### MonthCalendar
 
@@ -96,7 +96,7 @@ http://uxco.re/components/calendar/
 |onSelect|日期|function|无|
 |disabled|日期|boolean|false|
 |getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
-|allowClear| 是否支持清空 | bool | true | 0.9.12 |
+|allowClear| 是否支持清空 | boolean | true | 0.9.12 |
 
 #### YearCalendar
 
@@ -110,7 +110,7 @@ http://uxco.re/components/calendar/
 |onSelect|日期|function|无|
 |disabled|日期|boolean|false|
 |getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
-|allowClear| 是否支持清空 | bool | true | 0.9.12 |
+|allowClear| 是否支持清空 | boolean | true | 0.9.12 |
 
 #### util
 

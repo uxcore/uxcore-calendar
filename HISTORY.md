@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.13
+
+* `FIXED` timepicker style bug when calendar is shown around the border of the container.
+
 ## 0.9.11
 
 * `NEW` support new prop `allowClear`

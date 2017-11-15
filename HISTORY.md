@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.16
+
+* `CHNAGED` update `rc-time-picker` to ~2.4.0
+
 ## 0.9.15
 
 * `CHNAGED` update `rc-calendar` to ~8.4.0

@@ -11,7 +11,7 @@ const CalendarFooter = props => (
 CalendarFooter.propTypes = {
   locale: PropTypes.object,
   prefixCls: PropTypes.string,
-  onOk: React.PropTypes.func,
+  onOk: PropTypes.func,
 };
 
 CalendarFooter.defaultProps = {

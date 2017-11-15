@@ -131,7 +131,7 @@ class Demo extends React.Component {
           <p>时间选择</p>
           <Calendar
             hasTrigger
-            showSecond={false}
+            showSecond={true}
             showHour
             showTime
             size="small"

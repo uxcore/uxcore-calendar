@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.15
+
+* `CHNAGED` update `rc-calendar` to ~8.4.0
+
 ## 0.9.14
 
 * `CHANGED` support new prop `onOpenChange`

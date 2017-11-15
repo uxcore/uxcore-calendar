@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>35/35</span>
+        <span class='fraction'>44/44</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">87.5% </span>
+        <span class="strong">85% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>14/16</span>
+        <span class='fraction'>17/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/5</span>
+        <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>35/35</span>
+        <span class='fraction'>43/43</span>
       </div>
     </div>
   </div>
@@ -129,13 +129,54 @@
 84
 85
 86
-87</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -215,13 +256,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
 &nbsp;
-var Formatter = require('uxcore-formatter');
-var Tooltip = require('uxcore-tooltip');
-var classnames = require('classnames');
-var i18n = require('./locale');
-var React = require('react');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+&nbsp;
+var _react = require('react');
+&nbsp;
+var _react2 = _interopRequireDefault(_react);
+&nbsp;
+var _uxcoreFormatter = require('uxcore-formatter');
+&nbsp;
+var _uxcoreFormatter2 = _interopRequireDefault(_uxcoreFormatter);
+&nbsp;
+var _uxcoreTooltip = require('uxcore-tooltip');
+&nbsp;
+var _uxcoreTooltip2 = _interopRequireDefault(_uxcoreTooltip);
+&nbsp;
+var _classnames = require('classnames');
+&nbsp;
+var _classnames2 = _interopRequireDefault(_classnames);
+&nbsp;
+var _locale = require('./locale');
+&nbsp;
+var _locale2 = _interopRequireDefault(_locale);
+&nbsp;
+function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? <span class="branch-0 cbranch-no" title="branch not covered" >obj </span>: { 'default': obj }; }
 &nbsp;
 /**
  * code should be an object like this {'xxxx-xx-xx': 'work/leave/schedule'}
@@ -231,23 +293,23 @@ var generateContentRender = function generateContentRender(str) {
   return function contentRender(code, locale, current) {
     // see https://github.com/yiminghe/gregorian-calendar to get details about `current` API
     var time = current.getTime();
-    var date = Formatter.date(time, 'YYYY-MM-DD');
+    var date = _uxcoreFormatter2['default'].date(time, 'YYYY-MM-DD');
     var type = code[date];
     if (typeof type === 'string') {
       type = [type];
     } else <span class="missing-if-branch" title="else path not taken" >E</span>if (type === undefined) {
       type = [];
     }
-    var tipMap = i18n[locale];
+    var tipMap = _locale2['default'][locale];
     var content = [];
     var isWork = type.indexOf('work') !== -1;
     var isLeave = type.indexOf('leave') !== -1;
     var isSchedule = type.indexOf('schedule') !== -1;
-    content.push(React.createElement(
+    content.push(_react2['default'].createElement(
       'span',
       {
         key: 'date',
-        className: classnames({
+        className: (0, _classnames2['default'])({
           'kuma-calendar-date-content': true,
           work: isWork,
           leave: isLeave,
@@ -257,14 +319,14 @@ var generateContentRender = function generateContentRender(str) {
       current.getDayOfMonth()
     ));
     if (isSchedule) {
-      content.push(React.createElement('span', { key: 'bottom-line', className: 'kuma-calendar-date-decoration' }));
+      content.push(_react2['default'].createElement('span', { key: 'bottom-line', className: 'kuma-calendar-date-decoration' }));
     }
 &nbsp;
     if (isWork || isLeave) {
-      return React.createElement(
-        Tooltip,
+      return _react2['default'].createElement(
+        _uxcoreTooltip2['default'],
         { placement: 'right', trigger: ['hover'], overlay: tipMap[isWork ? 'work' : 'leave'] },
-        React.createElement(
+        _react2['default'].createElement(
           'div',
           { className: 'kuma-calendar-date-content-box' },
           content
@@ -272,7 +334,7 @@ var generateContentRender = function generateContentRender(str) {
       );
     }
     // only one child can be passed.
-    return React.createElement(
+    return _react2['default'].createElement(
       'div',
       { className: 'kuma-calendar-date-content-box' },
       content
@@ -296,18 +358,19 @@ function generalizeFormat(format) {
   });
 }
 &nbsp;
-module.exports = {
+exports['default'] = {
   generateContentRender: generateContentRender,
   getCalendarContainer: getCalendarContainer,
   generalizeFormat: generalizeFormat
 };
+module.exports = exports['default'];
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 22 2017 18:40:21 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 15 2017 11:41:35 GMT+0800 (CST)
 </div>
 </div>
 <script src="../prettify.js"></script>

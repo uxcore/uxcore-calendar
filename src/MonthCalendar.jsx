@@ -73,6 +73,7 @@ class MonthCalendar extends React.Component {
     };
     const pickerOptions = {
       disabled: p.disabled,
+      onOpenChange: p.onOpenChange,
       align: p.align,
       transitionName: p.transitionName,
       adjustOrientOnCalendarOverflow: false,

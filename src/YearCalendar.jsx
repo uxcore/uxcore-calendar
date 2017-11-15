@@ -77,6 +77,7 @@ class YearCalendar extends React.Component {
       disabled: p.disabled,
       align: p.align,
       transitionName: p.transitionName,
+      onOpenChange: p.onOpenChange,
       adjustOrientOnCalendarOverflow: false,
       prefixCls: 'kuma-calendar-picker',
       getCalendarContainer: p.getPopupContainer || getCalendarContainer,

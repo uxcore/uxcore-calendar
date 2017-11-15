@@ -62,29 +62,35 @@ http://uxco.re/components/calendar/
 
 0.8.0 之后，我们使用 moment 替代了 gregorianCalendar，在一些格式上和用法上有了一些变化。
 
+
+## 共通 Props
+
+|参数|说明|类型|默认值|版本|
+|---|----|---|------|---|
+|placeholder|占位符|string|请选择日期||
+|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`||
+|disabledDate|不可选择的日期|(currentDate) => boolean|无||
+|onSelect|当日期被选中时触发|function(date)|无||
+|disabled|禁用|boolean|false||
+|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | () => document.body||
+|size| 尺寸，支持 large/middle/small | string | large | 0.9.8 |
+|allowClear| 是否支持清空 | boolean | true | 0.9.12 |
+|onOpenChange | 在下拉面板展开、收起时调用 | function(open) | noop | 0.9.14 |
+
 ### props
 
 |参数|说明|类型|默认值|版本|
 |---|----|---|------|---|
 |value|日期|string/number|无||
 |defaultValue|日期|string/number|无||
-|placeholder|占位符|string|请选择日期||
 |format|展示的日期格式|string|'YYYY-MM-DD'||
-|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`||
-|disabledDate|不可选择的日期|(currentDate) => boolean|无||
 |disabledTime|不可选择的时间，返回格式见下文|function(date)||
-|onSelect|当日期被选中时触发|function(date)|无||
 |showTime|是否显示时间选择面板|boolean|false||
 |showHour|时间选择面板是否显示小时|boolean|true|0.6.3|
 |showSecond|时间选择面板是否显示秒|boolean|true|0.6.3|
-|disabled|禁用|boolean|false||
 |timePicker|自己传入定制的 timePicker|React Element|-||
-|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}||
 |yearSelectOffset | 年选择器中第一个年份与当前选中值之间的距离，例如当前为 1997 年，距离为 50，则最早可选择年份为 1947 年 | number | 50 | 0.9.7 |
 |yearSelectTotal| 年选择器中年份的总数，如最早可选为 1947 年，总数为 100，则可选年份范围为 1947 - 2047 | number | 100 | 0.9.7 |
-|size| 尺寸，支持 large/middle/small | string | large | 0.9.8 |
-|allowClear| 是否支持清空 | boolean | true | 0.9.12 |
-
 
 #### disabledTime 例子
 
@@ -112,13 +118,7 @@ function disabledTime() {
 |---|----|---|------|---|
 |value|日期|string/number|无|
 |defaultValue|日期|string/number|无|
-|placeholder|占位符|string|请选择日期|
 |format|展示的日期格式|string|'yyyy-MM'|
-|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`|
-|onSelect|当日期被选中时触发|function|无|
-|disabled|禁用|boolean|false|
-|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
-|allowClear| 是否支持清空 | boolean | true | 0.9.12 |
 
 ### YearCalendar Props
 
@@ -126,13 +126,7 @@ function disabledTime() {
 |---|----|---|------|---|
 |value|日期|string/number|无|
 |defaultValue|日期|string/number|无|
-|placeholder|占位符|string|请选择日期|
 |format|展示的日期格式|string|'yyyy'|
-|locale|`en-us`,`zh-cn` 和 `pl-pl`|string|`zh-cn`|
-|onSelect|当日期被选中时触发|function|无|
-|disabled|禁用|boolean|false|
-|getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | function(){return document.body;}|
-|allowClear| 是否支持清空 | boolean | true | 0.9.12 |
 
 ### RangeCalendar Props
 

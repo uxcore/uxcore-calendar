@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.14
+
+* `CHANGED` support new prop `onOpenChange`
+
 ## 0.9.13
 
 * `FIXED` timepicker style bug when calendar is shown around the border of the container.

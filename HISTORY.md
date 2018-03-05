@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.17
+
+* `FIXED` RangeCalendar locale presentation error if value is []
+
 ## 0.9.16
 
 * `CHNAGED` update `rc-time-picker` to ~2.4.0

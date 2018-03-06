@@ -115,7 +115,7 @@ const RangeCalendar = CreateClass({
       }
       this.setState(newState);
     }
-    if ('selectedValue' in nextProps) {
+    if ('selectedValue' in nextProps && Array.isArray(nextProps.selectedValue)) {
       newState.selectedValue = nextProps.selectedValue;
       this.setState(newState);
     }

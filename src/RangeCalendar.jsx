@@ -154,7 +154,7 @@ class Calendar extends React.Component {
       const value = this.getDate(p.value);
       pickerOptions.value = calendarOptions.defaultValue = value;
     } else {
-      pickerOptions.value = calendarOptions.defaultValue = null;
+      pickerOptions.value = calendarOptions.defaultValue = [];
     }
 
     if (p.defaultValue && Array.isArray(p.defaultValue) && p.defaultValue.length !== 0) {

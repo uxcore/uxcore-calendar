@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.18
+
+* `FIXED` RangeCalendar select error if value is null or []
+
 ## 0.9.17
 
 * `FIXED` RangeCalendar locale presentation error if value is []

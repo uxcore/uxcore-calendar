@@ -65,7 +65,7 @@ class Demo extends React.Component {
     };
     return (
       <div className="kuma-form">
-        {/* <div
+        <div
           className="kuma-form-field"
           style={{
             width: '400px',
@@ -212,7 +212,7 @@ class Demo extends React.Component {
           <p>直接渲染面板</p>
           <RcCalendar {...panelOptions} className="panel-demo" />
         </div>
-        <Button onClick={me.handleClick}>changeTime</Button> */}
+        <Button onClick={me.handleClick}>changeTime</Button>
         <div
           className="kuma-form-field"
           style={{

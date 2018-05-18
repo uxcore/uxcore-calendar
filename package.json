@@ -1,6 +1,6 @@
 {
  "name": "uxcore-calendar",
- "version": "0.9.20",
+ "version": "0.9.21",
  "description": "calendar componment for react",
  "main": "build/index.js",
  "scripts": {
@@ -59,7 +59,7 @@
   "create-react-class": "15.x",
   "rc-calendar": "~8.4.0",
   "rc-time-picker": "~2.4.0",
-  "rc-util": "3.x",
+  "rc-util": "4.x",
   "uxcore-button": "^0.4.6",
   "uxcore-formatter": "~0.1.2",
   "uxcore-icon": "^0.1.2",

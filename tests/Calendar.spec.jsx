@@ -53,7 +53,7 @@ describe('Calendar', () => {
       const dropdownWrapper = mount(wrapper.find('Trigger').instance().getComponent());
       expect(dropdownWrapper.find('.kuma-calendar-disabled-cell-first-of-row').length).not.to.be(0);
 
-      expect(dropdownWrapper.find('.kuma-calendar-disabled-cell-first-of-row').first().instance().title.replace(/\s+/, '')).to.be('2016年10月12日');
+      expect(dropdownWrapper.find('.kuma-calendar-disabled-cell-first-of-row').first().instance().title.replace(/\s+/, '')).to.be('2016/10/12');
     });
 
     it('generateContentRender', () => {

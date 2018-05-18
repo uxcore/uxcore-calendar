@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.22
+
+* `CHANGED` update `rc-time-picker` to `^3.0.0`
+
 ## 0.9.21
 
 * `CHANGED` update `rc-util` to `4.x`

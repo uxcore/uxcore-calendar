@@ -2,6 +2,11 @@
 
 ---
 
+## 0.10.0
+
+* `CHANGED` update `uxcore-select` to `^0.5.0`
+* `CHANGED` update `uxcore-calendar` to `^9.6.0`
+
 ## 0.9.22
 
 * `CHANGED` update `rc-time-picker` to `^3.0.0`

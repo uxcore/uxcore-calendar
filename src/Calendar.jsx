@@ -219,7 +219,7 @@ class Calendar extends React.Component {
                 placeholder={this.props.placeholder}
                 className={inputClassName}
               />
-              {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
+              {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
                 ? <i
                   className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"

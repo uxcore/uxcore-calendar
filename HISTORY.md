@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.23
+
+* `FIXED` less cascade & usage
+
 ## 0.9.22
 
 * `CHANGED` update `rc-time-picker` to `^3.0.0`

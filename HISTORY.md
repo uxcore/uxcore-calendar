@@ -5,7 +5,11 @@
 ## 0.10.0
 
 * `CHANGED` update `uxcore-select` to `^0.5.0`
-* `CHANGED` update `uxcore-calendar` to `^9.6.0`
+* `CHANGED` update `rc-calendar` to `^9.6.0`
+
+## 0.9.23
+
+* `FIXED` less cascade & usage
 
 ## 0.9.22
 

@@ -26,12 +26,7 @@ class Calendar extends React.Component {
     };
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentWillMount() {
-    const me = this;
-
-    me.TimePickerElement = (
+    this.TimePickerElement = (
       <TimePicker prefixCls="kuma-time-picker-panel" />
     );
   }

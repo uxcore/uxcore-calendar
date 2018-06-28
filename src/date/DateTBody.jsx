@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CreateClass from 'create-react-class';
+import createClass from 'create-react-class';
 import DateConstants from 'rc-calendar/lib/date/DateConstants';
 import { getTitleString, getTodayTime } from 'rc-calendar/lib/util/';
 import classnames from 'classnames';
@@ -31,7 +31,7 @@ function getIdFromDate(date) {
   return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
 }
 
-const DateTBody = CreateClass({
+const DateTBody = createClass({
   propTypes: {
     contentRender: PropTypes.func,
     dateRender: PropTypes.func,

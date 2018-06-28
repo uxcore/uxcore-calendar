@@ -1,68 +1,69 @@
 {
- "name": "uxcore-calendar",
- "version": "0.9.22",
- "description": "calendar componment for react",
- "main": "build/index.js",
- "scripts": {
-  "start": "uxcore-tools run start",
-  "server": "uxcore-tools run server",
-  "lint": "uxcore-tools run lint",
-  "build": "uxcore-tools run build",
-  "test": "uxcore-tools run test",
-  "coverage": "uxcore-tools run coverage",
-  "pub": "uxcore-tools run pub",
-  "dep": "uxcore-tools run dep",
-  "tnpm-dep": "uxcore-tools run tnpm-dep",
-  "chrome": "uxcore-tools run chrome",
-  "browsers": "uxcore-tools run browsers",
-  "saucelabs": "uxcore-tools run saucelabs",
-  "update": "uxcore-tools run update",
-  "tnpm-update": "uxcore-tools run tnpm-update"
- },
- "repository": {
-  "type": "git",
-  "url": "https://github.com/uxcore/uxcore-calendar.git"
- },
- "keywords": [
-  "react",
-  "react-calendar",
-  "react-uxcore-calendar",
-  "uxcore-calendar"
- ],
- "author": "vincent.bian",
- "license": "MIT",
- "bugs": {
-  "url": "https://github.com/uxcore/uxcore-calendar/issues"
- },
- "homepage": "https://github.com/uxcore/uxcore-calendar",
- "devDependencies": {
-  "console-polyfill": "^0.2.2",
-  "enzyme": "^3.0.0",
-  "expect.js": "~0.3.1",
-  "kuma-base": "1.x",
-  "react": "16.x",
-  "react-dom": "16.x",
-  "react-test-renderer": "16.x",
-  "uxcore-button": "*",
-  "uxcore-formatter": "*",
-  "uxcore-kuma": "*",
-  "uxcore-tools": "^0.3.0",
-  "babel-polyfill": "6.x",
-  "enzyme-adapter-react-16": "1.x"
- },
- "dependencies": {
-  "classnames": "^2.1.2",
-  "moment": "^2.17.1",
-  "object-assign": "^4.0.0",
-  "prop-types": "15.x",
-  "create-react-class": "15.x",
-  "rc-calendar": "^9.6.0",
-  "rc-time-picker": "^3.0.0",
-  "rc-util": "4.x",
-  "uxcore-button": "^0.4.6",
-  "uxcore-formatter": "^0.1.2",
-  "uxcore-icon": "^0.1.2",
-  "uxcore-select2": "^0.5.0",
-  "uxcore-tooltip": "^0.4.0"
- }
+  "name": "uxcore-calendar",
+  "version": "0.10.0",
+  "description": "calendar componment for react",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "uxcore-tools run start",
+    "server": "uxcore-tools run server",
+    "lint": "uxcore-tools run lint",
+    "build": "uxcore-tools run build",
+    "test": "uxcore-tools run test",
+    "coverage": "uxcore-tools run coverage",
+    "pub": "uxcore-tools run pub",
+    "dep": "uxcore-tools run dep",
+    "tnpm-dep": "uxcore-tools run tnpm-dep",
+    "chrome": "uxcore-tools run chrome",
+    "browsers": "uxcore-tools run browsers",
+    "saucelabs": "uxcore-tools run saucelabs",
+    "update": "uxcore-tools run update",
+    "tnpm-update": "uxcore-tools run tnpm-update"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uxcore/uxcore-calendar.git"
+  },
+  "keywords": [
+    "react",
+    "react-calendar",
+    "react-uxcore-calendar",
+    "uxcore-calendar"
+  ],
+  "author": "vincent.bian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/uxcore/uxcore-calendar/issues"
+  },
+  "homepage": "https://github.com/uxcore/uxcore-calendar",
+  "devDependencies": {
+    "console-polyfill": "^0.2.2",
+    "enzyme": "^3.0.0",
+    "expect.js": "~0.3.1",
+    "kuma-base": "1.x",
+    "react": "16.x",
+    "react-dom": "16.x",
+    "react-test-renderer": "16.x",
+    "uxcore-button": "*",
+    "uxcore-formatter": "*",
+    "uxcore-kuma": "*",
+    "uxcore-tools": "^0.3.0",
+    "babel-polyfill": "6.x",
+    "enzyme-adapter-react-16": "1.x"
+  },
+  "dependencies": {
+    "classnames": "^2.1.2",
+    "create-react-class": "15.x",
+    "moment": "^2.17.1",
+    "object-assign": "^4.0.0",
+    "prop-types": "15.x",
+    "rc-calendar": "^9.6.0",
+    "rc-time-picker": "^3.0.0",
+    "rc-util": "4.x",
+    "react-lifecycles-compat": "^3.0.4",
+    "uxcore-button": "^0.4.6",
+    "uxcore-formatter": "^0.1.2",
+    "uxcore-icon": "^0.1.2",
+    "uxcore-select2": "^0.5.0",
+    "uxcore-tooltip": "^0.4.0"
+  }
 }

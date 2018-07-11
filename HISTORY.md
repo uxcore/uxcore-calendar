@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.24
+
+* `CHANGED` value can be selected from end to start in cascade mode
+
 ## 0.9.23
 
 * `FIXED` less cascade & usage

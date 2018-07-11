@@ -15,16 +15,14 @@ function beforeCurrentMonthYear(current, today) {
   if (current.year() < today.year()) {
     return 1;
   }
-  return current.year() === today.year() &&
-    current.month() < today.month();
+  return current.year() === today.year() && current.month() < today.month();
 }
 
 function afterCurrentMonthYear(current, today) {
   if (current.year() > today.year()) {
     return 1;
   }
-  return current.year() === today.year() &&
-    current.month() > today.month();
+  return current.year() === today.year() && current.month() > today.month();
 }
 
 function getIdFromDate(date) {
@@ -37,7 +35,10 @@ const DateTBody = createClass({
     dateRender: PropTypes.func,
     disabledDate: PropTypes.func,
     prefixCls: PropTypes.string,
-    selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
+    selectedValue: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.arrayOf(PropTypes.object),
+    ]),
     value: PropTypes.object,
     hoverValue: PropTypes.any,
     showWeekNumber: PropTypes.bool,
@@ -50,10 +51,15 @@ const DateTBody = createClass({
   },
 
   render() {
-    const props = this.props;
+    const { props } = this;
     const {
-      contentRender, prefixCls, selectedValue, value,
-      showWeekNumber, dateRender, disabledDate,
+      contentRender,
+      prefixCls,
+      selectedValue,
+      value,
+      showWeekNumber,
+      dateRender,
+      disabledDate,
       hoverValue,
     } = props;
     let iIndex;
@@ -76,7 +82,7 @@ const DateTBody = createClass({
     const month1 = value.clone();
     month1.date(1);
     const day = month1.day();
-    const lastMonthDiffDay = ((day + 7) - value.localeData().firstDayOfWeek()) % 7;
+    const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
@@ -132,9 +138,11 @@ const DateTBody = createClass({
 
         if (selectedValue && Array.isArray(selectedValue)) {
           const rangeValue = hoverValue.length ? hoverValue : selectedValue;
+
           if (!isBeforeCurrentMonthYear && !isAfterCurrentMonthYear) {
             const startValue = rangeValue[0];
             const endValue = rangeValue[1];
+
             if (startValue) {
               if (isSameDay(current, startValue)) {
                 selected = true;
@@ -143,8 +151,15 @@ const DateTBody = createClass({
             if (startValue && endValue) {
               if (isSameDay(current, endValue)) {
                 selected = true;
-              } else if (current.isAfter(startValue, 'day') &&
-                current.isBefore(endValue, 'day')) {
+              } else if (
+                current.isAfter(startValue, 'day')
+                && current.isBefore(endValue, 'day')
+              ) {
+                cls += ` ${inRangeClass}`;
+              } else if (
+                current.isBefore(startValue, 'day')
+                && current.isAfter(endValue, 'day')
+              ) {
                 cls += ` ${inRangeClass}`;
               }
             }
@@ -191,7 +206,9 @@ const DateTBody = createClass({
         if (dateRender) {
           dateHtml = dateRender(current, value);
         } else {
-          const content = contentRender ? contentRender(current, value) : current.date();
+          const content = contentRender
+            ? contentRender(current, value)
+            : current.date();
           const dayOfweek = current.day();
           dateHtml = (
             <div
@@ -203,36 +220,42 @@ const DateTBody = createClass({
               aria-disabled={disabled}
             >
               {content}
-            </div>);
+            </div>
+          );
         }
 
         dateCells.push(
           <td
             key={passed}
             onClick={disabled ? undefined : props.onSelect.bind(null, current)}
-            onMouseEnter={disabled ?
-              undefined : (props.onDayHover && props.onDayHover.bind(null, current)) || undefined}
+            onMouseEnter={
+              disabled
+                ? undefined
+                : (props.onDayHover && props.onDayHover.bind(null, current))
+                  || undefined
+            }
             role="gridcell"
-            title={getTitleString(current)} 
+            title={getTitleString(current)}
             className={cls}
           >
             {dateHtml}
-          </td>);
+          </td>,
+        );
 
         passed += 1;
       }
       tableHtml.push(
-        <tr
-          key={iIndex}
-          role="row"
-        >
+        <tr key={iIndex} role="row">
           {weekNumberCell}
           {dateCells}
-        </tr>);
+        </tr>,
+      );
     }
-    return (<tbody className={`${prefixCls}-tbody`}>
-      {tableHtml}
-    </tbody>);
+    return (
+      <tbody className={`${prefixCls}-tbody`}>
+        {tableHtml}
+      </tbody>
+    );
   },
 });
 

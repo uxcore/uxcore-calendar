@@ -7,6 +7,10 @@
 * `CHANGED` update `uxcore-select` to `^0.5.0`
 * `CHANGED` update `rc-calendar` to `^9.6.0`
 
+## 0.9.24
+
+* `CHANGED` value can be selected from end to start in cascade mode
+
 ## 0.9.23
 
 * `FIXED` less cascade & usage

@@ -1,30 +1,28 @@
 // customized rc-calendar https://github.com/react-component/calendar/blob/master/
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import CreateClass from 'create-react-class';
-import DateConstants from 'rc-calendar/lib/date/DateConstants';
-import { getTitleString, getTodayTime } from 'rc-calendar/lib/util/';
-import classnames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import CreateClass from "create-react-class";
+import DateConstants from "rc-calendar/lib/date/DateConstants";
+import { getTitleString, getTodayTime } from "rc-calendar/lib/util/";
+import classnames from "classnames";
 
 function isSameDay(one, two) {
-  return one && two && one.isSame(two, 'day');
+  return one && two && one.isSame(two, "day");
 }
 
 function beforeCurrentMonthYear(current, today) {
   if (current.year() < today.year()) {
     return 1;
   }
-  return current.year() === today.year() &&
-    current.month() < today.month();
+  return current.year() === today.year() && current.month() < today.month();
 }
 
 function afterCurrentMonthYear(current, today) {
   if (current.year() > today.year()) {
     return 1;
   }
-  return current.year() === today.year() &&
-    current.month() > today.month();
+  return current.year() === today.year() && current.month() > today.month();
 }
 
 function getIdFromDate(date) {
@@ -37,24 +35,32 @@ const DateTBody = CreateClass({
     dateRender: PropTypes.func,
     disabledDate: PropTypes.func,
     prefixCls: PropTypes.string,
-    selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
+    selectedValue: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.arrayOf(PropTypes.object)
+    ]),
     value: PropTypes.object,
     hoverValue: PropTypes.any,
-    showWeekNumber: PropTypes.bool,
+    showWeekNumber: PropTypes.bool
   },
 
   getDefaultProps() {
     return {
-      hoverValue: [],
+      hoverValue: []
     };
   },
 
   render() {
     const props = this.props;
     const {
-      contentRender, prefixCls, selectedValue, value,
-      showWeekNumber, dateRender, disabledDate,
-      hoverValue,
+      contentRender,
+      prefixCls,
+      selectedValue,
+      value,
+      showWeekNumber,
+      dateRender,
+      disabledDate,
+      hoverValue
     } = props;
     let iIndex;
     let jIndex;
@@ -76,17 +82,18 @@ const DateTBody = CreateClass({
     const month1 = value.clone();
     month1.date(1);
     const day = month1.day();
-    const lastMonthDiffDay = ((day + 7) - value.localeData().firstDayOfWeek()) % 7;
+    const lastMonthDiffDay =
+      (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
-    lastMonth1.add(0 - lastMonthDiffDay, 'days');
+    lastMonth1.add(0 - lastMonthDiffDay, "days");
     let passed = 0;
     for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
         if (passed) {
           current = current.clone();
-          current.add(passed, 'days');
+          current.add(passed, "days");
         }
         dateTable.push(current);
         passed += 1;
@@ -132,9 +139,11 @@ const DateTBody = CreateClass({
 
         if (selectedValue && Array.isArray(selectedValue)) {
           const rangeValue = hoverValue.length ? hoverValue : selectedValue;
+
           if (!isBeforeCurrentMonthYear && !isAfterCurrentMonthYear) {
             const startValue = rangeValue[0];
             const endValue = rangeValue[1];
+
             if (startValue) {
               if (isSameDay(current, startValue)) {
                 selected = true;
@@ -143,8 +152,15 @@ const DateTBody = CreateClass({
             if (startValue && endValue) {
               if (isSameDay(current, endValue)) {
                 selected = true;
-              } else if (current.isAfter(startValue, 'day') &&
-                current.isBefore(endValue, 'day')) {
+              } else if (
+                current.isAfter(startValue, "day") &&
+                current.isBefore(endValue, "day")
+              ) {
+                cls += ` ${inRangeClass}`;
+              } else if (
+                current.isBefore(startValue, "day") &&
+                current.isAfter(endValue, "day")
+              ) {
                 cls += ` ${inRangeClass}`;
               }
             }
@@ -191,49 +207,53 @@ const DateTBody = CreateClass({
         if (dateRender) {
           dateHtml = dateRender(current, value);
         } else {
-          const content = contentRender ? contentRender(current, value) : current.date();
+          const content = contentRender
+            ? contentRender(current, value)
+            : current.date();
           const dayOfweek = current.day();
           dateHtml = (
             <div
               key={getIdFromDate(current)}
               className={classnames(dateClass, {
-                weekend: dayOfweek === 0 || dayOfweek === 6,
+                weekend: dayOfweek === 0 || dayOfweek === 6
               })}
               aria-selected={selected}
               aria-disabled={disabled}
             >
               {content}
-            </div>);
+            </div>
+          );
         }
 
         dateCells.push(
           <td
             key={passed}
             onClick={disabled ? undefined : props.onSelect.bind(null, current)}
-            onMouseEnter={disabled ?
-              undefined : (props.onDayHover && props.onDayHover.bind(null, current)) || undefined}
+            onMouseEnter={
+              disabled
+                ? undefined
+                : (props.onDayHover && props.onDayHover.bind(null, current)) ||
+                  undefined
+            }
             role="gridcell"
-            title={getTitleString(current)} 
+            title={getTitleString(current)}
             className={cls}
           >
             {dateHtml}
-          </td>);
+          </td>
+        );
 
         passed += 1;
       }
       tableHtml.push(
-        <tr
-          key={iIndex}
-          role="row"
-        >
+        <tr key={iIndex} role="row">
           {weekNumberCell}
           {dateCells}
-        </tr>);
+        </tr>
+      );
     }
-    return (<tbody className={`${prefixCls}-tbody`}>
-      {tableHtml}
-    </tbody>);
-  },
+    return <tbody className={`${prefixCls}-tbody`}>{tableHtml}</tbody>;
+  }
 });
 
 export default DateTBody;

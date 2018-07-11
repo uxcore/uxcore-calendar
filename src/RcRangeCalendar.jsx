@@ -7,8 +7,7 @@ import { syncTime, getTodayTime, isAllowedDate } from 'rc-calendar/lib/util/inde
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import RcRangeCalendarItem from './RcRangeCalendarItem';
 
-function noop() {
-}
+function noop() {}
 
 function getNow() {
   return moment();
@@ -23,7 +22,7 @@ function onValueChange(direction, current) {
 }
 
 function normalizeAnchor(props, init) {
-  const selectedValue = props.selectedValue || init && props.defaultSelectedValue || [];
+  const selectedValue = props.selectedValue || (init && props.defaultSelectedValue) || [];
   let value = props.value;
   if (Array.isArray(value)) {
     value = value[0];
@@ -32,7 +31,7 @@ function normalizeAnchor(props, init) {
   if (Array.isArray(defaultValue)) {
     defaultValue = defaultValue[0];
   }
-  return value || init && defaultValue || selectedValue[0] || init && getNow();
+  return value || (init && defaultValue) || selectedValue[0] || (init && getNow());
 }
 
 function generateOptions(length) {
@@ -158,6 +157,9 @@ const RangeCalendar = CreateClass({
       if (startValue && this.compare(startValue, value) <= 0) {
         nextSelectedValue = [startValue, value];
         changed = true;
+      } else if (startValue && this.compare(startValue, value) >= 0) {
+        nextSelectedValue = [value, startValue];
+        changed = true;
       } else {
         nextSelectedValue = [value];
         changed = true;
@@ -192,9 +194,9 @@ const RangeCalendar = CreateClass({
         hoverValue,
       });
     } else {
-      if (!hoverValue[0] || this.compare(value, hoverValue[0]) < 0) {
-        return;
-      }
+      // if (!hoverValue[0] || this.compare(value, hoverValue[0]) < 0) {
+      //   return;
+      // }
       hoverValue[1] = value;
       this.setState({
         hoverValue,
@@ -308,8 +310,10 @@ const RangeCalendar = CreateClass({
   },
 
   isAllowedDateAndTime(selectedValue) {
-    return isAllowedDate(selectedValue[0], this.props.disabledDate, this.disabledStartTime) &&
-    isAllowedDate(selectedValue[1], this.props.disabledDate, this.disabledEndTime);
+    return (
+      isAllowedDate(selectedValue[0], this.props.disabledDate, this.disabledStartTime) &&
+      isAllowedDate(selectedValue[1], this.props.disabledDate, this.disabledEndTime)
+    );
   },
 
   hasSelectedValue() {
@@ -381,14 +385,16 @@ const RangeCalendar = CreateClass({
     const state = this.state;
     const { showTimePicker } = state;
     const {
-      prefixCls, dateInputPlaceholder,
-      timePicker, showOk, locale, showClear,
-      showToday, type,
+      prefixCls,
+      dateInputPlaceholder,
+      timePicker,
+      showOk,
+      locale,
+      showClear,
+      showToday,
+      type,
     } = props;
-    const {
-      hoverValue,
-      selectedValue,
-    } = state;
+    const { hoverValue, selectedValue } = state;
     const className = {
       [props.className]: !!props.className,
       [prefixCls]: 1,
@@ -401,9 +407,12 @@ const RangeCalendar = CreateClass({
     const newProps = {
       selectedValue: state.selectedValue,
       onSelect: this.onSelect,
-      onDayHover: type === 'start' && selectedValue[1] ||
-      type === 'end' && selectedValue[0] || !!hoverValue.length ?
-        this.onDayHover : undefined,
+      onDayHover:
+        (type === 'start' && selectedValue[1]) ||
+        (type === 'end' && selectedValue[0]) ||
+        !!hoverValue.length
+          ? this.onDayHover
+          : undefined,
     };
 
     let placeholder1;
@@ -416,7 +425,7 @@ const RangeCalendar = CreateClass({
         placeholder1 = placeholder2 = dateInputPlaceholder;
       }
     }
-    const showOkButton = showOk === true || showOk !== false && !!timePicker;
+    const showOkButton = showOk === true || (showOk !== false && !!timePicker);
     const cls = classnames({
       [`${prefixCls}-footer`]: true,
       [`${prefixCls}-range-bottom`]: true,
@@ -428,20 +437,23 @@ const RangeCalendar = CreateClass({
 
     return (
       <div
-        ref={(c) => { this.root = c; }}
+        ref={c => {
+          this.root = c;
+        }}
         className={classes}
         style={props.style}
         tabIndex="0"
       >
         {props.renderSidebar()}
         <div className={`${prefixCls}-panel`}>
-          {showClear && selectedValue[0] && selectedValue[1] ?
+          {showClear && selectedValue[0] && selectedValue[1] ? (
             <a
               className={`${prefixCls}-clear-btn`}
               role="button"
               title={locale.clear}
               onClick={this.clear}
-            /> : null}
+            />
+          ) : null}
           <div
             className={`${prefixCls}-date-panel fn-clear`}
             onMouseLeave={type !== 'both' ? this.onDatePanelLeave : undefined}

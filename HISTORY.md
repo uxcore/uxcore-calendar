@@ -2,6 +2,10 @@
 
 ---
 
+## 0.10.2
+
+* `CHANGED` support js style export
+
 ## 0.10.0
 
 * `CHANGED` update `uxcore-select` to `^0.5.0`

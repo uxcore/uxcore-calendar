@@ -1,4 +1,4 @@
-.@{calendarPrefixCls}-month-panel {
+.@{__calendarPrefixCls}-month-panel {
   left: 0;
   top: 0;
   bottom: 0;
@@ -9,11 +9,11 @@
   outline: none;
 }
 
-.@{calendarPrefixCls}-month-panel-hidden {
+.@{__calendarPrefixCls}-month-panel-hidden {
   display: none;
 }
 
-.@{calendarPrefixCls}-month-panel-header {
+.@{__calendarPrefixCls}-month-panel-header {
   padding: 0 10px;
   height: @trigger-height-large;
   background-color: @normal-alpha-9;
@@ -33,8 +33,8 @@
       color: @dark-alpha-2;
       cursor: pointer;
     }
-    &.@{calendarPrefixCls}-month-panel-prev-year-btn,
-    &.@{calendarPrefixCls}-month-panel-next-year-btn {
+    &.@{__calendarPrefixCls}-month-panel-prev-year-btn,
+    &.@{__calendarPrefixCls}-month-panel-next-year-btn {
       color: @normal-alpha-4;
       &:hover {
         color: @normal-alpha-4;
@@ -43,8 +43,8 @@
   }
 }
 
-.@{calendarPrefixCls}-month-panel-prev-year-btn,
-.@{calendarPrefixCls}-month-panel-next-year-btn {
+.@{__calendarPrefixCls}-month-panel-prev-year-btn,
+.@{__calendarPrefixCls}-month-panel-next-year-btn {
   position: absolute;
   top: (@trigger-height-large - 26) / 2;
   line-height: 24px;
@@ -63,7 +63,7 @@
   }
 }
 
-.@{calendarPrefixCls}-month-panel-prev-year-btn {
+.@{__calendarPrefixCls}-month-panel-prev-year-btn {
   user-select: none;
   left: 10px;
   &:after {
@@ -71,7 +71,7 @@
   }
 }
 
-.@{calendarPrefixCls}-month-panel-next-year-btn {
+.@{__calendarPrefixCls}-month-panel-next-year-btn {
   user-select: none;
   right: 10px;
   &:after {
@@ -79,35 +79,35 @@
   }
 }
 
-.@{calendarPrefixCls}-month-panel .@{calendarPrefixCls}-month-panel-year-select {
+.@{__calendarPrefixCls}-month-panel .@{__calendarPrefixCls}-month-panel-year-select {
   width: 180px;
 }
 
-.@{calendarPrefixCls}-month-panel-year-select-content {
+.@{__calendarPrefixCls}-month-panel-year-select-content {
   display: inline-block;
   line-height: 24px;
   padding: 0 8px;
   border-radius: @global-border-radius;
 }
 
-.@{calendarPrefixCls}-month-panel-year-select-arrow {
+.@{__calendarPrefixCls}-month-panel-year-select-arrow {
   display: none;
 }
 
-.@{calendarPrefixCls}-month-panel-body {
+.@{__calendarPrefixCls}-month-panel-body {
   // padding: 9px 10px 10px;
 }
 
-.@{calendarPrefixCls}-month-panel-table {
+.@{__calendarPrefixCls}-month-panel-table {
   table-layout: fixed;
   width: 100%;
   height: 255px;
   border-collapse: separate;
 }
 
-.@{calendarPrefixCls}-month-panel-cell {
+.@{__calendarPrefixCls}-month-panel-cell {
   text-align: center;
-  .@{calendarPrefixCls}-month-panel-month {
+  .@{__calendarPrefixCls}-month-panel-month {
     display: block;
     width: 60px;
     margin: 0 auto;
@@ -124,7 +124,7 @@
     }
   }
   &-disabled {
-    .@{calendarPrefixCls}-month-panel-month {
+    .@{__calendarPrefixCls}-month-panel-month {
       color: #bfbfbf;
       background: #f3f3f3;
       &:hover {
@@ -135,7 +135,7 @@
   }
 }
 
-.@{calendarPrefixCls}-month-panel-selected-cell .@{calendarPrefixCls}-month-panel-month {
+.@{__calendarPrefixCls}-month-panel-selected-cell .@{__calendarPrefixCls}-month-panel-month {
   background: @brand-primary;
   color: #fff;
   &:hover {
@@ -143,28 +143,28 @@
   }
 }
 
-.@{calendarPrefixCls}-small {
-  .@{calendarPrefixCls}-month-panel-header {
+.@{__calendarPrefixCls}-small {
+  .@{__calendarPrefixCls}-month-panel-header {
     height: @trigger-height-small;
     line-height: @trigger-height-small - 1;
   }
-  .@{calendarPrefixCls}-month-panel-prev-year-btn,
-  .@{calendarPrefixCls}-month-panel-next-year-btn {
+  .@{__calendarPrefixCls}-month-panel-prev-year-btn,
+  .@{__calendarPrefixCls}-month-panel-next-year-btn {
     top: (@trigger-height-small - 26) / 2;
   }
-  .@{calendarPrefixCls}-month-panel-table {
+  .@{__calendarPrefixCls}-month-panel-table {
     height: 228px;
     width: 266px;
   }
 }
 
-.@{calendarPrefixCls}-middle {
-  .@{calendarPrefixCls}-month-panel-header {
+.@{__calendarPrefixCls}-middle {
+  .@{__calendarPrefixCls}-month-panel-header {
     height: @trigger-height-middle;
     line-height: @trigger-height-middle - 1;
   }
-  .@{calendarPrefixCls}-month-panel-prev-year-btn,
-  .@{calendarPrefixCls}-month-panel-next-year-btn {
+  .@{__calendarPrefixCls}-month-panel-prev-year-btn,
+  .@{__calendarPrefixCls}-month-panel-next-year-btn {
     top: (@trigger-height-middle - 26) / 2;
   }
 }

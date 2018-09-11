@@ -1,4 +1,4 @@
-.@{calendarPrefixCls}-full {
+.@{__calendarPrefixCls}-full {
   &-header {
     padding: 5px 10px;
     text-align: center;
@@ -48,14 +48,14 @@
   }
 }
 
-.@{calendarPrefixCls}-fullscreen {
+.@{__calendarPrefixCls}-fullscreen {
   width: auto;
 
-  .@{calendarPrefixCls}-full-header {
+  .@{__calendarPrefixCls}-full-header {
     border-bottom: none;
   }
 
-  .@{calendarPrefixCls} {
+  .@{__calendarPrefixCls} {
     &-column-header {
       text-align: right;
       padding-right: 12px;
@@ -63,8 +63,8 @@
     &-cell {
       padding: 0;
     }
-    &-cell .@{calendarPrefixCls}-date,
-    &-month-panel-cell .@{calendarPrefixCls}-month-panel-month {
+    &-cell .@{__calendarPrefixCls}-date,
+    &-month-panel-cell .@{__calendarPrefixCls}-month-panel-month {
       display: block;
       height: 116px;
       width: auto;
@@ -75,13 +75,13 @@
       text-align: right;
       padding-right: 8px;
     }
-    &-selected-day .@{calendarPrefixCls}-date,
-    &-month-panel-selected-cell .@{calendarPrefixCls}-month-panel-month {
+    &-selected-day .@{__calendarPrefixCls}-date,
+    &-month-panel-selected-cell .@{__calendarPrefixCls}-month-panel-month {
       background-color: #ebfaff;
       color: #666;
     }
-    &-today .@{calendarPrefixCls}-date,
-    &-month-panel-selected-cell .@{calendarPrefixCls}-month-panel-month {
+    &-today .@{__calendarPrefixCls}-date,
+    &-month-panel-selected-cell .@{__calendarPrefixCls}-month-panel-month {
       border-top-color: #3FC7FA;
       color: #3FC7FA;
     }

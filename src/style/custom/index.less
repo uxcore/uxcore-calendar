@@ -1,6 +1,6 @@
-.@{calendarPrefixCls}-date-content-box {
+.@{__calendarPrefixCls}-date-content-box {
     text-align: center;
-    .@{calendarPrefixCls}-date-content {
+    .@{__calendarPrefixCls}-date-content {
         &.leave {
             color: hsv(round(hsvhue(@brand-primary)), round(hsvsaturation(@brand-primary)) - 46%, round(hsvvalue(@brand-primary)) - 1%); // B1-1（s-46,b-1）
         }
@@ -8,7 +8,7 @@
             color: @text-primary-color;
         }
     }
-    .@{calendarPrefixCls}-date-decoration {
+    .@{__calendarPrefixCls}-date-decoration {
         display: block;
         border-bottom: 2px solid @brand-primary;
         width: 16px;
@@ -17,8 +17,8 @@
     }
 }
 
-.@{calendarPrefixCls}-selected-day .@{calendarPrefixCls}-date {
-    .@{calendarPrefixCls}-date-content {
+.@{__calendarPrefixCls}-selected-day .@{__calendarPrefixCls}-date {
+    .@{__calendarPrefixCls}-date-content {
         color: white;
     }
 }

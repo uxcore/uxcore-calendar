@@ -1,4 +1,4 @@
-.@{calendarPrefixCls} {
+.@{__calendarPrefixCls} {
   &-picker {
     .effect() {
       animation-duration: .3s;
@@ -25,27 +25,27 @@
       animation-play-state: paused;
     }
     &-slide-up {
-      &.@{calendarPrefixCls}-picker-slide-up-enter-active,
-      &.@{calendarPrefixCls}-picker-slide-up-appear-active {
-        &.@{calendarPrefixCls}-picker-placement-bottomLeft,
-        &.@{calendarPrefixCls}-picker-placement-bottomRight {
+      &.@{__calendarPrefixCls}-picker-slide-up-enter-active,
+      &.@{__calendarPrefixCls}-picker-slide-up-appear-active {
+        &.@{__calendarPrefixCls}-picker-placement-bottomLeft,
+        &.@{__calendarPrefixCls}-picker-placement-bottomRight {
           animation-name: rcDropdownSlideUpIn;
           animation-play-state: running;
         }
-        &.@{calendarPrefixCls}-picker-placement-topLeft,
-        &.@{calendarPrefixCls}-picker-placement-topRight {
+        &.@{__calendarPrefixCls}-picker-placement-topLeft,
+        &.@{__calendarPrefixCls}-picker-placement-topRight {
           animation-name: rcDropdownSlideDownIn;
           animation-play-state: running;
         }
       }
-      &.@{calendarPrefixCls}-picker-slide-up-leave-active {
-        &.@{calendarPrefixCls}-picker-placement-bottomLeft,
-        &.@{calendarPrefixCls}-picker-placement-bottomRight {
+      &.@{__calendarPrefixCls}-picker-slide-up-leave-active {
+        &.@{__calendarPrefixCls}-picker-placement-bottomLeft,
+        &.@{__calendarPrefixCls}-picker-placement-bottomRight {
           animation-name: rcDropdownSlideUpOut;
           animation-play-state: running;
         }
-        &.@{calendarPrefixCls}-picker-placement-topLeft,
-        &.@{calendarPrefixCls}-picker-placement-topRight {
+        &.@{__calendarPrefixCls}-picker-placement-topLeft,
+        &.@{__calendarPrefixCls}-picker-placement-topRight {
           animation-name: rcDropdownSlideDownOut;
           animation-play-state: running;
         }

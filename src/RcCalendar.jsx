@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CreateClass from 'create-react-class';
+import createClass from 'create-react-class';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import DateInput from 'rc-calendar/lib/date/DateInput';
@@ -50,7 +50,7 @@ function goDay(direction) {
   return goTime.call(this, direction, 'days');
 }
 
-const Calendar = CreateClass({
+const Calendar = createClass({
   propTypes: {
     disabledDate: PropTypes.func,
     disabledTime: PropTypes.any,

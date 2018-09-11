@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CreateClass from 'create-react-class';
+import createClass from 'create-react-class';
 import moment from 'moment';
 import classnames from 'classnames';
 import { syncTime, getTodayTime, isAllowedDate } from 'rc-calendar/lib/util/index';
+import { polyfill } from 'react-lifecycles-compat';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import RcRangeCalendarItem from './RcRangeCalendarItem';
 
@@ -56,7 +57,7 @@ function onInputSelect(direction, value) {
   this.fireSelectValueChange(selectedValue);
 }
 
-const RangeCalendar = CreateClass({
+const RangeCalendar = createClass({
   propTypes: {
     prefixCls: PropTypes.string,
     dateInputPlaceholder: PropTypes.any,
@@ -104,21 +105,21 @@ const RangeCalendar = CreateClass({
     };
   },
 
-  componentWillReceiveProps(nextProps) {
-    const newState = {};
-    if ('value' in nextProps) {
-      if (nextProps.value) {
-        newState.value = nextProps.value;
-      } else {
-        newState.value = normalizeAnchor(nextProps, 0);
-      }
-      this.setState(newState);
-    }
-    if ('selectedValue' in nextProps && Array.isArray(nextProps.selectedValue)) {
-      newState.selectedValue = nextProps.selectedValue;
-      this.setState(newState);
-    }
-  },
+  // componentWillReceiveProps(nextProps) {
+  //   const newState = {};
+  //   if ('value' in nextProps) {
+  //     if (nextProps.value) {
+  //       newState.value = nextProps.value;
+  //     } else {
+  //       newState.value = normalizeAnchor(nextProps, 0);
+  //     }
+  //     this.setState(newState);
+  //   }
+  //   if ('selectedValue' in nextProps && Array.isArray(nextProps.selectedValue)) {
+  //     newState.selectedValue = nextProps.selectedValue;
+  //     this.setState(newState);
+  //   }
+  // },
 
   onDatePanelEnter() {
     if (this.hasSelectedValue()) {
@@ -500,5 +501,22 @@ const RangeCalendar = CreateClass({
     );
   },
 });
+
+RangeCalendar.getDerivedStateFromProps = (props) => {
+  const newState = {};
+  if ('value' in props) {
+    if (props.value) {
+      newState.value = props.value;
+    } else {
+      newState.value = normalizeAnchor(props, 0);
+    }
+  }
+  if ('selectedValue' in props && Array.isArray(props.selectedValue)) {
+    newState.selectedValue = props.selectedValue;
+  }
+  return newState;
+};
+
+polyfill(RangeCalendar);
 
 export default RangeCalendar;

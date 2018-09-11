@@ -1,14 +1,14 @@
 // customized rc-calendar https://github.com/react-component/calendar/blob/master/
 
-import React from "react";
-import PropTypes from "prop-types";
-import CreateClass from "create-react-class";
-import DateConstants from "rc-calendar/lib/date/DateConstants";
-import { getTitleString, getTodayTime } from "rc-calendar/lib/util/";
-import classnames from "classnames";
+import React from 'react';
+import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
+import DateConstants from 'rc-calendar/lib/date/DateConstants';
+import { getTitleString, getTodayTime } from 'rc-calendar/lib/util/';
+import classnames from 'classnames';
 
 function isSameDay(one, two) {
-  return one && two && one.isSame(two, "day");
+  return one && two && one.isSame(two, 'day');
 }
 
 function beforeCurrentMonthYear(current, today) {
@@ -29,7 +29,7 @@ function getIdFromDate(date) {
   return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
 }
 
-const DateTBody = CreateClass({
+const DateTBody = createClass({
   propTypes: {
     contentRender: PropTypes.func,
     dateRender: PropTypes.func,
@@ -37,21 +37,21 @@ const DateTBody = CreateClass({
     prefixCls: PropTypes.string,
     selectedValue: PropTypes.oneOfType([
       PropTypes.object,
-      PropTypes.arrayOf(PropTypes.object)
+      PropTypes.arrayOf(PropTypes.object),
     ]),
     value: PropTypes.object,
     hoverValue: PropTypes.any,
-    showWeekNumber: PropTypes.bool
+    showWeekNumber: PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
-      hoverValue: []
+      hoverValue: [],
     };
   },
 
   render() {
-    const props = this.props;
+    const { props } = this;
     const {
       contentRender,
       prefixCls,
@@ -60,7 +60,7 @@ const DateTBody = CreateClass({
       showWeekNumber,
       dateRender,
       disabledDate,
-      hoverValue
+      hoverValue,
     } = props;
     let iIndex;
     let jIndex;
@@ -82,18 +82,17 @@ const DateTBody = CreateClass({
     const month1 = value.clone();
     month1.date(1);
     const day = month1.day();
-    const lastMonthDiffDay =
-      (day + 7 - value.localeData().firstDayOfWeek()) % 7;
+    const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
-    lastMonth1.add(0 - lastMonthDiffDay, "days");
+    lastMonth1.add(0 - lastMonthDiffDay, 'days');
     let passed = 0;
     for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
         if (passed) {
           current = current.clone();
-          current.add(passed, "days");
+          current.add(passed, 'days');
         }
         dateTable.push(current);
         passed += 1;
@@ -153,13 +152,13 @@ const DateTBody = CreateClass({
               if (isSameDay(current, endValue)) {
                 selected = true;
               } else if (
-                current.isAfter(startValue, "day") &&
-                current.isBefore(endValue, "day")
+                current.isAfter(startValue, 'day')
+                && current.isBefore(endValue, 'day')
               ) {
                 cls += ` ${inRangeClass}`;
               } else if (
-                current.isBefore(startValue, "day") &&
-                current.isAfter(endValue, "day")
+                current.isBefore(startValue, 'day')
+                && current.isAfter(endValue, 'day')
               ) {
                 cls += ` ${inRangeClass}`;
               }
@@ -215,7 +214,7 @@ const DateTBody = CreateClass({
             <div
               key={getIdFromDate(current)}
               className={classnames(dateClass, {
-                weekend: dayOfweek === 0 || dayOfweek === 6
+                weekend: dayOfweek === 0 || dayOfweek === 6,
               })}
               aria-selected={selected}
               aria-disabled={disabled}
@@ -232,15 +231,15 @@ const DateTBody = CreateClass({
             onMouseEnter={
               disabled
                 ? undefined
-                : (props.onDayHover && props.onDayHover.bind(null, current)) ||
-                  undefined
+                : (props.onDayHover && props.onDayHover.bind(null, current))
+                  || undefined
             }
             role="gridcell"
             title={getTitleString(current)}
             className={cls}
           >
             {dateHtml}
-          </td>
+          </td>,
         );
 
         passed += 1;
@@ -249,11 +248,15 @@ const DateTBody = CreateClass({
         <tr key={iIndex} role="row">
           {weekNumberCell}
           {dateCells}
-        </tr>
+        </tr>,
       );
     }
-    return <tbody className={`${prefixCls}-tbody`}>{tableHtml}</tbody>;
-  }
+    return (
+      <tbody className={`${prefixCls}-tbody`}>
+        {tableHtml}
+      </tbody>
+    );
+  },
 });
 
 export default DateTBody;

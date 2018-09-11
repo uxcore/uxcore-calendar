@@ -26,12 +26,7 @@ class Calendar extends React.Component {
     };
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentWillMount() {
-    const me = this;
-
-    me.TimePickerElement = (
+    this.TimePickerElement = (
       <TimePicker prefixCls="kuma-time-picker-panel" />
     );
   }
@@ -219,7 +214,7 @@ class Calendar extends React.Component {
                 placeholder={this.props.placeholder}
                 className={inputClassName}
               />
-              {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
+              {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
                 ? <i
                   className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
@@ -259,6 +254,7 @@ Calendar.propTypes = {
   showSecond: PropTypes.bool,
   showTime: PropTypes.bool,
   allowClear: PropTypes.bool,
+  timePicker: PropTypes.node,
   showHour: PropTypes.bool,
   getPopupContainer: PropTypes.func,
   size: PropTypes.oneOf(['large', 'middle', 'small']),

@@ -1,7 +1,7 @@
 import expect from 'expect.js';
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import Adapter from 'enzyme-adapter-react-16';
 import KeyCode from 'rc-util/lib/KeyCode';
 import formatter from 'uxcore-formatter';
 
@@ -38,7 +38,7 @@ describe('Calendar', () => {
     it('locale', () => {
       wrapper = mount(<Calendar locale="en-us" />);
       wrapper.find('.kuma-calendar-picker-input').simulate('click');
-      const dropdownWrapper = mount(wrapper.find('Trigger').instance().getComponent());
+      const dropdownWrapper = mount(wrapper.find('Trigger').at(0).instance().getComponent());
       expect(dropdownWrapper.find('.kuma-calendar-column-header-inner').at(0).text()).to.be('Su');
     });
 
@@ -50,10 +50,10 @@ describe('Calendar', () => {
         />,
       );
       wrapper.find('.kuma-calendar-picker-input').simulate('click');
-      const dropdownWrapper = mount(wrapper.find('Trigger').instance().getComponent());
+      const dropdownWrapper = mount(wrapper.find('Trigger').at(0).instance().getComponent());
       expect(dropdownWrapper.find('.kuma-calendar-disabled-cell-first-of-row').length).not.to.be(0);
 
-      expect(dropdownWrapper.find('.kuma-calendar-disabled-cell-first-of-row').first().instance().title.replace(/\s+/, '')).to.be('2016/10/12');
+      expect(dropdownWrapper.find('.kuma-calendar-disabled-cell-first-of-row').first().instance().title.replace(/\s+/, '')).to.be('2016年10月12日');
     });
 
     it('generateContentRender', () => {
@@ -68,16 +68,16 @@ describe('Calendar', () => {
         />,
       );
       wrapper.find('.kuma-calendar-picker-input').simulate('click');
-      const dropdownWrapper = mount(wrapper.find('Trigger').instance().getComponent());
+      const dropdownWrapper = mount(wrapper.find('Trigger').at(0).instance().getComponent());
       expect(dropdownWrapper.find('.kuma-calendar-date-decoration').length).not.to.be(0);
     });
 
     it('ESC', () => {
       wrapper = mount(<Calendar />);
       wrapper.find('.kuma-calendar-picker-input').simulate('click');
-      const dropdownWrapper = mount(wrapper.find('Trigger').instance().getComponent());
+      const dropdownWrapper = mount(wrapper.find('Trigger').at(0).instance().getComponent());
       dropdownWrapper.find('.kuma-calendar').simulate('keyDown', { keyCode: KeyCode.ESC });
-      expect(wrapper.find('Trigger').instance().state.popupVisible).to.be(false);
+      expect(wrapper.find('Trigger').at(0).instance().state.popupVisible).to.be(false);
     });
 
     it.skip('choose today', (done) => {
@@ -89,7 +89,7 @@ describe('Calendar', () => {
           }}
         />);
       wrapper.find('.kuma-calendar-picker-input').simulate('click');
-      const dropdownWrapper = mount(wrapper.find('Trigger').instance().getComponent());
+      const dropdownWrapper = mount(wrapper.find('Trigger').at(0).instance().getComponent());
       dropdownWrapper.find('.kuma-calendar-today-btn').simulate('click');
     });
   });

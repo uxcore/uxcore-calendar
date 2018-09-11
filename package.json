@@ -1,6 +1,6 @@
 {
   "name": "uxcore-calendar",
-  "version": "0.9.24",
+  "version": "0.10.1",
   "description": "calendar componment for react",
   "main": "build/index.js",
   "scripts": {
@@ -38,32 +38,32 @@
   "devDependencies": {
     "console-polyfill": "^0.2.2",
     "enzyme": "^3.0.0",
-    "enzyme-adapter-react-15": "^1.0.0",
-    "es5-shim": "^4.5.8",
     "expect.js": "~0.3.1",
     "kuma-base": "1.x",
-    "react": "15.x",
-    "react-addons-test-utils": "15.x",
-    "react-dom": "15.x",
-    "react-test-renderer": "15.x",
+    "react": "16.x",
+    "react-dom": "16.x",
+    "react-test-renderer": "16.x",
     "uxcore-button": "*",
     "uxcore-formatter": "*",
     "uxcore-kuma": "*",
-    "uxcore-tools": "0.2.x"
+    "uxcore-tools": "^0.3.0",
+    "babel-polyfill": "6.x",
+    "enzyme-adapter-react-16": "1.x"
   },
   "dependencies": {
     "classnames": "^2.1.2",
+    "create-react-class": "15.x",
     "moment": "^2.17.1",
     "object-assign": "^4.0.0",
     "prop-types": "15.x",
-    "create-react-class": "15.x",
-    "rc-calendar": "~8.4.0",
+    "rc-calendar": "^9.6.0",
     "rc-time-picker": "^3.0.0",
     "rc-util": "4.x",
+    "react-lifecycles-compat": "^3.0.4",
     "uxcore-button": "^0.4.6",
-    "uxcore-formatter": "~0.1.2",
+    "uxcore-formatter": "^0.1.2",
     "uxcore-icon": "^0.1.2",
-    "uxcore-select2": "^0.4.3",
-    "uxcore-tooltip": "~0.4.0"
+    "uxcore-select2": "^0.5.0",
+    "uxcore-tooltip": "^0.4.0"
   }
 }

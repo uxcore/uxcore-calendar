@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CreateClass from 'create-react-class';
+import createClass from 'create-react-class';
 import MonthPanel from 'rc-calendar/lib/month/MonthPanel';
 import YearPanel from 'rc-calendar/lib/year/YearPanel';
 import toFragment from 'rc-util/lib/Children/mapSelf';
@@ -21,7 +21,7 @@ function goYear(direction) {
   this.props.onValueChange(next);
 }
 
-const CalendarHeader = CreateClass({
+const CalendarHeader = createClass({
   propTypes: {
     enablePrev: PropTypes.any,
     enableNext: PropTypes.any,

@@ -2,6 +2,10 @@
 
 ---
 
+## 0.10.4
+
+* `FIXED` monthCalendar style bug after updating `rc-calendar` to `^9.6.0`
+
 ## 0.10.2
 
 * `CHANGED` support js style export

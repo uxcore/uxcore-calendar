@@ -15,16 +15,14 @@ function beforeCurrentMonthYear(current, today) {
   if (current.year() < today.year()) {
     return 1;
   }
-  return current.year() === today.year() &&
-    current.month() < today.month();
+  return current.year() === today.year() && current.month() < today.month();
 }
 
 function afterCurrentMonthYear(current, today) {
   if (current.year() > today.year()) {
     return 1;
   }
-  return current.year() === today.year() &&
-    current.month() > today.month();
+  return current.year() === today.year() && current.month() > today.month();
 }
 
 function getIdFromDate(date) {
@@ -52,8 +50,13 @@ const DateTBody = CreateClass({
   render() {
     const props = this.props;
     const {
-      contentRender, prefixCls, selectedValue, value,
-      showWeekNumber, dateRender, disabledDate,
+      contentRender,
+      prefixCls,
+      selectedValue,
+      value,
+      showWeekNumber,
+      dateRender,
+      disabledDate,
       hoverValue,
     } = props;
     let iIndex;
@@ -76,14 +79,18 @@ const DateTBody = CreateClass({
     const month1 = value.clone();
     month1.date(1);
     const day = month1.day();
-    const lastMonthDiffDay = ((day + 7) - value.localeData().firstDayOfWeek()) % 7;
+
+    const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
+
     const lastMonth1 = month1.clone();
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
+
     let passed = 0;
     for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
+
         if (passed) {
           current = current.clone();
           current.add(passed, 'days');
@@ -92,6 +99,7 @@ const DateTBody = CreateClass({
         passed += 1;
       }
     }
+
     const tableHtml = [];
     passed = 0;
 
@@ -100,11 +108,7 @@ const DateTBody = CreateClass({
       const dateCells = [];
       if (showWeekNumber) {
         weekNumberCell = (
-          <td
-            key={dateTable[passed].week()}
-            role="gridcell"
-            className={weekNumberCellClass}
-          >
+          <td key={dateTable[passed].week()} role="gridcell" className={weekNumberCellClass}>
             {dateTable[passed].week()}
           </td>
         );
@@ -143,8 +147,7 @@ const DateTBody = CreateClass({
             if (startValue && endValue) {
               if (isSameDay(current, endValue)) {
                 selected = true;
-              } else if (current.isAfter(startValue, 'day') &&
-                current.isBefore(endValue, 'day')) {
+              } else if (current.isAfter(startValue, 'day') && current.isBefore(endValue, 'day')) {
                 cls += ` ${inRangeClass}`;
               }
             }
@@ -192,7 +195,9 @@ const DateTBody = CreateClass({
           dateHtml = dateRender(current, value);
         } else {
           const content = contentRender ? contentRender(current, value) : current.date();
+
           const dayOfweek = current.day();
+
           dateHtml = (
             <div
               key={getIdFromDate(current)}
@@ -203,36 +208,37 @@ const DateTBody = CreateClass({
               aria-disabled={disabled}
             >
               {content}
-            </div>);
+            </div>
+          );
         }
 
         dateCells.push(
           <td
             key={passed}
             onClick={disabled ? undefined : props.onSelect.bind(null, current)}
-            onMouseEnter={disabled ?
-              undefined : (props.onDayHover && props.onDayHover.bind(null, current)) || undefined}
+            onMouseEnter={
+              disabled
+                ? undefined
+                : (props.onDayHover && props.onDayHover.bind(null, current)) || undefined
+            }
             role="gridcell"
-            title={getTitleString(current)} 
+            title={getTitleString(current)}
             className={cls}
           >
             {dateHtml}
-          </td>);
+          </td>
+        );
 
         passed += 1;
       }
       tableHtml.push(
-        <tr
-          key={iIndex}
-          role="row"
-        >
+        <tr key={iIndex} role="row">
           {weekNumberCell}
           {dateCells}
-        </tr>);
+        </tr>
+      );
     }
-    return (<tbody className={`${prefixCls}-tbody`}>
-      {tableHtml}
-    </tbody>);
+    return <tbody className={`${prefixCls}-tbody`}>{tableHtml}</tbody>;
   },
 });
 

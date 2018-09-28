@@ -6,17 +6,16 @@
  * All rights reserved.
  */
 
-
 import MonthCalendar from './MonthCalendar';
-
 import YearCalendar from './YearCalendar';
 import Calendar from './Calendar';
 import RangeCalendar from './RangeCalendar';
 import Pmam from './timePicker/Pmam';
+import FullCalendar from './FullCalendar';
 
 Calendar.MonthCalendar = MonthCalendar;
 Calendar.YearCalendar = YearCalendar;
 Calendar.RangeCalendar = RangeCalendar;
 Calendar.Pmam = Pmam;
-
+Calendar.FullCalendar = FullCalendar;
 export default Calendar;

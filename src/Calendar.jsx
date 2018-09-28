@@ -22,8 +22,7 @@ const { getCalendarContainer, generalizeFormat } = util;
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -31,9 +30,7 @@ class Calendar extends React.Component {
   componentWillMount() {
     const me = this;
 
-    me.TimePickerElement = (
-      <TimePicker prefixCls="kuma-time-picker-panel" />
-    );
+    me.TimePickerElement = <TimePicker prefixCls="kuma-time-picker-panel" />;
   }
 
   getTriggerNode() {
@@ -70,7 +67,8 @@ class Calendar extends React.Component {
         am: 'DD/MM/YYYY a',
       },
     };
-    const isAm = timePicker && (typeof timePicker.type === 'function') && timePicker.type.displayName === 'Pmam';
+    const isAm =
+      timePicker && typeof timePicker.type === 'function' && timePicker.type.displayName === 'Pmam';
     let key = 'day';
     if (showTime) {
       if (isAm) {
@@ -89,7 +87,7 @@ class Calendar extends React.Component {
 
   saveRef(refName) {
     const me = this;
-    return (c) => {
+    return c => {
       me[refName] = c;
     };
   }
@@ -124,7 +122,7 @@ class Calendar extends React.Component {
         }
         return current.date();
       },
-      disabledDate: (current) => {
+      disabledDate: current => {
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -132,7 +130,7 @@ class Calendar extends React.Component {
         }
         return false;
       },
-      disabledTime: (current) => {
+      disabledTime: current => {
         if (typeof p.disabledTime === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -197,13 +195,9 @@ class Calendar extends React.Component {
     });
 
     return (
-      <Datepicker
-        calendar={calendar}
-        onChange={me.handleChange}
-        {...pickerOptions}
-      >
+      <Datepicker calendar={calendar} onChange={me.handleChange} {...pickerOptions}>
         {({ value }) => {
-          const showClear = p.allowClear ? (value && !p.disabled) : false;
+          const showClear = p.allowClear ? value && !p.disabled : false;
           let newValue = value;
           if (newValue) {
             newValue = moment(value).format(generalizeFormat(this.getFormat()));
@@ -219,16 +213,23 @@ class Calendar extends React.Component {
                 placeholder={this.props.placeholder}
                 className={inputClassName}
               />
-              {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
-              {showClear
-                ? <i
+              {p.hasTrigger ? (
+                <Icon
+                  name="riqi"
+                  className={`kuma-calendar-trigger-icon ${
+                    showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''
+                  }`}
+                />
+              ) : null}
+              {showClear ? (
+                <i
                   className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
                   onClick={this.clearValue}
                 />
-                : null}
+              ) : null}
             </span>
           );
-        } }
+        }}
       </Datepicker>
     );
   }
@@ -237,7 +238,7 @@ class Calendar extends React.Component {
 Calendar.displayName = 'Calendar';
 Calendar.defaultProps = {
   placeholder: '请选择日期',
-  onSelect() { },
+  onSelect() {},
   locale: 'zh-cn',
   align: {
     offset: [0, 0],
@@ -263,7 +264,6 @@ Calendar.propTypes = {
   getPopupContainer: PropTypes.func,
   size: PropTypes.oneOf(['large', 'middle', 'small']),
 };
-
 
 Calendar.CalendarPanel = RcCalendar;
 Calendar.util = util;

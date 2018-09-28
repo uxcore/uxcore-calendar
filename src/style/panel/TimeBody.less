@@ -1,0 +1,49 @@
+.@{calendarFullCls}-time-panel {
+  &-column-header {
+    height: 32px;
+    padding: 8px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 18px;
+    border-bottom: 1px solid #e8ebee;
+    border-right: 1px solid #e8ebee;
+    .header-date {
+      padding-right: 5px;
+    }
+    &.@{calendarFullCls}-time-panel-today {
+      color: #ff6f00;
+    }
+  }
+  &-timeline {
+    float: left;
+    margin-top: 34px;
+    width: 60px;
+    vertical-align: bottom;
+    font-size: 12px;
+    border-top: 1px solid #e8ebee;
+    color: rgba(0, 0, 0, 0.6);
+    .@{calendarFullCls}-time-panel-timeline-cell {
+      height: 48px;
+      line-height: 48px;
+      position: relative;
+    }
+  }
+  &-timeline-now {
+    color: #ff6f00;
+  }
+  &-time-tr {
+    height: 48px;
+  }
+  &-time-cell {
+    padding: 8px;
+    border-bottom: 1px solid #e8ebee;
+    border-right: 1px solid #e8ebee;
+    &:hover {
+      background-color: rgba(255, 111, 0, 0.06);
+    }
+  }
+  &-table {
+    border-left: 1px solid #e8ebee;
+    border-bottom: 1px solid #e8ebee;
+  }
+}

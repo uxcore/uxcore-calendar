@@ -1,4 +1,64 @@
-.@{calendarPrefixCls}-full {
+.@{calendarFullCls} {
+  * {
+    box-sizing: border-box;
+  }
+  position: relative;
+  outline: none;
+  width: 100%;
+  overflow: hidden;
+  list-style: none;
+  font-size: 12px;
+  text-align: left;
+  background-color: #fff;
+  &-date-select {
+    width: 200px;
+    position: relative;
+    display: inline-block;
+  }
+  &-show-input[readonly] {
+    position: absolute;
+    background: none;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.8);
+  }
+  .kuma-calendar-picker-input {
+    opacity: 0;
+  }
+  &-prev-btn,
+  &-next-btn {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    color: rgba(31, 56, 88, 0.4);
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    font-size: 16px;
+    line-height: 24px;
+    top: 5px;
+    z-index: 9999;
+    &:after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      font-family: "uxcore";
+      font-size: 16px;
+      text-indent: 0;
+    }
+  }
+  &-prev-btn {
+    left: 0;
+    &:after {
+      content: "\e65c";
+    }
+  }
+  &-next-btn {
+    right: 0;
+    &:after {
+      content: "\e65b";
+    }
+  }
   &-header {
     padding: 5px 10px;
     text-align: center;
@@ -6,24 +66,31 @@
     -webkit-user-select: none;
     border-bottom: 1px solid #ccc;
     overflow: hidden;
-
+    .kuma-button {
+      float: left;
+    }
     &-month-select,
     &-year-select {
       float: right;
       margin-right: 5px;
+      box-sizing: border-box;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      color: #666;
+      line-height: 28px;
+      width: 70px;
     }
-
     &-switcher {
       float: right;
       display: inline-block;
       &-normal:hover {
-        border-color: #23c0fa;
-        box-shadow: 0 0 2px rgba(45, 183, 245, 0.8);
+        border-color: #ff6f00;
         cursor: pointer;
       }
       &-focus {
-        border-color: #3fc7fa;
-        background-color: #3fc7fa;
+        border-color: #ff6f00;
+        background-color: rgba(255, 111, 0, 0.06);
         color: #fff;
       }
       > span {
@@ -46,44 +113,88 @@
       }
     }
   }
-}
-
-.@{calendarPrefixCls}-fullscreen {
-  width: auto;
-
-  .@{calendarPrefixCls}-full-header {
-    border-bottom: none;
+  &-body {
   }
-
-  .@{calendarPrefixCls} {
-    &-column-header {
-      text-align: right;
-      padding-right: 12px;
+  table,
+  td,
+  th,
+  td {
+    // border: none;
+  }
+  table {
+    border-collapse: collapse;
+    max-width: 100%;
+    background-color: transparent;
+    @diff : 60px;
+    width: calc(~"100% - @{diff}");
+  }
+  &-cell {
+    padding: 8px;
+    height: 97px;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.8);
+    letter-spacing: 0;
+    vertical-align: top;
+    border-bottom: 1px solid #e8ebee;
+    border-right: 1px solid #e8ebee;
+    &:hover {
+      // border-color: #ff6f00;
+      background-color: rgba(255, 111, 0, 0.06);
+      color: #ff6f00;
     }
-    &-cell {
-      padding: 0;
+    &.@{calendarFullCls}-last-month-cell,
+    &.@{calendarFullCls}-next-month-btn-day {
+      color: rgba(31, 56, 88, 0.3);
     }
-    &-cell .@{calendarPrefixCls}-date,
-    &-month-panel-cell .@{calendarPrefixCls}-month-panel-month {
+  }
+  &-today {
+    .@{calendarFullCls}-date {
+      display: inline-block;
+      padding: 3px 4px;
+      background: #ff6f00;
+      border-radius: 3px;
+      font-size: 12px;
+      color: #ffffff;
+      letter-spacing: 0;
+      text-align: center;
+      line-height: 18px;
+    }
+  }
+  &-month-panel-table {
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+    border-collapse: separate;
+  }
+  &-month-panel-cell {
+    text-align: center;
+    &-month-panel-month {
       display: block;
-      height: 116px;
-      width: auto;
-      border-radius: 0;
-      margin: 0 4px;
-      border: none;
-      border-top: 2px solid #eee;
-      text-align: right;
-      padding-right: 8px;
-    }
-    &-selected-day .@{calendarPrefixCls}-date,
-    &-month-panel-selected-cell .@{calendarPrefixCls}-month-panel-month {
-      background-color: #ebfaff;
+      width: 46px;
+      margin: 0 auto;
       color: #666;
+      border-radius: 4px 4px;
+      height: 36px;
+      padding: 0;
+      background: transparent;
+      line-height: 36px;
+      text-align: center;
     }
-    &-today .@{calendarPrefixCls}-date,
-    &-month-panel-selected-cell .@{calendarPrefixCls}-month-panel-month {
-      border-top-color: #3FC7FA;
-      color: #3FC7FA;
-    }
+  }
+  &-column-header {
+    height: 32px;
+    padding: 8px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 18px;
+    border-bottom: 1px solid #e8ebee;
+    border-right: 1px solid #e8ebee;
+  }
+  &-fullscreen {
+  }
+  .kuma-input {
+    cursor: pointer;
+    border: none !important;
   }
 }

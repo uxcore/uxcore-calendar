@@ -72,17 +72,21 @@ function getTime(props) {
     .minute(0);
 }
 function getTimeLine(props, current) {
-  const { prefixCls } = props;
+  const { prefixCls, gapMinute } = props;
   let hour = moment(current).hour();
   let minute = moment(current).minute() || 0;
   hour = hour > 9 ? hour : `0${hour}`;
   minute = minute > 9 ? minute : `0${minute}`;
   let prefixTime = hour > 12 ? 'pm' : 'am';
+  let selected = hour == moment().hour();
+  selected = selected && moment().minute() >= parseInt(minute);
+  selected = selected && moment().minute() < gapMinute + parseInt(minute);
+
   return (
     <td className={`${prefixCls}-time-panel`} key={current}>
       <div
         className={classnames({
-          [`${prefixCls}-timeline-now`]: hour == moment().hour(),
+          [`${prefixCls}-timeline-now`]: selected,
         })}
         key={current}
       >

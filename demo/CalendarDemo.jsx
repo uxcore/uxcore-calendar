@@ -263,6 +263,9 @@ class Demo extends React.Component {
             dateCellRender={this.getTimeRender}
             disabledDate={disabledDate}
             disabledTime={disabledTime}
+            startHour={9}
+            endHour={18}
+            gapMinute={30}
           />
         </div>
       </div>

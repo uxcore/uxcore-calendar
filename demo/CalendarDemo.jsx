@@ -8,7 +8,15 @@ import Calendar from '../src';
 const { MonthCalendar, YearCalendar, RangeCalendar, FullCalendar } = Calendar;
 
 function disabledDate(current) {
-  return current.getTime() > Date.now();
+  if (current) {
+    return current.getTime() > Date.now();
+  }
+}
+function disabledTime(current) {
+  if (current) {
+    let hours = current.getHours();
+    return hours < new Date().getHours();
+  }
 }
 
 const enabledMinutes = [0, 15, 30, 45];
@@ -34,7 +42,6 @@ class Demo extends React.Component {
   }
 
   onSelect(value, formatted) {
-    console.log(value, formatted);
     this.setState({
       value,
     });
@@ -154,7 +161,7 @@ class Demo extends React.Component {
           }}
         >
           <p>禁用</p>
-          {/* <Calendar value={this.state.value} disabled onSelect={this.onSelect} /> */}
+          <Calendar value={this.state.value} disabled onSelect={this.onSelect} />
         </div>
         <div
           className="kuma-form-field"
@@ -182,9 +189,7 @@ class Demo extends React.Component {
             size="large"
             value={this.state.value}
             onSelect={this.onSelect}
-            disabledDate={current => {
-              console.log(current);
-            }}
+            disabledDate={current => {}}
           />
         </div>
         <div
@@ -218,7 +223,7 @@ class Demo extends React.Component {
           }}
         >
           <p>直接渲染面板</p>
-          {/* <RcCalendar {...panelOptions} className="panel-demo" /> */}
+          <RcCalendar {...panelOptions} className="panel-demo" />
         </div>
         <Button onClick={me.handleClick}>changeTime</Button>
         <div
@@ -254,7 +259,10 @@ class Demo extends React.Component {
             type={'time'}
             locale="zh-cn"
             timeCellRender={this.getTimeRender}
+            weekCellRender={this.getTimeRender}
             dateCellRender={this.getTimeRender}
+            disabledDate={disabledDate}
+            disabledTime={disabledTime}
           />
         </div>
       </div>

@@ -31,7 +31,7 @@
   &-timeline-now {
     color: #ff6f00;
   }
-  &-time-tr {
+  &-tr {
     height: 48px;
   }
   &-time-cell {
@@ -41,6 +41,19 @@
     &:hover {
       background-color: rgba(255, 111, 0, 0.06);
     }
+  }
+  &-time-disabled-cell {
+    cursor: not-allowed;
+    color: rgba(31, 56, 88, 0.3);
+    &:hover {
+      // border-color: #ff6f00;
+      background-color: white;
+      color: rgba(31, 56, 88, 0.3);
+    }
+  }
+  &-time-panel {
+    width: 61px;
+    border-right: 1px solid #e8ebee;
   }
   &-table {
     border-left: 1px solid #e8ebee;

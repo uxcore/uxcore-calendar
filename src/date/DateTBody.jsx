@@ -59,6 +59,7 @@ const DateTBody = CreateClass({
       disabledDate,
       hoverValue,
     } = props;
+
     let iIndex;
     let jIndex;
     let current;
@@ -171,7 +172,6 @@ const DateTBody = CreateClass({
         if (disabledDate) {
           if (disabledDate(current, value)) {
             disabled = true;
-
             if (!last || !disabledDate(last, value)) {
               cls += ` ${firstDisableClass}`;
             }

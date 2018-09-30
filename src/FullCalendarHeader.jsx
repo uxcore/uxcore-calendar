@@ -54,11 +54,11 @@ class CalendarHeader extends Component {
     let { type, onValueChange, value } = this.props;
     value = value || moment();
     if (type === 'time') {
-      value = moment(value).subtract(1, 'd');
+      value = value.subtract(1, 'd');
     } else if (type === 'week') {
-      value = moment(value).subtract(1, 'w');
+      value = value.subtract(1, 'w');
     } else {
-      value = moment(value).subtract(1, 'M');
+      value = value.subtract(1, 'M');
     }
     onValueChange(value);
   }
@@ -80,13 +80,14 @@ class CalendarHeader extends Component {
       return moment(value).format(format);
     } else if (type === 'week') {
       let day = moment(value).day();
+      day = day === 0 ? 7 : day;
       let firstDate = moment(value)
         .subtract(day - 1, 'd')
         .format(format);
       let lastDate = moment(value)
         .add(7 - day, 'd')
         .format(format);
-      return `${firstDate} —— ${lastDate}`;
+      return `${firstDate} ~ ${lastDate}`;
     } else {
       let newFormat = format.replace(/([-/])?dd/gi, '');
       return moment(value).format(newFormat);
@@ -130,13 +131,16 @@ class CalendarHeader extends Component {
     const switchCls = `${prefixCls}-header-switcher`;
     return showTypeSwitch ? (
       <span className={switchCls}>
-        {SWITCHERS.map(s => {
+        {SWITCHERS.map((s, idx) => {
           return (
             <span
               onClick={this.changeType.bind(this, s.value)}
               key={s.label}
               className={classnames({
                 [`${switchCls}-normal`]: true,
+                [`${switchCls}-time`]: s.value === 'time',
+                [`${switchCls}-week`]: s.value === 'week',
+                [`${switchCls}-date`]: s.value === 'date',
                 [`${switchCls}-focus`]: type === s.value,
               })}
             >

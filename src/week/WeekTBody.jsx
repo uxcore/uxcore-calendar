@@ -2,58 +2,95 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
-const DATE_COL_COUNT = 7;
+import { getTime, getTimeLine } from '../util';
+const DATE_COL_COUNT = 8;
 export default class WeekBody extends React.Component {
   constructor(props) {
     super(props);
     this.getTableCell = this.getTableCell.bind(this);
   }
-  getTime() {
-    let { startHour, value } = this.props;
-    startHour = startHour ? parseInt(startHour) : 9;
-    return moment(value)
-      .hour(startHour)
-      .minute(0);
-  }
   getTableCell() {
     const props = this.props;
-    let { prefixCls, weekCellRender, slicePiece, startHour, endHour, gapMinute, value } = props;
+    let {
+      prefixCls,
+      weekCellRender,
+      slicePiece,
+      startHour,
+      endHour,
+      gapMinute,
+      value,
+      disabledTime,
+      disabledDate,
+      contentRender,
+    } = props;
+
     gapMinute = gapMinute ? parseInt(gapMinute) : 60;
     if (endHour < startHour) {
       endHour = startHour;
     }
     let now = moment();
     value = value || now;
-    let nowDay = value.day();
-    const trDateClass = `${prefixCls}-date-tr`;
 
+    let nowDay = value.day();
+    nowDay = nowDay === 0 ? 7 : nowDay;
+    const trDateClass = `${prefixCls}-date-tr`;
     let tableHtml = [];
-    let current = this.getTime();
+    let current = getTime(props);
     let cloneCurrent = current.clone();
 
     for (let iIndex = 0; iIndex <= slicePiece; iIndex++) {
       let dateCells = [];
       let computedTime = current.clone();
+      let leftTimeLine = getTimeLine(props, computedTime);
       for (let jIndex = 0; jIndex < DATE_COL_COUNT; jIndex++) {
-        let gapDay = nowDay - 1 - jIndex;
+        if (jIndex === 0) {
+          dateCells.push(leftTimeLine);
+          continue;
+        }
+        let gapDay = nowDay - jIndex;
+        let dateHtml = null;
+        let disableTime = false;
+        let disableDate = false;
         current =
           gapDay > 0
             ? moment(computedTime).subtract(gapDay, 'days')
             : moment(computedTime).add(Math.abs(gapDay), 'days');
-        let dateHtml = null;
-        let content = weekCellRender ? weekCellRender(current) : '';
-        dateHtml = <div key={`${iIndex}-${jIndex}`}>{content}</div>;
+
+        if (disabledDate) {
+          if (disabledDate(current, value)) {
+            disableDate = true;
+          }
+        }
+        if (disabledTime) {
+          if (disabledTime(current, value)) {
+            disableTime = true;
+          }
+        }
+
+        if (weekCellRender) {
+          dateHtml = weekCellRender(current, value);
+        } else {
+          const content = contentRender ? contentRender(current, value) : current.date();
+          dateHtml = <div key={current}>{content}</div>;
+        }
+
+        let disabled = disableTime || disableDate;
         dateCells.push(
           <td
             key={`${iIndex}-${jIndex}`}
-            onClick={props.onSelect.bind(null, current)}
-            onMouseEnter={props.onDayHover && props.onDayHover.bind(null, current)}
+            onClick={disabled ? null : props.onSelect.bind(null, current)}
+            onMouseEnter={
+              disabled ? null : props.onDayHover && props.onDayHover.bind(null, current)
+            }
             role="gridcell"
             className={classnames({
               [`${prefixCls}-date-cell`]: true,
               [`${prefixCls}-prev-date-cell`]: jIndex < nowDay - 1,
               [`${prefixCls}-next-date-cell`]: jIndex > nowDay - 1,
-              [`${prefixCls}-current-date-cell`]: jIndex === nowDay - 1,
+              [`${prefixCls}-current-date-cell`]: current.isSame(now, 'd'),
+              [`${prefixCls}-date-disable-cell`]: disabled,
+              [`${prefixCls}-date-disable-time`]: disableTime,
+              [`${prefixCls}-date-disable-date`]: disableDate,
             })}
           >
             {dateHtml}

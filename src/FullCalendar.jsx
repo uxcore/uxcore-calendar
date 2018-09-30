@@ -80,41 +80,57 @@ export default class FullCalendar extends React.Component {
     const {
       className,
       style,
+      prefixCls,
       disabledDate,
+      disabledTime,
+      format,
       locale,
+      type,
       value,
       defaultValue,
-      prefixCls,
-      type,
+      onSelect,
+      timeCellRender,
+      weekCellRender,
+      dateRender,
       ...otherProps
-    } = this.props;
+    } = p;
     const calendarOptions = {
       className: classnames({ [className]: !!className }),
-      style: style,
+      style: p.style,
+      prefixCls: 'kuma-full-calendar',
       disabledDate: current => {
-        if (typeof disabledDate === 'function' && current) {
+        if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
-          return disabledDate(date);
+          return p.disabledDate(date);
+        }
+        return false;
+      },
+      disabledTime: current => {
+        if (typeof p.disabledTime === 'function' && current) {
+          const date = current.clone();
+          date.getTime = current.valueOf;
+          date.getHours = current.hour;
+          return p.disabledTime(date);
         }
         return false;
       },
       format: generalizeFormat(this.getFormat()),
       locale: CalendarLocale[locale],
-      prefixCls: 'kuma-full-calendar',
       type: this.state.type,
     };
     this.getDateValue(calendarOptions);
+
     return (
       <div className={prefixCls}>
         <RcFullCalendar
           {...calendarOptions}
-          {...otherProps}
           setType={this.setType.bind(this)}
           onSelect={this.onSelect.bind(this)}
           timeCellRender={this.handleCellRender.bind(this, 'timeCellRender')}
           weekCellRender={this.handleCellRender.bind(this, 'weekCellRender')}
           dateRender={this.handleCellRender.bind(this, 'dateCellRender')}
+          {...otherProps}
         />
       </div>
     );
@@ -148,9 +164,11 @@ FullCalendar.propTypes = {
   getPopupContainer: PropTypes.func,
   weekCellRender: PropTypes.func,
   dateCellRender: PropTypes.func,
+  contentRender: PropTypes.func,
   timeCellRender: PropTypes.func,
   headerComponents: PropTypes.array,
   headerComponent: PropTypes.object, // The whole header component
   headerRender: PropTypes.func,
   disabledDate: PropTypes.func,
+  disabledTime: PropTypes.func,
 };

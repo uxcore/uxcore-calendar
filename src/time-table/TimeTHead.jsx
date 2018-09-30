@@ -10,7 +10,11 @@ export default class DateTHead extends React.Component {
     let currentDay = null;
     currentDay = value || moment();
     let currentDate = currentDay.date();
-    for (let i = 0; i < dataCount; i++) {
+    for (let i = 0; i < dataCount + 1; i++) {
+      if (i === 0) {
+        days.push('');
+        continue;
+      }
       days.push(currentDay.date());
       currentDay = moment(currentDay).add(1, 'days');
     }
@@ -33,7 +37,11 @@ export default class DateTHead extends React.Component {
     const weekendDays = [];
     let panelDays = this.getPanelDays();
 
-    for (let dateColIndex = 0; dateColIndex < dataCount; dateColIndex++) {
+    for (let dateColIndex = 0; dateColIndex < dataCount + 1; dateColIndex++) {
+      if (dateColIndex === 0) {
+        weekDays[dateColIndex] = { label: '', value: '' };
+        continue;
+      }
       weekDays[dateColIndex] = {};
       weekDays[dateColIndex].label = localeData.weekdaysShort(current);
       weekDays[dateColIndex].value = current;
@@ -43,7 +51,7 @@ export default class DateTHead extends React.Component {
     let weekDaysEls = weekDays.map((day, xindex) => {
       let cls = classnames({
         [`${prefixCls}-column-header`]: true,
-        [`${prefixCls}-today`]: moment(day.value).isSame(now, 'day'),
+        [`${prefixCls}-today`]: day.value && moment(day.value).isSame(now, 'day'),
       });
       return (
         <th key={xindex} role="columnheader" title={day} className={cls}>

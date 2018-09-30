@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import WeekTHead from './WeekTHead';
 import WeekTBody from './WeekTBody';
-import LeftTimePanel from '../LeftTimePanel';
 class WeekTable extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +31,6 @@ class WeekTable extends React.Component {
     let weekCls = `${prefixCls}-date`;
     return (
       <div className={weekCls}>
-        <LeftTimePanel slicePiece={slicePiece} {...props} />
         <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
           <WeekTHead {...props} />
           <WeekTBody {...props} slicePiece={slicePiece} />

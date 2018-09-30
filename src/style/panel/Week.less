@@ -28,7 +28,6 @@
       position: relative;
     }
   }
-
   &-timeline-now {
     color: #ff6f00;
   }
@@ -46,5 +45,17 @@
   &-table {
     border-left: 1px solid #e8ebee;
     border-bottom: 1px solid #e8ebee;
+  }
+  &-date-disable-date {
+    cursor: not-allowed;
+    color: rgba(31, 56, 88, 0.3);
+    &:hover {
+      background-color: white;
+      color: rgba(31, 56, 88, 0.3);
+    }
+  }
+  &-time-panel {
+    width: 60px; // border-bottom: 1px solid #e8ebee;
+    border-right: 1px solid #e8ebee;
   }
 }

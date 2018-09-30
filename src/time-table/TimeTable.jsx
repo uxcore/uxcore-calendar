@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TimeTHead from './TimeTHead';
 import TimeTBody from './TimeTBody';
-import LeftTimePanel from '../LeftTimePanel';
 class TimeTable extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +30,6 @@ class TimeTable extends React.Component {
     let timeCls = `${prefixCls}-time`;
     return (
       <div className={timeCls}>
-        <LeftTimePanel slicePiece={slicePiece} {...this.props} />
         <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
           <TimeTHead {...this.props} dataCount={showCount} />
           <TimeTBody {...this.props} slicePiece={slicePiece} dataCount={showCount} />

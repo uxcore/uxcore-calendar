@@ -95,7 +95,7 @@ class Calendar extends React.Component {
   handleChange(v) {
     if (v) {
       const date = v.valueOf();
-      this.props.onSelect(new Date(date), v.format(generalizeFormat(this.getFormat())));
+      this.props.onSelect(new Date(date), v.format(generalizeFormat(this.getFormat())), v);
     } else {
       this.props.onSelect(v, v);
     }

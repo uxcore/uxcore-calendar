@@ -40,9 +40,9 @@ const FullCalendar = createReactClass({
       setType() {},
     };
   },
-  onHeaderSelect(value) {
-    const { locale } = this.props;
-    this.setValue(moment(value));
+  onHeaderSelect(value, formatValue, momentValue) {
+    let resultVal = momentValue ? momentValue : value;
+    this.setValue(resultVal);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -85,6 +85,7 @@ const FullCalendar = createReactClass({
     const props = this.props;
     const { locale, prefixCls, disabledDate, ...others } = props;
     const { value } = this.state;
+
     return (
       <DateTable
         dateRender={props.dateCellRender}

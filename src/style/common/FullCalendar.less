@@ -36,7 +36,7 @@
     font-size: 16px;
     line-height: 24px;
     top: 5px;
-    z-index: 9999;
+    z-index: 99;
     &:after {
       position: absolute;
       left: 0;
@@ -85,13 +85,8 @@
       float: right;
       display: inline-block;
       &-normal:hover {
-        border-color: #ff6f00;
-        cursor: pointer;
-      }
-      &-focus {
-        border-color: #ff6f00;
         background-color: rgba(255, 111, 0, 0.06);
-        color: #fff;
+        cursor: pointer;
       }
       > span {
         float: left;
@@ -112,21 +107,26 @@
         }
       }
     }
-  }
-  &-body {
-  }
-  table,
-  td,
-  th,
-  td {
-    // border: none;
+    .@{calendarFullCls}-header-switcher-focus {
+      position: relative;
+      background-color: rgba(255, 111, 0, 0.06);
+      color: #ff6f00;
+      border: 1px solid #ff6f00;
+      &.@{calendarFullCls}-header-switcher-time {
+        right: -1px;
+        border-right: 1px solid #ff6f00;
+      }
+      &.@{calendarFullCls}-header-switcher-date {
+        border-left: 1px solid #ff6f00;
+        left: -1px;
+      }
+    }
   }
   table {
     border-collapse: collapse;
     max-width: 100%;
+    width: 100%;
     background-color: transparent;
-    @diff : 60px;
-    width: calc(~"100% - @{diff}");
   }
   &-cell {
     padding: 8px;
@@ -146,6 +146,19 @@
     &.@{calendarFullCls}-last-month-cell,
     &.@{calendarFullCls}-next-month-btn-day {
       color: rgba(31, 56, 88, 0.3);
+    }
+    &.@{calendarFullCls}-selected-day {
+      background-color: rgba(255, 111, 0, 0.06);
+      color: #ff6f00;
+    }
+    &.@{calendarFullCls}-disabled-cell {
+      cursor: not-allowed;
+      color: rgba(31, 56, 88, 0.3);
+      &:hover {
+        // border-color: #ff6f00;
+        background-color: white;
+        color: rgba(31, 56, 88, 0.3);
+      }
     }
   }
   &-today {
@@ -190,8 +203,6 @@
     line-height: 18px;
     border-bottom: 1px solid #e8ebee;
     border-right: 1px solid #e8ebee;
-  }
-  &-fullscreen {
   }
   .kuma-input {
     cursor: pointer;

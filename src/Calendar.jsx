@@ -118,6 +118,7 @@ class Calendar extends React.Component {
           const date = current.clone();
           date.getTime = current.valueOf;
           date.getDayOfMonth = date.date;
+
           return p.contentRender(date, value);
         }
         return current.date();

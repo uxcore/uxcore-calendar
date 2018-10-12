@@ -4,7 +4,7 @@ import React from 'react';
 import moment from 'moment';
 import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
-
+import events from './events';
 const { MonthCalendar, YearCalendar, RangeCalendar, FullCalendar } = Calendar;
 
 function disabledDate(current) {
@@ -65,6 +65,10 @@ class Demo extends React.Component {
         <span>测试测试测试测试测试测试</span>
       </div>
     );
+  }
+  contentRender(current, value) {
+    // console.log('.....', current);
+    // console.log('2222', value);
   }
 
   render() {
@@ -256,16 +260,17 @@ class Demo extends React.Component {
             value={this.state.value}
             onSelect={this.onSelect}
             fullscreen
-            type={'time'}
+            type={'month'}
             locale="zh-cn"
-            timeCellRender={this.getTimeRender}
-            weekCellRender={this.getTimeRender}
-            dateCellRender={this.getTimeRender}
+            scheduleRender={Calendar.util.generateScheduleContent(events)}
+            // timeCellRender={this.getTimeRender}
+            // weekCellRender={this.getTimeRender}
+            // dateCellRender={this.getTimeRender}
             disabledDate={disabledDate}
             disabledTime={disabledTime}
             startHour={9}
             endHour={18}
-            gapMinute={30}
+            gapMinute={60}
           />
         </div>
       </div>

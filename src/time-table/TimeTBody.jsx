@@ -11,10 +11,10 @@ export default class WeekBody extends React.Component {
 
   getTableCell() {
     const props = this.props;
+
     let {
       prefixCls,
       timeCellRender,
-      contentRender,
       slicePiece,
       startHour,
       endHour,
@@ -23,6 +23,7 @@ export default class WeekBody extends React.Component {
       value,
       disabledTime,
     } = props;
+
     gapMinute = gapMinute ? parseInt(gapMinute) : 60;
     if (endHour < startHour) {
       endHour = startHour;
@@ -36,12 +37,16 @@ export default class WeekBody extends React.Component {
     let cloneCurrent = current.clone();
     let dataCount = props.dataCount;
 
-    for (let iIndex = 0; iIndex <= slicePiece; iIndex++) {
+    for (let iIndex = 0; iIndex <= slicePiece + 1; iIndex++) {
       let dateCells = [];
       let computedTime = current.clone();
-      let leftTimeLine = getTimeLine(props, computedTime);
+      let leftTimeLine = '';
+      if (iIndex <= slicePiece) {
+        leftTimeLine = getTimeLine(props, computedTime);
+      }
+
       for (let jIndex = 0; jIndex < dataCount + 1; jIndex++) {
-        if (jIndex === 0) {
+        if (jIndex === 0 && iIndex <= slicePiece) {
           dateCells.push(leftTimeLine);
           continue;
         }
@@ -56,11 +61,6 @@ export default class WeekBody extends React.Component {
 
         if (timeCellRender) {
           dateHtml = timeCellRender(current, value);
-        } else {
-          const content = contentRender ? contentRender(current, value) : current.date();
-          const dayOfweek = current.day();
-
-          dateHtml = <div key={current}>{content}</div>;
         }
         dateCells.push(
           <td

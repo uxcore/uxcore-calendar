@@ -24,23 +24,33 @@ class TimeTable extends React.Component {
   componentDidMount() {
     this.getTimeLine();
   }
+  renderEvents() {
+    let { scheduleRender, startHour, gapMinute, endHour, value, type } = this.props;
+    const { slicePiece } = this.state;
+    let renderOpts = { startHour, gapMinute, endHour, type, slicePiece, current: value };
+    if (scheduleRender) {
+      const content = scheduleRender(renderOpts);
+      return <div className="events-wrapper">{content}</div>;
+    }
+  }
   render() {
     const { slicePiece } = this.state;
     const { showCount, prefixCls } = this.props;
     let timeCls = `${prefixCls}-time`;
+    let tableCls = `${prefixCls}-table`;
     return (
       <div className={timeCls}>
-        <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
+        <table className={tableCls} cellSpacing="0" role="grid">
           <TimeTHead {...this.props} dataCount={showCount} />
           <TimeTBody {...this.props} slicePiece={slicePiece} dataCount={showCount} />
         </table>
+        {this.renderEvents()}
       </div>
     );
   }
 }
 TimeTable.displayName = 'TimeTable';
 TimeTable.defaultProps = {
-  timeCellRender() {},
   showCount: 1,
   startHour: 9,
   endHour: 23,

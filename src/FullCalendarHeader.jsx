@@ -20,7 +20,7 @@ const SWITCHERS = [
   },
   {
     label: 'month',
-    value: 'date',
+    value: 'month',
   },
 ];
 function noop() {}
@@ -140,7 +140,7 @@ class CalendarHeader extends Component {
                 [`${switchCls}-normal`]: true,
                 [`${switchCls}-time`]: s.value === 'time',
                 [`${switchCls}-week`]: s.value === 'week',
-                [`${switchCls}-date`]: s.value === 'date',
+                [`${switchCls}-date`]: s.value === 'month',
                 [`${switchCls}-focus`]: type === s.value,
               })}
             >

@@ -59,7 +59,6 @@ const DateTBody = CreateClass({
       disabledDate,
       hoverValue,
     } = props;
-
     let iIndex;
     let jIndex;
     let current;

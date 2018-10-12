@@ -38,12 +38,16 @@ export default class WeekBody extends React.Component {
     let current = getTime(props);
     let cloneCurrent = current.clone();
 
-    for (let iIndex = 0; iIndex <= slicePiece; iIndex++) {
+    for (let iIndex = 0; iIndex <= slicePiece + 1; iIndex++) {
       let dateCells = [];
       let computedTime = current.clone();
-      let leftTimeLine = getTimeLine(props, computedTime);
+      let leftTimeLine = '';
+      if (iIndex <= slicePiece) {
+        leftTimeLine = getTimeLine(props, computedTime);
+      }
+
       for (let jIndex = 0; jIndex < DATE_COL_COUNT; jIndex++) {
-        if (jIndex === 0) {
+        if (jIndex === 0 && iIndex <= slicePiece) {
           dateCells.push(leftTimeLine);
           continue;
         }
@@ -69,9 +73,6 @@ export default class WeekBody extends React.Component {
 
         if (weekCellRender) {
           dateHtml = weekCellRender(current, value);
-        } else {
-          const content = contentRender ? contentRender(current, value) : current.date();
-          dateHtml = <div key={current}>{content}</div>;
         }
 
         let disabled = disableTime || disableDate;

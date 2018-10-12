@@ -10,6 +10,40 @@
   font-size: 12px;
   text-align: left;
   background-color: #fff;
+  .cell-container {
+    position: absolute;
+  }
+  .events-wrapper {
+    position: absolute;
+    top: 32px;
+    left: 61px;
+    width: ~"calc(100% - 61px)";
+    height: ~"calc(100% - 32px)";
+  }
+  .events-month-wrapper {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    width: 100%;
+    height: ~"calc(100% - 32px)";
+    .cell-container {
+      position: absolute; // display: inline-block;
+      overflow-y: scroll;
+      .kuma-calendar-content-box {
+        position: relative;
+      }
+    }
+  }
+  &-calendar-body {
+    position: relative;
+  }
+  .kuma-calendar-content-box {
+    position: absolute;
+    background: #fff7f0;
+    border: 1px solid #ff6f00;
+    border-radius: 5px;
+    overflow: hidden;
+  }
   &-date-select {
     width: 200px;
     position: relative;
@@ -88,7 +122,7 @@
         background-color: rgba(255, 111, 0, 0.06);
         cursor: pointer;
       }
-      > span {
+      >span {
         float: left;
         height: 28px;
         line-height: 24px;
@@ -127,6 +161,7 @@
     max-width: 100%;
     width: 100%;
     background-color: transparent;
+    table-layout: fixed;
   }
   &-cell {
     padding: 8px;

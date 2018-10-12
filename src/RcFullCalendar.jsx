@@ -32,7 +32,7 @@ const FullCalendar = createReactClass({
   mixins: [CommonMixin, CalendarMixin],
   getDefaultProps() {
     return {
-      defaultType: 'date',
+      defaultType: 'month',
       fullscreen: false,
       showTypeSwitch: true,
       showHeader: true,
@@ -40,6 +40,7 @@ const FullCalendar = createReactClass({
       setType() {},
     };
   },
+
   onHeaderSelect(value, formatValue, momentValue) {
     let resultVal = momentValue ? momentValue : value;
     this.setValue(resultVal);
@@ -88,8 +89,6 @@ const FullCalendar = createReactClass({
 
     return (
       <DateTable
-        dateRender={props.dateCellRender}
-        contentRender={props.dateCellContentRender}
         locale={locale}
         prefixCls={prefixCls}
         onSelect={this.onSelect}
@@ -106,8 +105,6 @@ const FullCalendar = createReactClass({
 
     return (
       <WeekTable
-        cellRender={props.weekCellRender}
-        contentRender={props.weekCellContentRender}
         locale={locale}
         onSelect={this.onSelect}
         prefixCls={`${prefixCls}-week-panel`}
@@ -124,8 +121,6 @@ const FullCalendar = createReactClass({
 
     return (
       <TimeTable
-        cellRender={props.timeCellRender}
-        contentRender={props.timeCellContentRender}
         locale={locale}
         onSelect={this.onSelect}
         prefixCls={`${prefixCls}-time-panel`}
@@ -137,16 +132,15 @@ const FullCalendar = createReactClass({
   },
   getPanel() {
     const { type } = this.state;
-
     switch (type) {
-      case 'date':
+      case 'month':
         return this.getDateTableElement();
       case 'week':
         return this.getWeekTableElement();
       case 'time':
         return this.getTimeTableElement();
       default:
-        return this.getDateTableElement();
+        return;
     }
   },
   render() {

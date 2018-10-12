@@ -24,6 +24,17 @@ class WeekTable extends React.Component {
   componentDidMount() {
     this.getTimeLine();
   }
+  renderEvents() {
+    let { scheduleRender, startHour, gapMinute, endHour, value, type } = this.props;
+
+    const { slicePiece } = this.state;
+    let renderOpts = { startHour, gapMinute, endHour, slicePiece, type, current: value };
+    if (scheduleRender) {
+      const content = scheduleRender(renderOpts);
+
+      return <div className="events-wrapper">{content}</div>;
+    }
+  }
   render() {
     const { slicePiece } = this.state;
     const props = this.props;
@@ -35,13 +46,13 @@ class WeekTable extends React.Component {
           <WeekTHead {...props} />
           <WeekTBody {...props} slicePiece={slicePiece} />
         </table>
+        {this.renderEvents()}
       </div>
     );
   }
 }
 WeekTable.displayName = 'WeekTable';
 WeekTable.defaultProps = {
-  weekCellRender() {},
   startHour: 9,
   endHour: 23,
   gapMinute: 60,

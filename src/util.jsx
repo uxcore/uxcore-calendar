@@ -236,7 +236,7 @@ function computeEventStyle(event, type) {
  * ({
  *  start: '2018-11-12 12:00',
  *  end: '2018-11-12 14:00',
- *  callback: function(){}
+ *  cal: function(){}
  * })
  */
 const generateScheduleContent = events => {
@@ -257,16 +257,18 @@ const generateScheduleContent = events => {
       resultScheduleHtml.push(
         <div className="cell-container" key={container.end} style={containerStyle}>
           {rangeEvents.map((event, idx) => {
+            let originEvt = event.event;
+            let { start, end, cal } = originEvt;
             let eStyle = {
               top: event.top * 100 + '%',
               height: event.height * 100 + '%',
               left: event.offsetX * 100 + '%',
               width: event.width * 100 + '%',
             };
+            let content = cal && typeof cal === 'function' ? cal() : moment(start).date();
             return (
               <div className="kuma-calendar-content-box" key={idx} style={eStyle}>
-                测试测试eeeeee
-                {/* {event.event.start}-{event.event.end} */}
+                {content}
               </div>
             );
           })}
@@ -405,7 +407,6 @@ function isInCurrentPanle(event, opts) {
     let diffEventHeight = endValue - startValue;
     event.top = diffStartCurrent / totalSeconds;
     event.height = diffEventHeight / totalSeconds;
-
     return isSameMoment(current, start);
   } else if (type === 'week') {
     startCurrent = getMomentValue(start, startHour);
@@ -415,7 +416,7 @@ function isInCurrentPanle(event, opts) {
     event.height = diffEventHeight / totalSeconds;
     let day = moment(current).day();
     day = day === 0 ? 7 : day;
-    let firstDate = moment(current).subtract(day - 1, 'd');
+    let firstDate = moment(current).subtract(day, 'd');
     let lastDate = moment(current).add(7 - day, 'd');
     return moment(start).isBetween(firstDate, lastDate);
   } else {
@@ -449,11 +450,13 @@ function handleEventsInSameDate(eventsContainer, opts) {
     let eEnd = moment(end).valueOf();
     event.startValue = eStart;
     event.endValue = eEnd;
+
     if (isInCurrentPanle(event, opts)) {
       let sourceDate = { sourceStart: eStart, sourceEnd: eEnd };
       let targetDate = { targetStart: startCurrent, targetEnd: endCurrent };
 
       let { width, offsetX } = computeEventStyle(event, type);
+
       if (isRange(sourceDate, targetDate)) {
         let evetObj = {};
         if (width !== 'undefined' || offsetX !== 'undefined') {

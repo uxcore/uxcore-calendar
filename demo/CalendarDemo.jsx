@@ -260,7 +260,7 @@ class Demo extends React.Component {
             value={this.state.value}
             onSelect={this.onSelect}
             fullscreen
-            type={'month'}
+            type={'week'}
             locale="zh-cn"
             scheduleRender={Calendar.util.generateScheduleContent(events)}
             // timeCellRender={this.getTimeRender}

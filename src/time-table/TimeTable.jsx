@@ -35,7 +35,7 @@ class TimeTable extends React.Component {
   }
   render() {
     const { slicePiece } = this.state;
-    const { showCount, prefixCls } = this.props;
+    const { showCount, prefixCls, timeCellRender } = this.props;
     let timeCls = `${prefixCls}-time`;
     let tableCls = `${prefixCls}-table`;
     return (

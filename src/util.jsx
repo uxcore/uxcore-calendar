@@ -79,8 +79,8 @@ function getTimeLine(props, current) {
   let minute = moment(current).minute() || 0;
   hour = hour > 9 ? hour : `0${hour}`;
   minute = minute > 9 ? minute : `0${minute}`;
-  let prefixTime = hour > 12 ? 'pm' : 'am';
-  let selected = hour == moment().hour();
+  const prefixTime = hour > 12 ? 'pm' : 'am';
+  let selected = hour === moment().hour();
   selected = selected && moment().minute() >= parseInt(minute);
   selected = selected && moment().minute() < gapMinute + parseInt(minute);
 
@@ -99,7 +99,7 @@ function getTimeLine(props, current) {
 }
 function isRange(sourceDate, targetDate) {
   let { sourceStart, sourceEnd } = sourceDate;
-  let { targetStart, targetEnd } = targetDate;
+  const { targetStart, targetEnd } = targetDate;
 
   if (sourceStart <= sourceEnd) {
     if (sourceEnd > targetEnd) {
@@ -115,9 +115,7 @@ function isRange(sourceDate, targetDate) {
   return false;
 }
 function sortByRender(events) {
-  return sortBy(events, e => {
-    return moment(e.start).valueOf();
-  });
+  return sortBy(events, e => moment(e.start).valueOf());
 }
 /**
  * is in same row
@@ -126,10 +124,10 @@ function inSameRow(target, source) {
   if (!target || !source) {
     return false;
   }
-  let isLt =
+  const isLt =
     moment(source.start).isBefore(moment(source.start)) &&
     moment(source.start).isAfter(moment(target.end));
-  let isEq =
+  const isEq =
     moment(source.start).isSame(moment(source.start)) &&
     moment(source.end).isSame(moment(source.end));
   return isLt || isEq;
@@ -141,18 +139,21 @@ function inSameRow(target, source) {
 function handleEvents(events, opts) {
   let containerEvents = [];
   let wraperHtml = {};
-  let { type } = opts;
+  const { type } = opts;
   for (let i = 0, len = events.length; i < len; i++) {
     let event = events[i];
-    let { start, end } = event;
-    let startKey = moment(start).format('YYYY-MM-DD');
-    let endKey = moment(end).format('YYYY-MM-DD');
+    const { start, end, isColspan } = event;
+    const startKey = moment(start).format('YYYY-MM-DD');
+    const endKey = moment(end).format('YYYY-MM-DD');
     if (!wraperHtml[`${startKey}~${endKey}`]) {
-      wraperHtml[`${startKey}~${endKey}`] = { children: [], date: startKey, end };
+      wraperHtml[`${startKey}~${endKey}`] = {
+        children: [],
+        date: startKey,
+        end,
+        isColspan,
+      };
     }
-
     wraperHtml[`${startKey}~${endKey}`].children.push(event);
-
     let container = containerEvents.find(c => {
       return moment(c.end).valueOf() >= moment(start).valueOf();
     });
@@ -185,50 +186,50 @@ function handleEvents(events, opts) {
 }
 
 function computeEventStyle(event, type) {
-  let start = event.start || event.date;
+  const start = event.start || event.date;
   let startDate = moment(start).day();
   startDate = startDate === 0 ? 7 : startDate;
   let widthSlice = 1;
   let offsetx = 0;
   if (type !== 'time' && event.children) {
-    let { end } = event;
+    const { end } = event;
     widthSlice = 7;
-    let diffEvent = moment(end).date() - moment(start).date() + 1;
+    const diffEvent = moment(end).date() - moment(start).date() + 1;
     offsetx = (startDate - 1) / 7;
-    let firstDateOfMonth = moment(+new Date(start)).startOf('month');
-    let diffDate = firstDateOfMonth.day();
-    let firstDayOfMonthPanel =
+    const firstDateOfMonth = moment(+new Date(start)).startOf('month');
+    const diffDate = firstDateOfMonth.day();
+    const firstDayOfMonthPanel =
       firstDateOfMonth.subtract(diffDate - 1).date() - moment(start).date();
 
-    let top = Math.floor(Math.abs(firstDayOfMonthPanel) / 7);
+    const top = Math.floor(Math.abs(firstDayOfMonthPanel) / 7);
     event.top = type === 'month' ? top / 6 : 0;
-    return { width: (1 / widthSlice) * diffEvent, offsetX: offsetx };
+    return { width: (1 / widthSlice) * diffEvent - 0.015, offsetX: offsetx + 0.005 };
   }
 
   if ((!event.rows || !event.rows.length) && !event.container) {
-    return { width: 1 / widthSlice, offsetX: offsetx };
+    return { width: 1 / widthSlice - 0.015, offsetX: offsetx + 0.005 };
   }
 
   if (type === 'month') return {};
 
   if (event.rows) {
     const columns = event.rows.reduce((max, row) => Math.max(max, row.leaves.length + 1), 0) + 1;
-    return { width: 1 / (columns * widthSlice), offsetX: offsetx };
+    return { width: 1 / (columns * widthSlice) - 0.01, offsetX: offsetx + 0.01 };
   }
 
   if (event.leaves) {
     const avaliableWidth = 1 / widthSlice - event.container.width;
-    let otherWidth = avaliableWidth / (event.leaves.length + 1);
-    offsetX = otherWidth + event.container.offsetX;
-    return { width: otherWidth, offsetX };
+    const otherWidth = avaliableWidth / (event.leaves.length + 1) - 0.01;
+    offsetx = otherWidth + event.container.offsetX + 0.01;
+    return { width: otherWidth, offsetX: offsetx };
   }
 
   let { leaves, offsetX } = event.row;
-  let idx = leaves.indexOf(event);
+  const idx = leaves.indexOf(event);
 
   return {
-    width: event.row.width,
-    offsetX: event.row.width * (idx + 1) + offsetX,
+    width: event.row.width - 0.01,
+    offsetX: event.row.width * (idx + 1) + offsetX + 0.01,
   };
 }
 /**
@@ -246,17 +247,19 @@ const generateScheduleContent = events => {
     let resultScheduleHtml = [];
     for (let c in containerEvents) {
       let container = containerEvents[c];
-      let { children: rangeEvents, width, offsetX, height, top } = container;
-
+      let { children: rangeEvents, width, offsetX, height, top, isColspan } = container;
       let containerStyle = {
         width: width * 100 + '%',
         left: offsetX * 100 + '%',
         top: top ? top * 100 + '%' : 0,
         height: height * 100 + '%',
       };
-
+      let containerCls = classnames({
+        'cell-container': true,
+        'colspan-cell': isColspan,
+      });
       resultScheduleHtml.push(
-        <div className="cell-container" key={container.end} style={containerStyle}>
+        <div className={containerCls} key={container.end} style={containerStyle}>
           {rangeEvents.map((event, idx) => {
             let originEvt = event.event;
             let { start, end, cal } = originEvt;
@@ -354,16 +357,15 @@ function splitEvents(event, diffDays, opts) {
  * 拆分月面板事件
  *
  */
-function splitMonthEvents(event, diffDays, opts) {
+function splitMonthEvents(event, diffDays) {
   let arrs = [];
-  let { startHour, current } = opts;
-  let { start, end, cal } = event;
-  let startDay = moment(start).day();
-  let eStart = moment(start).valueOf();
-  let eEnd = moment(end).valueOf();
+  const { start, end, cal } = event;
+  const startDay = moment(start).day();
+  const eStart = moment(start).valueOf();
+  const eEnd = moment(end).valueOf();
   // 是否在一行
   if (startDay + diffDays > 7) {
-    let splitDays = Math.ceil(Math.abs(7 - (startDay + diffDays)) / 7);
+    const splitDays = Math.ceil(Math.abs(7 - (startDay + diffDays)) / 7);
     for (let i = 0; i <= splitDays; i++) {
       let startTime = i === 0 ? start : moment(eStart).add(8 - startDay + 7 * (i - 1), 'd'),
         endTime = i === splitDays ? end : moment(eStart).add(7 - startDay + 7 * i, 'd');
@@ -373,6 +375,7 @@ function splitMonthEvents(event, diffDays, opts) {
         cal,
         eStart,
         eEnd,
+        isColspan: true,
       });
     }
   } else {
@@ -382,6 +385,7 @@ function splitMonthEvents(event, diffDays, opts) {
       cal,
       eStart,
       eEnd,
+      isColspan: diffDays > 1,
     });
   }
 
@@ -391,66 +395,66 @@ function splitMonthEvents(event, diffDays, opts) {
  * 获取是否处于当前面板中
  */
 function isInCurrentPanle(event, opts) {
-  let { current, type } = opts;
-  let { start } = event;
+  const { current, type } = opts;
+  const { start } = event;
   if (type === 'time') {
     return isSameMoment(current, start);
   }
   if (type === 'week') {
     let day = moment(current).day();
     day = day === 0 ? 7 : day;
-    let firstDate = moment(current).subtract(day, 'd');
-    let lastDate = moment(current).add(7 - day, 'd');
+    const firstDate = moment(current).subtract(day, 'd');
+    const lastDate = moment(current).add(7 - day, 'd');
     return moment(start).isBetween(firstDate, lastDate);
   }
   return moment(start).isSame(current, 'month');
 }
 function getEventTopHeight(event, opts) {
-  let { startHour, current, slicePiece, gapMinute, type } = opts;
-  let { start, end, startValue, endValue } = event;
+  const { startHour, current, slicePiece, gapMinute, type } = opts;
+  const { start, startValue, endValue } = event;
   let startCurrent = getMomentValue(current, startHour);
-  let totalSeconds = (slicePiece + 2) * gapMinute * 60 * 1000;
+  const totalSeconds = (slicePiece + 2) * gapMinute * 60 * 1000;
   if (type === 'time') {
-    let diffStartCurrent = startValue - startCurrent + gapMinute * 60 * 1000;
-    let diffEventHeight = endValue - startValue;
-    event.top = diffStartCurrent / totalSeconds;
-    event.height = diffEventHeight / totalSeconds;
+    const diffStartCurrent = startValue - startCurrent + gapMinute * 60 * 1000;
+    const diffEventHeight = endValue - startValue;
+    event.top = diffStartCurrent / totalSeconds + 0.01;
+    event.height = diffEventHeight / totalSeconds - 0.015;
     return;
   }
   if (type === 'week') {
     startCurrent = getMomentValue(start, startHour);
-    let diffStartCurrent = startValue - startCurrent + gapMinute * 60 * 1000;
-    let diffEventHeight = endValue - startValue;
-    event.top = diffStartCurrent / totalSeconds;
-    event.height = diffEventHeight / totalSeconds;
+    const diffStartCurrent = startValue - startCurrent + gapMinute * 60 * 1000;
+    const diffEventHeight = endValue - startValue;
+    event.top = diffStartCurrent / totalSeconds + 0.01;
+    event.height = diffEventHeight / totalSeconds - 0.015;
   }
 }
 function handleEventsInSameDate(eventsContainer, opts) {
-  let { startHour, gapMinute, endHour, slicePiece, current, type } = opts;
-  let containerStyle = computeEventStyle(eventsContainer, type);
+  const { startHour, endHour, current, type } = opts;
+  const containerStyle = computeEventStyle(eventsContainer, type);
   eventsContainer.width = containerStyle.width;
   eventsContainer.offsetX = containerStyle.offsetX;
   eventsContainer.height = type === 'month' ? 1 / 6 : 1;
 
-  let events = eventsContainer.children;
+  const events = eventsContainer.children;
   let rangeEvents = [];
 
-  let startCurrent = getMomentValue(current, startHour);
-  let endCurrent = getMomentValue(current, endHour);
+  const startCurrent = getMomentValue(current, startHour);
+  const endCurrent = getMomentValue(current, endHour);
 
-  events.forEach((event, idx) => {
-    let { start, end } = event;
-    let eStart = moment(start).valueOf();
-    let eEnd = moment(end).valueOf();
+  events.forEach(event => {
+    const { start, end } = event;
+    const eStart = moment(start).valueOf();
+    const eEnd = moment(end).valueOf();
     event.startValue = eStart;
     event.endValue = eEnd;
 
     if (isInCurrentPanle(event, opts)) {
       // 获取事件的top值和高度
       getEventTopHeight(event, opts);
-      let sourceDate = { sourceStart: eStart, sourceEnd: eEnd };
-      let targetDate = { targetStart: startCurrent, targetEnd: endCurrent };
-      let { width, offsetX } = computeEventStyle(event, type);
+      const sourceDate = { sourceStart: eStart, sourceEnd: eEnd };
+      const targetDate = { targetStart: startCurrent, targetEnd: endCurrent };
+      const { width, offsetX } = computeEventStyle(event, type);
       if (isRange(sourceDate, targetDate)) {
         let evetObj = {};
         if (width !== 'undefined' || offsetX !== 'undefined') {
@@ -477,13 +481,13 @@ function handleEventsInSameDate(eventsContainer, opts) {
 }
 function evaluateStyle(events, opts) {
   // 拆分事件，为week时，跨两天拆分为两天
-  events = initEvents(events, opts);
+  const newEvents = initEvents(events, opts);
   // 对事件进行排序
-  let sortedEvents = sortByRender(events);
+  const sortedEvents = sortByRender(newEvents);
   // 获取同一段事件的容器位置
-  let containerEvents = handleEvents(sortedEvents, opts);
+  const containerEvents = handleEvents(sortedEvents, opts);
   for (let o in containerEvents) {
-    let wrapSchedule = containerEvents[o];
+    const wrapSchedule = containerEvents[o];
     containerEvents[o].children = handleEventsInSameDate(wrapSchedule, opts);
   }
   return containerEvents;

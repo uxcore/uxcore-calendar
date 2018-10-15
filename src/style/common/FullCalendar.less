@@ -41,9 +41,9 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        padding-left: 10px;
+        padding: 0 8px 0px 10px;
         &:first-child {
-          margin-top: 25px;
+          margin-top: 30px;
         }
         &::before {
           display: block;
@@ -58,6 +58,14 @@
         }
       }
     }
+    .colspan-cell {
+      .kuma-calendar-content-box {
+        width: 100%;
+        border-radius: 5px;
+        background: @brand-primary;
+        color: #fff;
+      }
+    }
   }
   &-calendar-body {
     position: relative;
@@ -67,10 +75,11 @@
     background: @brand-primary-alpha-7;
     border: 1px solid @brand-primary;
     border-radius: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 8px;
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   &-date-select {
     width: 200px;

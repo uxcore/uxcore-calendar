@@ -275,7 +275,7 @@ const generateScheduleContent = events => {
             let content = cal && typeof cal === 'function' ? cal(event) : moment(start).date();
             return (
               <div className="kuma-calendar-content-box" key={idx} style={eStyle}>
-                {content}
+                <div className="kuma-calendar-content-wraper">{content}</div>
               </div>
             );
           })}

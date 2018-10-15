@@ -71,9 +71,14 @@
   }
   .kuma-calendar-content-box {
     position: absolute;
-    background: @brand-primary-alpha-7;
+    background: #fff;
     border: 1px solid @brand-primary;
     border-radius: 5px;
+    .kuma-calendar-content-wraper {
+      background: @brand-primary-alpha-7;
+      width: 100%;
+      height: 100%;
+    }
     div {
       white-space: nowrap;
       overflow: hidden;
@@ -158,7 +163,7 @@
         background-color: @brand-primary-alpha-7;
         cursor: pointer;
       }
-      >span {
+      > span {
         float: left;
         height: 28px;
         line-height: 24px;

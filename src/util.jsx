@@ -265,7 +265,7 @@ const generateScheduleContent = events => {
               left: event.offsetX * 100 + '%',
               width: event.width * 100 + '%',
             };
-            let content = cal && typeof cal === 'function' ? cal() : moment(start).date();
+            let content = cal && typeof cal === 'function' ? cal(event) : moment(start).date();
             return (
               <div className="kuma-calendar-content-box" key={idx} style={eStyle}>
                 {content}
@@ -288,20 +288,41 @@ function isSameMoment(target, source) {
   source = moment(source).format('YYYY-MM-DD');
   return moment(target).isSame(source);
 }
+
+function initEvents(events, opts) {
+  let resultEvents = [];
+  events.forEach((event, idx) => {
+    let { start, end } = event;
+    event.id = idx;
+    let diffDate = moment(end).diff(moment(start), 'days');
+    if (diffDate > 0) {
+      resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts));
+    } else {
+      resultEvents.push(event);
+    }
+  });
+  return resultEvents;
+}
+function getMomentValue(date, hour) {
+  return moment(date)
+    .hour(hour)
+    .minute(0)
+    .second(0)
+    .valueOf();
+}
+
 /**
  * 拆分事件，是否为跨天事件
  */
 function splitEvents(event, diffDays, opts) {
   let arrs = [];
-  let { startHour, endHour, current, slicePiece, gapMinute, type } = opts;
+  let { startHour, endHour, current, type } = opts;
   let { start, end, cal } = event;
   if (type === 'month') {
     return splitMonthEvents(event, diffDays, opts);
   }
   let eStart = moment(start).valueOf();
   let eEnd = moment(end).valueOf();
-  let startCurrent = getMomentValue(current, startHour);
-  let eventStartDay = moment(eStart).date();
   for (let i = 0; i <= diffDays; i++) {
     let startTime =
         i === 0
@@ -328,24 +349,21 @@ function splitEvents(event, diffDays, opts) {
 
   return arrs;
 }
-
 /**
  * 拆分月面板事件
  *
  */
 function splitMonthEvents(event, diffDays, opts) {
   let arrs = [];
-  let { startHour, endHour, current, slicePiece, gapMinute, type } = opts;
+  let { startHour, current } = opts;
   let { start, end, cal } = event;
   let startDay = moment(start).day();
   let eStart = moment(start).valueOf();
   let eEnd = moment(end).valueOf();
-  let startCurrent = getMomentValue(current, startHour);
-  let eventStartDay = moment(eStart).date();
   // 是否在一行
   if (startDay + diffDays > 7) {
     let splitDays = Math.ceil(Math.abs(7 - (startDay + diffDays)) / 7);
-    for (let i = 0; i <= Math.abs(splitDays); i++) {
+    for (let i = 0; i <= splitDays; i++) {
       let startTime = i === 0 ? start : moment(eStart).add(8 - startDay + 7 * (i - 1), 'd'),
         endTime = i === splitDays ? end : moment(eStart).add(7 - startDay + 7 * i, 'd');
       arrs.push({
@@ -368,68 +386,43 @@ function splitMonthEvents(event, diffDays, opts) {
 
   return arrs;
 }
-function initEvents(events, opts) {
-  let resultEvents = [];
-  let { startHour, gapMinute, endHour, slicePiece, current } = opts;
-  let startCurrent = getMomentValue(current, startHour);
-  let endCurrent = getMomentValue(current, endHour);
-  let totalCurrent = endCurrent - startCurrent;
-  events.forEach((event, idx) => {
-    let { start, end } = event;
-    event.id = idx;
-    let diffDate = moment(end).diff(moment(start), 'days'); // 1;
-    if (diffDate > 0) {
-      resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts));
-    } else {
-      resultEvents.push(event);
-    }
-  });
-  return resultEvents;
-}
-function getMomentValue(date, hour) {
-  return moment(date)
-    .hour(hour)
-    .minute(0)
-    .second(0)
-    .valueOf();
-}
 /**
  * 获取是否处于当前面板中
  */
 function isInCurrentPanle(event, opts) {
-  let { startHour, endHour, current, slicePiece, gapMinute, type } = opts;
-  let { start, end, startValue, endValue, cal } = event;
-  let startCurrent = getMomentValue(current, startHour);
-  let totalSeconds = (slicePiece + 2) * gapMinute * 60 * 1000;
-
+  let { current, type } = opts;
+  let { start } = event;
   if (type === 'time') {
-    let diffStartCurrent = startValue - startCurrent + gapMinute * 60 * 1000;
-    let diffEventHeight = endValue - startValue;
-    event.top = diffStartCurrent / totalSeconds;
-    event.height = diffEventHeight / totalSeconds;
     return isSameMoment(current, start);
-  } else if (type === 'week') {
-    startCurrent = getMomentValue(start, startHour);
-    let diffStartCurrent = startValue - startCurrent + gapMinute * 60 * 1000;
-    let diffEventHeight = endValue - startValue;
-    event.top = diffStartCurrent / totalSeconds;
-    event.height = diffEventHeight / totalSeconds;
+  }
+  if (type === 'week') {
     let day = moment(current).day();
     day = day === 0 ? 7 : day;
     let firstDate = moment(current).subtract(day, 'd');
     let lastDate = moment(current).add(7 - day, 'd');
     return moment(start).isBetween(firstDate, lastDate);
-  } else {
-    return moment(start).isSame(current, 'month');
   }
+  return moment(start).isSame(current, 'month');
 }
-/**
- * 计算事件wrapper的位置和大小
- *
- */
-function compputeContaineStyle(eventsContainer, opts) {
-  let { startHour, gapMinute, endHour, slicePiece, current, type } = opts;
-  let { date } = eventsContainer;
+function getEventTopHeight(event, opts) {
+  let { startHour, current, slicePiece, gapMinute, type } = opts;
+  let { start, end, startValue, endValue } = event;
+  let startCurrent = getMomentValue(current, startHour);
+  let totalSeconds = (slicePiece + 2) * gapMinute * 60 * 1000;
+  if (type === 'time') {
+    let diffStartCurrent = startValue - startCurrent + gapMinute * 60 * 1000;
+    let diffEventHeight = endValue - startValue;
+    event.top = diffStartCurrent / totalSeconds;
+    event.height = diffEventHeight / totalSeconds;
+    return;
+  }
+  if (type === 'week') {
+    startCurrent = getMomentValue(start, startHour);
+    let diffStartCurrent = startValue - startCurrent + gapMinute * 60 * 1000;
+    let diffEventHeight = endValue - startValue;
+    event.top = diffStartCurrent / totalSeconds;
+    event.height = diffEventHeight / totalSeconds;
+  }
 }
 function handleEventsInSameDate(eventsContainer, opts) {
   let { startHour, gapMinute, endHour, slicePiece, current, type } = opts;
@@ -437,26 +430,26 @@ function handleEventsInSameDate(eventsContainer, opts) {
   eventsContainer.width = containerStyle.width;
   eventsContainer.offsetX = containerStyle.offsetX;
   eventsContainer.height = type === 'month' ? 1 / 6 : 1;
+
   let events = eventsContainer.children;
   let rangeEvents = [];
 
   let startCurrent = getMomentValue(current, startHour);
   let endCurrent = getMomentValue(current, endHour);
-  // 获取整体的分钟数
-  let totalSeconds = (slicePiece + 2) * gapMinute * 60 * 1000;
+
   events.forEach((event, idx) => {
-    let { start, end, cal } = event;
+    let { start, end } = event;
     let eStart = moment(start).valueOf();
     let eEnd = moment(end).valueOf();
     event.startValue = eStart;
     event.endValue = eEnd;
 
     if (isInCurrentPanle(event, opts)) {
+      // 获取事件的top值和高度
+      getEventTopHeight(event, opts);
       let sourceDate = { sourceStart: eStart, sourceEnd: eEnd };
       let targetDate = { targetStart: startCurrent, targetEnd: endCurrent };
-
       let { width, offsetX } = computeEventStyle(event, type);
-
       if (isRange(sourceDate, targetDate)) {
         let evetObj = {};
         if (width !== 'undefined' || offsetX !== 'undefined') {
@@ -486,8 +479,8 @@ function evaluateStyle(events, opts) {
   events = initEvents(events, opts);
   // 对事件进行排序
   let sortedEvents = sortByRender(events);
+  // 获取同一段事件的容器位置
   let containerEvents = handleEvents(sortedEvents, opts);
-
   for (let o in containerEvents) {
     let wrapSchedule = containerEvents[o];
     containerEvents[o].children = handleEventsInSameDate(wrapSchedule, opts);

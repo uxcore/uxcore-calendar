@@ -20,7 +20,7 @@ const FullCalendar = createReactClass({
     fullscreen: PropTypes.bool,
     onSelect: PropTypes.func,
     dateCellRender: PropTypes.func,
-    weekCellRender: PropTypes.func,
+    weekRender: PropTypes.func,
     showTypeSwitch: PropTypes.bool,
     headerComponents: PropTypes.array,
     headerComponent: PropTypes.object, // The whole header component

@@ -121,6 +121,7 @@ class CalendarHeader extends Component {
           value={value}
           onSelect={this.props.onValueChange}
           hasTrigger={false}
+          style={{ top: '40px' }}
         />
         <a className={`${prefixCls}-next-btn`} onClick={this.handleNext.bind(this)} />
       </div>

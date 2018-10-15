@@ -14,7 +14,7 @@ export default class WeekBody extends React.Component {
 
     let {
       prefixCls,
-      timeCellRender,
+      timeRender,
       slicePiece,
       startHour,
       endHour,
@@ -59,8 +59,8 @@ export default class WeekBody extends React.Component {
           }
         }
 
-        if (timeCellRender) {
-          dateHtml = timeCellRender(current, value);
+        if (jIndex !== 0 && timeRender) {
+          dateHtml = timeRender(current, value);
         }
         dateCells.push(
           <td
@@ -104,5 +104,5 @@ WeekBody.displayName = 'WeekBody';
 WeekBody.defaultProps = {};
 WeekBody.propTypes = {
   prefixCls: PropTypes.string,
-  timeCellRender: PropTypes.func,
+  timeRender: PropTypes.func,
 };

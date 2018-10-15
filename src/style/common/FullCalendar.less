@@ -29,8 +29,33 @@
     .cell-container {
       position: absolute; // display: inline-block;
       overflow-y: scroll;
+      padding: 8px;
       .kuma-calendar-content-box {
         position: relative;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        top: 0 !important;
+        width: 86px;
+        height: 18px !important;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding-left: 10px;
+        &:first-child {
+          margin-top: 25px;
+        }
+        &::before {
+          display: block;
+          content: " ";
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          top: 5px;
+          left: 0px;
+          border-radius: 6px;
+          background: #ff6f00;
+        }
       }
     }
   }
@@ -42,7 +67,10 @@
     background: #fff7f0;
     border: 1px solid #ff6f00;
     border-radius: 5px;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
   }
   &-date-select {
     width: 200px;
@@ -122,7 +150,7 @@
         background-color: rgba(255, 111, 0, 0.06);
         cursor: pointer;
       }
-      >span {
+      > span {
         float: left;
         height: 28px;
         line-height: 24px;

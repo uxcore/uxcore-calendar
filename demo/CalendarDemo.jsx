@@ -263,9 +263,9 @@ class Demo extends React.Component {
             type={'week'}
             locale="zh-cn"
             scheduleRender={Calendar.util.generateScheduleContent(events)}
-            // timeCellRender={this.getTimeRender}
-            // weekCellRender={this.getTimeRender}
-            // dateCellRender={this.getTimeRender}
+            // timeRender={this.getTimeRender}
+            // weekRender={this.getTimeRender}
+            // dateRender={this.getTimeRender}
             disabledDate={disabledDate}
             disabledTime={disabledTime}
             startHour={9}

@@ -67,9 +67,9 @@ export default class FullCalendar extends React.Component {
     let {
       value,
       defaultValue,
-      timeCellRender,
+      timeRender,
       dateRender,
-      weekCellRender,
+      weekRender,
       scheduleRender,
       contentRender,
     } = this.props;
@@ -80,27 +80,17 @@ export default class FullCalendar extends React.Component {
       let cvalue = this.getDate(new Date().getTime());
       calendarOptions.defaultValue = cvalue;
     }
-    if (timeCellRender) {
-      calendarOptions.timeCellRender = this.handleCellRender.bind(this, 'timeCellRender');
+    if (timeRender) {
+      calendarOptions.timeRender = this.handleCellRender.bind(this, 'timeRender');
     }
-    if (weekCellRender) {
-      calendarOptions.weekCellRender = this.handleCellRender.bind(this, 'weekCellRender');
+    if (weekRender) {
+      calendarOptions.weekRender = this.handleCellRender.bind(this, 'weekRender');
     }
     if (dateRender) {
-      calendarOptions.dateRender = this.handleCellRender.bind(this, 'dateCellRender');
+      calendarOptions.dateRender = this.handleCellRender.bind(this, 'dateRender');
     }
     if (scheduleRender && typeof scheduleRender === 'function') {
       calendarOptions.scheduleRender = scheduleRender;
-      // calendarOptions.contentRender = (events, current) => {
-      //   if (typeof contentRender === 'function') {
-      //     // const date = current.clone();
-      //     // date.getTime = current.valueOf;
-      //     // date.getDayOfMonth = date.date;
-      //     // return contentRender(date, value);
-      //     // return contentRender(events, current);
-      //   }
-      //   // return current.date();
-      // };
     }
     if (contentRender && typeof contentRender === 'function') {
       calendarOptions.contentRender = contentRender;
@@ -132,8 +122,8 @@ export default class FullCalendar extends React.Component {
       value,
       defaultValue,
       onSelect,
-      timeCellRender,
-      weekCellRender,
+      timeRender,
+      weekRender,
       dateRender,
       contentRender,
       scheduleRender,
@@ -204,10 +194,10 @@ FullCalendar.propTypes = {
   onTypeChange: PropTypes.func,
   getPopupContainer: PropTypes.func,
   contentRender: PropTypes.func,
-  weekCellRender: PropTypes.func,
+  weekRender: PropTypes.func,
   dateCellRender: PropTypes.func,
   scheduleRender: PropTypes.func,
-  timeCellRender: PropTypes.func,
+  timeRender: PropTypes.func,
   headerComponents: PropTypes.array,
   headerComponent: PropTypes.object, // The whole header component
   headerRender: PropTypes.func,

@@ -59,7 +59,7 @@ WeekTable.defaultProps = {
 };
 WeekTable.propTypes = {
   prefixCls: PropTypes.string,
-  weekCellRender: PropTypes.func,
+  weekRender: PropTypes.func,
   startHour: PropTypes.number,
   endHour: PropTypes.number,
   gapMinute: PropTypes.number,

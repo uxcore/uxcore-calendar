@@ -35,7 +35,7 @@ class TimeTable extends React.Component {
   }
   render() {
     const { slicePiece } = this.state;
-    const { showCount, prefixCls, timeCellRender } = this.props;
+    const { showCount, prefixCls, timeRender } = this.props;
     let timeCls = `${prefixCls}-time`;
     let tableCls = `${prefixCls}-table`;
     return (
@@ -59,7 +59,7 @@ TimeTable.defaultProps = {
 TimeTable.propTypes = {
   prefixCls: PropTypes.string,
   showCount: PropTypes.number,
-  timeCellRender: PropTypes.func,
+  timeRender: PropTypes.func,
   startHour: PropTypes.number,
   endHour: PropTypes.number,
   gapMinute: PropTypes.number,

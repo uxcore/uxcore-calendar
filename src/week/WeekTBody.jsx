@@ -13,7 +13,7 @@ export default class WeekBody extends React.Component {
     const props = this.props;
     let {
       prefixCls,
-      weekCellRender,
+      weekRender,
       slicePiece,
       startHour,
       endHour,
@@ -71,8 +71,8 @@ export default class WeekBody extends React.Component {
           }
         }
 
-        if (weekCellRender) {
-          dateHtml = weekCellRender(current, value);
+        if (jIndex !== 0 && weekRender) {
+          dateHtml = weekRender(current, value);
         }
 
         let disabled = disableTime || disableDate;
@@ -119,5 +119,5 @@ WeekBody.displayName = 'WeekBody';
 WeekBody.defaultProps = {};
 WeekBody.propTypes = {
   prefixCls: PropTypes.string,
-  weekCellRender: PropTypes.func,
+  weekRender: PropTypes.func,
 };

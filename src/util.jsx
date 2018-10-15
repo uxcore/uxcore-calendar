@@ -142,7 +142,7 @@ function handleEvents(events, opts) {
   const { type } = opts;
   for (let i = 0, len = events.length; i < len; i++) {
     let event = events[i];
-    const { start, end, isColspan } = event;
+    const { start, end, isColspan, hasColspan } = event;
     const startKey = moment(start).format('YYYY-MM-DD');
     const endKey = moment(end).format('YYYY-MM-DD');
     if (!wraperHtml[`${startKey}~${endKey}`]) {
@@ -151,6 +151,7 @@ function handleEvents(events, opts) {
         date: startKey,
         end,
         isColspan,
+        hasColspan,
       };
     }
     wraperHtml[`${startKey}~${endKey}`].children.push(event);
@@ -185,8 +186,10 @@ function handleEvents(events, opts) {
   return wraperHtml;
 }
 
-function computeEventStyle(event, type) {
+function computeEventStyle(event, type, current) {
   const start = event.start || event.date;
+  const isSameDate = moment(start).isSame(current, 'd');
+  const topDiff = isSameDate ? 0.06 : 0.04;
   let startDate = moment(start).day();
   startDate = startDate === 0 ? 7 : startDate;
   let widthSlice = 1;
@@ -202,7 +205,7 @@ function computeEventStyle(event, type) {
       firstDateOfMonth.subtract(diffDate - 1).date() - moment(start).date();
 
     const top = Math.floor(Math.abs(firstDayOfMonthPanel) / 7);
-    event.top = type === 'month' ? top / 6 : 0;
+    event.top = type === 'month' ? top / 6 + topDiff : 0;
     return { width: (1 / widthSlice) * diffEvent - 0.015, offsetX: offsetx + 0.005 };
   }
 
@@ -363,12 +366,14 @@ function splitMonthEvents(event, diffDays) {
   const startDay = moment(start).day();
   const eStart = moment(start).valueOf();
   const eEnd = moment(end).valueOf();
+  let hasColspan = false;
   // 是否在一行
   if (startDay + diffDays > 7) {
     const splitDays = Math.ceil(Math.abs(7 - (startDay + diffDays)) / 7);
     for (let i = 0; i <= splitDays; i++) {
       let startTime = i === 0 ? start : moment(eStart).add(8 - startDay + 7 * (i - 1), 'd'),
         endTime = i === splitDays ? end : moment(eStart).add(7 - startDay + 7 * i, 'd');
+      hasColspan = true;
       arrs.push({
         start: startTime,
         end: endTime,
@@ -385,6 +390,7 @@ function splitMonthEvents(event, diffDays) {
       cal,
       eStart,
       eEnd,
+      hasColspan,
       isColspan: diffDays > 1,
     });
   }
@@ -431,10 +437,10 @@ function getEventTopHeight(event, opts) {
 }
 function handleEventsInSameDate(eventsContainer, opts) {
   const { startHour, endHour, current, type } = opts;
-  const containerStyle = computeEventStyle(eventsContainer, type);
+  const containerStyle = computeEventStyle(eventsContainer, type, current);
   eventsContainer.width = containerStyle.width;
   eventsContainer.offsetX = containerStyle.offsetX;
-  eventsContainer.height = type === 'month' ? 1 / 6 : 1;
+  eventsContainer.height = type === 'month' ? 1 / 6 - 0.06 : 1;
 
   const events = eventsContainer.children;
   let rangeEvents = [];
@@ -454,7 +460,7 @@ function handleEventsInSameDate(eventsContainer, opts) {
       getEventTopHeight(event, opts);
       const sourceDate = { sourceStart: eStart, sourceEnd: eEnd };
       const targetDate = { targetStart: startCurrent, targetEnd: endCurrent };
-      const { width, offsetX } = computeEventStyle(event, type);
+      const { width, offsetX } = computeEventStyle(event, type, current);
       if (isRange(sourceDate, targetDate)) {
         let evetObj = {};
         if (width !== 'undefined' || offsetX !== 'undefined') {

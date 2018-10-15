@@ -251,10 +251,11 @@ class Demo extends React.Component {
           className="kuma-form-field"
           style={{
             width: '800px',
-            height: '400px',
           }}
         >
-          <p>大日历日期选择</p>
+          <p>
+            大日历日期选择,跨日程，提供Calendar.util.generateScheduleContent方法，返回具体日程的相关信息
+          </p>
           <FullCalendar
             size="middle"
             value={this.state.value}
@@ -263,9 +264,31 @@ class Demo extends React.Component {
             type={'week'}
             locale="zh-cn"
             scheduleRender={Calendar.util.generateScheduleContent(events)}
-            // timeRender={this.getTimeRender}
-            // weekRender={this.getTimeRender}
-            // dateRender={this.getTimeRender}
+            startHour={9}
+            endHour={18}
+            gapMinute={60}
+          />
+        </div>
+
+        <div
+          className="kuma-form-field"
+          style={{
+            width: '800px',
+            height: '400px',
+          }}
+        >
+          <p>大日历日期选择，可对每个日历的每个格子进行渲染</p>
+          <FullCalendar
+            size="middle"
+            value={this.state.value}
+            onSelect={this.onSelect}
+            fullscreen
+            type={'week'}
+            locale="zh-cn"
+            // scheduleRender={Calendar.util.generateScheduleContent(events)}
+            timeRender={this.getTimeRender}
+            weekRender={this.getTimeRender}
+            dateRender={this.getTimeRender}
             disabledDate={disabledDate}
             disabledTime={disabledTime}
             startHour={9}

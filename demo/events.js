@@ -1,23 +1,27 @@
+const current = +new Date();
+const end = current + 8 * 60 * 60 * 1000;
+
 export default [
   {
-    start: '2018-10-08 12:00',
-    end: '2018-10-08 12:20',
+    start: new Date(),
+    end,
     cal: current => {
-      return <span>今天周六,不宜加班</span>;
+      return <span>从现在到之后的8小时</span>;
+    },
+  },
+
+  {
+    start: '2018-10-10 13:00',
+    end: '2018-10-10 14:00',
+    cal: current => {
+      return <span>10-10</span>;
     },
   },
   {
-    start: '2018-10-08 12:30',
-    end: '2018-10-08 13:00',
+    start: '2018-10-10 13:00',
+    end: '2018-10-10 14:00',
     cal: current => {
-      return <span>今天周六,不宜加班</span>;
-    },
-  },
-  {
-    start: '2018-10-08 13:00',
-    end: '2018-10-08 14:00',
-    cal: current => {
-      return <span>今天周六,不宜加班</span>;
+      return <span>10-10</span>;
     },
   },
 ];

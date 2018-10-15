@@ -14,7 +14,7 @@
       padding-right: 5px;
     }
     &.@{calendarFullCls}-week-panel-today {
-      color: #ff6f00;
+      color: @brand-primary;
     }
   }
   &-timeline {
@@ -32,7 +32,7 @@
     }
   }
   &-timeline-now {
-    color: #ff6f00;
+    color: @brand-primary;
   }
   &-date-tr {
     height: 48px;
@@ -42,7 +42,7 @@
     border-bottom: 1px solid #e8ebee;
     border-right: 1px solid #e8ebee;
     &:hover {
-      background-color: rgba(255, 111, 0, 0.06);
+      background-color: @brand-primary-alpha-7;
     }
   }
   &-table {
@@ -51,10 +51,11 @@
   }
   &-date-disable-date {
     cursor: not-allowed;
-    color: rgba(31, 56, 88, 0.3);
+    color: @text-disabled-color;
+    background-color: @bg-disabled-color;
     &:hover {
-      background-color: white;
-      color: rgba(31, 56, 88, 0.3);
+      background-color: @bg-disabled-color;
+      color: @text-disabled-color;
     }
   }
   &-time-panel {

@@ -54,7 +54,7 @@
           top: 5px;
           left: 0px;
           border-radius: 6px;
-          background: #ff6f00;
+          background: @brand-primary;
         }
       }
     }
@@ -64,8 +64,8 @@
   }
   .kuma-calendar-content-box {
     position: absolute;
-    background: #fff7f0;
-    border: 1px solid #ff6f00;
+    background: @brand-primary-alpha-7;
+    border: 1px solid @brand-primary;
     border-radius: 5px;
     white-space: nowrap;
     overflow: hidden;
@@ -147,7 +147,7 @@
       float: right;
       display: inline-block;
       &-normal:hover {
-        background-color: rgba(255, 111, 0, 0.06);
+        background-color: @brand-primary-alpha-7;
         cursor: pointer;
       }
       > span {
@@ -171,15 +171,15 @@
     }
     .@{calendarFullCls}-header-switcher-focus {
       position: relative;
-      background-color: rgba(255, 111, 0, 0.06);
-      color: #ff6f00;
-      border: 1px solid #ff6f00;
+      background-color: @brand-primary-alpha-7;
+      color: @brand-primary;
+      border: 1px solid @brand-primary;
       &.@{calendarFullCls}-header-switcher-time {
         right: -1px;
-        border-right: 1px solid #ff6f00;
+        border-right: 1px solid @brand-primary;
       }
       &.@{calendarFullCls}-header-switcher-date {
-        border-left: 1px solid #ff6f00;
+        border-left: 1px solid @brand-primary;
         left: -1px;
       }
     }
@@ -203,24 +203,25 @@
     border-right: 1px solid #e8ebee;
     &:hover {
       // border-color: #ff6f00;
-      background-color: rgba(255, 111, 0, 0.06);
-      color: #ff6f00;
+      background-color: @brand-primary-alpha-7;
+      color: @brand-primary;
     }
     &.@{calendarFullCls}-last-month-cell,
     &.@{calendarFullCls}-next-month-btn-day {
       color: rgba(31, 56, 88, 0.3);
     }
     &.@{calendarFullCls}-selected-day {
-      background-color: rgba(255, 111, 0, 0.06);
-      color: #ff6f00;
+      background-color: @brand-primary-alpha-7;
+      color: @brand-primary;
     }
     &.@{calendarFullCls}-disabled-cell {
       cursor: not-allowed;
-      color: rgba(31, 56, 88, 0.3);
+      color: @text-disabled-color;
+      background-color: @bg-disabled-color;
       &:hover {
         // border-color: #ff6f00;
-        background-color: white;
-        color: rgba(31, 56, 88, 0.3);
+        background-color: @bg-disabled-color;
+        color: @text-disabled-color;
       }
     }
   }
@@ -228,7 +229,7 @@
     .@{calendarFullCls}-date {
       display: inline-block;
       padding: 3px 4px;
-      background: #ff6f00;
+      background: @brand-primary;
       border-radius: 3px;
       font-size: 12px;
       color: #ffffff;

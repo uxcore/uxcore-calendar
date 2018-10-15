@@ -115,7 +115,9 @@ function isRange(sourceDate, targetDate) {
   return false;
 }
 function sortByRender(events) {
-  return sortBy(events, ['start']);
+  return sortBy(events, e => {
+    return moment(e.start).valueOf();
+  });
 }
 /**
  * is in same row
@@ -152,7 +154,7 @@ function handleEvents(events, opts) {
     wraperHtml[`${startKey}~${endKey}`].children.push(event);
 
     let container = containerEvents.find(c => {
-      return moment(c.end).valueOf() > moment(start).valueOf();
+      return moment(c.end).valueOf() >= moment(start).valueOf();
     });
 
     // has overlap，this event will be a container to contain next event
@@ -188,7 +190,6 @@ function computeEventStyle(event, type) {
   startDate = startDate === 0 ? 7 : startDate;
   let widthSlice = 1;
   let offsetx = 0;
-
   if (type !== 'time' && event.children) {
     let { end } = event;
     widthSlice = 7;

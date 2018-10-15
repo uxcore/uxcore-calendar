@@ -30,6 +30,7 @@
       position: absolute; // display: inline-block;
       overflow-y: scroll;
       padding: 8px;
+      z-index: 9999;
       .kuma-calendar-content-box {
         position: relative;
         background: transparent;
@@ -59,6 +60,7 @@
       }
     }
     .colspan-cell {
+      z-index: 99;
       .kuma-calendar-content-box {
         width: 100%;
         border-radius: 5px;
@@ -159,7 +161,7 @@
         background-color: @brand-primary-alpha-7;
         cursor: pointer;
       }
-      > span {
+      >span {
         float: left;
         height: 28px;
         line-height: 24px;

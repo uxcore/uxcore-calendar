@@ -32,28 +32,29 @@ export default class DateTHead extends React.Component {
           className={`${prefixCls}-column-header ${prefixCls}-week-number-header`}
         >
           <span className={`${prefixCls}-column-header-inner`}>x</span>
-        </th>);
+        </th>
+      );
     }
-    const weekDaysEls = weekDays.map((day, xindex) => (
-      <th
-        key={xindex}
-        role="columnheader"
-        title={day}
-        className={`${prefixCls}-column-header`}
-      >
-        <span
-          className={classnames(`${prefixCls}-column-header-inner`, {
-            weekend: weekendDays.indexOf(xindex) !== -1,
-          })}
-        >
-          {veryShortWeekdays[xindex]}
-        </span>
-      </th>));
-    return (<thead>
-      <tr role="row">
-        {showWeekNumberEl}
-        {weekDaysEls}
-      </tr>
-    </thead>);
+    const weekDaysEls = weekDays.map((day, xindex) => {
+      return (
+        <th key={xindex} role="columnheader" title={day} className={`${prefixCls}-column-header`}>
+          <span
+            className={classnames(`${prefixCls}-column-header-inner`, {
+              weekend: weekendDays.indexOf(xindex) !== -1,
+            })}
+          >
+            {veryShortWeekdays[xindex]}
+          </span>
+        </th>
+      );
+    });
+    return (
+      <thead>
+        <tr role="row">
+          {showWeekNumberEl}
+          {weekDaysEls}
+        </tr>
+      </thead>
+    );
   }
 }

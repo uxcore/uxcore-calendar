@@ -22,8 +22,7 @@ const { getCalendarContainer, generalizeFormat } = util;
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.TimePickerElement = (
@@ -67,7 +66,8 @@ class Calendar extends React.Component {
         am: 'DD/MM/YYYY a',
       },
     };
-    const isAm = timePicker && (typeof timePicker.type === 'function') && timePicker.type.displayName === 'Pmam';
+    const isAm =
+      timePicker && typeof timePicker.type === 'function' && timePicker.type.displayName === 'Pmam';
     let key = 'day';
     if (showTime) {
       if (isAm) {
@@ -87,7 +87,7 @@ class Calendar extends React.Component {
 
   saveRef(refName) {
     const me = this;
-    return (c) => {
+    return c => {
       me[refName] = c;
     };
   }
@@ -119,11 +119,12 @@ class Calendar extends React.Component {
           const date = current.clone();
           date.getTime = current.valueOf;
           date.getDayOfMonth = date.date;
+
           return p.contentRender(date, value);
         }
         return current.date();
       },
-      disabledDate: (current) => {
+      disabledDate: current => {
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -131,7 +132,7 @@ class Calendar extends React.Component {
         }
         return false;
       },
-      disabledTime: (current) => {
+      disabledTime: current => {
         if (typeof p.disabledTime === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -199,13 +200,9 @@ class Calendar extends React.Component {
     });
 
     return (
-      <Datepicker
-        calendar={calendar}
-        onChange={me.handleChange}
-        {...pickerOptions}
-      >
+      <Datepicker calendar={calendar} onChange={me.handleChange} {...pickerOptions}>
         {({ value }) => {
-          const showClear = p.allowClear ? (value && !p.disabled) : false;
+          const showClear = p.allowClear ? value && !p.disabled : false;
           let newValue = value;
           if (newValue) {
             newValue = moment(value).format(generalizeFormat(this.getFormat()));
@@ -232,7 +229,7 @@ class Calendar extends React.Component {
                 : null}
             </span>
           );
-        } }
+        }}
       </Datepicker>
     );
   }
@@ -241,7 +238,7 @@ class Calendar extends React.Component {
 Calendar.displayName = 'Calendar';
 Calendar.defaultProps = {
   placeholder: '请选择日期',
-  onSelect() { },
+  onSelect() {},
   locale: 'zh-cn',
   align: {
     offset: [0, 0],
@@ -277,7 +274,6 @@ Calendar.propTypes = {
   getPopupContainer: PropTypes.func,
   size: PropTypes.oneOf(['large', 'middle', 'small']),
 };
-
 
 Calendar.CalendarPanel = RcCalendar;
 Calendar.util = util;

@@ -84,12 +84,15 @@ const DateTBody = createClass({
     const day = month1.day();
     const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
+
     const lastMonth1 = month1.clone();
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
+
     let passed = 0;
     for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
+
         if (passed) {
           current = current.clone();
           current.add(passed, 'days');
@@ -98,6 +101,7 @@ const DateTBody = createClass({
         passed += 1;
       }
     }
+
     const tableHtml = [];
     passed = 0;
 
@@ -106,11 +110,7 @@ const DateTBody = createClass({
       const dateCells = [];
       if (showWeekNumber) {
         weekNumberCell = (
-          <td
-            key={dateTable[passed].week()}
-            role="gridcell"
-            className={weekNumberCellClass}
-          >
+          <td key={dateTable[passed].week()} role="gridcell" className={weekNumberCellClass}>
             {dateTable[passed].week()}
           </td>
         );
@@ -151,15 +151,7 @@ const DateTBody = createClass({
             if (startValue && endValue) {
               if (isSameDay(current, endValue)) {
                 selected = true;
-              } else if (
-                current.isAfter(startValue, 'day')
-                && current.isBefore(endValue, 'day')
-              ) {
-                cls += ` ${inRangeClass}`;
-              } else if (
-                current.isBefore(startValue, 'day')
-                && current.isAfter(endValue, 'day')
-              ) {
+              } else if (current.isAfter(startValue, 'day') && current.isBefore(endValue, 'day')) {
                 cls += ` ${inRangeClass}`;
               }
             }
@@ -183,7 +175,6 @@ const DateTBody = createClass({
         if (disabledDate) {
           if (disabledDate(current, value)) {
             disabled = true;
-
             if (!last || !disabledDate(last, value)) {
               cls += ` ${firstDisableClass}`;
             }
@@ -206,10 +197,9 @@ const DateTBody = createClass({
         if (dateRender) {
           dateHtml = dateRender(current, value);
         } else {
-          const content = contentRender
-            ? contentRender(current, value)
-            : current.date();
+          const content = contentRender ? contentRender(current, value) : current.date();
           const dayOfweek = current.day();
+
           dateHtml = (
             <div
               key={getIdFromDate(current)}
@@ -231,8 +221,7 @@ const DateTBody = createClass({
             onMouseEnter={
               disabled
                 ? undefined
-                : (props.onDayHover && props.onDayHover.bind(null, current))
-                  || undefined
+                : (props.onDayHover && props.onDayHover.bind(null, current)) || undefined
             }
             role="gridcell"
             title={getTitleString(current)}
@@ -248,14 +237,10 @@ const DateTBody = createClass({
         <tr key={iIndex} role="row">
           {weekNumberCell}
           {dateCells}
-        </tr>,
+        </tr>
       );
     }
-    return (
-      <tbody className={`${prefixCls}-tbody`}>
-        {tableHtml}
-      </tbody>
-    );
+    return <tbody className={`${prefixCls}-tbody`}>{tableHtml}</tbody>;
   },
 });
 

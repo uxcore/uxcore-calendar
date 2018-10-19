@@ -1,4 +1,142 @@
-.@{__calendarPrefixCls}-full {
+.@{calendarFullCls} {
+  * {
+    box-sizing: border-box;
+  }
+  position: relative;
+  outline: none;
+  width: 100%;
+  overflow: hidden;
+  list-style: none;
+  font-size: 12px;
+  text-align: left;
+  background-color: #fff;
+  .cell-container {
+    position: absolute;
+  }
+  .events-wrapper {
+    position: absolute;
+    top: 32px;
+    left: 61px;
+    width: ~"calc(100% - 61px)";
+    height: ~"calc(100% - 32px)";
+  }
+  .events-month-wrapper {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    width: 100%;
+    height: ~"calc(100% - 32px)";
+    .cell-container {
+      position: absolute; // display: inline-block;
+      overflow-y: scroll; // padding: 8px;
+      z-index: 9999;
+      .kuma-calendar-content-box {
+        position: relative;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        top: 0 !important;
+        width: 86px;
+        height: 18px !important;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 0 8px 0px 10px;
+        &::before {
+          display: block;
+          content: " ";
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          top: 5px;
+          left: 0px;
+          border-radius: 6px;
+          background: @brand-primary;
+        }
+      }
+    }
+    .colspan-cell {
+      z-index: 99;
+      .kuma-calendar-content-box {
+        width: 100%;
+        border-radius: 5px;
+        padding: 0;
+        border: 1px solid @brand-primary;
+        background: #fff; // color: #fff;
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+  &-calendar-body {
+    position: relative;
+  }
+  .kuma-calendar-content-box {
+    position: absolute;
+    background: #fff;
+    border: 1px solid @brand-primary;
+    border-radius: 5px;
+    .kuma-calendar-content-wraper {
+      background: @brand-primary-alpha-7;
+      width: 100%;
+      height: 100%;
+    }
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  &-date-select {
+    width: 200px;
+    position: relative;
+    display: inline-block;
+  }
+  &-show-input[readonly] {
+    position: absolute;
+    background: none;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.8);
+  }
+  .kuma-calendar-picker-input {
+    opacity: 0;
+  }
+  &-prev-btn,
+  &-next-btn {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    color: rgba(31, 56, 88, 0.4);
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    font-size: 16px;
+    line-height: 24px;
+    top: 5px;
+    z-index: 99;
+    &:after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      font-family: "uxcore";
+      font-size: 16px;
+      text-indent: 0;
+    }
+  }
+  &-prev-btn {
+    left: 0;
+    &:after {
+      content: "\e65c";
+    }
+  }
+  &-next-btn {
+    right: 0;
+    &:after {
+      content: "\e65b";
+    }
+  }
   &-header {
     padding: 5px 10px;
     text-align: center;
@@ -6,27 +144,29 @@
     -webkit-user-select: none;
     border-bottom: 1px solid #ccc;
     overflow: hidden;
-
+    .kuma-button {
+      float: left;
+    }
     &-month-select,
     &-year-select {
       float: right;
       margin-right: 5px;
+      box-sizing: border-box;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      color: #666;
+      line-height: 28px;
+      width: 70px;
     }
-
     &-switcher {
       float: right;
       display: inline-block;
       &-normal:hover {
-        border-color: #23c0fa;
-        box-shadow: 0 0 2px rgba(45, 183, 245, 0.8);
+        background-color: @brand-primary-alpha-7;
         cursor: pointer;
       }
-      &-focus {
-        border-color: #3fc7fa;
-        background-color: #3fc7fa;
-        color: #fff;
-      }
-      > span {
+      >span {
         float: left;
         height: 28px;
         line-height: 24px;
@@ -45,45 +185,107 @@
         }
       }
     }
-  }
-}
-
-.@{__calendarPrefixCls}-fullscreen {
-  width: auto;
-
-  .@{__calendarPrefixCls}-full-header {
-    border-bottom: none;
-  }
-
-  .@{__calendarPrefixCls} {
-    &-column-header {
-      text-align: right;
-      padding-right: 12px;
+    .@{calendarFullCls}-header-switcher-focus {
+      position: relative;
+      background-color: @brand-primary-alpha-7;
+      color: @brand-primary;
+      border: 1px solid @brand-primary;
+      &.@{calendarFullCls}-header-switcher-time {
+        right: -1px;
+        border-right: 1px solid @brand-primary;
+      }
+      &.@{calendarFullCls}-header-switcher-date {
+        border-left: 1px solid @brand-primary;
+        left: -1px;
+      }
     }
-    &-cell {
-      padding: 0;
+  }
+  table {
+    border-collapse: collapse;
+    max-width: 100%;
+    width: 100%;
+    background-color: transparent;
+    table-layout: fixed;
+  }
+  &-cell {
+    padding: 8px;
+    height: 97px;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.8);
+    letter-spacing: 0;
+    vertical-align: top;
+    border-bottom: 1px solid #e8ebee;
+    border-right: 1px solid #e8ebee;
+    &:hover {
+      // border-color: #ff6f00;
+      background-color: @brand-primary-alpha-7;
+      color: @brand-primary;
     }
-    &-cell .@{__calendarPrefixCls}-date,
-    &-month-panel-cell .@{__calendarPrefixCls}-month-panel-month {
+    &.@{calendarFullCls}-last-month-cell,
+    &.@{calendarFullCls}-next-month-btn-day {
+      color: rgba(31, 56, 88, 0.3);
+    }
+    &.@{calendarFullCls}-selected-day {
+      background-color: @brand-primary-alpha-7;
+      color: @brand-primary;
+    }
+    &.@{calendarFullCls}-disabled-cell {
+      cursor: not-allowed;
+      color: @text-disabled-color;
+      background-color: @bg-disabled-color;
+      &:hover {
+        // border-color: #ff6f00;
+        background-color: @bg-disabled-color;
+        color: @text-disabled-color;
+      }
+    }
+  }
+  &-today {
+    .@{calendarFullCls}-date {
+      display: inline-block;
+      padding: 3px 4px;
+      background: @brand-primary;
+      border-radius: 3px;
+      font-size: 12px;
+      color: #ffffff;
+      letter-spacing: 0;
+      text-align: center;
+      line-height: 18px;
+    }
+  }
+  &-month-panel-table {
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+    border-collapse: separate;
+  }
+  &-month-panel-cell {
+    text-align: center;
+    &-month-panel-month {
       display: block;
-      height: 116px;
-      width: auto;
-      border-radius: 0;
-      margin: 0 4px;
-      border: none;
-      border-top: 2px solid #eee;
-      text-align: right;
-      padding-right: 8px;
-    }
-    &-selected-day .@{__calendarPrefixCls}-date,
-    &-month-panel-selected-cell .@{__calendarPrefixCls}-month-panel-month {
-      background-color: #ebfaff;
+      width: 46px;
+      margin: 0 auto;
       color: #666;
+      border-radius: 4px 4px;
+      height: 36px;
+      padding: 0;
+      background: transparent;
+      line-height: 36px;
+      text-align: center;
     }
-    &-today .@{__calendarPrefixCls}-date,
-    &-month-panel-selected-cell .@{__calendarPrefixCls}-month-panel-month {
-      border-top-color: #3FC7FA;
-      color: #3FC7FA;
-    }
+  }
+  &-column-header {
+    height: 32px;
+    padding: 8px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 18px;
+    border-bottom: 1px solid #e8ebee;
+    border-right: 1px solid #e8ebee;
+  }
+  .kuma-input {
+    cursor: pointer;
+    border: none !important;
   }
 }

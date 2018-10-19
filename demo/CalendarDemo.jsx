@@ -4,12 +4,19 @@ import React from 'react';
 import moment from 'moment';
 import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
-
-
-const { MonthCalendar, YearCalendar, RangeCalendar } = Calendar;
+import events from './events';
+const { MonthCalendar, YearCalendar, RangeCalendar, FullCalendar } = Calendar;
 
 function disabledDate(current) {
-  return current.getTime() > Date.now();
+  if (current) {
+    return current.getTime() > Date.now();
+  }
+}
+function disabledTime(current) {
+  if (current) {
+    let hours = current.getHours();
+    return hours < new Date().getHours();
+  }
 }
 
 const enabledMinutes = [0, 15, 30, 45];
@@ -35,7 +42,6 @@ class Demo extends React.Component {
   }
 
   onSelect(value, formatted) {
-    console.log(value, formatted);
     this.setState({
       value,
     });
@@ -51,6 +57,18 @@ class Demo extends React.Component {
     this.setState({
       value: '2017-01-05',
     });
+  }
+  getTimeRender(value) {
+    return (
+      <div>
+        <span>{value}</span>
+        <span>测试测试测试测试测试测试</span>
+      </div>
+    );
+  }
+  contentRender(current, value) {
+    // console.log('.....', current);
+    // console.log('2222', value);
   }
 
   render() {
@@ -76,6 +94,7 @@ class Demo extends React.Component {
             基本
           </p>
           <Calendar
+            showToday
             showTime={false}
             allowClear={false}
             showSecond={false}
@@ -198,9 +217,7 @@ class Demo extends React.Component {
             size="large"
             value={value}
             onSelect={this.onSelect}
-            disabledDate={(current) => {
-              console.log(current);
-            }}
+            disabledDate={current => { }}
           />
         </div>
         <div
@@ -218,11 +235,14 @@ class Demo extends React.Component {
           <Calendar
             value={value}
             onSelect={this.onSelect}
-            contentRender={Calendar.util.generateContentRender({
-              '2016-01-07': 'leave',
-              '2016-01-09': 'work',
-              '2016-01-08': 'schedule',
-            }, 'en')}
+            contentRender={Calendar.util.generateContentRender(
+              {
+                '2016-01-07': 'leave',
+                '2016-01-09': 'work',
+                '2016-01-08': 'schedule',
+              },
+              'en'
+            )}
           />
         </div>
         <div
@@ -255,6 +275,35 @@ class Demo extends React.Component {
               console.log(v, formatted);
               this.onRangeSelect(v, formatted);
             }}
+          />
+        </div>
+        {/* 大日历面板 */}
+        <div
+          className="kuma-form-field"
+          style={{
+            width: '800px',
+            marginBottom: '30px',
+          }}
+        >
+          <p>
+            大日历日期选择,跨日程，提供Calendar.util.generateScheduleContent方法，返回具体日程的相关信息
+          </p>
+          <FullCalendar
+            size="middle"
+            value={this.state.value}
+            onSelect={this.onSelect}
+            fullscreen
+            type={'month'}
+            locale="zh-cn"
+            scheduleRender={Calendar.util.generateScheduleContent(events)}
+            // timeRender={this.getTimeRender}
+            // weekRender={this.getTimeRender}
+            // dateRender={this.getTimeRender}
+            // disabledDate={disabledDate}
+            // disabledTime={disabledTime}
+            startHour={9}
+            endHour={18}
+            gapMinute={60}
           />
         </div>
       </div>

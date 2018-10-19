@@ -1,4 +1,4 @@
-.@{calendarPrefixCls} {
+.@{__calendarPrefixCls} {
   position: relative;
   outline: none;
   border: 1px solid #ccc;
@@ -46,14 +46,14 @@
         cursor: pointer;
       }
     }
-    .@{calendarPrefixCls}-prev-month-btn {
+    .@{__calendarPrefixCls}-prev-month-btn {
       position: absolute;
       left: 25px;
       &:after {
         content: '\e65c';
       }
     }
-    .@{calendarPrefixCls}-next-month-btn {
+    .@{__calendarPrefixCls}-next-month-btn {
       position: absolute;
       right: 25px;
       &:after {
@@ -79,7 +79,7 @@
     &:hover {
       cursor: pointer;
       color: @dark-alpha-2;
-      .@{calendarSelectPrefixCls}-arrow b {
+      .@{__selectPrefixCls}-arrow b {
         border-color: @normal-alpha-3 transparent transparent transparent;
       }
     }
@@ -89,48 +89,48 @@
     padding: 0;
     margin-right: 6px;
     margin-top: -1px; // for firefox
-    .@{calendarSelectPrefixCls}-selection {
+    .@{__selectPrefixCls}-selection {
       border: none;
       height: 28px;
       background: transparent;
-      .@{calendarSelectPrefixCls}-selection__rendered {
+      .@{__selectPrefixCls}-selection__rendered {
         padding: 0;
         margin: 0;
         line-height: 28px;
       }
-      .@{calendarSelectPrefixCls}-selection-selected-value {
+      .@{__selectPrefixCls}-selection-selected-value {
         transition: color 0.15s @transition-ease, background-color 0.15s @transition-ease;
         padding-right: 25px;
       }
-    } // &.@{calendarSelectPrefixCls}-open {
+    } // &.@{__selectPrefixCls}-open {
     //   border: 1px solid @border-color;
     // }
-    .@{calendarSelectPrefixCls}-arrow {
+    .@{__selectPrefixCls}-arrow {
       height: 28px;
     }
   }
   &-year-select {
     width: 60px;
-    &.@{calendarPrefixCls}-cn-select {
+    &.@{__calendarPrefixCls}-cn-select {
       width: 75px;
     }
-    .@{calendarSelectPrefixCls}-selection-selected-value {
+    .@{__selectPrefixCls}-selection-selected-value {
       left: 7px;
     }
   }
   &-month-select {
     width: 60px;
-    &.@{calendarPrefixCls}-cn-select {
+    &.@{__calendarPrefixCls}-cn-select {
       width: 60px;
     }
-    .@{calendarSelectPrefixCls}-selection-selected-value {
+    .@{__selectPrefixCls}-selection-selected-value {
       left: 12px;
     }
   }
   &-year-select-dropdown,
   &-month-select-dropdown {
-    &.@{calendarSelectPrefixCls}-dropdown {
-      .@{calendarSelectPrefixCls}-dropdown-menu-item {
+    &.@{__selectPrefixCls}-dropdown {
+      .@{__selectPrefixCls}-dropdown-menu-item {
         padding: 0 10px;
       }
     }
@@ -199,7 +199,7 @@
     padding: 11px 0;
     width: 33px;
     text-align: center;
-    .@{calendarPrefixCls}-column-header-inner {
+    .@{__calendarPrefixCls}-column-header-inner {
       display: block;
       font-weight: normal;
       color: @normal-alpha-4;
@@ -209,7 +209,7 @@
     }
   }
   &-week-number-header {
-    .@{calendarPrefixCls}-column-header-inner {
+    .@{__calendarPrefixCls}-column-header-inner {
       display: none;
     }
   }
@@ -237,15 +237,15 @@
       color: @brand-primary;
     }
   }
-  &-today .@{calendarPrefixCls}-date {
+  &-today .@{__calendarPrefixCls}-date {
     border: 1px solid @brand-primary;
     color: @brand-primary;
   }
-  &-selected-day .@{calendarPrefixCls}-date {
+  &-selected-day .@{__calendarPrefixCls}-date {
     background: @brand-primary;
     color: #fff;
   }
-  &-disabled-cell .@{calendarPrefixCls}-date {
+  &-disabled-cell .@{__calendarPrefixCls}-date {
     cursor: not-allowed;
     color: #bcbcbc;
     background: #f3f3f3;
@@ -255,16 +255,16 @@
       background: #f3f3f3;
     }
   }
-  &-disabled-cell-first-of-row .@{calendarPrefixCls}-date {
+  &-disabled-cell-first-of-row .@{__calendarPrefixCls}-date {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
   }
-  &-disabled-cell-last-of-row .@{calendarPrefixCls}-date {
+  &-disabled-cell-last-of-row .@{__calendarPrefixCls}-date {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
-  &-last-month-cell .@{calendarPrefixCls}-date,
-  &-next-month-btn-day .@{calendarPrefixCls}-date {
+  &-last-month-cell .@{__calendarPrefixCls}-date,
+  &-next-month-btn-day .@{__calendarPrefixCls}-date {
     color: @text-disabled-color;
   }
   &-footer {
@@ -272,7 +272,7 @@
     padding: 8px 0;
     text-align: center;
     position: relative;
-    .@{timePickerClass} {
+    .@{__calendarTimePickerPrefixCls} {
       width: 90px;
       &-input {
         height: 24px;
@@ -305,64 +305,64 @@
 }
 
 
-.@{calendarPrefixCls}-middle {
-  .@{calendarPrefixCls}-header {
+.@{__calendarPrefixCls}-middle {
+  .@{__calendarPrefixCls}-header {
     height: @trigger-height-middle;
     line-height: @trigger-height-middle - 1;
   }
-  .@{calendarPrefixCls}-ym-select,
-  .@{calendarPrefixCls}-my-select {
+  .@{__calendarPrefixCls}-ym-select,
+  .@{__calendarPrefixCls}-my-select {
     line-height: @trigger-height-middle - 1;
   }
-  .@{calendarPrefixCls}-prev-month-btn,
-  .@{calendarPrefixCls}-next-month-btn,
-  .@{calendarPrefixCls}-prev-year-btn,
-  .@{calendarPrefixCls}-next-year-btn {
+  .@{__calendarPrefixCls}-prev-month-btn,
+  .@{__calendarPrefixCls}-next-month-btn,
+  .@{__calendarPrefixCls}-prev-year-btn,
+  .@{__calendarPrefixCls}-next-year-btn {
     top: (@trigger-height-middle - 26) / 2;
   }
-  .@{calendarPrefixCls}-cell {
+  .@{__calendarPrefixCls}-cell {
     padding: 3px 0;
   } 
-  .@{calendarPrefixCls}-date-panel {
+  .@{__calendarPrefixCls}-date-panel {
     width: 288px;
   }
-  .@{calendarPrefixCls}-table {
+  .@{__calendarPrefixCls}-table {
     width: 266px;
     margin: 9px 11px;
   }
-  .@{calendarPrefixCls}-column-header {
+  .@{__calendarPrefixCls}-column-header {
     padding: 10px 0;
   }
 }
 
-.@{calendarPrefixCls}-small {
-  .@{calendarPrefixCls}-header {
+.@{__calendarPrefixCls}-small {
+  .@{__calendarPrefixCls}-header {
     height: @trigger-height-small;
     line-height: @trigger-height-small - 1;
   }
-  .@{calendarPrefixCls}-ym-select,
-  .@{calendarPrefixCls}-my-select {
+  .@{__calendarPrefixCls}-ym-select,
+  .@{__calendarPrefixCls}-my-select {
     line-height: @trigger-height-small - 1;
   }
-  .@{calendarPrefixCls}-prev-month-btn,
-  .@{calendarPrefixCls}-next-month-btn,
-  .@{calendarPrefixCls}-prev-year-btn,
-  .@{calendarPrefixCls}-next-year-btn {
+  .@{__calendarPrefixCls}-prev-month-btn,
+  .@{__calendarPrefixCls}-next-month-btn,
+  .@{__calendarPrefixCls}-prev-year-btn,
+  .@{__calendarPrefixCls}-next-year-btn {
     top: (@trigger-height-small - 26) / 2;
   }
-  .@{calendarPrefixCls}-date {
+  .@{__calendarPrefixCls}-date {
     width: 28px;
     height: 28px;
     line-height: 26px;
   }
-  .@{calendarPrefixCls}-date-panel {
+  .@{__calendarPrefixCls}-date-panel {
     width: 268px;
   }
-  .@{calendarPrefixCls}-table {
+  .@{__calendarPrefixCls}-table {
     width: 252px;
     margin: 9px 8px;
   }
-  .@{calendarPrefixCls}-column-header {
+  .@{__calendarPrefixCls}-column-header {
     padding: 9px 0;
   }
 }

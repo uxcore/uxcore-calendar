@@ -26,12 +26,7 @@ class Calendar extends React.Component {
     };
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentWillMount() {
-    const me = this;
-
-    me.TimePickerElement = (
+    this.TimePickerElement = (
       <TimePicker prefixCls="kuma-time-picker-panel" />
     );
   }
@@ -72,7 +67,8 @@ class Calendar extends React.Component {
 
   clearValue(e) {
     e.stopPropagation();
-    this.props.onSelect(null, null);
+    const { onSelect } = this.props;
+    onSelect(null, null);
   }
 
   saveRef(refName) {
@@ -83,12 +79,13 @@ class Calendar extends React.Component {
   }
 
   handleChange(v) {
+    const { onSelect } = this.props;
     if (v) {
       const date = v.map(item => new Date(item.valueOf()));
       const formattedDate = v.map(item => item.format(generalizeFormat(this.getFormat())));
-      this.props.onSelect(date, formattedDate);
+      onSelect(date, formattedDate);
     } else {
-      this.props.onSelect(v, v);
+      onSelect(v, v);
     }
   }
 
@@ -152,9 +149,11 @@ class Calendar extends React.Component {
 
     if (p.value && Array.isArray(p.value) && p.value.length !== 0) {
       const value = this.getDate(p.value);
-      pickerOptions.value = calendarOptions.defaultValue = value;
+      pickerOptions.value = value;
+      calendarOptions.defaultValue = value;
     } else {
-      pickerOptions.value = calendarOptions.defaultValue = null;
+      pickerOptions.value = null;
+      calendarOptions.defaultValue = null;
     }
 
     if (p.defaultValue && Array.isArray(p.defaultValue) && p.defaultValue.length !== 0) {
@@ -209,15 +208,17 @@ class Calendar extends React.Component {
                 value={newValue}
                 readOnly
                 disabled={me.props.disabled}
-                placeholder={this.props.placeholder}
+                placeholder={me.props.placeholder}
                 className={inputClassName}
               />
-              {p.hasTrigger ? <Icon name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
+              {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
-                ? <i
-                  className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
-                  onClick={this.clearValue}
-                />
+                ? (
+                  <i
+                    className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
+                    onClick={this.clearValue}
+                  />
+                )
                 : null}
             </span>
           );

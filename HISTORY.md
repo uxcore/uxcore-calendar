@@ -2,6 +2,28 @@
 
 ---
 
+## 0.10.6
+
+* `CHANEGD` `Calendar`, `MonthCalendar`, `YearCalendar`, new prop `defaultOpenValue` 
+* `FIXED` some eslint error
+
+## 0.10.4
+
+* `FIXED` monthCalendar style bug after updating `rc-calendar` to `^9.6.0`
+
+## 0.10.2
+
+* `CHANGED` support js style export
+
+## 0.10.0
+
+* `CHANGED` update `uxcore-select` to `^0.5.0`
+* `CHANGED` update `rc-calendar` to `^9.6.0`
+
+## 0.9.24
+
+* `CHANGED` value can be selected from end to start in cascade mode
+
 ## 0.9.23
 
 * `FIXED` less cascade & usage

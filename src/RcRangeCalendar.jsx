@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CreateClass from 'create-react-class';
+import createClass from 'create-react-class';
 import moment from 'moment';
 import classnames from 'classnames';
 import { syncTime, getTodayTime, isAllowedDate } from 'rc-calendar/lib/util/index';
+import { polyfill } from 'react-lifecycles-compat';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
 import RcRangeCalendarItem from './RcRangeCalendarItem';
 
-function noop() {
-}
+function noop() {}
 
 function getNow() {
   return moment();
@@ -23,7 +23,7 @@ function onValueChange(direction, current) {
 }
 
 function normalizeAnchor(props, init) {
-  const selectedValue = props.selectedValue || init && props.defaultSelectedValue || [];
+  const selectedValue = props.selectedValue || (init && props.defaultSelectedValue) || [];
   let value = props.value;
   if (Array.isArray(value)) {
     value = value[0];
@@ -32,7 +32,7 @@ function normalizeAnchor(props, init) {
   if (Array.isArray(defaultValue)) {
     defaultValue = defaultValue[0];
   }
-  return value || init && defaultValue || selectedValue[0] || init && getNow();
+  return value || (init && defaultValue) || selectedValue[0] || (init && getNow());
 }
 
 function generateOptions(length) {
@@ -57,7 +57,7 @@ function onInputSelect(direction, value) {
   this.fireSelectValueChange(selectedValue);
 }
 
-const RangeCalendar = CreateClass({
+const RangeCalendar = createClass({
   propTypes: {
     prefixCls: PropTypes.string,
     dateInputPlaceholder: PropTypes.any,
@@ -105,21 +105,21 @@ const RangeCalendar = CreateClass({
     };
   },
 
-  componentWillReceiveProps(nextProps) {
-    const newState = {};
-    if ('value' in nextProps) {
-      if (nextProps.value) {
-        newState.value = nextProps.value;
-      } else {
-        newState.value = normalizeAnchor(nextProps, 0);
-      }
-      this.setState(newState);
-    }
-    if ('selectedValue' in nextProps && Array.isArray(nextProps.selectedValue)) {
-      newState.selectedValue = nextProps.selectedValue;
-      this.setState(newState);
-    }
-  },
+  // componentWillReceiveProps(nextProps) {
+  //   const newState = {};
+  //   if ('value' in nextProps) {
+  //     if (nextProps.value) {
+  //       newState.value = nextProps.value;
+  //     } else {
+  //       newState.value = normalizeAnchor(nextProps, 0);
+  //     }
+  //     this.setState(newState);
+  //   }
+  //   if ('selectedValue' in nextProps && Array.isArray(nextProps.selectedValue)) {
+  //     newState.selectedValue = nextProps.selectedValue;
+  //     this.setState(newState);
+  //   }
+  // },
 
   onDatePanelEnter() {
     if (this.hasSelectedValue()) {
@@ -158,6 +158,9 @@ const RangeCalendar = CreateClass({
       if (startValue && this.compare(startValue, value) <= 0) {
         nextSelectedValue = [startValue, value];
         changed = true;
+      } else if (startValue && this.compare(startValue, value) >= 0) {
+        nextSelectedValue = [value, startValue];
+        changed = true;
       } else {
         nextSelectedValue = [value];
         changed = true;
@@ -192,9 +195,9 @@ const RangeCalendar = CreateClass({
         hoverValue,
       });
     } else {
-      if (!hoverValue[0] || this.compare(value, hoverValue[0]) < 0) {
-        return;
-      }
+      // if (!hoverValue[0] || this.compare(value, hoverValue[0]) < 0) {
+      //   return;
+      // }
       hoverValue[1] = value;
       this.setState({
         hoverValue,
@@ -308,8 +311,10 @@ const RangeCalendar = CreateClass({
   },
 
   isAllowedDateAndTime(selectedValue) {
-    return isAllowedDate(selectedValue[0], this.props.disabledDate, this.disabledStartTime) &&
-    isAllowedDate(selectedValue[1], this.props.disabledDate, this.disabledEndTime);
+    return (
+      isAllowedDate(selectedValue[0], this.props.disabledDate, this.disabledStartTime) &&
+      isAllowedDate(selectedValue[1], this.props.disabledDate, this.disabledEndTime)
+    );
   },
 
   hasSelectedValue() {
@@ -381,14 +386,16 @@ const RangeCalendar = CreateClass({
     const state = this.state;
     const { showTimePicker } = state;
     const {
-      prefixCls, dateInputPlaceholder,
-      timePicker, showOk, locale, showClear,
-      showToday, type,
+      prefixCls,
+      dateInputPlaceholder,
+      timePicker,
+      showOk,
+      locale,
+      showClear,
+      showToday,
+      type,
     } = props;
-    const {
-      hoverValue,
-      selectedValue,
-    } = state;
+    const { hoverValue, selectedValue } = state;
     const className = {
       [props.className]: !!props.className,
       [prefixCls]: 1,
@@ -401,9 +408,12 @@ const RangeCalendar = CreateClass({
     const newProps = {
       selectedValue: state.selectedValue,
       onSelect: this.onSelect,
-      onDayHover: type === 'start' && selectedValue[1] ||
-      type === 'end' && selectedValue[0] || !!hoverValue.length ?
-        this.onDayHover : undefined,
+      onDayHover:
+        (type === 'start' && selectedValue[1]) ||
+        (type === 'end' && selectedValue[0]) ||
+        !!hoverValue.length
+          ? this.onDayHover
+          : undefined,
     };
 
     let placeholder1;
@@ -416,7 +426,7 @@ const RangeCalendar = CreateClass({
         placeholder1 = placeholder2 = dateInputPlaceholder;
       }
     }
-    const showOkButton = showOk === true || showOk !== false && !!timePicker;
+    const showOkButton = showOk === true || (showOk !== false && !!timePicker);
     const cls = classnames({
       [`${prefixCls}-footer`]: true,
       [`${prefixCls}-range-bottom`]: true,
@@ -428,20 +438,23 @@ const RangeCalendar = CreateClass({
 
     return (
       <div
-        ref={(c) => { this.root = c; }}
+        ref={c => {
+          this.root = c;
+        }}
         className={classes}
         style={props.style}
         tabIndex="0"
       >
         {props.renderSidebar()}
         <div className={`${prefixCls}-panel`}>
-          {showClear && selectedValue[0] && selectedValue[1] ?
+          {showClear && selectedValue[0] && selectedValue[1] ? (
             <a
               className={`${prefixCls}-clear-btn`}
               role="button"
               title={locale.clear}
               onClick={this.clear}
-            /> : null}
+            />
+          ) : null}
           <div
             className={`${prefixCls}-date-panel fn-clear`}
             onMouseLeave={type !== 'both' ? this.onDatePanelLeave : undefined}
@@ -488,5 +501,22 @@ const RangeCalendar = CreateClass({
     );
   },
 });
+
+RangeCalendar.getDerivedStateFromProps = (props) => {
+  const newState = {};
+  if ('value' in props) {
+    if (props.value) {
+      newState.value = props.value;
+    } else {
+      newState.value = normalizeAnchor(props, 0);
+    }
+  }
+  if ('selectedValue' in props && Array.isArray(props.selectedValue)) {
+    newState.selectedValue = props.selectedValue;
+  }
+  return newState;
+};
+
+polyfill(RangeCalendar);
 
 export default RangeCalendar;

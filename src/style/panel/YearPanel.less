@@ -1,4 +1,4 @@
-.@{calendarPrefixCls}-year-panel {
+.@{__calendarPrefixCls}-year-panel {
   left: 0;
   top: 0;
   bottom: 0;
@@ -9,11 +9,11 @@
   outline: none;
 }
 
-.@{calendarPrefixCls}-year-panel-hidden {
+.@{__calendarPrefixCls}-year-panel-hidden {
   display: none;
 }
 
-.@{calendarPrefixCls}-year-panel-header {
+.@{__calendarPrefixCls}-year-panel-header {
   padding: 0 10px;
   height: 36px;
   line-height: 35px;
@@ -32,8 +32,8 @@
       color: @dark-alpha-2;
       cursor: pointer;
     }
-    &.@{calendarPrefixCls}-year-panel-prev-decade-btn,
-    &.@{calendarPrefixCls}-year-panel-next-decade-btn {
+    &.@{__calendarPrefixCls}-year-panel-prev-decade-btn,
+    &.@{__calendarPrefixCls}-year-panel-next-decade-btn {
       color: @normal-alpha-4;
       &:hover {
         color: @normal-alpha-4;
@@ -42,15 +42,15 @@
   }
 }
 
-.@{calendarPrefixCls}-year-panel-decade-select-content {
+.@{__calendarPrefixCls}-year-panel-decade-select-content {
   line-height: 24px;
   padding: 0 8px;
   display: inline-block;
   border-radius: @global-border-radius;
 }
 
-.@{calendarPrefixCls}-year-panel-prev-decade-btn,
-.@{calendarPrefixCls}-year-panel-next-decade-btn {
+.@{__calendarPrefixCls}-year-panel-prev-decade-btn,
+.@{__calendarPrefixCls}-year-panel-next-decade-btn {
   position: absolute;
   line-height: 24px;
   top: 5px;
@@ -71,7 +71,7 @@
   }
 }
 
-.@{calendarPrefixCls}-year-panel-prev-decade-btn {
+.@{__calendarPrefixCls}-year-panel-prev-decade-btn {
   user-select: none;
   left: 10px;
   &:after {
@@ -79,7 +79,7 @@
   }
 }
 
-.@{calendarPrefixCls}-year-panel-next-decade-btn {
+.@{__calendarPrefixCls}-year-panel-next-decade-btn {
   user-select: none;
   right: 10px;
   &:after {
@@ -87,26 +87,26 @@
   }
 }
 
-.@{calendarPrefixCls}-year-panel .@{calendarPrefixCls}-year-panel-decade-select {
+.@{__calendarPrefixCls}-year-panel .@{__calendarPrefixCls}-year-panel-decade-select {
   width: 180px;
 }
 
-.@{calendarPrefixCls}-year-panel-decade-select-arrow {
+.@{__calendarPrefixCls}-year-panel-decade-select-arrow {
   display: none;
 }
 
-.@{calendarPrefixCls}-year-panel-body {
+.@{__calendarPrefixCls}-year-panel-body {
   // padding: 9px 10px 10px;
 }
 
-.@{calendarPrefixCls}-year-panel-table {
+.@{__calendarPrefixCls}-year-panel-table {
   table-layout: fixed;
   width: 100%;
   height: 255px;
   border-collapse: separate;
 }
 
-.@{calendarPrefixCls}-year-panel-year {
+.@{__calendarPrefixCls}-year-panel-year {
   display: block;
   width: 60px;
   margin: 0 auto;
@@ -124,16 +124,16 @@
   }
 }
 
-.@{calendarPrefixCls}-year-panel-selected-cell .@{calendarPrefixCls}-year-panel-year {
+.@{__calendarPrefixCls}-year-panel-selected-cell .@{__calendarPrefixCls}-year-panel-year {
   background: @brand-primary;
   color: #fff;
 }
 
-.@{calendarPrefixCls}-year-panel-cell {
+.@{__calendarPrefixCls}-year-panel-cell {
   text-align: center;
   color: @dark-alpha-2;
   &-disabled {
-    .@{calendarPrefixCls}-year-panel-year {
+    .@{__calendarPrefixCls}-year-panel-year {
       background: #f3f3f3;
       color: #bfbfbf;
       &:hover {
@@ -145,40 +145,40 @@
   }
 }
 
-.@{calendarPrefixCls}-year-panel-last-decade-cell,
-.@{calendarPrefixCls}-year-panel-next-decade-cell {
-  .@{calendarPrefixCls}-year-panel-year {
+.@{__calendarPrefixCls}-year-panel-last-decade-cell,
+.@{__calendarPrefixCls}-year-panel-next-decade-cell {
+  .@{__calendarPrefixCls}-year-panel-year {
     user-select: none;
     -webkit-user-select: none;
   }
-  .@{calendarPrefixCls}-year-panel-year:before {
+  .@{__calendarPrefixCls}-year-panel-year:before {
     content: '\e645';
     font-family: 'kuma' !important;
   }
 }
 
-.@{calendarPrefixCls}-small {
-  .@{calendarPrefixCls}-year-panel-header {
+.@{__calendarPrefixCls}-small {
+  .@{__calendarPrefixCls}-year-panel-header {
     height: @trigger-height-small;
     line-height: @trigger-height-small - 1;
   }
-  .@{calendarPrefixCls}-year-panel-prev-decade-btn,
-  .@{calendarPrefixCls}-year-panel-next-decade-btn {
+  .@{__calendarPrefixCls}-year-panel-prev-decade-btn,
+  .@{__calendarPrefixCls}-year-panel-next-decade-btn {
     top: (@trigger-height-small - 26) / 2;
   }
-  .@{calendarPrefixCls}-year-panel-table {
+  .@{__calendarPrefixCls}-year-panel-table {
     height: 228px;
     width: 266px;
   }
 }
 
-.@{calendarPrefixCls}-middle {
-  .@{calendarPrefixCls}-year-panel-header {
+.@{__calendarPrefixCls}-middle {
+  .@{__calendarPrefixCls}-year-panel-header {
     height: @trigger-height-middle;
     line-height: @trigger-height-middle - 1;
   }
-  .@{calendarPrefixCls}-year-panel-prev-decade-btn,
-  .@{calendarPrefixCls}-year-panel-next-decade-btn {
+  .@{__calendarPrefixCls}-year-panel-prev-decade-btn,
+  .@{__calendarPrefixCls}-year-panel-next-decade-btn {
     top: (@trigger-height-middle - 26) / 2;
   }
 }

@@ -1,4 +1,4 @@
-.@{calendarPrefixCls} {
+.@{__calendarPrefixCls} {
   a {
     text-decoration: none;
   }
@@ -22,7 +22,7 @@
     &-panel {
       width: 100%;
       position: relative;
-      .@{timePickerClass}-panel {
+      .@{__calendarTimePickerPrefixCls}-panel {
         &-input-wrap {
           display: none;
         }
@@ -48,7 +48,7 @@
   &-time-picker-wrap {
     float: left;
     width: 100%;
-    .@{timePickerClass} {
+    .@{__calendarTimePickerPrefixCls} {
       width: 100%;
       &-input {
         padding: 0;
@@ -103,8 +103,8 @@
   }
 }
 
-.@{calendarPrefixCls}-year-calendar-container {
-  .@{calendarPrefixCls}-year-panel {
+.@{__calendarPrefixCls}-year-calendar-container {
+  .@{__calendarPrefixCls}-year-panel {
     position: relative;
   }
 }
@@ -153,7 +153,7 @@
   }
 }
 
-.@{calendarPrefixCls}-picker-placement-bottomLeft {
+.@{__calendarPrefixCls}-picker-placement-bottomLeft {
   &.calendarSlideUp-enter,
   &.calendarSlideUp-appear {
     opacity: 0;
@@ -178,7 +178,7 @@
   }
 }
 
-.@{calendarPrefixCls}-picker-placement-topLeft {
+.@{__calendarPrefixCls}-picker-placement-topLeft {
   &.calendarSlideUp-enter,
   &.calendarSlideUp-appear {
     opacity: 0;
@@ -203,14 +203,14 @@
   }
 }
 
-.@{calendarPrefixCls}-picker-input {
+.@{__calendarPrefixCls}-picker-input {
   position: relative;
   display: inline-block;
   width: 100%;
   .kuma-input[readonly] {
     background-color: white;
     border-color: @border-color;
-    color: @dark-alpha-2;
+    color: @dark-2;
     &:hover {
       border-color: @border-hover-color;
     }
@@ -223,7 +223,7 @@
     color: @text-disabled-color;
     background-color: @bg-disabled-color;
   }
-  .@{calendarPrefixCls}-trigger-icon,
+  .@{__calendarPrefixCls}-trigger-icon,
   .kuma-icon-close {
     position: absolute;
     color: @normal-alpha-4;
@@ -239,48 +239,48 @@
     .kuma-icon-close {
       opacity: 1;
     }
-    .@{calendarPrefixCls}-trigger-icon__has-clear {
+    .@{__calendarPrefixCls}-trigger-icon__has-clear {
       opacity: 0;
     }
   }
 }
 
-.@{calendarPrefixCls}-picker-input-middle {
-  .@{calendarPrefixCls}-trigger-icon,
+.@{__calendarPrefixCls}-picker-input-middle {
+  .@{__calendarPrefixCls}-trigger-icon,
   .kuma-icon-close {
     top: (@trigger-height-middle - 24) / 2;
   }
 }
 
-.@{calendarPrefixCls}-middle {
-  .@{calendarPrefixCls}-input-wrap {
+.@{__calendarPrefixCls}-middle {
+  .@{__calendarPrefixCls}-input-wrap {
     height: @trigger-height-middle - 1;
   }
-  .@{calendarPrefixCls}-time-picker {
+  .@{__calendarPrefixCls}-time-picker {
     height: 316px;
   }
-  .@{calendarPrefixCls}-time-picker-panel {
+  .@{__calendarPrefixCls}-time-picker-panel {
     .kuma-time-picker-panel-select {
       height: 316 - @trigger-height-middle;
     }
   }
 }
 
-.@{calendarPrefixCls}-picker-input-small {
-  .@{calendarPrefixCls}-trigger-icon,
+.@{__calendarPrefixCls}-picker-input-small {
+  .@{__calendarPrefixCls}-trigger-icon,
   .kuma-icon-close {
     top: (@trigger-height-small - 24) / 2;
   }
 }
 
-.@{calendarPrefixCls}-small {
-  .@{calendarPrefixCls}-input-wrap {
+.@{__calendarPrefixCls}-small {
+  .@{__calendarPrefixCls}-input-wrap {
     height: @trigger-height-small - 1;
   }
-  .@{calendarPrefixCls}-time-picker {
+  .@{__calendarPrefixCls}-time-picker {
     height: 300px;
   }
-  .@{calendarPrefixCls}-time-picker-panel {
+  .@{__calendarPrefixCls}-time-picker-panel {
     .kuma-time-picker-panel-select {
       height: 300 - @trigger-height-small;
     }

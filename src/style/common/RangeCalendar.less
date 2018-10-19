@@ -2,13 +2,13 @@
 @input-box-height-middle: @trigger-height-middle - 1;
 @input-box-height-small: @trigger-height-small - 1;
 
-.@{calendarPrefixCls}-range {
+.@{__calendarPrefixCls}-range {
   overflow: hidden;
   &-part {
     position: relative;
     // float: left;
     display: inline-block;
-    .@{calendarPrefixCls}-time-picker {
+    .@{__calendarPrefixCls}-time-picker {
       top: 69px;
       &-panel {
         &-select {
@@ -17,8 +17,8 @@
       }
     }
   }
-  .@{calendarPrefixCls}-panel {
-    .@{calendarPrefixCls}-date-panel {
+  .@{__calendarPrefixCls}-panel {
+    .@{__calendarPrefixCls}-date-panel {
       width: auto;
       white-space: nowrap;
     }
@@ -30,33 +30,33 @@
     height: @input-box-height-large;
     line-height: @input-box-height-large;
   }
-  .@{calendarPrefixCls}-date-panel::after {
+  .@{__calendarPrefixCls}-date-panel::after {
     content: ".";
     display: block;
     height: 0;
     clear: both;
     visibility: hidden;
   }
-  .@{calendarPrefixCls}-input-wrap {
+  .@{__calendarPrefixCls}-input-wrap {
     height: @input-box-height-large;
   }
-  .@{calendarPrefixCls}-input,
-  .@{timePickerClass}-input {
+  .@{__calendarPrefixCls}-input,
+  .@{__calendarTimePickerPrefixCls}-input {
     padding: 1px 7px;
     height: 100%;
   }
-  .@{calendarPrefixCls}-body,
-  .@{calendarPrefixCls}-decade-panel-body,
-  .@{calendarPrefixCls}-year-panel-body,
-  .@{calendarPrefixCls}-month-panel-body {
+  .@{__calendarPrefixCls}-body,
+  .@{__calendarPrefixCls}-decade-panel-body,
+  .@{__calendarPrefixCls}-year-panel-body,
+  .@{__calendarPrefixCls}-month-panel-body {
     border-bottom: 1px solid #e9e9e9;
   }
-  &.@{calendarPrefixCls}-week-number {
+  &.@{__calendarPrefixCls}-week-number {
     width: 574px;
-    .@{calendarPrefixCls}-range {
+    .@{__calendarPrefixCls}-range {
       &-part {
         width: 286px;
-        .@{calendarPrefixCls}-time-picker {
+        .@{__calendarPrefixCls}-time-picker {
           top: 69px;
           &-panel {
             &-select {
@@ -66,25 +66,25 @@
         }
       }
       &-right {
-        .@{calendarPrefixCls}-time-picker-panel {
+        .@{__calendarPrefixCls}-time-picker-panel {
           left: 36px;
         }
       }
     }
   }
-  .@{calendarPrefixCls}-year-panel,
-  .@{calendarPrefixCls}-month-panel {
+  .@{__calendarPrefixCls}-year-panel,
+  .@{__calendarPrefixCls}-month-panel {
     top: @input-box-height-large;
   }
-  .@{calendarPrefixCls}-month-panel .@{calendarPrefixCls}-year-panel {
+  .@{__calendarPrefixCls}-month-panel .@{__calendarPrefixCls}-year-panel {
     top: 0;
   }
-  .@{calendarPrefixCls}-decade-panel-table,
-  .@{calendarPrefixCls}-year-panel-table,
-  .@{calendarPrefixCls}-month-panel-table {
+  .@{__calendarPrefixCls}-decade-panel-table,
+  .@{__calendarPrefixCls}-year-panel-table,
+  .@{__calendarPrefixCls}-month-panel-table {
     height: 198px;
   }
-  .@{calendarPrefixCls}-in-range-cell {
+  .@{__calendarPrefixCls}-in-range-cell {
     position: relative;
     &:before {
       content: "";
@@ -99,7 +99,7 @@
       right: 0;
       background: @brand-primary-alpha-7;
     }
-    .@{calendarPrefixCls}-date {
+    .@{__calendarPrefixCls}-date {
       position: relative;
       z-index: 1;
     }
@@ -107,7 +107,7 @@
   &-bottom {
     text-align: right;
   }
-  .@{calendarPrefixCls}-footer {
+  .@{__calendarPrefixCls}-footer {
     display: none;
     border-top: none;
     padding: 0;
@@ -117,17 +117,17 @@
   }
 }
 
-.@{calendarPrefixCls}-small {
-  &.@{calendarPrefixCls}-range {
-    .@{calendarPrefixCls}-input-wrap {
+.@{__calendarPrefixCls}-small {
+  &.@{__calendarPrefixCls}-range {
+    .@{__calendarPrefixCls}-input-wrap {
       height: @input-box-height-small;
     }
   }
 }
 
-.@{calendarPrefixCls}-middle {
-  &.@{calendarPrefixCls}-range {
-    .@{calendarPrefixCls}-input-wrap {
+.@{__calendarPrefixCls}-middle {
+  &.@{__calendarPrefixCls}-range {
+    .@{__calendarPrefixCls}-input-wrap {
       height: @input-box-height-middle;
     }
   }

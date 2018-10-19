@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CreateClass from 'create-react-class';
+import createClass from 'create-react-class';
 import DateInput from 'rc-calendar/lib/date/DateInput';
 import { getTimeConfig } from 'rc-calendar/lib/util/index';
 import CalendarHeader from './CalendarHeader';
 import DateTable from './date/DateTable';
 
-const CalendarPart = CreateClass({
+const CalendarPart = createClass({
   propTypes: {
     value: PropTypes.any,
     direction: PropTypes.any,

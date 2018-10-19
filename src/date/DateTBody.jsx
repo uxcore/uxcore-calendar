@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CreateClass from 'create-react-class';
+import createClass from 'create-react-class';
 import DateConstants from 'rc-calendar/lib/date/DateConstants';
 import { getTitleString, getTodayTime } from 'rc-calendar/lib/util/';
 import classnames from 'classnames';
@@ -29,13 +29,16 @@ function getIdFromDate(date) {
   return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
 }
 
-const DateTBody = CreateClass({
+const DateTBody = createClass({
   propTypes: {
     contentRender: PropTypes.func,
     dateRender: PropTypes.func,
     disabledDate: PropTypes.func,
     prefixCls: PropTypes.string,
-    selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
+    selectedValue: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.arrayOf(PropTypes.object),
+    ]),
     value: PropTypes.object,
     hoverValue: PropTypes.any,
     showWeekNumber: PropTypes.bool,
@@ -48,7 +51,7 @@ const DateTBody = CreateClass({
   },
 
   render() {
-    const props = this.props;
+    const { props } = this;
     const {
       contentRender,
       prefixCls,
@@ -79,7 +82,6 @@ const DateTBody = CreateClass({
     const month1 = value.clone();
     month1.date(1);
     const day = month1.day();
-
     const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
 
@@ -136,9 +138,11 @@ const DateTBody = CreateClass({
 
         if (selectedValue && Array.isArray(selectedValue)) {
           const rangeValue = hoverValue.length ? hoverValue : selectedValue;
+
           if (!isBeforeCurrentMonthYear && !isAfterCurrentMonthYear) {
             const startValue = rangeValue[0];
             const endValue = rangeValue[1];
+
             if (startValue) {
               if (isSameDay(current, startValue)) {
                 selected = true;
@@ -194,7 +198,6 @@ const DateTBody = CreateClass({
           dateHtml = dateRender(current, value);
         } else {
           const content = contentRender ? contentRender(current, value) : current.date();
-
           const dayOfweek = current.day();
 
           dateHtml = (
@@ -225,7 +228,7 @@ const DateTBody = CreateClass({
             className={cls}
           >
             {dateHtml}
-          </td>
+          </td>,
         );
 
         passed += 1;

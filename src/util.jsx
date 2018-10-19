@@ -213,7 +213,7 @@ function computeEventStyle(event, type, current) {
     offsetx = (startDate - 1) / 7;
     let top = !isNaN(monthTop) ? monthTop : getDiffTop(start);
     event.top = type === 'month' ? top / 6 + topDiff : 0;
-    return { width: children ? 1 - 0.015 : (1 / widthSlice) * diffEvent - 0.015, offsetX: offsetx + 0.005 };
+    return { width: children && isColspan ? 1 - 0.015 : (1 / widthSlice) * diffEvent - 0.015, offsetX: offsetx + 0.005 };
   }
   if ((!event.rows || !event.rows.length) && !event.container) {
     return { width: 1 / widthSlice - 0.015, offsetX: offsetx + 0.005 };

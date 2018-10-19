@@ -1,13 +1,11 @@
 import React from 'react';
-import createReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
-import zhCN from 'rc-calendar/lib/locale/zh_CN';
-import enUS from 'rc-calendar/lib/locale/en_US';
-import util from './util';
 import classnames from 'classnames';
 import moment from 'moment';
+import util from './util';
 import i18n from './locale';
 import RcFullCalendar from './RcFullCalendar';
+
 const CalendarLocale = {};
 
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
@@ -16,7 +14,7 @@ CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
 CalendarLocale['zh-cn'] = { ...CalendarLocale['zh-cn'], ...i18n['zh-cn'] };
 CalendarLocale['en-us'] = { ...CalendarLocale['en-us'], ...i18n['en-us'] };
 
-const { getCalendarContainer, generalizeFormat } = util;
+const { generalizeFormat } = util;
 
 export default class FullCalendar extends React.Component {
   constructor(props) {
@@ -26,12 +24,15 @@ export default class FullCalendar extends React.Component {
       value: props.value || props.defaultValue,
     };
   }
+
   onSelect(value) {
     if (value) {
+      const { onSelect } = this.props;
       const date = value.valueOf();
-      this.props.onSelect(new Date(date), value.format(generalizeFormat(this.getFormat('time'))));
+      onSelect(new Date(date), value.format(generalizeFormat(this.getFormat('time'))));
     }
   }
+
   handleCellRender(type, value) {
     if (type && value && this.props[type]) {
       return this.props[type](value.format(generalizeFormat(this.getFormat('time'))));
@@ -40,7 +41,7 @@ export default class FullCalendar extends React.Component {
 
   getFormat(key) {
     key = key || 'day';
-    let { format, locale, type } = this.props;
+    const { format, locale } = this.props;
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': { day: 'YYYY-MM-DD', time: 'YYYY-MM-DD HH:mm' },
@@ -50,10 +51,14 @@ export default class FullCalendar extends React.Component {
 
     return defaultFormatMap[locale][key];
   }
+
   setType(type) {
-    this.setState({ type: type });
-    this.props.onTypeChange(type);
+    this.setState({ type }, () => {
+      const { onTypeChange } = this.props;
+      onTypeChange(type);
+    });
   }
+
   getDate(date) {
     const me = this;
     const { timezone, locale } = me.props;
@@ -63,8 +68,9 @@ export default class FullCalendar extends React.Component {
     }
     return value;
   }
+
   getDateValue(calendarOptions) {
-    let {
+    const {
       value,
       defaultValue,
       timeRender,
@@ -74,10 +80,10 @@ export default class FullCalendar extends React.Component {
       contentRender,
     } = this.props;
     if (value || defaultValue) {
-      let cvalue = this.getDate(value || defaultValue);
+      const cvalue = this.getDate(value || defaultValue);
       calendarOptions.defaultValue = cvalue;
     } else {
-      let cvalue = this.getDate(new Date().getTime());
+      const cvalue = this.getDate(new Date().getTime());
       calendarOptions.defaultValue = cvalue;
     }
     if (timeRender) {
@@ -134,7 +140,7 @@ export default class FullCalendar extends React.Component {
       className: classnames({ [className]: !!className }),
       style: p.style,
       prefixCls: 'kuma-full-calendar',
-      disabledDate: current => {
+      disabledDate: (current) => {
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -142,7 +148,7 @@ export default class FullCalendar extends React.Component {
         }
         return false;
       },
-      disabledTime: current => {
+      disabledTime: (current) => {
         if (typeof p.disabledTime === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;

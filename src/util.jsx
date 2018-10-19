@@ -2,56 +2,62 @@ import React from 'react';
 import Formatter from 'uxcore-formatter';
 import Tooltip from 'uxcore-tooltip';
 import classnames from 'classnames';
-import i18n from './locale';
 import moment from 'moment';
 import sortBy from 'lodash/sortBy';
-// import Event from './Events';
+import i18n from './locale';
+
+
 /**
  * code should be an object like this {'xxxx-xx-xx': 'work/leave/schedule'}
  */
-const generateContentRender = (str, lang = 'zh-cn') =>
-  function contentRender(code, locale, current) {
-    // see https://github.com/yiminghe/gregorian-calendar to get details about `current` API
-    const time = current.getTime();
-    const date = Formatter.date(time, 'YYYY-MM-DD');
-    let type = code[date];
-    if (typeof type === 'string') {
-      type = [type];
-    } else if (type === undefined) {
-      type = [];
-    }
-    const tipMap = i18n[locale];
-    const content = [];
-    const isWork = type.indexOf('work') !== -1;
-    const isLeave = type.indexOf('leave') !== -1;
-    const isSchedule = type.indexOf('schedule') !== -1;
+const generateContentRender = (str, lang = 'zh-cn') => function contentRender(code, locale, current) {
+  // see https://github.com/yiminghe/gregorian-calendar to get details about `current` API
+  const time = current.getTime();
+  const date = Formatter.date(time, 'YYYY-MM-DD');
+  let type = code[date];
+  if (typeof type === 'string') {
+    type = [type];
+  } else if (type === undefined) {
+    type = [];
+  }
+  const tipMap = i18n[locale];
+  const content = [];
+  const isWork = type.indexOf('work') !== -1;
+  const isLeave = type.indexOf('leave') !== -1;
+  const isSchedule = type.indexOf('schedule') !== -1;
 
-    content.push(
-      <span
-        key="date"
-        className={classnames({
-          'kuma-calendar-date-content': true,
-          work: isWork,
-          leave: isLeave,
-          schedule: isSchedule,
-        })}
-      >
-        {current.getDayOfMonth()}
-      </span>
+  content.push(
+    <span
+      key="date"
+      className={classnames({
+        'kuma-calendar-date-content': true,
+        work: isWork,
+        leave: isLeave,
+        schedule: isSchedule,
+      })}
+    >
+      {current.getDayOfMonth()}
+    </span>,
+  );
+  if (isSchedule) {
+    content.push(<span key="bottom-line" className="kuma-calendar-date-decoration" />);
+  }
+  if (isWork || isLeave) {
+    return (
+      <Tooltip placement="right" trigger={['hover']} overlay={tipMap[isWork ? 'work' : 'leave']}>
+        <div className="kuma-calendar-date-content-box">
+          {content}
+        </div>
+      </Tooltip>
     );
-    if (isSchedule) {
-      content.push(<span key="bottom-line" className="kuma-calendar-date-decoration" />);
-    }
-    if (isWork || isLeave) {
-      return (
-        <Tooltip placement="right" trigger={['hover']} overlay={tipMap[isWork ? 'work' : 'leave']}>
-          <div className="kuma-calendar-date-content-box">{content}</div>
-        </Tooltip>
-      );
-    }
-    // only one child can be passed.
-    return <div className="kuma-calendar-date-content-box">{content}</div>;
-  }.bind(null, str, lang);
+  }
+  // only one child can be passed.
+  return (
+    <div className="kuma-calendar-date-content-box">
+      {content}
+    </div>
+  );
+}.bind(null, str, lang);
 
 function getCalendarContainer() {
   const c = document.createElement('div');
@@ -68,7 +74,7 @@ function generalizeFormat(format) {
 }
 function getTime(props) {
   let { startHour, value } = props;
-  startHour = startHour ? parseInt(startHour) : 9;
+  startHour = startHour ? parseInt(startHour, 10) : 9;
   return moment(value)
     .hour(startHour)
     .minute(0);
@@ -81,8 +87,8 @@ function getTimeLine(props, current) {
   minute = minute > 9 ? minute : `0${minute}`;
   const prefixTime = hour > 12 ? 'pm' : 'am';
   let selected = hour === moment().hour();
-  selected = selected && moment().minute() >= parseInt(minute);
-  selected = selected && moment().minute() < gapMinute + parseInt(minute);
+  selected = selected && moment().minute() >= parseInt(minute, 10);
+  selected = selected && moment().minute() < gapMinute + parseInt(minute, 10);
 
   return (
     <td className={`${prefixCls}-time-panel`} key={current}>
@@ -92,7 +98,9 @@ function getTimeLine(props, current) {
         })}
         key={current}
       >
-        <div className="cell-number">{`${hour}:${minute} ${prefixTime}`}</div>
+        <div className="cell-number">
+          {`${hour}:${minute} ${prefixTime}`}
+        </div>
       </div>
     </td>
   );
@@ -124,12 +132,10 @@ function inSameRow(target, source) {
   if (!target || !source) {
     return false;
   }
-  const isLt =
-    moment(source.start).isBefore(moment(source.start)) &&
-    moment(source.start).isAfter(moment(target.end));
-  const isEq =
-    moment(source.start).isSame(moment(source.start)) &&
-    moment(source.end).isSame(moment(source.end));
+  const isLt = moment(source.start).isBefore(moment(source.start))
+    && moment(source.start).isAfter(moment(target.end));
+  const isEq = moment(source.start).isSame(moment(source.start))
+    && moment(source.end).isSame(moment(source.end));
   return isLt || isEq;
 }
 /**
@@ -138,20 +144,19 @@ function inSameRow(target, source) {
 function getDiffTop(start) {
   const firstDateOfMonth = moment(+new Date(start)).startOf('month');
   const diffDate = firstDateOfMonth.day();
-  const firstDayOfMonthPanel =
-    firstDateOfMonth.subtract(diffDate - 1).date() - moment(start).date();
+  const firstDayOfMonthPanel = firstDateOfMonth.subtract(diffDate - 1).date()
+    - moment(start).date();
   return Math.floor(Math.abs(firstDayOfMonthPanel) / 7);
 }
 /**
  * handle events is overlap
  *
  */
-function handleEvents(events, opts) {
-  let containerEvents = [];
-  let wraperHtml = {};
-  const { type } = opts;
+function handleEvents(events) {
+  const containerEvents = [];
+  const wraperHtml = {};
   for (let i = 0, len = events.length; i < len; i++) {
-    let event = events[i];
+    const event = events[i];
     const { start, end, isColspan } = event;
     const startKey = moment(start).format('YYYY-MM-DD');
     const endKey = moment(end).format('YYYY-MM-DD');
@@ -167,9 +172,7 @@ function handleEvents(events, opts) {
       };
     }
     wraperHtml[monthTop].children.push(event);
-    let container = containerEvents.find(c => {
-      return moment(c.end).valueOf() >= moment(start).valueOf();
-    });
+    const container = containerEvents.find(c => moment(c.end).valueOf() >= moment(start).valueOf());
 
     // has overlap，this event will be a container to contain next event
     if (!container) {
@@ -200,7 +203,9 @@ function handleEvents(events, opts) {
 
 function computeEventStyle(event, type, current) {
   const start = event.start || event.date;
-  const { end, isColspan, monthTop, children } = event;
+  const {
+    end, isColspan, monthTop, children,
+  } = event;
   const isSameDate = moment(event.end).isSame(current, 'd');
   const topDiff = isSameDate ? 0.06 : 0.05;
   let startDate = moment(start).day();
@@ -211,9 +216,13 @@ function computeEventStyle(event, type, current) {
     widthSlice = 7;
     const diffEvent = moment(end).date() - moment(start).date() + 1;
     offsetx = (startDate - 1) / 7;
-    let top = !isNaN(monthTop) ? monthTop : getDiffTop(start);
+    const top = !isNaN(monthTop) ? monthTop : getDiffTop(start);
     event.top = type === 'month' ? top / 6 + topDiff : 0;
-    return { width: children && isColspan ? 1 - 0.015 : (1 / widthSlice) * diffEvent - 0.015, offsetX: offsetx + 0.005 };
+    return {
+      width: (children && isColspan)
+        ? 1 - 0.015 : (1 / widthSlice) * diffEvent - 0.015,
+      offsetX: offsetx + 0.005,
+    };
   }
   if ((!event.rows || !event.rows.length) && !event.container) {
     return { width: 1 / widthSlice - 0.015, offsetX: offsetx + 0.005 };
@@ -232,7 +241,7 @@ function computeEventStyle(event, type, current) {
     return { width: otherWidth, offsetX: offsetx };
   }
 
-  let { leaves, offsetX } = event.row;
+  const { leaves, offsetX } = event.row;
   const idx = leaves.indexOf(event);
 
   return {
@@ -240,141 +249,13 @@ function computeEventStyle(event, type, current) {
     offsetX: event.row.width * (idx + 1) + offsetX + 0.01,
   };
 }
-/**
- * generate schedule content
- * @param
- * ({
- *  start: '2018-11-12 12:00',
- *  end: '2018-11-12 14:00',
- *  cal: function(){}
- * })
- */
-const generateScheduleContent = events => {
-  let hasColspan = { count: 0 };
-  return function scheduleRender(events, opts) {
-    let containerEvents = evaluateStyle(events, opts, hasColspan);
 
-    let resultScheduleHtml = [];
-    for (let c in containerEvents) {
-      let container = containerEvents[c];
-      // console.log(container);
-      let { children: rangeEvents, width, offsetX, height, top, isColspan } = container;
-      // 如果有跨栏的，跨栏始终在上
-      let notColspanTop = isColspan ? 0 : 1 * 0.055;
-      let notColspanHeight = height - notColspanTop;
-      notColspanHeight = notColspanHeight < 0.055 ? 0.055 : notColspanHeight;
-      let containerStyle = {
-        width: width * 100 + '%',
-        left: offsetX * 100 + '%',
-        top: top ? (top + notColspanTop) * 100 + '%' : 0,
-        height: notColspanHeight * 100 + '%',
-      };
-      let containerCls = classnames({
-        'cell-container': true,
-        'colspan-cell': isColspan,
-      });
-      resultScheduleHtml.push(
-        <div className={containerCls} key={container.end} style={containerStyle}>
-          {rangeEvents.map((event, idx) => {
-            let originEvt = event.event;
-            let { start, end, cal } = originEvt;
-            let eStyle = {
-              top: event.top * 100 + '%',
-              height: event.height * 100 + '%',
-              left: event.offsetX * 100 + '%',
-              width: event.width * 100 + '%',
-            };
-            let content = cal && typeof cal === 'function' ? cal(event) : moment(start).date();
-            return (
-              <div className="kuma-calendar-content-box" key={idx} style={eStyle}>
-                <div className="kuma-calendar-content-wraper">{content}</div>
-              </div>
-            );
-          })}
-        </div>
-      );
-    }
-    return resultScheduleHtml;
-  }.bind(null, events);
-};
-
-/**
- * evaluate style of events
- *
- */
-function isSameMoment(target, source) {
-  target = moment(target).format('YYYY-MM-DD');
-  source = moment(source).format('YYYY-MM-DD');
-  return moment(target).isSame(source);
-}
-
-function initEvents(events, opts, hasColspan) {
-  let resultEvents = [];
-  events.forEach((event, idx) => {
-    let { start, end } = event;
-    event.id = idx;
-    let diffDate = moment(end).diff(moment(start), 'days');
-    if (diffDate > 0) {
-      resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts, hasColspan));
-    } else {
-      resultEvents.push(event);
-    }
-  });
-
-  return resultEvents;
-}
-function getMomentValue(date, hour) {
-  return moment(date)
-    .hour(hour)
-    .minute(0)
-    .second(0)
-    .valueOf();
-}
-
-/**
- * 拆分事件，是否为跨天事件
- */
-function splitEvents(event, diffDays, opts, hasColspan) {
-  let arrs = [];
-  let { startHour, endHour, current, type } = opts;
-  let { start, end, cal } = event;
-  if (type === 'month') {
-    return splitMonthEvents(event, diffDays, hasColspan);
-  }
-  let eStart = moment(start).valueOf();
-  let eEnd = moment(end).valueOf();
-  for (let i = 0; i <= diffDays; i++) {
-    let startTime =
-      i === 0
-        ? start
-        : moment(eStart)
-          .add(i, 'd')
-          .hour(startHour)
-          .minute(0),
-      endTime =
-        i === diffDays
-          ? end
-          : moment(startTime)
-            .hour(endHour)
-            .minute(0);
-
-    arrs.push({
-      start: startTime,
-      end: endTime,
-      cal,
-      eStart,
-      eEnd,
-    });
-  }
-
-  return arrs;
-}
 /**
  * 拆分月面板事件
  *
  */
 function splitMonthEvents(event, diffDays, hasColspan) {
-  let arrs = [];
+  const arrs = [];
   const { start, end, cal } = event;
   const startDay = moment(start).day();
   const eStart = moment(start).valueOf();
@@ -383,9 +264,11 @@ function splitMonthEvents(event, diffDays, hasColspan) {
   if (startDay + diffDays > 7) {
     const splitDays = Math.ceil(Math.abs(7 - (startDay + diffDays)) / 7);
     for (let i = 0; i <= splitDays; i++) {
-      let startTime = i === 0 ? start : moment(eStart).add(8 - startDay + 7 * (i - 1), 'd'),
-        endTime = i === splitDays ? end : moment(eStart).add(7 - startDay + 7 * i, 'd');
-      hasColspan.count++;
+      const startTime = i === 0 ? start : moment(eStart).add(8 - startDay + 7 * (i - 1), 'd');
+
+
+      const endTime = i === splitDays ? end : moment(eStart).add(7 - startDay + 7 * i, 'd');
+      hasColspan.count += 1;
 
       arrs.push({
         start: startTime,
@@ -397,7 +280,9 @@ function splitMonthEvents(event, diffDays, hasColspan) {
       });
     }
   } else {
-    diffDays >= 1 && (hasColspan.count++);
+    if (diffDays >= 1) {
+      hasColspan.count += 1;
+    }
     arrs.push({
       start,
       end,
@@ -410,6 +295,160 @@ function splitMonthEvents(event, diffDays, hasColspan) {
 
   return arrs;
 }
+
+/**
+ * 拆分事件，是否为跨天事件
+ */
+function splitEvents(event, diffDays, opts, hasColspan) {
+  const arrs = [];
+  const {
+    startHour, endHour, current, type,
+  } = opts;
+  const { start, end, cal } = event;
+  if (type === 'month') {
+    return splitMonthEvents(event, diffDays, hasColspan);
+  }
+  const eStart = moment(start).valueOf();
+  const eEnd = moment(end).valueOf();
+  for (let i = 0; i <= diffDays; i++) {
+    const startTime = i === 0
+      ? start
+      : moment(eStart)
+        .add(i, 'd')
+        .hour(startHour)
+        .minute(0);
+
+
+    const endTime = i === diffDays
+      ? end
+      : moment(startTime)
+        .hour(endHour)
+        .minute(0);
+
+    arrs.push({
+      start: startTime,
+      end: endTime,
+      cal,
+      eStart,
+      eEnd,
+    });
+  }
+
+  return arrs;
+}
+
+function initEvents(events, opts, hasColspan) {
+  let resultEvents = [];
+  events.forEach((event, idx) => {
+    const { start, end } = event;
+    event.id = idx;
+    const diffDate = moment(end).diff(moment(start), 'days');
+    if (diffDate > 0) {
+      resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts, hasColspan));
+    } else {
+      resultEvents.push(event);
+    }
+  });
+
+  return resultEvents;
+}
+
+function evaluateStyle(events, opts, hasColspan) {
+  // 拆分事件，为week时，跨两天拆分为两天
+
+  const newEvents = initEvents(events, opts, hasColspan);
+
+  // 对事件进行排序
+  const sortedEvents = sortByRender(newEvents);
+  // 获取同一段事件的容器位置
+  const containerEvents = handleEvents(sortedEvents, opts);
+  for (const o in containerEvents) {
+    const wrapSchedule = containerEvents[o];
+    containerEvents[o].children = handleEventsInSameDate(wrapSchedule, opts, containerEvents);
+  }
+  return containerEvents;
+}
+
+/**
+ * generate schedule content
+ * @param
+ * ({
+ *  start: '2018-11-12 12:00',
+ *  end: '2018-11-12 14:00',
+ *  cal: function(){}
+ * })
+ */
+const generateScheduleContent = (events) => {
+  const hasColspan = { count: 0 };
+  return function scheduleRender(events, opts) {
+    const containerEvents = evaluateStyle(events, opts, hasColspan);
+
+    const resultScheduleHtml = [];
+    for (const c in containerEvents) {
+      const container = containerEvents[c];
+      // console.log(container);
+      const {
+        children: rangeEvents, width, offsetX, height, top, isColspan,
+      } = container;
+      // 如果有跨栏的，跨栏始终在上
+      const notColspanTop = isColspan ? 0 : 1 * 0.055;
+      let notColspanHeight = height - notColspanTop;
+      notColspanHeight = notColspanHeight < 0.055 ? 0.055 : notColspanHeight;
+      const containerStyle = {
+        width: `${width * 100}%`,
+        left: `${offsetX * 100}%`,
+        top: top ? `${(top + notColspanTop) * 100}%` : 0,
+        height: `${notColspanHeight * 100}%`,
+      };
+      const containerCls = classnames({
+        'cell-container': true,
+        'colspan-cell': isColspan,
+      });
+      resultScheduleHtml.push(
+        <div className={containerCls} key={container.end} style={containerStyle}>
+          {rangeEvents.map((event, idx) => {
+            const originEvt = event.event;
+            const { start, end, cal } = originEvt;
+            const eStyle = {
+              top: `${event.top * 100}%`,
+              height: `${event.height * 100}%`,
+              left: `${event.offsetX * 100}%`,
+              width: `${event.width * 100}%`,
+            };
+            const content = cal && typeof cal === 'function' ? cal(event) : moment(start).date();
+            return (
+              <div className="kuma-calendar-content-box" key={idx} style={eStyle}>
+                <div className="kuma-calendar-content-wraper">
+                  {content}
+                </div>
+              </div>
+            );
+          })}
+        </div>,
+      );
+    }
+    return resultScheduleHtml;
+  }.bind(null, events);
+};
+
+/**
+ * evaluate style of events
+ *
+ */
+function isSameMoment(target, source) {
+  const newTarget = moment(target).format('YYYY-MM-DD');
+  const newSource = moment(source).format('YYYY-MM-DD');
+  return moment(newTarget).isSame(newSource);
+}
+
+function getMomentValue(date, hour) {
+  return moment(date)
+    .hour(hour)
+    .minute(0)
+    .second(0)
+    .valueOf();
+}
+
 /**
  * 获取是否处于当前面板中
  */
@@ -429,7 +468,9 @@ function isInCurrentPanle(event, opts) {
   return moment(start).isSame(current, 'month');
 }
 function getEventTopHeight(event, opts) {
-  const { startHour, current, slicePiece, gapMinute, type } = opts;
+  const {
+    startHour, current, slicePiece, gapMinute, type,
+  } = opts;
   const { start, startValue, endValue } = event;
   let startCurrent = getMomentValue(current, startHour);
   const totalSeconds = (slicePiece + 2) * gapMinute * 60 * 1000;
@@ -449,19 +490,21 @@ function getEventTopHeight(event, opts) {
   }
 }
 function handleEventsInSameDate(eventsContainer, opts, containerEvents) {
-  const { startHour, endHour, current, type } = opts;
+  const {
+    startHour, endHour, current, type,
+  } = opts;
   const containerStyle = computeEventStyle(eventsContainer, type, current);
   eventsContainer.width = containerStyle.width;
   eventsContainer.offsetX = containerStyle.offsetX;
   eventsContainer.height = type === 'month' ? 1 / 6 - 0.06 : 1;
 
   const events = eventsContainer.children;
-  let rangeEvents = [];
+  const rangeEvents = [];
 
   const startCurrent = getMomentValue(current, startHour);
   const endCurrent = getMomentValue(current, endHour);
 
-  events.forEach(event => {
+  events.forEach((event) => {
     const { start, end } = event;
     const eStart = moment(start).valueOf();
     const eEnd = moment(end).valueOf();
@@ -498,21 +541,7 @@ function handleEventsInSameDate(eventsContainer, opts, containerEvents) {
   });
   return rangeEvents;
 }
-function evaluateStyle(events, opts, hasColspan) {
-  // 拆分事件，为week时，跨两天拆分为两天
 
-  const newEvents = initEvents(events, opts, hasColspan);
-
-  // 对事件进行排序
-  const sortedEvents = sortByRender(newEvents);
-  // 获取同一段事件的容器位置
-  const containerEvents = handleEvents(sortedEvents, opts);
-  for (let o in containerEvents) {
-    const wrapSchedule = containerEvents[o];
-    containerEvents[o].children = handleEventsInSameDate(wrapSchedule, opts, containerEvents);
-  }
-  return containerEvents;
-}
 
 export default {
   generateContentRender,

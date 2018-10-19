@@ -24,7 +24,7 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: new Date().getTime(),
+      // value: new Date().getTime(),
     };
     this.onSelect = this.onSelect.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -63,6 +63,7 @@ class Demo extends React.Component {
       prefixCls: 'kuma-calendar',
       value: moment(me.state.value).locale('zh-cn'),
     };
+    const { value, rangeValue } = this.state;
     return (
       <div className="kuma-form">
         <div
@@ -71,7 +72,9 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>基本</p>
+          <p>
+            基本
+          </p>
           <Calendar
             showTime={false}
             allowClear={false}
@@ -85,7 +88,7 @@ class Demo extends React.Component {
                 disabledMinutes: () => disabledMinutes,
               }
             )}
-            value={this.state.value}
+            value={value}
             onSelect={this.onSelect}
             showDateInput
           />
@@ -96,9 +99,11 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>日期格式</p>
+          <p>
+            日期格式
+          </p>
           <Calendar
-            value={this.state.value}
+            value={value}
             format="YYYY/MM/DD"
             onSelect={this.onSelect}
             showDateInput
@@ -110,8 +115,10 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>选择日期</p>
-          <Calendar onSelect={this.onSelect} value={this.state.value} />
+          <p>
+            选择日期
+          </p>
+          <Calendar onSelect={this.onSelect} value={value} />
         </div>
         <div
           className="kuma-form-field"
@@ -119,10 +126,12 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>范围</p>
+          <p>
+            范围
+          </p>
           <Calendar
             disabledDate={disabledDate}
-            value={this.state.value}
+            value={value}
             onSelect={this.onSelect}
           />
         </div>
@@ -132,16 +141,19 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>时间选择</p>
+          <p>
+            时间选择
+          </p>
           <Calendar
             hasTrigger
-            showSecond={true}
+            showSecond
             showHour
             showTime
             size="small"
             timezone={8}
+            defaultOpenValue={new Date(2018, 8, 1, 3, 12)}
             locale="en-us"
-            value={this.state.value}
+            value={value}
             onSelect={this.onSelect}
           />
         </div>
@@ -151,8 +163,10 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>禁用</p>
-          <Calendar value={this.state.value} disabled onSelect={this.onSelect} />
+          <p>
+            禁用
+          </p>
+          <Calendar value={value} disabled onSelect={this.onSelect} />
         </div>
         <div
           className="kuma-form-field"
@@ -160,10 +174,12 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>月份</p>
+          <p>
+            月份
+          </p>
           <MonthCalendar
             size="middle"
-            value={this.state.value}
+            value={value}
             disabledDate={disabledDate}
             onSelect={this.onSelect}
             showDateInput
@@ -175,10 +191,12 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>年份</p>
+          <p>
+            年份
+          </p>
           <YearCalendar
             size="large"
-            value={this.state.value}
+            value={value}
             onSelect={this.onSelect}
             disabledDate={(current) => {
               console.log(current);
@@ -191,10 +209,14 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>显示日期和日程</p>
-          <p>Calendar 通过开放 contentRender 参数来完成日期渲染上的定制，并提供了一个默认的渲染函数 Calendar.util.generateContentRender(code) 来完成通用定制。</p>
+          <p>
+            显示日期和日程
+          </p>
+          <p>
+            Calendar 通过开放 contentRender 参数来完成日期渲染上的定制，并提供了一个默认的渲染函数 Calendar.util.generateContentRender(code) 来完成通用定制。
+          </p>
           <Calendar
-            value={this.state.value}
+            value={value}
             onSelect={this.onSelect}
             contentRender={Calendar.util.generateContentRender({
               '2016-01-07': 'leave',
@@ -209,20 +231,26 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>直接渲染面板</p>
+          <p>
+            直接渲染面板
+          </p>
           <RcCalendar {...panelOptions} className="panel-demo" />
         </div>
-        <Button onClick={me.handleClick}>changeTime</Button>
+        <Button onClick={me.handleClick}>
+          changeTime
+        </Button>
         <div
           className="kuma-form-field"
           style={{
             width: '400px',
           }}
         >
-          <p>区间日期选择</p>
+          <p>
+            区间日期选择
+          </p>
           <RangeCalendar
             size="large"
-            value={this.state.rangeValue}
+            value={rangeValue}
             onSelect={(v, formatted) => {
               console.log(v, formatted);
               this.onRangeSelect(v, formatted);

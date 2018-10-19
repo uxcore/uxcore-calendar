@@ -85,9 +85,12 @@ class YearCalendar extends React.Component {
 
     if (p.value) {
       const value = this.getDate(p.value);
-      pickerOptions.value = calendarOptions.defaultValue = value;
+      pickerOptions.value = value;
+      calendarOptions.defaultValue = value;
     } else {
-      pickerOptions.value = calendarOptions.defaultValue = null;
+      pickerOptions.value = null;
+      // calendarOptions.defaultValue = null;
+      calendarOptions.value = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
     }
 
     if (p.defaultValue) {
@@ -123,24 +126,28 @@ class YearCalendar extends React.Component {
         {({ value }) => {
           const showClear = p.allowClear ? (value && !p.disabled) : false;
           let newValue = value;
-          if (newValue === null) {
+          if (newValue) {
+            newValue = newValue.format(generalizeFormat(p.format));
+          } else {
             newValue = '';
           }
           return (
             <span className={triggerClassName} style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
-                value={newValue && newValue.format(generalizeFormat(p.format))}
+                value={newValue}
                 readOnly
                 disabled={me.props.disabled}
-                placeholder={this.props.placeholder}
+                placeholder={me.props.placeholder}
                 className={inputClassName}
               />
               {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
-                ? <i
-                  className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
-                  onClick={this.clearValue}
-                />
+                ? (
+                  <i
+                    className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
+                    onClick={this.clearValue}
+                  />
+                )
                 : null}
             </span>
           );

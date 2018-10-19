@@ -2,6 +2,11 @@
 
 ---
 
+## 0.10.6
+
+* `CHANEGD` `Calendar`, `MonthCalendar`, `YearCalendar`, new prop `defaultOpenValue` 
+* `FIXED` some eslint error
+
 ## 0.10.4
 
 * `FIXED` monthCalendar style bug after updating `rc-calendar` to `^9.6.0`

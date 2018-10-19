@@ -46,7 +46,9 @@ class Calendar extends React.Component {
   }
 
   getFormat() {
-    const { format, locale, showTime, timePicker } = this.props;
+    const {
+      format, locale, showTime, timePicker,
+    } = this.props;
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': {
@@ -79,7 +81,8 @@ class Calendar extends React.Component {
 
   clearValue(e) {
     e.stopPropagation();
-    this.props.onSelect(null, null);
+    const { onSelect } = this.props;
+    onSelect(null, null);
   }
 
   saveRef(refName) {
@@ -90,11 +93,12 @@ class Calendar extends React.Component {
   }
 
   handleChange(v) {
+    const { onSelect } = this.props;
     if (v) {
       const date = v.valueOf();
-      this.props.onSelect(new Date(date), v.format(generalizeFormat(this.getFormat())));
+      onSelect(new Date(date), v.format(generalizeFormat(this.getFormat())));
     } else {
-      this.props.onSelect(v, v);
+      onSelect(v, v);
     }
   }
 
@@ -160,9 +164,12 @@ class Calendar extends React.Component {
 
     if (p.value) {
       const value = this.getDate(p.value);
-      pickerOptions.value = calendarOptions.defaultValue = value;
+      pickerOptions.value = value;
+      calendarOptions.defaultValue = value;
     } else {
-      pickerOptions.value = calendarOptions.defaultValue = null;
+      pickerOptions.value = null;
+      // calendarOptions.defaultValue = null;
+      calendarOptions.value = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
     }
     if (p.defaultValue) {
       const value = this.getDate(p.defaultValue);
@@ -211,15 +218,17 @@ class Calendar extends React.Component {
                 value={newValue}
                 readOnly
                 disabled={me.props.disabled}
-                placeholder={this.props.placeholder}
+                placeholder={me.props.placeholder}
                 className={inputClassName}
               />
               {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
               {showClear
-                ? <i
-                  className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
-                  onClick={this.clearValue}
-                />
+                ? (
+                  <i
+                    className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
+                    onClick={this.clearValue}
+                  />
+                )
                 : null}
             </span>
           );
@@ -243,11 +252,20 @@ Calendar.defaultProps = {
   hasTrigger: true,
   allowClear: true,
   transitionName: 'calendarSlideUp',
+  inputWidth: undefined,
+  format: undefined,
+  size: undefined,
+  getPopupContainer: undefined,
+  showTime: false,
+  timePicker: undefined,
 };
 Calendar.propTypes = {
   format: PropTypes.string,
   inputWidth: PropTypes.number,
   placeholder: PropTypes.string,
+  align: PropTypes.object,
+  showDateInput: PropTypes.bool,
+  transitionName: PropTypes.string,
   onSelect: PropTypes.func,
   locale: PropTypes.string,
   hasTrigger: PropTypes.bool,

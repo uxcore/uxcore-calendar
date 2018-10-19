@@ -28,8 +28,7 @@
     height: ~"calc(100% - 32px)";
     .cell-container {
       position: absolute; // display: inline-block;
-      overflow-y: scroll;
-      padding: 8px;
+      overflow-y: scroll; // padding: 8px;
       z-index: 9999;
       .kuma-calendar-content-box {
         position: relative;
@@ -61,8 +60,12 @@
       .kuma-calendar-content-box {
         width: 100%;
         border-radius: 5px;
-        background: @brand-primary;
-        color: #fff;
+        padding: 0;
+        border: 1px solid @brand-primary;
+        background: #fff; // color: #fff;
+        &::before {
+          display: none;
+        }
       }
     }
   }
@@ -163,7 +166,7 @@
         background-color: @brand-primary-alpha-7;
         cursor: pointer;
       }
-      > span {
+      >span {
         float: left;
         height: 28px;
         line-height: 24px;

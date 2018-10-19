@@ -193,7 +193,7 @@ class Demo extends React.Component {
             size="large"
             value={this.state.value}
             onSelect={this.onSelect}
-            disabledDate={current => {}}
+            disabledDate={current => { }}
           />
         </div>
         <div
@@ -262,7 +262,7 @@ class Demo extends React.Component {
             value={this.state.value}
             onSelect={this.onSelect}
             fullscreen
-            type={'week'}
+            type={'month'}
             locale="zh-cn"
             scheduleRender={Calendar.util.generateScheduleContent(events)}
             // timeRender={this.getTimeRender}

@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
+import objectAssign from 'object-assign';
 import util from './util';
 import i18n from './locale';
-import RcFullCalendar from './RcFullCalendar';
+import RcCalendarFull from './RcCalendarFull';
 
 const CalendarLocale = {};
 
@@ -20,8 +21,8 @@ export default class FullCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: props.type || props.defaultType || 'month',
-      value: props.value || props.defaultValue,
+      type: props.type || 'week',
+      value: props.value
     };
   }
 
@@ -30,12 +31,6 @@ export default class FullCalendar extends React.Component {
       const { onSelect } = this.props;
       const date = value.valueOf();
       onSelect(new Date(date), value.format(generalizeFormat(this.getFormat('time'))));
-    }
-  }
-
-  handleCellRender(type, value) {
-    if (type && value && this.props[type]) {
-      return this.props[type](value.format(generalizeFormat(this.getFormat('time'))));
     }
   }
 
@@ -69,7 +64,7 @@ export default class FullCalendar extends React.Component {
     return value;
   }
 
-  getDateValue(calendarOptions) {
+  getDateValue() {
     const {
       value,
       defaultValue,
@@ -79,38 +74,49 @@ export default class FullCalendar extends React.Component {
       scheduleRender,
       contentRender,
     } = this.props;
+    const newOptions = {};
+
     if (value || defaultValue) {
       const cvalue = this.getDate(value || defaultValue);
-      calendarOptions.defaultValue = cvalue;
+      newOptions.defaultValue = cvalue;
     } else {
       const cvalue = this.getDate(new Date().getTime());
-      calendarOptions.defaultValue = cvalue;
+      newOptions.defaultValue = cvalue;
     }
     if (timeRender) {
-      calendarOptions.timeRender = this.handleCellRender.bind(this, 'timeRender');
+      newOptions.timeRender = this.handleCellRender.bind(this, 'timeRender');
     }
     if (weekRender) {
-      calendarOptions.weekRender = this.handleCellRender.bind(this, 'weekRender');
+      newOptions.weekRender = this.handleCellRender.bind(this, 'weekRender');
     }
     if (dateRender) {
-      calendarOptions.dateRender = this.handleCellRender.bind(this, 'dateRender');
+      newOptions.dateRender = this.handleCellRender.bind(this, 'dateRender');
     }
     if (scheduleRender && typeof scheduleRender === 'function') {
-      calendarOptions.scheduleRender = scheduleRender;
+      newOptions.scheduleRender = scheduleRender;
     }
     if (contentRender && typeof contentRender === 'function') {
-      calendarOptions.contentRender = contentRender;
-      calendarOptions.contentRender = (events, current) => {
+      newOptions.contentRender = contentRender;
+      newOptions.contentRender = (events, current) => {
         if (typeof contentRender === 'function') {
           const date = current.clone();
           date.getTime = current.valueOf;
           date.getDayOfMonth = date.date;
-          return contentRender(date, value);
+          // return contentRender(date, value);
           return contentRender(events, current);
         }
         return current.date();
       };
     }
+    return newOptions;
+  }
+
+  handleCellRender(ctype, value) {
+    const { type } = this.state;
+    if (ctype && value && type) {
+      return type(value.format(generalizeFormat(this.getFormat('time'))));
+    }
+    return '';
   }
 
   render() {
@@ -124,7 +130,6 @@ export default class FullCalendar extends React.Component {
       disabledTime,
       format,
       locale,
-      type,
       value,
       defaultValue,
       onSelect,
@@ -133,13 +138,14 @@ export default class FullCalendar extends React.Component {
       dateRender,
       contentRender,
       scheduleRender,
-      ...otherProps
-    } = p;
+      type,
+      ...otherProps,
 
+    } = p;
     const calendarOptions = {
       className: classnames({ [className]: !!className }),
       style: p.style,
-      prefixCls: 'kuma-full-calendar',
+      prefixCls: 'kuma-calendar-full',
       disabledDate: (current) => {
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
@@ -159,12 +165,14 @@ export default class FullCalendar extends React.Component {
       },
       format: generalizeFormat(this.getFormat()),
       locale: CalendarLocale[locale],
+      originLocale: locale,
       type: this.state.type,
     };
-    this.getDateValue(calendarOptions);
+    const newOption = this.getDateValue();
+    objectAssign(calendarOptions, newOption);
     return (
       <div className={prefixCls}>
-        <RcFullCalendar
+        <RcCalendarFull
           {...calendarOptions}
           setType={this.setType.bind(this)}
           onSelect={this.onSelect.bind(this)}
@@ -183,18 +191,17 @@ FullCalendar.defaultProps = {
   locale: 'zh-cn',
   fullscreen: true,
   showHeader: true,
-  defaultType: 'date',
   prefixCls: 'kuma-full-calendar',
-  onSelect() {},
-  onTypeChange() {},
+  onSelect() { },
+  onTypeChange() { },
 };
 FullCalendar.propTypes = {
+  align: PropTypes.object,
   prefixCls: PropTypes.string,
   format: PropTypes.string,
   fullscreen: PropTypes.bool,
   locale: PropTypes.string,
   type: PropTypes.string,
-  defaultType: PropTypes.string,
   showHeader: PropTypes.bool,
   onSelect: PropTypes.func,
   onTypeChange: PropTypes.func,

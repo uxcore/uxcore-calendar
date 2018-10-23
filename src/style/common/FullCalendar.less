@@ -1,4 +1,4 @@
-.@{calendarFullCls} {
+.@{__calendarPrefixCls}-full {
   * {
     box-sizing: border-box;
   }
@@ -60,6 +60,7 @@
       .kuma-calendar-content-box {
         width: 100%;
         border-radius: 5px;
+        margin-bottom: 3px;
         padding: 0;
         border: 1px solid @brand-primary;
         background: #fff; // color: #fff;
@@ -185,16 +186,16 @@
         }
       }
     }
-    .@{calendarFullCls}-header-switcher-focus {
+    .@{__calendarPrefixCls}-full-header-switcher-focus {
       position: relative;
       background-color: @brand-primary-alpha-7;
       color: @brand-primary;
       border: 1px solid @brand-primary;
-      &.@{calendarFullCls}-header-switcher-time {
+      &.@{__calendarPrefixCls}-full-header-switcher-time {
         right: -1px;
         border-right: 1px solid @brand-primary;
       }
-      &.@{calendarFullCls}-header-switcher-date {
+      &.@{__calendarPrefixCls}-full-header-switcher-date {
         border-left: 1px solid @brand-primary;
         left: -1px;
       }
@@ -222,15 +223,15 @@
       background-color: @brand-primary-alpha-7;
       color: @brand-primary;
     }
-    &.@{calendarFullCls}-last-month-cell,
-    &.@{calendarFullCls}-next-month-btn-day {
+    &.@{__calendarPrefixCls}-full-last-month-cell,
+    &.@{__calendarPrefixCls}-full-next-month-btn-day {
       color: rgba(31, 56, 88, 0.3);
     }
-    &.@{calendarFullCls}-selected-day {
+    &.@{__calendarPrefixCls}-full-selected-day {
       background-color: @brand-primary-alpha-7;
       color: @brand-primary;
     }
-    &.@{calendarFullCls}-disabled-cell {
+    &.@{__calendarPrefixCls}-full-disabled-cell {
       cursor: not-allowed;
       color: @text-disabled-color;
       background-color: @bg-disabled-color;
@@ -242,7 +243,7 @@
     }
   }
   &-today {
-    .@{calendarFullCls}-date {
+    .@{__calendarPrefixCls}-full-date {
       display: inline-block;
       padding: 3px 4px;
       background: @brand-primary;

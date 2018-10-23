@@ -1,14 +1,15 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import CalendarMixin from 'rc-calendar/lib/mixin/CalendarMixin';
 import CommonMixin from 'rc-calendar/lib/mixin/CommonMixin';
-import FullCalendarHeader from './FullCalendarHeader';
+import CalendarFullHeader from './CalendarFullHeader';
 
 import DateTable from './date/DateTable';
-import WeekTable from './week/WeekTable';
-import TimeTable from './time-table/TimeTable';
-import moment from 'moment';
+import WeekTable from './fullWeek/WeekTable';
+import TimeTable from './fullTime/TimeTable';
+
 
 const FullCalendar = createReactClass({
   propTypes: {
@@ -37,54 +38,24 @@ const FullCalendar = createReactClass({
       showTypeSwitch: true,
       showHeader: true,
       showCount: 1,
-      setType() {},
+      setType() { },
     };
   },
 
   onHeaderSelect(value, formatValue, momentValue) {
-    let resultVal = momentValue ? momentValue : value;
-    this.setValue(resultVal);
-  },
-
-  componentWillReceiveProps(nextProps) {
-    if ('type' in nextProps) {
-      this.setState({
-        type: nextProps.type,
-      });
-    }
+    const resultVal = momentValue || value;
+    const { originLocale } = this.props;
+    this.setValue(moment(resultVal).locale(originLocale));
   },
   setType(type) {
-    this.props.setType(type);
+    const { setType } = this.props;
+    setType(type);
   },
-  initHeader() {
-    const props = this.props;
-    const { locale, prefixCls, showHeader, headerComponent, headerRender, type } = props;
-    const { value } = this.state;
 
-    let header = null;
-    if (showHeader) {
-      if (headerRender) {
-        header = headerRender(value, type, locale);
-      } else {
-        const TheHeader = headerComponent || FullCalendarHeader;
-        header = (
-          <TheHeader
-            key="calendar-header"
-            {...props}
-            prefixCls={`${prefixCls}`}
-            type={type}
-            value={value}
-            onTypeChange={this.setType}
-            onValueChange={this.onHeaderSelect}
-          />
-        );
-      }
-    }
-    return header;
-  },
   getDateTableElement() {
-    const props = this.props;
-    const { locale, prefixCls, disabledDate, ...others } = props;
+    const {
+      locale, prefixCls, disabledDate, ...others
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -99,8 +70,9 @@ const FullCalendar = createReactClass({
     );
   },
   getWeekTableElement() {
-    const props = this.props;
-    const { locale, prefixCls, disabledDate, ...others } = props;
+    const {
+      locale, prefixCls, disabledDate, ...others
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -115,8 +87,9 @@ const FullCalendar = createReactClass({
     );
   },
   getTimeTableElement() {
-    const props = this.props;
-    const { locale, prefixCls, showCount, ...others } = props;
+    const {
+      locale, prefixCls, showCount, ...others
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -131,7 +104,7 @@ const FullCalendar = createReactClass({
     );
   },
   getPanel() {
-    const { type } = this.state;
+    const { type } = this.props;
     switch (type) {
       case 'month':
         return this.getDateTableElement();
@@ -140,13 +113,40 @@ const FullCalendar = createReactClass({
       case 'time':
         return this.getTimeTableElement();
       default:
-        return;
+        return '';
     }
   },
+  initHeader() {
+    const {
+      locale, prefixCls, showHeader, headerComponent, headerRender, type,
+    } = this.props;
+
+    const { value } = this.state;
+    let header = null;
+    if (showHeader) {
+      if (headerRender) {
+        header = headerRender(value, type, locale);
+      } else {
+        const TheHeader = headerComponent || CalendarFullHeader;
+        header = (
+          <TheHeader
+            key="calendar-header"
+            prefixCls={`${prefixCls}`}
+            type={type}
+            value={value}
+            typeChange={this.setType}
+            onValueChange={this.onHeaderSelect}
+            {...this.props}
+          />
+        );
+      }
+    }
+    return header;
+  },
   render() {
-    const props = this.props;
-    const { prefixCls, fullscreen } = props;
-    let header = this.initHeader();
+    const { prefixCls, fullscreen } = this.props;
+    const header = this.initHeader();
+
     const children = [
       header,
       <div key="calendar-body" className={`${prefixCls}-calendar-body`}>

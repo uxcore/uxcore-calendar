@@ -300,13 +300,7 @@ class Demo extends React.Component {
             type="week"
             locale="zh-cn"
             format="yyyy/MM"
-            scheduleRender={Calendar.util.generateScheduleContent([
-              {
-                start: '2018-10-23 13:00',
-                end: '2018-10-23 14:00',
-                cal: () => <div>2018-10-23</div>,
-              },
-            ])}
+            scheduleRender={Calendar.util.generateScheduleContent(events)}
             // timeRender={this.getTimeRender}
             // weekRender={this.getTimeRender}
             // dateRender={this.getTimeRender}

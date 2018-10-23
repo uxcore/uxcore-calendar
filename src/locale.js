@@ -7,6 +7,7 @@ const locale = {
     now: '今天',
     time: '日',
     week: '周',
+    close: '关闭',
   },
   'en-us': {
     work: 'work',
@@ -16,6 +17,7 @@ const locale = {
     now: 'now',
     time: 'date',
     week: 'week',
+    close: 'close',
   },
   'pl-pl': {
     work: 'zadanie',
@@ -25,6 +27,7 @@ const locale = {
     now: 'NOW',
     time: 'DATE',
     week: 'WEEK',
+    close: 'close',
   },
 };
 

@@ -22,7 +22,7 @@ export default class FullCalendar extends React.Component {
     super(props);
     this.state = {
       type: props.type || 'week',
-      value: props.value
+      value: props.value,
     };
   }
 
@@ -139,8 +139,7 @@ export default class FullCalendar extends React.Component {
       contentRender,
       scheduleRender,
       type,
-      ...otherProps,
-
+      ...otherProps
     } = p;
     const calendarOptions = {
       className: classnames({ [className]: !!className }),

@@ -4,7 +4,9 @@ import Button from 'uxcore-button';
 
 const CalendarFooter = props => (
   <div className={`${props.prefixCls}-footer`}>
-    <Button onClick={props.onOk} size="small">{props.locale.ok}</Button>
+    <Button onClick={props.onOk} size="small">
+      {props.locale.close}
+    </Button>
   </div>
 );
 
@@ -16,7 +18,8 @@ CalendarFooter.propTypes = {
 
 CalendarFooter.defaultProps = {
   onOk: () => {},
+  locale: {},
+  prefixCls: '',
 };
 
 export default CalendarFooter;
-

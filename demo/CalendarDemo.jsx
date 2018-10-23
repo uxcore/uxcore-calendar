@@ -294,21 +294,27 @@ class Demo extends React.Component {
             大日历日期选择,跨日程，提供Calendar.util.generateScheduleContent方法，返回具体日程的相关信息
           </p>
           <CalendarFull
-            size="middle"
             value={this.state.value}
             onSelect={this.onSelect}
             fullscreen
             type="week"
             locale="zh-cn"
-            scheduleRender={Calendar.util.generateScheduleContent(events)}
+            format="yyyy/MM"
+            scheduleRender={Calendar.util.generateScheduleContent([
+              {
+                start: '2018-10-23 13:00',
+                end: '2018-10-23 14:00',
+                cal: () => <div>2018-10-23</div>,
+              },
+            ])}
             // timeRender={this.getTimeRender}
             // weekRender={this.getTimeRender}
             // dateRender={this.getTimeRender}
             // disabledDate={disabledDate}
             // disabledTime={disabledTime}
-            startHour={9}
+            startHour={12}
             endHour={18}
-            gapMinute={60}
+            gapMinute={30}
           />
         </div>
       </div>

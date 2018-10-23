@@ -393,7 +393,7 @@ function getEventTopHeight(event, opts, sourceDate) {
   if (type === 'time') {
     const diffStartCurrent = sourceStart - startCurrent + gapMinute * 60 * 1000;
     const diffEventHeight = sourceEnd - sourceStart;
-    evetTop = diffStartCurrent / totalSeconds + 0.01;
+    evetTop = diffStartCurrent / totalSeconds + 0.015;
     eventHeight = diffEventHeight / totalSeconds - 0.015;
     return { top: evetTop, height: eventHeight };
   }
@@ -401,7 +401,7 @@ function getEventTopHeight(event, opts, sourceDate) {
     startCurrent = getMomentValue(start, startHour);
     const diffStartCurrent = sourceStart - startCurrent + gapMinute * 60 * 1000;
     const diffEventHeight = sourceEnd - sourceStart;
-    evetTop = diffStartCurrent / totalSeconds + 0.01;
+    evetTop = diffStartCurrent / totalSeconds + 0.015;
     eventHeight = diffEventHeight / totalSeconds - 0.015;
     return { top: evetTop, height: eventHeight };
   }

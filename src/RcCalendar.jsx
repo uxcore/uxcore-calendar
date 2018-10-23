@@ -13,7 +13,7 @@ import CalendarFooter from './CalendarFooter';
 import CalendarHeader from './CalendarHeader';
 import DateTable from './date/DateTable';
 
-function noop() {}
+function noop() { }
 
 function goStartMonth() {
   const next = this.state.value.clone();
@@ -97,7 +97,7 @@ const Calendar = createClass({
     if (event.target.nodeName.toLowerCase() === 'input') {
       return undefined;
     }
-    const keyCode = event.keyCode;
+    const { keyCode } = event;
     // mac
     const ctrlKey = event.ctrlKey || event.metaKey;
     switch (keyCode) {
@@ -201,7 +201,6 @@ const Calendar = createClass({
     });
   },
   render() {
-    const props = this.props;
     const {
       locale,
       prefixCls,
@@ -211,32 +210,29 @@ const Calendar = createClass({
       disabledTime,
       yearSelectOffset,
       yearSelectTotal,
-    } = props;
-    const state = this.state;
-    const { value, selectedValue, showTimePicker } = state;
-    const disabledTimeConfig =
-      showTimePicker && disabledTime && timePicker
-        ? getTimeConfig(selectedValue, disabledTime)
-        : null;
+    } = this.props;
+    const { value, selectedValue, showTimePicker } = this.state;
+    const disabledTimeConfig = showTimePicker && disabledTime && timePicker
+      ? getTimeConfig(selectedValue, disabledTime)
+      : null;
 
-    const timePickerEle =
-      timePicker && showTimePicker
-        ? React.cloneElement(timePicker, {
-            showHour: props.showHour,
-            showSecond: props.showSecond,
-            showMinute: true,
-            locale,
-            ...disabledTimeConfig,
-            onChange: this.onDateInputChange,
-            defaultOpenValue: value,
-            value: selectedValue,
-            disabledTime,
-          })
-        : null;
+    const timePickerEle = timePicker && showTimePicker
+      ? React.cloneElement(timePicker, {
+        showHour: this.props.showHour,
+        showSecond: this.props.showSecond,
+        showMinute: true,
+        locale,
+        ...disabledTimeConfig,
+        onChange: this.onDateInputChange,
+        defaultOpenValue: value,
+        value: selectedValue,
+        disabledTime,
+      })
+      : null;
 
-    const dateInputElement = props.showDateInput ? (
+    const dateInputElement = this.props.showDateInput ? (
       <DateInput
-        ref={c => {
+        ref={(c) => {
           this.dateInput = c;
         }}
         format={this.getFormat()}
@@ -254,7 +250,7 @@ const Calendar = createClass({
       />
     ) : null;
     const children = [
-      props.renderSidebar(),
+      this.props.renderSidebar(),
       <div className={`${prefixCls}-panel`} key="panel">
         {dateInputElement}
         <div className={`fn-clear ${prefixCls}-date-main`}>
@@ -274,11 +270,11 @@ const Calendar = createClass({
                 value={value}
                 selectedValue={selectedValue}
                 prefixCls={prefixCls}
-                dateRender={props.dateRender}
-                contentRender={props.contentRender}
+                dateRender={this.props.dateRender}
+                contentRender={this.props.contentRender}
                 onSelect={this.onDateTableSelect}
                 disabledDate={disabledDate}
-                showWeekNumber={props.showWeekNumber}
+                showWeekNumber={this.props.showWeekNumber}
               />
             </div>
           </div>
@@ -296,7 +292,7 @@ const Calendar = createClass({
 
     return this.renderRoot({
       children,
-      className: props.showWeekNumber ? `${prefixCls}-week-number` : '',
+      className: this.props.showWeekNumber ? `${prefixCls}-week-number` : '',
     });
   },
 });

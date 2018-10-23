@@ -297,10 +297,11 @@ class Demo extends React.Component {
             value={this.state.value}
             onSelect={this.onSelect}
             fullscreen
-            type="week"
+            type="time"
             locale="zh-cn"
-            format="yyyy/MM"
+            format="yyyy/MM/dd"
             scheduleRender={Calendar.util.generateScheduleContent(events)}
+
             // timeRender={this.getTimeRender}
             // weekRender={this.getTimeRender}
             // dateRender={this.getTimeRender}

@@ -5,7 +5,10 @@ import moment from 'moment';
 import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
 import events from './events';
-const { MonthCalendar, YearCalendar, RangeCalendar, FullCalendar } = Calendar;
+
+const {
+  MonthCalendar, YearCalendar, RangeCalendar, CalendarFull,
+} = Calendar;
 
 function disabledDate(current) {
   if (current) {
@@ -14,7 +17,7 @@ function disabledDate(current) {
 }
 function disabledTime(current) {
   if (current) {
-    let hours = current.getHours();
+    const hours = current.getHours();
     return hours < new Date().getHours();
   }
 }
@@ -58,6 +61,7 @@ class Demo extends React.Component {
       value: '2017-01-05',
     });
   }
+
   getTimeRender(value) {
     return (
       <div>
@@ -66,6 +70,7 @@ class Demo extends React.Component {
       </div>
     );
   }
+
   contentRender(current, value) {
     // console.log('.....', current);
     // console.log('2222', value);
@@ -217,7 +222,7 @@ class Demo extends React.Component {
             size="large"
             value={value}
             onSelect={this.onSelect}
-            disabledDate={current => { }}
+            disabledDate={(current) => { }}
           />
         </div>
         <div
@@ -241,7 +246,7 @@ class Demo extends React.Component {
                 '2016-01-09': 'work',
                 '2016-01-08': 'schedule',
               },
-              'en'
+              'en',
             )}
           />
         </div>
@@ -288,22 +293,23 @@ class Demo extends React.Component {
           <p>
             大日历日期选择,跨日程，提供Calendar.util.generateScheduleContent方法，返回具体日程的相关信息
           </p>
-          <FullCalendar
-            size="middle"
+          <CalendarFull
             value={this.state.value}
             onSelect={this.onSelect}
             fullscreen
-            type={'month'}
+            type="time"
             locale="zh-cn"
+            format="yyyy/MM/dd"
             scheduleRender={Calendar.util.generateScheduleContent(events)}
+
             // timeRender={this.getTimeRender}
             // weekRender={this.getTimeRender}
             // dateRender={this.getTimeRender}
             // disabledDate={disabledDate}
             // disabledTime={disabledTime}
-            startHour={9}
+            startHour={12}
             endHour={18}
-            gapMinute={60}
+            gapMinute={30}
           />
         </div>
       </div>

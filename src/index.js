@@ -11,11 +11,11 @@ import YearCalendar from './YearCalendar';
 import Calendar from './Calendar';
 import RangeCalendar from './RangeCalendar';
 import Pmam from './timePicker/Pmam';
-import FullCalendar from './FullCalendar';
+import CalendarFull from './CalendarFull';
 
 Calendar.MonthCalendar = MonthCalendar;
 Calendar.YearCalendar = YearCalendar;
 Calendar.RangeCalendar = RangeCalendar;
 Calendar.Pmam = Pmam;
-Calendar.FullCalendar = FullCalendar;
+Calendar.CalendarFull = CalendarFull;
 export default Calendar;

@@ -194,18 +194,8 @@ FullCalendar.defaultProps = {
   startHour: 9,
   endHour: 23,
   step: 60,
-  // onSelect() { },
   onTypeChange() { },
-  // contentRender() { },
-  // weekRender() { },
-  // dateRender() { },
-  // scheduleRender() { },
-  // timeRender() { },
-  // headerComponents: [],
-  // headerComponent: {},
-  // headerRender() { },
-  // disabledDate() { },
-  // disabledTime() { },
+
 };
 FullCalendar.propTypes = {
   align: PropTypes.object,
@@ -225,7 +215,6 @@ FullCalendar.propTypes = {
   dateRender: PropTypes.func,
   scheduleRender: PropTypes.func,
   timeRender: PropTypes.func,
-  // headerComponents: PropTypes.array,
   headerComponent: PropTypes.object, // The whole header component
   headerRender: PropTypes.func,
   disabledDate: PropTypes.func,

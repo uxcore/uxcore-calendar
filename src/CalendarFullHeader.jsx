@@ -178,6 +178,7 @@ CalendarHeader.defaultProps = {
   showToday: true,
   type: 'time',
   showTypeSwitch: true,
+  typeChange() { },
 };
 
 export default CalendarHeader;

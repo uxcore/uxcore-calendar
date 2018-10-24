@@ -18,7 +18,7 @@ export default class WeekBody extends React.Component {
       slicePiece,
       startHour,
       endHour,
-      gapMinute,
+      step,
       value,
       disabledTime,
       disabledDate,
@@ -27,7 +27,7 @@ export default class WeekBody extends React.Component {
       onDayHover,
     } = this.props;
 
-    gapMinute = gapMinute ? parseInt(gapMinute, 10) : 60;
+    step = step ? parseInt(step, 10) : 60;
     if (endHour < startHour) {
       endHour = startHour;
     }
@@ -100,7 +100,7 @@ export default class WeekBody extends React.Component {
           );
         }
       }
-      cloneCurrent = moment(cloneCurrent).add(gapMinute, 'm');
+      cloneCurrent = moment(cloneCurrent).add(step, 'm');
       current = cloneCurrent;
       tableHtml.push(
         <tr key={iIndex} role="row" className={trDateClass}>

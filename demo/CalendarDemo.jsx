@@ -38,6 +38,7 @@ class Demo extends React.Component {
     };
     this.onSelect = this.onSelect.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.calendarFullRender = this.calendarFullRender.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +49,11 @@ class Demo extends React.Component {
     this.setState({
       value,
     });
+  }
+
+  calendarFullRender(value, type) {
+    console.log(value, type);
+    return <div>333333</div>;
   }
 
   onRangeSelect(value) {
@@ -62,7 +68,7 @@ class Demo extends React.Component {
     });
   }
 
-  getTimeRender(value) {
+  getTimeRender(current, value) {
     return (
       <div>
         <span>{value}</span>
@@ -297,9 +303,10 @@ class Demo extends React.Component {
             value={this.state.value}
             onSelect={this.onSelect}
             fullscreen
-            type="time"
+            type="month"
             locale="zh-cn"
             format="yyyy/MM/dd"
+            // headerRender={this.calendarFullRender}
             scheduleRender={Calendar.util.generateScheduleContent(events)}
 
             // timeRender={this.getTimeRender}
@@ -309,7 +316,7 @@ class Demo extends React.Component {
             // disabledTime={disabledTime}
             startHour={12}
             endHour={18}
-            gapMinute={30}
+            step={40}
           />
         </div>
       </div>

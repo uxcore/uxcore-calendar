@@ -41,14 +41,14 @@ describe('CalendarFull', () => {
       wrapper = mount(<CalendarFull type="week" endHour={18} />);
       expect(wrapper.find('.kuma-calendar-full-week-panel-time-panel').last().find('.cell-number').text()).to.be('18:00 pm');
     });
-    it('gapMinute', () => {
-      wrapper = mount(<CalendarFull type="week" gapMinute={30} startHour={12} endHour={18} />);
+    it('step', () => {
+      wrapper = mount(<CalendarFull type="week" step={30} startHour={12} endHour={18} />);
       expect(wrapper.find('.kuma-calendar-full-week-panel-date-tr').length).to.be(14);
     });
     it('scheduleRender', () => {
       wrapper = mount(<CalendarFull
         type="week"
-        gapMinute={30}
+        step={30}
         startHour={12}
         endHour={18}
         scheduleRender={Calendar.util.generateScheduleContent([

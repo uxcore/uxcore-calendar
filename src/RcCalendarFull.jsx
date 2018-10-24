@@ -20,10 +20,10 @@ const FullCalendar = createReactClass({
     setType: PropTypes.func,
     fullscreen: PropTypes.bool,
     onSelect: PropTypes.func,
-    dateCellRender: PropTypes.func,
+    dateRender: PropTypes.func,
     weekRender: PropTypes.func,
     showTypeSwitch: PropTypes.bool,
-    headerComponents: PropTypes.array,
+    // headerComponents: PropTypes.array,
     headerComponent: PropTypes.object, // The whole header component
     headerRender: PropTypes.func,
     showHeader: PropTypes.bool,
@@ -125,7 +125,7 @@ const FullCalendar = createReactClass({
     let header = null;
     if (showHeader) {
       if (headerRender) {
-        header = headerRender(value, type, locale);
+        header = headerRender(moment(value).toDate(), type);
       } else {
         const TheHeader = headerComponent || CalendarFullHeader;
         header = (

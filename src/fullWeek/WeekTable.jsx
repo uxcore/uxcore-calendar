@@ -17,25 +17,25 @@ class WeekTable extends React.Component {
   }
 
   getTimeLine() {
-    let { startHour, gapMinute, endHour } = this.props;
+    let { startHour, step, endHour } = this.props;
     startHour = startHour ? parseInt(startHour, 10) : 9;
     endHour = endHour ? parseInt(endHour, 10) : 23;
-    gapMinute = gapMinute ? parseInt(gapMinute, 10) : 60;
+    step = step ? parseInt(step, 10) : 60;
     if (endHour < startHour) {
       endHour = startHour;
     }
-    const slicePiece = Math.ceil(((endHour - startHour) * 60) / gapMinute);
+    const slicePiece = Math.ceil(((endHour - startHour) * 60) / step);
     this.setState({ slicePiece });
   }
 
   renderEvents() {
     const {
-      scheduleRender, startHour, gapMinute, endHour, value, type,
+      scheduleRender, startHour, step, endHour, value, type,
     } = this.props;
 
     const { slicePiece } = this.state;
     const renderOpts = {
-      startHour, gapMinute, endHour, slicePiece, type, current: value,
+      startHour, step, endHour, slicePiece, type, current: value,
     };
     if (scheduleRender) {
       const content = scheduleRender(renderOpts);
@@ -63,13 +63,13 @@ WeekTable.displayName = 'WeekTable';
 WeekTable.defaultProps = {
   startHour: 9,
   endHour: 23,
-  gapMinute: 60,
+  step: 60,
 };
 WeekTable.propTypes = {
   prefixCls: PropTypes.string,
   weekRender: PropTypes.func,
   startHour: PropTypes.number,
   endHour: PropTypes.number,
-  gapMinute: PropTypes.number,
+  step: PropTypes.number,
 };
 export default WeekTable;

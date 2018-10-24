@@ -196,9 +196,9 @@ function disabledTime() {
     * code should be an object like this {'xxxx-xx-xx': ['work/leave/schedule']}
     * locale should be `zh-cn` or `en-us`
  
- 
 * Calendar.util.generateScheduleContent(events):用于在日历中展示跨日程详情
-	*  events 为对象数组，格式如下：
+ > Tips:当不确定日程详情中是否有跨日程事件时，推荐使用scheduleRender
+   events 为对象数组，格式如下：
 ```js
 [{
     start: '2018-10-16 13:00',//事件开始时间

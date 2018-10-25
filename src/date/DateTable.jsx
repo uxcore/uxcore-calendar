@@ -6,13 +6,18 @@ import DateTBody from './DateTBody';
 
 export default class DateTable extends React.Component {
   renderEvents() {
-    let { scheduleRender, startHour, gapMinute, endHour, value, type } = this.props;
-    let renderOpts = { startHour, gapMinute, endHour, type, current: value };
+    const {
+      scheduleRender, startHour, step, endHour, value, type
+    } = this.props;
+    const renderOpts = {
+      startHour, step, endHour, type, current: value
+    };
     if (scheduleRender) {
       const content = scheduleRender(renderOpts);
       return <div className="events-month-wrapper">{content}</div>;
     }
   }
+
   render() {
     const props = this.props;
     const { prefixCls } = props;

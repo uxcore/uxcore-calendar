@@ -22,7 +22,6 @@ export default class FullCalendar extends React.Component {
     super(props);
     this.state = {
       type: props.type || 'week',
-      value: props.value,
     };
   }
 
@@ -35,7 +34,7 @@ export default class FullCalendar extends React.Component {
   }
 
   getFormat(key) {
-    key = key || 'day';
+    const newKey = key || 'day';
     const { format, locale } = this.props;
     if (format) return format;
     const defaultFormatMap = {
@@ -44,7 +43,7 @@ export default class FullCalendar extends React.Component {
       en: { day: 'DD/MM/YYYY', time: 'DD/MM/YYYY HH:mm' },
     };
 
-    return defaultFormatMap[locale][key];
+    return defaultFormatMap[locale][newKey];
   }
 
   setType(type) {
@@ -111,10 +110,9 @@ export default class FullCalendar extends React.Component {
     return newOptions;
   }
 
-  handleCellRender(ctype, value) {
-    const { type } = this.state;
-    if (ctype && value && type) {
-      return type(value.format(generalizeFormat(this.getFormat('time'))));
+  handleCellRender(renderType, current, value) {
+    if (renderType && value && this.props[renderType]) {
+      return this.props[renderType](moment(current).toDate(), value.format(generalizeFormat(this.getFormat('time'))));
     }
     return '';
   }
@@ -188,11 +186,16 @@ FullCalendar.defaultProps = {
     offset: [0, 0],
   },
   locale: 'zh-cn',
+  type: 'time',
+  format: 'YYYY-MM-DD',
   fullscreen: true,
   showHeader: true,
   prefixCls: 'kuma-full-calendar',
-  onSelect() { },
+  startHour: 9,
+  endHour: 23,
+  step: 60,
   onTypeChange() { },
+
 };
 FullCalendar.propTypes = {
   align: PropTypes.object,
@@ -202,15 +205,16 @@ FullCalendar.propTypes = {
   locale: PropTypes.string,
   type: PropTypes.string,
   showHeader: PropTypes.bool,
+  startHour: PropTypes.number,
+  endHour: PropTypes.number,
+  step: PropTypes.number,
   onSelect: PropTypes.func,
   onTypeChange: PropTypes.func,
-  getPopupContainer: PropTypes.func,
   contentRender: PropTypes.func,
   weekRender: PropTypes.func,
-  dateCellRender: PropTypes.func,
+  dateRender: PropTypes.func,
   scheduleRender: PropTypes.func,
   timeRender: PropTypes.func,
-  headerComponents: PropTypes.array,
   headerComponent: PropTypes.object, // The whole header component
   headerRender: PropTypes.func,
   disabledDate: PropTypes.func,

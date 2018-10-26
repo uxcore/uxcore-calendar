@@ -42,8 +42,6 @@ $ npm start
 
 ```js
 var Calendar = require('uxcore-calendar');
-//var MonthCalendar = Calendar.MonthCalendar;
-//var YearCalendar = Calendar.YearCalendar;
 const {
   MonthCalendar, YearCalendar, RangeCalendar, CalendarFull,
 } = Calendar;
@@ -96,6 +94,51 @@ http://uxco.re/components/calendar/
 |yearSelectOffset | 年选择器中第一个年份与当前选中值之间的距离，例如当前为 1997 年，距离为 50，则最早可选择年份为 1947 年 | number | 50 |
 |yearSelectTotal| 年选择器中年份的总数，如最早可选为 1947 年，总数为 100，则可选年份范围为 1947 - 2047 | number | 100 |
 
+#### disabledTime 例子
+
+``` js
+function range(start, end) {
+  const result = [];
+  for (let i = start; i < end; i++) {
+    result.push(i);
+  }
+  return result;
+}
+
+function disabledTime() {
+  return {
+    disabledHours: () => range(0, 24).splice(4, 20),
+    disabledMinutes: () => range(30, 60),
+    disabledSeconds: () => [55, 56],
+  };
+}
+```
+
+### MonthCalendar Props
+
+|参数|说明|类型|默认值|
+|---|----|---|------|
+|value|日期|string/number|无|
+|defaultValue|日期|string/number|无|
+|format|展示的日期格式|string|'yyyy-MM'|
+
+### YearCalendar Props
+
+|参数|说明|类型|默认值|
+|---|----|---|------|
+|value|日期|string/number|无|
+|defaultValue|日期|string/number|无|
+|format|展示的日期格式|string|'yyyy'|
+
+### RangeCalendar Props
+
+参数基本与 Calendar 相同
+
+|参数|说明|类型|默认值|
+|---|----|---|------|
+|value|日期|array|无|
+|defaultValue|日期|array|无|
+
 ### CalendarFull props
 
 |参数|说明|类型|可选值|默认值|
@@ -142,50 +185,6 @@ const events =  [
   step={40}
   />
 ```
-#### disabledTime 例子
-
-``` js
-function range(start, end) {
-  const result = [];
-  for (let i = start; i < end; i++) {
-    result.push(i);
-  }
-  return result;
-}
-
-function disabledTime() {
-  return {
-    disabledHours: () => range(0, 24).splice(4, 20),
-    disabledMinutes: () => range(30, 60),
-    disabledSeconds: () => [55, 56],
-  };
-}
-```
-
-### MonthCalendar Props
-
-|参数|说明|类型|默认值|
-|---|----|---|------|
-|value|日期|string/number|无|
-|defaultValue|日期|string/number|无|
-|format|展示的日期格式|string|'yyyy-MM'|
-
-### YearCalendar Props
-
-|参数|说明|类型|默认值|
-|---|----|---|------|
-|value|日期|string/number|无|
-|defaultValue|日期|string/number|无|
-|format|展示的日期格式|string|'yyyy'|
-
-### RangeCalendar Props
-
-参数基本与 Calendar 相同
-
-|参数|说明|类型|默认值|
-|---|----|---|------|
-|value|日期|array|无|
-|defaultValue|日期|array|无|
 
 
 #### util
@@ -203,7 +202,7 @@ function disabledTime() {
 [{
     start: '2018-10-16 13:00',//事件开始时间
     end: '2018-10-16 14:00',//事件结束时间
-  //事件的回调函数
+    //事件的回调函数
     cal: () => <div>10-10 </div> 
 }]
 ``` 

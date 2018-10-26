@@ -5,6 +5,7 @@
 ## 0.10.7
 
 * `FIXED` month & year cannot be changed if defaultOpenValue is set
+* `NEW` support FullCalendar thanks to @kwl777
 
 ## 0.10.6
 

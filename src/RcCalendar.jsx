@@ -280,7 +280,9 @@ const Calendar = createClass({
           </div>
           {timePicker && showTimePicker ? (
             <div className={`${prefixCls}-time-picker`}>
-              <div className={`${prefixCls}-time-picker-panel`}>{timePickerEle}</div>
+              <div className={`${prefixCls}-time-picker-panel`}>
+                {timePickerEle}
+              </div>
             </div>
           ) : null}
         </div>

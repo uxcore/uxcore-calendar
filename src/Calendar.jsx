@@ -66,8 +66,7 @@ class Calendar extends React.Component {
         am: 'DD/MM/YYYY a',
       },
     };
-    const isAm =
-      timePicker && typeof timePicker.type === 'function' && timePicker.type.displayName === 'Pmam';
+    const isAm = timePicker && typeof timePicker.type === 'function' && timePicker.type.displayName === 'Pmam';
     let key = 'day';
     if (showTime) {
       if (isAm) {
@@ -87,7 +86,7 @@ class Calendar extends React.Component {
 
   saveRef(refName) {
     const me = this;
-    return c => {
+    return (c) => {
       me[refName] = c;
     };
   }
@@ -124,7 +123,7 @@ class Calendar extends React.Component {
         }
         return current.date();
       },
-      disabledDate: current => {
+      disabledDate: (current) => {
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -132,7 +131,7 @@ class Calendar extends React.Component {
         }
         return false;
       },
-      disabledTime: current => {
+      disabledTime: (current) => {
         if (typeof p.disabledTime === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -170,14 +169,14 @@ class Calendar extends React.Component {
     } else {
       pickerOptions.value = null;
       // calendarOptions.defaultValue = null;
-      calendarOptions.value = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
+      calendarOptions.defaultValue = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
     }
     if (p.defaultValue) {
       const value = this.getDate(p.defaultValue);
       calendarOptions.defaultValue = value;
       pickerOptions.defaultValue = value;
     } else {
-      const value = this.getDate(new Date().getTime());
+      const value = this.getDate(p.defaultOpenValue || new Date().getTime());
       calendarOptions.defaultValue = value;
     }
     if (p.hasTrigger) {

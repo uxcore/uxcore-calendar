@@ -2,6 +2,10 @@
 
 ---
 
+## 0.10.7
+
+* `FIXED` month & year cannot be changed if defaultOpenValue is set
+
 ## 0.10.6
 
 * `CHANEGD` `Calendar`, `MonthCalendar`, `YearCalendar`, new prop `defaultOpenValue` 

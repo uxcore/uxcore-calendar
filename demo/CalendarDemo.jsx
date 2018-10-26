@@ -95,7 +95,7 @@ class Demo extends React.Component {
     const { value, rangeValue } = this.state;
     return (
       <div className="kuma-form">
-        <div
+        {/* <div
           className="kuma-form-field"
           style={{
             width: '400px',
@@ -164,7 +164,7 @@ class Demo extends React.Component {
             value={value}
             onSelect={this.onSelect}
           />
-        </div>
+        </div> */}
         <div
           className="kuma-form-field"
           style={{
@@ -187,7 +187,7 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
           />
         </div>
-        <div
+        {/* <div
           className="kuma-form-field"
           style={{
             width: '400px',
@@ -287,8 +287,7 @@ class Demo extends React.Component {
               this.onRangeSelect(v, formatted);
             }}
           />
-        </div>
-        {/* 大日历面板 */}
+        </div> */}
         <div
           className="kuma-form-field"
           style={{

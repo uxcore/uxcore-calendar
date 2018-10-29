@@ -105,34 +105,7 @@ function getTimeLine(props, current) {
     </td>
   );
 }
-function isRange(sourceDate, targetDate) {
-  let { sourceStart, sourceEnd } = sourceDate;
-  const { targetStart, targetEnd } = targetDate;
-  if (sourceStart <= sourceEnd) {
-    if (sourceEnd > targetEnd) {
-      sourceEnd = targetEnd;
-    }
-    if (sourceStart < targetStart) {
-      sourceStart = targetStart;
-    }
-    if (sourceStart >= targetStart && sourceEnd <= targetEnd) {
-      return true;
-    }
-  }
-  return false;
-}
-function getCorrectDate(sourceDate, targetDate, opts) {
-  let { sourceStart, sourceEnd } = sourceDate;
-  const { targetStart, targetEnd } = targetDate;
-  const { startHour, endHour } = opts;
-  if (sourceEnd > targetEnd) {
-    sourceEnd = moment(sourceEnd).hour(endHour);
-  }
-  if (sourceStart < targetStart) {
-    sourceStart = moment(sourceStart).hour(startHour);
-  }
-  return { sourceStart, sourceEnd };
-}
+
 function sortByRender(events) {
   return sortBy(events, e => moment(e.start).valueOf());
 }
@@ -181,7 +154,10 @@ function isSameMoment(target, source) {
  */
 function isInCurrentPanle(event, opts) {
   const { current, type } = opts;
-  const { start } = event;
+  const { start, end } = event;
+  if (moment(end).valueOf() - moment(start).valueOf() < 0) {
+    return false;
+  }
   if (type === 'time') {
     return isSameMoment(current, start);
   }
@@ -299,7 +275,7 @@ function computeEventStyle(event, type, current) {
  */
 function splitMonthEvents(event, diffDays, hasColspan) {
   const arrs = [];
-  const { start, end, cal } = event;
+  const { start, end, render } = event;
   const startDay = moment(start).day();
   const eStart = moment(start).valueOf();
   const eEnd = moment(end).valueOf();
@@ -313,7 +289,7 @@ function splitMonthEvents(event, diffDays, hasColspan) {
       arrs.push({
         start: startTime,
         end: endTime,
-        cal,
+        render,
         eStart,
         eEnd,
         isColspan: true,
@@ -326,7 +302,7 @@ function splitMonthEvents(event, diffDays, hasColspan) {
     arrs.push({
       start,
       end,
-      cal,
+      render,
       eStart,
       eEnd,
       isColspan: diffDays >= 1,
@@ -336,23 +312,35 @@ function splitMonthEvents(event, diffDays, hasColspan) {
   return arrs;
 }
 
+function getCorrectEventsDate(event, opts) {
+  const { startHour, endHour } = opts;
+  const { start, end } = event;
+  const eHour = moment(end).hour();
+  const newEnd = eHour > endHour ? moment(end).hour(endHour) : end;
+  const sHour = moment(start).hour();
+  const newStart = sHour < startHour ? moment(start).hour(startHour) : start;
+  return {
+    newEnd, newStart,
+  };
+}
 /**
  * 拆分事件，是否为跨天事件
  */
 function splitEvents(event, diffDays, opts, hasColspan) {
   const arrs = [];
-  const {
-    startHour, endHour, type,
-  } = opts;
-  const { start, end, cal } = event;
+  const { startHour, endHour, type } = opts;
+  const { start, end, render } = event;
   if (type === 'month') {
     return splitMonthEvents(event, diffDays, hasColspan);
   }
+  const { newStart, newEnd } = getCorrectEventsDate(event, opts);
+
   const eStart = moment(start).valueOf();
   const eEnd = moment(end).valueOf();
+
   for (let i = 0; i <= diffDays; i++) {
     const startTime = i === 0
-      ? start
+      ? newStart
       : moment(eStart)
         .add(i, 'd')
         .hour(startHour)
@@ -360,7 +348,7 @@ function splitEvents(event, diffDays, opts, hasColspan) {
 
 
     const endTime = i === diffDays
-      ? end
+      ? newEnd
       : moment(startTime)
         .hour(endHour)
         .minute(0);
@@ -368,7 +356,7 @@ function splitEvents(event, diffDays, opts, hasColspan) {
     arrs.push({
       start: startTime,
       end: endTime,
-      cal,
+      render,
       eStart,
       eEnd,
     });
@@ -385,6 +373,9 @@ function initEvents(events, opts, hasColspan) {
     if (diffDate > 0) {
       resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts, hasColspan));
     } else {
+      const { newStart, newEnd } = getCorrectEventsDate(event, opts);
+      event.start = newStart;
+      event.end = newEnd;
       resultEvents.push(event);
     }
   });
@@ -404,29 +395,24 @@ function getEventTopHeight(event, opts, sourceDate) {
   if (type === 'time') {
     const diffStartCurrent = sourceStart - startCurrent + step * 60 * 1000;
     const diffEventHeight = sourceEnd - sourceStart;
-    evetTop = diffStartCurrent / totalSeconds + 0.015;
-    eventHeight = diffEventHeight / totalSeconds - 0.02;
+    evetTop = diffStartCurrent / totalSeconds + 0.01;
+    eventHeight = diffEventHeight / totalSeconds - 0.015;
     return { top: evetTop, height: eventHeight };
   }
   if (type === 'week') {
     startCurrent = getMomentValue(start, startHour);
     const diffStartCurrent = sourceStart - startCurrent + step * 60 * 1000;
     const diffEventHeight = sourceEnd - sourceStart;
-    evetTop = diffStartCurrent / totalSeconds + 0.015;
-    eventHeight = diffEventHeight / totalSeconds - 0.03;
+    evetTop = diffStartCurrent / totalSeconds + 0.01;
+    eventHeight = diffEventHeight / totalSeconds - 0.015;
     return { top: evetTop, height: eventHeight };
   }
   return { top: 0, height: 0 };
 }
 function handleEventsInSameDate(eventsContainer, opts) {
-  const {
-    startHour, endHour, current, type,
-  } = opts;
+  const { current, type } = opts;
   const events = eventsContainer.children;
   const rangeEvents = [];
-  const startCurrent = getMomentValue(current, startHour);
-  const endCurrent = getMomentValue(current, endHour);
-  const targetDate = { targetStart: startCurrent, targetEnd: endCurrent };
 
   events.forEach((event) => {
     const { start, end } = event;
@@ -436,12 +422,6 @@ function handleEventsInSameDate(eventsContainer, opts) {
     if (isInCurrentPanle(event, opts)) {
       // 获取事件的top值和高度
       const { top, height } = getEventTopHeight(event, opts, sourceDate);
-      const newSourceDate = getCorrectDate(sourceDate, targetDate, opts);
-      event.start = newSourceDate.sourceStart;
-      event.end = newSourceDate.sourceEnd;
-
-      // event.top = top;
-      // event.height = height;
       const { width, offsetX } = computeEventStyle(event, type, current);
       let evetObj = {};
       if (!Number.isNaN(Number(width)) && !Number.isNaN(Number(offsetX))) {
@@ -494,7 +474,7 @@ function evaluateStyle(events, opts, hasColspan) {
  * ({
  *  start: '2018-11-12 12:00',
  *  end: '2018-11-12 14:00',
- *  cal: function(){}
+ *  render: function(){}
  * })
  */
 const generateScheduleContent = (events) => {
@@ -526,14 +506,14 @@ const generateScheduleContent = (events) => {
         <div className={containerCls} key={container.end} style={containerStyle}>
           {rangeEvents.map((event, idx) => {
             const originEvt = event.event;
-            const { start, cal } = originEvt;
+            const { start, render } = originEvt;
             const eStyle = {
               top: `${event.top * 100}%`,
               height: `${event.height * 100}%`,
               left: `${event.offsetX * 100}%`,
               width: `${event.width * 100}%`,
             };
-            const content = cal && typeof cal === 'function' ? cal(event) : moment(start).date();
+            const content = render && typeof render === 'function' ? render(event) : moment(start).date();
             return (
               <div className="kuma-calendar-content-box" key={idx} style={eStyle}>
                 <div className="kuma-calendar-content-wraper">

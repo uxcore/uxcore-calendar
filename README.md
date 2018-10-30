@@ -170,7 +170,7 @@ const events =  [
     start: '2018-10-24 13:00', // 事件开始时间
     end: '2018-10-31 23:00', // 事件结束时间
     // 事件的回调函数
-    cal: ({current,startHour,endHour,step,type}) => {}
+    render: ({current,startHour,endHour,step,type}) => {}
   },
 ];
 <CalendarFull
@@ -203,6 +203,6 @@ const events =  [
     start: '2018-10-16 13:00',//事件开始时间
     end: '2018-10-16 14:00',//事件结束时间
     //事件的回调函数
-    cal: () => <div>10-10 </div> 
+    render: () => <div>10-10 </div> 
 }]
 ``` 

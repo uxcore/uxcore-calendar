@@ -1,6 +1,9 @@
 # History
 
 ---
+## 0.4.4
+
+`FIX` fix timezoneoffset
 
 ## 0.4.3
 

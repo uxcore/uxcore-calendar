@@ -19,9 +19,10 @@ TimePickerLocale['zh-cn'] = require('rc-time-picker/lib/locale/zh_CN');
 TimePickerLocale['en-us'] = require('rc-time-picker/lib/locale/en_US');
 
 function getGregorianCalendarDate(date, locale, needLocal) {
-    const tmpDate = needLocal ? new Date() : new Date(date);
-    defaultValueLocale[locale].timezoneOffset = -tmpDate.getTimezoneOffset();
-    let value = new GregorianCalendar(defaultValueLocale[locale]);
+    // const tmpDate = needLocal ? new Date() : new Date(date);
+    // defaultValueLocale[locale].timezoneOffset = -tmpDate.getTimezoneOffset();
+    // defaultValueLocale[locale]
+    let value = new GregorianCalendar();
     value.setTime(new Date(date).valueOf());
     return value;
 }

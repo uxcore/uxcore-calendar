@@ -19,7 +19,8 @@ TimePickerLocale['zh-cn'] = require('rc-time-picker/lib/locale/zh_CN');
 TimePickerLocale['en-us'] = require('rc-time-picker/lib/locale/en_US');
 
 function getGregorianCalendarDate(date, locale, needLocal) {
-    defaultValueLocale[locale].timezoneOffset = -new Date(needLocal ? undefined : date).getTimezoneOffset();
+    const tmpDate = needLocal ? new Date() : new Date(date);
+    defaultValueLocale[locale].timezoneOffset = -tmpDate.getTimezoneOffset();
     let value = new GregorianCalendar(defaultValueLocale[locale]);
     value.setTime(new Date(date).valueOf());
     return value;
@@ -190,7 +191,7 @@ class MonthCalendar extends React.Component {
 
         function _onChange(v) {
             let date = v.getTime();
-            let value = getGregorianCalendarDate(date, p.locale);
+            let value = getGregorianCalendarDate(date, p.locale, true);
             this.props.onSelect(new Date(date), formatter.format(value));
         }
 
@@ -279,7 +280,7 @@ class YearCalendar extends React.Component {
 
         function _onChange(v) {
             let date = v.getTime();
-            let value = getGregorianCalendarDate(date, p.locale);
+            let value = getGregorianCalendarDate(date, p.locale, true);
             this.props.onSelect(new Date(date), formatter.format(value));
         }
 

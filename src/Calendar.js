@@ -96,7 +96,7 @@ class Calendar extends React.Component {
         function _onChange(v) {
             if (v) {
                 let date = v.getTime();
-                let value = getGregorianCalendarDate(date, p.locale, true);
+                let value = getGregorianCalendarDate(date, p.locale);
                 this.props.onSelect(new Date(date), formatter.format(value));
             }
             else {
@@ -191,7 +191,7 @@ class MonthCalendar extends React.Component {
 
         function _onChange(v) {
             let date = v.getTime();
-            let value = getGregorianCalendarDate(date, p.locale, true);
+            let value = getGregorianCalendarDate(date, p.locale);
             this.props.onSelect(new Date(date), formatter.format(value));
         }
 
@@ -280,7 +280,7 @@ class YearCalendar extends React.Component {
 
         function _onChange(v) {
             let date = v.getTime();
-            let value = getGregorianCalendarDate(date, p.locale, true);
+            let value = getGregorianCalendarDate(date, p.locale);
             this.props.onSelect(new Date(date), formatter.format(value));
         }
 

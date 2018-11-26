@@ -18,11 +18,9 @@ CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
 TimePickerLocale['zh-cn'] = require('rc-time-picker/lib/locale/zh_CN');
 TimePickerLocale['en-us'] = require('rc-time-picker/lib/locale/en_US');
 
-function getGregorianCalendarDate(date, locale, needLocal) {
-    // const tmpDate = needLocal ? new Date() : new Date(date);
-    // defaultValueLocale[locale].timezoneOffset = -tmpDate.getTimezoneOffset();
-    // defaultValueLocale[locale]
-    let value = new GregorianCalendar();
+function getGregorianCalendarDate(date, locale) {
+    defaultValueLocale[locale].timezoneOffset = -new Date(date).getTimezoneOffset();
+    let value = new GregorianCalendar(defaultValueLocale[locale]);
     value.setTime(new Date(date).valueOf());
     return value;
 }
@@ -84,10 +82,11 @@ class Calendar extends React.Component {
             let value = getGregorianCalendarDate(p.defaultValue, p.locale);
             calendarOptions.defaultValue = value;
             pickerOptions.defaultValue = value;
-        } else {
+        } else if (!calendarOptions.defaultValue) {
             let value = getGregorianCalendarDate(new Date().getTime(), p.locale);
             calendarOptions.defaultValue = value;
         }
+
         if (p.hasTrigger) {
             pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender"></i>;
         }

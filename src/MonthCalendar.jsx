@@ -70,6 +70,7 @@ class MonthCalendar extends React.Component {
       orient: ['top', 'left'],
       showDateInput: p.showDateInput,
       prefixCls: 'kuma-calendar',
+      onChange: () => {}
     };
     const pickerOptions = {
       disabled: p.disabled,

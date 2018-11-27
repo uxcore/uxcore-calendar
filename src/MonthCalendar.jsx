@@ -87,17 +87,15 @@ class MonthCalendar extends React.Component {
       calendarOptions.defaultValue = value;
     } else {
       pickerOptions.value = null;
-      // calendarOptions.defaultValue = null;
-      calendarOptions.value = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
+      calendarOptions.defaultValue = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
     }
 
     if (p.defaultValue) {
       const value = this.getDate(p.defaultValue);
       calendarOptions.defaultValue = value;
       pickerOptions.defaultValue = value;
-    } else {
-      const value = this.getDate(new Date().getTime());
-      calendarOptions.defaultValue = value;
+    } else if (!calendarOptions.defaultValue) {
+      calendarOptions.defaultValue = this.getDate(new Date().getTime());
     }
 
     const calendar = <RcMonthCalendar {...calendarOptions} />;

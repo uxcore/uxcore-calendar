@@ -82,6 +82,16 @@ class Demo extends React.Component {
     // console.log('2222', value);
   }
 
+  // sidebarRender() {
+  //   return (
+  //     <div key='sidebar' style={{position: 'absolute', width: '200px', height:'100%', backgroud: '#ddd'}}>
+  //       <p style={{ margin: '50px 10px', boder: '1px solid', textAlign: 'center' }}>本季度</p>
+  //       <p style={{ margin: '50px 10px', boder: '1px solid', textAlign: 'center' }}>S1</p>
+  //       <p style={{ margin: '50px 10px', boder: '1px solid', textAlign: 'center' }}>S2</p>
+  //     </div>
+  //   )
+  // }
+
   render() {
     const me = this;
     const panelOptions = {
@@ -165,28 +175,29 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
           />
         </div> */}
-        {/*<div*/}
-          {/*className="kuma-form-field"*/}
-          {/*style={{*/}
-            {/*width: '400px',*/}
-          {/*}}*/}
-        {/*>*/}
-          {/*<p>*/}
-            {/*时间选择*/}
-          {/*</p>*/}
-          {/*<Calendar*/}
-            {/*hasTrigger*/}
-            {/*showSecond*/}
-            {/*showHour*/}
-            {/*showTime*/}
-            {/*size="small"*/}
-            {/*timezone={8}*/}
-            {/*defaultOpenValue={new Date(2018, 8, 1, 3, 12)}*/}
-            {/*locale="en-us"*/}
-            {/*value={value}*/}
-            {/*onSelect={this.onSelect}*/}
-          {/*/>*/}
-        {/*</div>*/}
+        <div
+          className="kuma-form-field"
+          style={{
+            width: '400px',
+          }}
+        >
+          <p>
+            时间选择
+          </p>
+          <Calendar
+            hasTrigger
+            showSecond
+            showHour
+            showTime
+            // renderSidebar={this.sidebarRender}
+            size="small"
+            timezone={8}
+            defaultOpenValue={new Date(2018, 8, 1, 3, 12)}
+            locale="en-us"
+            value={value}
+            onSelect={this.onSelect}
+          />
+        </div>
         {/*<div*/}
           {/*className="kuma-form-field"*/}
           {/*style={{*/}
@@ -211,6 +222,7 @@ class Demo extends React.Component {
             size="middle"
             value={value}
             disabledDate={disabledDate}
+            allowedMonthRange={{ start: '2016-01', end: '2018-05' }}
             defaultOpenValue={new Date(2016, 8, 1, 3, 12)}
             onSelect={this.onSelect}
             showDateInput

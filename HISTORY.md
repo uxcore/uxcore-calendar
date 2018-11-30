@@ -1,6 +1,6 @@
 # History
 
-## 0.10.8
+## 0.10.9
 
 * `FIXED` year can not changed when defaultValue is not set in monthCalendar
 * `NEW` add new prop allowedMonthRange for MonthCalendar

@@ -82,6 +82,16 @@ class Demo extends React.Component {
     // console.log('2222', value);
   }
 
+  // sidebarRender() {
+  //   return (
+  //     <div key='sidebar' style={{position: 'absolute', width: '200px', height:'100%', backgroud: '#ddd'}}>
+  //       <p style={{ margin: '50px 10px', boder: '1px solid', textAlign: 'center' }}>本季度</p>
+  //       <p style={{ margin: '50px 10px', boder: '1px solid', textAlign: 'center' }}>S1</p>
+  //       <p style={{ margin: '50px 10px', boder: '1px solid', textAlign: 'center' }}>S2</p>
+  //     </div>
+  //   )
+  // }
+
   render() {
     const me = this;
     const panelOptions = {
@@ -179,6 +189,7 @@ class Demo extends React.Component {
             showSecond
             showHour
             showTime
+            // renderSidebar={this.sidebarRender}
             size="small"
             timezone={8}
             defaultOpenValue={new Date(2018, 8, 1, 3, 12)}
@@ -187,17 +198,17 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
           />
         </div>
-        {/* <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            禁用
-          </p>
-          <Calendar value={value} disabled onSelect={this.onSelect} />
-        </div>
+        {/*<div*/}
+          {/*className="kuma-form-field"*/}
+          {/*style={{*/}
+            {/*width: '400px',*/}
+          {/*}}*/}
+        {/*>*/}
+          {/*<p>*/}
+            {/*禁用*/}
+          {/*</p>*/}
+          {/*<Calendar value={value} disabled onSelect={this.onSelect} />*/}
+        {/*</div>*/}
         <div
           className="kuma-form-field"
           style={{
@@ -211,6 +222,8 @@ class Demo extends React.Component {
             size="middle"
             value={value}
             disabledDate={disabledDate}
+            allowedMonthRange={[ { start: '2018-11', end: '2018-11' }, { start: '2016-01', end: '2016-12' } ]}
+            defaultOpenValue={new Date(2016, 8, 1, 3, 12)}
             onSelect={this.onSelect}
             showDateInput
           />
@@ -231,45 +244,45 @@ class Demo extends React.Component {
             disabledDate={(current) => { }}
           />
         </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            显示日期和日程
-          </p>
-          <p>
-            Calendar 通过开放 contentRender 参数来完成日期渲染上的定制，并提供了一个默认的渲染函数 Calendar.util.generateContentRender(code) 来完成通用定制。
-          </p>
-          <Calendar
-            value={value}
-            onSelect={this.onSelect}
-            contentRender={Calendar.util.generateContentRender(
-              {
-                '2016-01-07': 'leave',
-                '2016-01-09': 'work',
-                '2016-01-08': 'schedule',
-              },
-              'en',
-            )}
-          />
-        </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            直接渲染面板
-          </p>
-          <RcCalendar {...panelOptions} className="panel-demo" />
-        </div>
-        <Button onClick={me.handleClick}>
-          changeTime
-        </Button>
+        {/*<div*/}
+          {/*className="kuma-form-field"*/}
+          {/*style={{*/}
+            {/*width: '400px',*/}
+          {/*}}*/}
+        {/*>*/}
+          {/*<p>*/}
+            {/*显示日期和日程*/}
+          {/*</p>*/}
+          {/*<p>*/}
+            {/*Calendar 通过开放 contentRender 参数来完成日期渲染上的定制，并提供了一个默认的渲染函数 Calendar.util.generateContentRender(code) 来完成通用定制。*/}
+          {/*</p>*/}
+          {/*<Calendar*/}
+            {/*value={value}*/}
+            {/*onSelect={this.onSelect}*/}
+            {/*contentRender={Calendar.util.generateContentRender(*/}
+              {/*{*/}
+                {/*'2016-01-07': 'leave',*/}
+                {/*'2016-01-09': 'work',*/}
+                {/*'2016-01-08': 'schedule',*/}
+              {/*},*/}
+              {/*'en',*/}
+            {/*)}*/}
+          {/*/>*/}
+        {/*</div>*/}
+        {/*<div*/}
+          {/*className="kuma-form-field"*/}
+          {/*style={{*/}
+            {/*width: '400px',*/}
+          {/*}}*/}
+        {/*>*/}
+          {/*<p>*/}
+            {/*直接渲染面板*/}
+          {/*</p>*/}
+          {/*<RcCalendar {...panelOptions} className="panel-demo" />*/}
+        {/*</div>*/}
+        {/*<Button onClick={me.handleClick}>*/}
+          {/*changeTime*/}
+        {/*</Button>*/}
         <div
           className="kuma-form-field"
           style={{
@@ -287,7 +300,7 @@ class Demo extends React.Component {
               this.onRangeSelect(v, formatted);
             }}
           />
-        </div> */}
+        </div>
         <div
           className="kuma-form-field"
           style={{

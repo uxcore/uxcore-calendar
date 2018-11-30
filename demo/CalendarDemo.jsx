@@ -222,7 +222,7 @@ class Demo extends React.Component {
             size="middle"
             value={value}
             disabledDate={disabledDate}
-            allowedMonthRange={[ { start: '2018-11', end: '2018-11' }, { start: '2016-01', end: '2016-12' } ]}
+            allowedMonthRange={[ { start: '2018-11', end: '2018-12' }, { end: '2016-12' } ]}
             defaultOpenValue={new Date(2016, 8, 1, 3, 12)}
             onSelect={this.onSelect}
             showDateInput

@@ -82,7 +82,11 @@ class MonthCalendar extends React.Component {
         for (let i = 0; i < allowedRanges.length; i++) {
           const allowed = allowedRanges[i];
           const { start, end } = allowed;
-          if (!start || !end ) {
+          if (!start && !end ) {
+            break
+          }
+          if (!start && moment.isBefore(end) || !end && moment.isAfter(start)) {
+            ret = false;
             break
           }
           if (moment.isBetween(start, end, 'month', '[]')) {

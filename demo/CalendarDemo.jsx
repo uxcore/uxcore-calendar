@@ -269,7 +269,7 @@ class Demo extends React.Component {
         </div>
         <Button onClick={me.handleClick}>
           changeTime
-        </Button>
+        </Button> */}
         <div
           className="kuma-form-field"
           style={{
@@ -282,12 +282,30 @@ class Demo extends React.Component {
           <RangeCalendar
             size="large"
             value={rangeValue}
+            quickSelectRanges={
+              [
+                {
+                  text: '本周',
+                  value: {
+                    start: '2018-11-12',
+                    end: '2018-11-19'
+                  }
+                },
+                {
+                  text: '本月',
+                  value: {
+                    start: '2018-11-01',
+                    end: '2018-11-30'
+                  }
+                }
+              ]
+            }
             onSelect={(v, formatted) => {
               console.log(v, formatted);
               this.onRangeSelect(v, formatted);
             }}
           />
-        </div> */}
+        </div>
         <div
           className="kuma-form-field"
           style={{

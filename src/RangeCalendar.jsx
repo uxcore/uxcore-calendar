@@ -223,7 +223,7 @@ class Calendar extends React.Component {
             p.quickSelectRanges.length
               ? <Tooltip
                 ref={'toolTip'}
-                overlayClassName={'date-quick-range'}
+                overlayClassName={'date-quick-range-selector'}
                 mouseEnterDelay={0.3}
                 overlay={() => {
                   return (

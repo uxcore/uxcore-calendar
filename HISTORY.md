@@ -1,5 +1,8 @@
 # History
 
+## 0.10.10
+* `NEW` add new prop quickSelectRanges for RangeCalendar
+
 ## 0.10.9
 
 * `FIXED` year can not changed when defaultValue is not set in monthCalendar

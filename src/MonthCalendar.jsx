@@ -70,6 +70,32 @@ class MonthCalendar extends React.Component {
       orient: ['top', 'left'],
       showDateInput: p.showDateInput,
       prefixCls: 'kuma-calendar',
+      onChange: p.onChange ? p.onChange : () => {},
+      disabledDate: (moment) => {
+        const range = p.allowedMonthRange;
+        if (!range || typeof range === 'string') {
+          return false
+        }
+        let ret = true;
+        const isArray = range.splice && range.length;
+        const allowedRanges = isArray ? range : [range];
+        for (let i = 0; i < allowedRanges.length; i++) {
+          const allowed = allowedRanges[i];
+          const { start, end } = allowed;
+          if (!start && !end ) {
+            break
+          }
+          if (!start && moment.isBefore(end) || !end && moment.isAfter(start)) {
+            ret = false;
+            break
+          }
+          if (moment.isBetween(start, end, 'month', '[]')) {
+            ret = false;
+            break
+          }
+        }
+        return ret;
+      }
     };
     const pickerOptions = {
       disabled: p.disabled,
@@ -87,17 +113,15 @@ class MonthCalendar extends React.Component {
       calendarOptions.defaultValue = value;
     } else {
       pickerOptions.value = null;
-      // calendarOptions.defaultValue = null;
-      calendarOptions.value = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
+      calendarOptions.defaultValue = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
     }
 
     if (p.defaultValue) {
       const value = this.getDate(p.defaultValue);
       calendarOptions.defaultValue = value;
       pickerOptions.defaultValue = value;
-    } else {
-      const value = this.getDate(new Date().getTime());
-      calendarOptions.defaultValue = value;
+    } else if (!calendarOptions.defaultValue) {
+      calendarOptions.defaultValue = this.getDate(new Date().getTime());
     }
 
     const calendar = <RcMonthCalendar {...calendarOptions} />;

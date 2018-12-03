@@ -297,6 +297,13 @@ class Demo extends React.Component {
                     start: '2018-11-01',
                     end: '2018-11-30'
                   }
+                },
+                {
+                  text: '2018-S1',
+                  value: {
+                    start: '2018-04-01',
+                    end: '2018-10-31'
+                  }
                 }
               ]
             }

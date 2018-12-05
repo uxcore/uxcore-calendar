@@ -8,6 +8,8 @@ import TimePicker from './timePicker/Normal';
 import RcRangeCalendar from './RcRangeCalendar';
 import util from './util';
 import i18n from './locale';
+import DateRangeSelector from "./DateRangeSelector";
+import Tooltip from 'uxcore-tooltip'
 
 const CalendarLocale = {};
 
@@ -22,12 +24,11 @@ const { getCalendarContainer, generalizeFormat } = util;
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.TimePickerElement = (
-      <TimePicker prefixCls="kuma-time-picker-panel" />
+      <TimePicker prefixCls="kuma-time-picker-panel"/>
     );
   }
 
@@ -89,6 +90,10 @@ class Calendar extends React.Component {
     }
   }
 
+  handleQuickRangeSelect = (start, end) => {
+    this.handleChange([moment(start), moment(end)])
+  };
+
   render() {
     const me = this;
     const p = me.props;
@@ -135,6 +140,8 @@ class Calendar extends React.Component {
       showDateInput: p.showDateInput,
       locale: CalendarLocale[p.locale],
       prefixCls: 'kuma-calendar',
+      renderSidebar: p.renderSidebar ? p.renderSidebar : () => null,
+      renderFooter: p.renderFooter ? p.renderFooter : () => null
     };
     const pickerOptions = {
       disabled: p.disabled,
@@ -169,7 +176,7 @@ class Calendar extends React.Component {
       calendarOptions.defaultValue = this.getDate(value);
     }
     if (p.hasTrigger) {
-      pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender" />;
+      pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender"/>;
     }
 
     const calendar = <RcRangeCalendar {...calendarOptions} />;
@@ -202,7 +209,7 @@ class Calendar extends React.Component {
           } else {
             newValue = '';
           }
-          return (
+          const field =
             <span className={triggerClassName} style={triggerStyle} ref={me.saveRef('trigger')}>
               <input
                 value={newValue}
@@ -211,18 +218,31 @@ class Calendar extends React.Component {
                 placeholder={me.props.placeholder}
                 className={inputClassName}
               />
-              {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
-              {showClear
-                ? (
-                  <i
-                    className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close"
-                    onClick={this.clearValue}
-                  />
-                )
-                : null}
-            </span>
+              {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`}/> : null}
+              {showClear ? <i className="uxcore-icon uxicon-biaodanlei-tongyongqingchu kuma-icon-close" onClick={this.clearValue}/> : null}
+            </span>;
+          return (
+            p.quickSelectRanges.length
+              ? <Tooltip
+                ref={'toolTip'}
+                overlayClassName={'date-quick-range-selector'}
+                mouseEnterDelay={0.3}
+                overlay={() => {
+                  return (
+                    <DateRangeSelector
+                      dateRanges={p.quickSelectRanges}
+                      onSelect={me.handleQuickRangeSelect}
+                    />
+                  )
+                }}
+                placement="bottomLeft"
+              >
+                {field}
+              </Tooltip>
+              :
+              field
           );
-        } }
+        }}
       </Datepicker>
     );
   }
@@ -231,7 +251,8 @@ class Calendar extends React.Component {
 Calendar.displayName = 'Calendar';
 Calendar.defaultProps = {
   placeholder: '请选择日期',
-  onSelect() { },
+  onSelect() {
+  },
   locale: 'zh-cn',
   align: {
     offset: [0, 0],
@@ -242,6 +263,7 @@ Calendar.defaultProps = {
   showDateInput: true,
   hasTrigger: true,
   transitionName: 'calendarSlideUp',
+  quickSelectRanges: []
 };
 Calendar.propTypes = {
   format: PropTypes.string,
@@ -255,6 +277,7 @@ Calendar.propTypes = {
   showTime: PropTypes.bool,
   showHour: PropTypes.bool,
   getPopupContainer: PropTypes.func,
+  quickSelectRanges: PropTypes.array
 };
 
 

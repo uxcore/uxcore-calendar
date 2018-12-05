@@ -53,7 +53,11 @@ class Demo extends React.Component {
 
   calendarFullRender(value, type) {
     console.log(value, type);
-    return <div>333333</div>;
+    return (
+      <div>
+333333
+</div>
+    );
   }
 
   onRangeSelect(value) {
@@ -71,8 +75,12 @@ class Demo extends React.Component {
   getTimeRender(current, value) {
     return (
       <div>
-        <span>{value}</span>
-        <span>测试测试测试测试测试测试</span>
+        <span>
+          {value}
+        </span>
+        <span>
+测试测试测试测试测试测试
+        </span>
       </div>
     );
   }
@@ -95,7 +103,7 @@ class Demo extends React.Component {
     const { value, rangeValue } = this.state;
     return (
       <div className="kuma-form">
-        {/* <div
+        <div
           className="kuma-form-field"
           style={{
             width: '400px',
@@ -164,7 +172,7 @@ class Demo extends React.Component {
             value={value}
             onSelect={this.onSelect}
           />
-        </div> */}
+        </div>
         <div
           className="kuma-form-field"
           style={{
@@ -187,7 +195,7 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
           />
         </div>
-        {/* <div
+        <div
           className="kuma-form-field"
           style={{
             width: '400px',
@@ -287,7 +295,7 @@ class Demo extends React.Component {
               this.onRangeSelect(v, formatted);
             }}
           />
-        </div> */}
+        </div>
         <div
           className="kuma-form-field"
           style={{

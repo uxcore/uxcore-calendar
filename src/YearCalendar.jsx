@@ -40,7 +40,8 @@ class YearCalendar extends React.Component {
 
   clearValue(e) {
     e.stopPropagation();
-    this.props.onSelect(null, null);
+    const { onSelect } = this.props;
+    onSelect(null, null);
   }
 
   saveRef(refName) {
@@ -51,12 +52,12 @@ class YearCalendar extends React.Component {
   }
 
   handleChange(v) {
-    const p = this.props;
+    const { onSelect, format } = this.props;
     if (v) {
       const date = v.valueOf();
-      this.props.onSelect(new Date(date), v.format(p.format));
+      onSelect(new Date(date), v.format(format));
     } else {
-      this.props.onSelect(v, v);
+      onSelect(v, v);
     }
   }
 
@@ -89,8 +90,7 @@ class YearCalendar extends React.Component {
       calendarOptions.defaultValue = value;
     } else {
       pickerOptions.value = null;
-      // calendarOptions.defaultValue = null;
-      calendarOptions.value = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
+      calendarOptions.defaultValue = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
     }
 
     if (p.defaultValue) {
@@ -170,6 +170,8 @@ YearCalendar.defaultProps = {
   allowClear: true,
   showDateInput: false,
   hasTrigger: true,
+  getPopupContainer: undefined,
+  inputWidth: undefined,
 };
 YearCalendar.propTypes = {
   allowClear: PropTypes.bool,
@@ -179,6 +181,10 @@ YearCalendar.propTypes = {
   onSelect: PropTypes.func,
   locale: PropTypes.string,
   getPopupContainer: PropTypes.func,
+  hasTrigger: PropTypes.bool,
+  showDateInput: PropTypes.bool,
+  align: PropTypes.object,
+  transitionName: PropTypes.bool,
 };
 
 export default YearCalendar;

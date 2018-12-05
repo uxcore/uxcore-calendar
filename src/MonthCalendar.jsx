@@ -38,7 +38,8 @@ class MonthCalendar extends React.Component {
 
   clearValue(e) {
     e.stopPropagation();
-    this.props.onSelect(null, null);
+    const { onSelect } = this.props;
+    onSelect(null, null);
   }
 
   saveRef(refName) {
@@ -49,12 +50,12 @@ class MonthCalendar extends React.Component {
   }
 
   handleChange(v) {
-    const p = this.props;
+    const { onSelect, format } = this.props;
     if (v) {
       const date = v.valueOf();
-      this.props.onSelect(new Date(date), v.format(p.format));
+      onSelect(new Date(date), v.format(format));
     } else {
-      this.props.onSelect(v, v);
+      onSelect(v, v);
     }
   }
 
@@ -70,6 +71,14 @@ class MonthCalendar extends React.Component {
       orient: ['top', 'left'],
       showDateInput: p.showDateInput,
       prefixCls: 'kuma-calendar',
+      disabledDate: (current) => {
+        if (typeof p.disabledDate === 'function' && current) {
+          const date = current.clone();
+          date.getTime = current.valueOf;
+          return p.disabledDate(date);
+        }
+        return false;
+      },
     };
     const pickerOptions = {
       disabled: p.disabled,
@@ -87,8 +96,7 @@ class MonthCalendar extends React.Component {
       calendarOptions.defaultValue = value;
     } else {
       pickerOptions.value = null;
-      // calendarOptions.defaultValue = null;
-      calendarOptions.value = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
+      calendarOptions.defaultValue = p.defaultOpenValue ? this.getDate(p.defaultOpenValue) : null;
     }
 
     if (p.defaultValue) {
@@ -167,6 +175,8 @@ MonthCalendar.defaultProps = {
   },
   showDateInput: false,
   hasTrigger: true,
+  getPopupContainer: undefined,
+  inputWidth: undefined,
 };
 MonthCalendar.propTypes = {
   allowClear: PropTypes.bool,
@@ -176,6 +186,10 @@ MonthCalendar.propTypes = {
   onSelect: PropTypes.func,
   locale: PropTypes.string,
   getPopupContainer: PropTypes.func,
+  hasTrigger: PropTypes.bool,
+  showDateInput: PropTypes.bool,
+  align: PropTypes.object,
+  transitionName: PropTypes.string,
 };
 
 

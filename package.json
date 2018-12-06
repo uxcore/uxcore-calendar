@@ -1,6 +1,6 @@
 {
   "name": "uxcore-calendar",
-  "version": "0.10.12",
+  "version": "0.10.13",
   "description": "calendar componment for react",
   "main": "build/index.js",
   "scripts": {

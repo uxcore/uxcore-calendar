@@ -19,18 +19,24 @@ class DateRangeSelector extends React.Component{
   render() {
     const { dateRanges } = this.props;
     return (
-      dateRanges.length ? dateRanges.map(range => {
-        const { text, value } = range;
-        return (
-          <Button
-            size={'small'}
-            onClick={() => this.onSelectHandle(value.start, value.end)}
-            key={text}
-          >
-            {text}
-          </Button>
-        )
-      }) : null
+      dateRanges.length
+        ? <div>
+          {
+            dateRanges.map(range => {
+              const { text, value } = range;
+              return (
+                <Button
+                  size={'small'}
+                  onClick={() => this.onSelectHandle(value.start, value.end)}
+                  key={text}
+                >
+                  {text}
+                </Button>
+              )
+            })
+          }
+          </div>
+        : null
     )
   }
 }

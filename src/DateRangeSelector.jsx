@@ -19,7 +19,7 @@ class DateRangeSelector extends React.Component{
   render() {
     const { dateRanges } = this.props;
     return (
-      dateRanges.map(range => {
+      dateRanges.length ? dateRanges.map(range => {
         const { text, value } = range;
         return (
           <Button
@@ -30,7 +30,7 @@ class DateRangeSelector extends React.Component{
             {text}
           </Button>
         )
-      })
+      }) : null
     )
   }
 }

@@ -38,7 +38,8 @@ class MonthCalendar extends React.Component {
 
   clearValue(e) {
     e.stopPropagation();
-    this.props.onSelect(null, null);
+    const { onSelect } = this.props;
+    onSelect(null, null);
   }
 
   saveRef(refName) {
@@ -49,12 +50,12 @@ class MonthCalendar extends React.Component {
   }
 
   handleChange(v) {
-    const p = this.props;
+    const { onSelect, format } = this.props;
     if (v) {
       const date = v.valueOf();
-      this.props.onSelect(new Date(date), v.format(p.format));
+      onSelect(new Date(date), v.format(format));
     } else {
-      this.props.onSelect(v, v);
+      onSelect(v, v);
     }
   }
 
@@ -191,6 +192,8 @@ MonthCalendar.defaultProps = {
   },
   showDateInput: false,
   hasTrigger: true,
+  getPopupContainer: undefined,
+  inputWidth: undefined,
 };
 MonthCalendar.propTypes = {
   allowClear: PropTypes.bool,
@@ -200,6 +203,10 @@ MonthCalendar.propTypes = {
   onSelect: PropTypes.func,
   locale: PropTypes.string,
   getPopupContainer: PropTypes.func,
+  hasTrigger: PropTypes.bool,
+  showDateInput: PropTypes.bool,
+  align: PropTypes.object,
+  transitionName: PropTypes.string,
 };
 
 

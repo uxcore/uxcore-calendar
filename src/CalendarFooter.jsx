@@ -5,7 +5,7 @@ import Button from 'uxcore-button';
 const CalendarFooter = props => (
   <div className={`${props.prefixCls}-footer`}>
     <Button onClick={props.onOk} size="small">
-      {props.locale.close}
+      {props.locale.ok}
     </Button>
   </div>
 );

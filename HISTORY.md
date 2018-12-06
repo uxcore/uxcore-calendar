@@ -1,6 +1,12 @@
 # History
 
+
+## 0.10.11
+
+* `CHANGED` modify footer close button text
+
 ## 0.10.10
+
 * `NEW` add new prop quickSelectRanges for RangeCalendar
 
 ## 0.10.9

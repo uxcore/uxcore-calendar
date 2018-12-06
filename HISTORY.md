@@ -1,5 +1,7 @@
 # History
 
+## 0.10.12
+* `FIXED` add new prop quickSelectRanges for RangeCalendar
 
 ## 0.10.11
 

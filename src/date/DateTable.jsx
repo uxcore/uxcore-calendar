@@ -7,25 +7,25 @@ import DateTBody from './DateTBody';
 export default class DateTable extends React.Component {
   renderEvents() {
     const {
-      scheduleRender, startHour, step, endHour, value, type
+      scheduleRender, startHour, step, endHour, value, type, width,
     } = this.props;
     const renderOpts = {
-      startHour, step, endHour, type, current: value
+      startHour, step, endHour, type, current: value, width, ...this.props,
     };
     if (scheduleRender) {
       const content = scheduleRender(renderOpts);
       return <div className="events-month-wrapper">{content}</div>;
     }
+    return '';
   }
 
   render() {
-    const props = this.props;
-    const { prefixCls } = props;
+    const { prefixCls } = this.props;
     return (
       <div className={`${prefixCls}-wrapper`}>
         <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
-          <DateTHead {...props} />
-          <DateTBody {...props} />
+          <DateTHead {...this.props} />
+          <DateTBody {...this.props} />
         </table>
         {this.renderEvents()}
       </div>

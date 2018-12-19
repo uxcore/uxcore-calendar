@@ -291,8 +291,8 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: '800px',
             marginBottom: '30px',
+            width: '800px',
           }}
         >
           <p>
@@ -301,6 +301,7 @@ class Demo extends React.Component {
           <CalendarFull
             value={this.state.value}
             onSelect={this.onSelect}
+            width={800}
             fullscreen
             type="month"
             locale="zh-cn"
@@ -313,9 +314,9 @@ class Demo extends React.Component {
             // dateRender={this.getTimeRender}
             // disabledDate={disabledDate}
             // disabledTime={disabledTime}
-            startHour={12}
+            startHour={8}
             endHour={18}
-            step={40}
+            step={60}
           />
         </div>
       </div>

@@ -11,12 +11,10 @@ export default class WeekBody extends React.Component {
   }
 
   getTableCell() {
-    let {
+    const {
       prefixCls,
       timeRender,
       slicePiece,
-      startHour,
-      endHour,
       step,
       value,
       disabledTime,
@@ -25,10 +23,7 @@ export default class WeekBody extends React.Component {
       onDayHover,
     } = this.props;
 
-    step = step ? parseInt(step, 10) : 60;
-    if (endHour < startHour) {
-      endHour = startHour;
-    }
+    const newStep = step ? parseInt(step, 10) : 60;
     const now = moment();
     const nowDay = now.day();
 
@@ -83,7 +78,7 @@ export default class WeekBody extends React.Component {
           current = moment(computedTime).add(1, 'days');
         }
       }
-      cloneCurrent = moment(cloneCurrent).add(step, 'm');
+      cloneCurrent = moment(cloneCurrent).add(newStep, 'm');
       current = cloneCurrent;
       tableHtml.push(
         <tr key={iIndex} role="row" className={trDateClass}>

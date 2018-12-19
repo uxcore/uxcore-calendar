@@ -28,6 +28,7 @@ const FullCalendar = createReactClass({
     headerRender: PropTypes.func,
     showHeader: PropTypes.bool,
     disabledDate: PropTypes.func,
+    width: PropTypes.number,
     showCount: PropTypes.number,
   },
   mixins: [CommonMixin, CalendarMixin],
@@ -144,12 +145,12 @@ const FullCalendar = createReactClass({
     return header;
   },
   render() {
-    const { prefixCls, fullscreen } = this.props;
+    const { prefixCls, fullscreen, width } = this.props;
     const header = this.initHeader();
-
+    const headerStyle = { width };
     const children = [
       header,
-      <div key="calendar-body" className={`${prefixCls}-calendar-body`}>
+      <div key="calendar-body" className={`${prefixCls}-calendar-body`} style={headerStyle}>
         {this.getPanel()}
       </div>,
     ];

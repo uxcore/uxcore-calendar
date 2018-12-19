@@ -30,11 +30,11 @@ class TimeTable extends React.Component {
 
   renderEvents() {
     const {
-      scheduleRender, startHour, step, endHour, value, type,
+      scheduleRender, startHour, step, endHour, value, type, width,
     } = this.props;
     const { slicePiece } = this.state;
     const renderOpts = {
-      startHour, step, endHour, type, slicePiece, current: value,
+      startHour, step, endHour, type, slicePiece, current: value, width, ...this.props,
     };
     if (scheduleRender) {
       const content = scheduleRender(renderOpts);
@@ -45,12 +45,18 @@ class TimeTable extends React.Component {
 
   render() {
     const { slicePiece } = this.state;
-    const { showCount, prefixCls } = this.props;
+    const {
+      showCount, prefixCls, cellMaxheight, cellMinheight,
+    } = this.props;
     const timeCls = `${prefixCls}-time`;
     const tableCls = `${prefixCls}-table`;
+    const realSlices = slicePiece + 2;
+    const maxCellHeight = cellMaxheight * realSlices + 32;
+    const minCellHeight = cellMinheight * realSlices + 32;
+    const tableStyle = { minHeight: minCellHeight, maxHeight: maxCellHeight };
     return (
       <div className={timeCls}>
-        <table className={tableCls} cellSpacing="0" role="grid">
+        <table className={tableCls} cellSpacing="0" role="grid" style={tableStyle}>
           <TimeTHead {...this.props} dataCount={showCount} />
           <TimeTBody {...this.props} slicePiece={slicePiece} dataCount={showCount} />
         </table>
@@ -65,6 +71,8 @@ TimeTable.defaultProps = {
   startHour: 9,
   endHour: 23,
   step: 60,
+  cellMaxheight: 68,
+  cellMinheight: 32,
 };
 TimeTable.propTypes = {
   prefixCls: PropTypes.string,
@@ -73,5 +81,7 @@ TimeTable.propTypes = {
   startHour: PropTypes.number,
   endHour: PropTypes.number,
   step: PropTypes.number,
+  cellMaxheight: PropTypes.number,
+  cellMinheight: PropTypes.number,
 };
 export default TimeTable;

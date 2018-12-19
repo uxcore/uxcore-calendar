@@ -101,7 +101,6 @@ export default class FullCalendar extends React.Component {
           const date = current.clone();
           date.getTime = current.valueOf;
           date.getDayOfMonth = date.date;
-          // return contentRender(date, value);
           return contentRender(events, current);
         }
         return current.date();
@@ -194,6 +193,7 @@ FullCalendar.defaultProps = {
   startHour: 9,
   endHour: 23,
   step: 60,
+  width: 800,
   onTypeChange() { },
 
 };
@@ -208,6 +208,7 @@ FullCalendar.propTypes = {
   startHour: PropTypes.number,
   endHour: PropTypes.number,
   step: PropTypes.number,
+  width: PropTypes.number,
   onSelect: PropTypes.func,
   onTypeChange: PropTypes.func,
   contentRender: PropTypes.func,

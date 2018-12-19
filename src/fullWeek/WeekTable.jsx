@@ -30,12 +30,12 @@ class WeekTable extends React.Component {
 
   renderEvents() {
     const {
-      scheduleRender, startHour, step, endHour, value, type,
+      scheduleRender, startHour, step, endHour, value, type, width,
     } = this.props;
 
     const { slicePiece } = this.state;
     const renderOpts = {
-      startHour, step, endHour, slicePiece, type, current: value,
+      startHour, step, endHour, slicePiece, type, current: value, width, ...this.props,
     };
     if (scheduleRender) {
       const content = scheduleRender(renderOpts);

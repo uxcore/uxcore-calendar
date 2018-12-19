@@ -1,11 +1,14 @@
 import React from 'react';
 import Formatter from 'uxcore-formatter';
 import Tooltip from 'uxcore-tooltip';
+import Icon from 'uxcore-icon';
 import classnames from 'classnames';
 import moment from 'moment';
 import sortBy from 'lodash/sortBy';
 import i18n from './locale';
 
+const WEEK_COLUMN = 6;
+const MONTH_CELL_HEIGHT = 20;
 
 /**
  * code should be an object like this {'xxxx-xx-xx': 'work/leave/schedule'}
@@ -135,8 +138,7 @@ function inSameRow(target, source) {
 function getDiffTop(start) {
   const firstDateOfMonth = moment(+new Date(start)).startOf('month');
   const diffDate = firstDateOfMonth.day();
-  const firstDayOfMonthPanel = firstDateOfMonth.subtract(diffDate - 1).date()
-    - moment(start).date();
+  const firstDayOfMonthPanel = diffDate + moment(start).date() - 1;
   return Math.floor(Math.abs(firstDayOfMonthPanel) / 7);
 }
 
@@ -177,12 +179,15 @@ function isInCurrentPanle(event, opts) {
 function handleEvents(events) {
   const containerEvents = [];
   const wraperHtml = {};
+
   for (let i = 0, len = events.length; i < len; i++) {
     const event = events[i];
     const { start, end, isColspan } = event;
     const startKey = moment(start).format('YYYY-MM-DD');
     const endKey = moment(end).format('YYYY-MM-DD');
     const monthTop = isColspan ? getDiffTop(start) : `${startKey}~${endKey}`;
+
+
     if (!wraperHtml[monthTop]) {
       wraperHtml[monthTop] = {
         children: [],
@@ -193,10 +198,10 @@ function handleEvents(events) {
         isContainer: true,
       };
     }
+
     wraperHtml[monthTop].children.push(event);
     const container = containerEvents.find(c => moment(c.end).valueOf() >= moment(start).valueOf());
 
-    // has overlap，this event will be a container to contain next event
     if (!container) {
       event.rows = [];
       containerEvents.push(event);
@@ -223,15 +228,16 @@ function handleEvents(events) {
 
 function computeEventStyle(event, type, current) {
   const start = event.start || event.date;
+
   const {
     end, isColspan, monthTop, children,
   } = event;
-  const isSameDate = moment(event.end).isSame(current, 'd');
-  const topDiff = isSameDate ? 0.06 : 0.05;
   let startDate = moment(start).day();
   startDate = startDate === 0 ? 7 : startDate;
+
   let widthSlice = 1;
   let offsetx = 0;
+
   if (type !== 'time' && (children || isColspan)) {
     widthSlice = 7;
     const diffEvent = moment(end).date() - moment(start).date() + 1;
@@ -239,14 +245,20 @@ function computeEventStyle(event, type, current) {
     const top = !Number.isNaN(Number(monthTop)) ? monthTop : getDiffTop(start);
     return {
       width: (children && isColspan)
-        ? 1 - 0.015 : (1 / widthSlice) * diffEvent - 0.015,
-      offsetX: (children && isColspan) ? 0 : offsetx + 0.005,
-      top: type === 'month' ? top / 6 + topDiff : 0,
+        ? 1 - 0.005 : (1 / widthSlice) * diffEvent - 0.005,
+      offsetX: (children && isColspan) ? 0.005 : offsetx,
+      top: type === 'month' ? (top / WEEK_COLUMN) : 0,
     };
   }
+
   if ((!event.rows || !event.rows.length) && !event.container) {
-    return { width: 1 / widthSlice - 0.015, offsetX: offsetx + 0.005 };
+    // 为外层包裹元素
+    if (event.isContainer) {
+      return { width: 1 / widthSlice - 0.010, offsetX: offsetx + 0.005 };
+    }
+    return { width: 1 / widthSlice, offsetX: offsetx };
   }
+
   if (type === 'month') return {};
 
   if (event.rows) {
@@ -255,17 +267,20 @@ function computeEventStyle(event, type, current) {
   }
 
   if (event.leaves) {
-    const avaliableWidth = 1 / widthSlice - event.container.width;
-    const otherWidth = avaliableWidth / (event.leaves.length + 1) - 0.01;
-    offsetx = otherWidth + event.container.offsetX + 0.01;
-    return { width: otherWidth, offsetX: offsetx };
+    const totalCount = event.leaves.length + 2;
+    const avaliableWidth = event.container.width;
+    const leftWidth = 1 - avaliableWidth * totalCount;
+    const averOffsetX = leftWidth / (totalCount - 1);
+    offsetx = avaliableWidth + event.container.offsetX + averOffsetX;
+    return { width: avaliableWidth, offsetX: offsetx };
   }
-
   const { leaves, offsetX } = event.row;
   const idx = leaves.indexOf(event);
+  const averOffsetX = offsetX - event.row.width;
+
   return {
-    width: event.row.width - 0.01,
-    offsetX: event.row.width * (idx + 1) + offsetX + 0.01,
+    width: event.row.width,
+    offsetX: (event.row.width + averOffsetX) * (idx + 1) + offsetX,
   };
 }
 
@@ -279,6 +294,7 @@ function splitMonthEvents(event, diffDays, hasColspan) {
   const startDay = moment(start).day();
   const eStart = moment(start).valueOf();
   const eEnd = moment(end).valueOf();
+
   // 是否在一行
   if (startDay + diffDays > 7) {
     const splitDays = Math.ceil(Math.abs(7 - (startDay + diffDays)) / 7);
@@ -395,16 +411,16 @@ function getEventTopHeight(event, opts, sourceDate) {
   if (type === 'time') {
     const diffStartCurrent = sourceStart - startCurrent + step * 60 * 1000;
     const diffEventHeight = sourceEnd - sourceStart;
-    evetTop = diffStartCurrent / totalSeconds + 0.01;
-    eventHeight = diffEventHeight / totalSeconds - 0.015;
+    evetTop = diffStartCurrent / totalSeconds + 0.005;
+    eventHeight = diffEventHeight / totalSeconds - 0.01;
     return { top: evetTop, height: eventHeight };
   }
   if (type === 'week') {
     startCurrent = getMomentValue(start, startHour);
     const diffStartCurrent = sourceStart - startCurrent + step * 60 * 1000;
     const diffEventHeight = sourceEnd - sourceStart;
-    evetTop = diffStartCurrent / totalSeconds + 0.01;
-    eventHeight = diffEventHeight / totalSeconds - 0.015;
+    evetTop = diffStartCurrent / totalSeconds + 0.005;
+    eventHeight = diffEventHeight / totalSeconds - 0.01;
     return { top: evetTop, height: eventHeight };
   }
   return { top: 0, height: 0 };
@@ -419,6 +435,8 @@ function handleEventsInSameDate(eventsContainer, opts) {
     const eStart = moment(start).valueOf();
     const eEnd = moment(end).valueOf();
     const sourceDate = { sourceStart: eStart, sourceEnd: eEnd };
+
+    // 在同一个面板中
     if (isInCurrentPanle(event, opts)) {
       // 获取事件的top值和高度
       const { top, height } = getEventTopHeight(event, opts, sourceDate);
@@ -450,26 +468,89 @@ function evaluateStyle(events, opts, hasColspan) {
   // 拆分事件，为week时，跨两天拆分为两天
   const { type, current } = opts;
   const newEvents = initEvents(events, opts, hasColspan);
+
   // 对事件进行排序
   const sortedEvents = sortByRender(newEvents);
+
   // 获取同一段事件的容器位置
   const containerEvents = handleEvents(sortedEvents, opts);
+
   const containerEventsKeys = Object.keys(containerEvents);
+
   containerEventsKeys.forEach((key) => {
     const wrapSchedule = containerEvents[key];
     const containerStyle = computeEventStyle(wrapSchedule, type, current);
+
+    wrapSchedule.height = type === 'month' ? (1 / 6 - 0.005) : 1;
     wrapSchedule.top = containerStyle.top;
     wrapSchedule.width = containerStyle.width;
     wrapSchedule.offsetX = containerStyle.offsetX;
-    wrapSchedule.height = type === 'month' ? 1 / 6 - 0.05 : 1;
     containerEvents[key].children = handleEventsInSameDate(wrapSchedule, opts, containerEvents);
   });
 
   return containerEvents;
 }
 
+function go2More() {
+
+}
+
 /**
- * generate schedule content
+ * 获取月面板中最多能显示的事件个数
+ * @param {array} events 传入的事件
+ * @param {bumber} maxCount 显示的最大数据
+ */
+function getVisibleEvent(events, maxCount) {
+  const resultArr = [];
+  for (let i = 0, len = events.length; i < len; i++) {
+    if (resultArr.length >= maxCount) {
+      let seeMore = null;
+      if (maxCount === 0) {
+        seeMore = <span className="import-event" key="import-event" />;
+      } else {
+        seeMore = (
+          <div className="more-event" onClick={go2More} key="more-event">
+            {len}
+            条
+            <span className="more-icon" />
+          </div>
+        );
+      }
+
+      resultArr.push(seeMore);
+      return resultArr;
+    }
+    const event = events[i];
+    const originEvt = event.event;
+    const { start, render, important } = originEvt;
+
+    const importantCls = classnames({
+      'kuma-calendar-content-box': true,
+      'red-important': !!important,
+    });
+    const eStyle = {
+      top: `${event.top * 100}%`,
+      height: `${event.height * 100}%`,
+      left: `${event.offsetX * 100}%`,
+      width: `${event.width * 100}%`,
+    };
+
+    const content = render && typeof render === 'function' ? render(event) : moment(start).date();
+
+    resultArr.push((
+      <div className={importantCls} key={i} style={eStyle}>
+        <div className="kuma-calendar-content-wraper">
+          {important && <span className="import-event" />}
+          {content}
+        </div>
+      </div>
+    ));
+  }
+  return resultArr;
+}
+
+/**
+ * 生成跨日程的事件提醒
  * @param
  * ({
  *  start: '2018-11-12 12:00',
@@ -483,48 +564,45 @@ const generateScheduleContent = (events) => {
     const containerEvents = evaluateStyle(evts, opts, hasColspan);
     const resultScheduleHtml = [];
     const eventsKeys = Object.keys(containerEvents);
-    eventsKeys.forEach((key) => {
+    for (let i = 0, len = eventsKeys.length; i < len; i++) {
+      const key = eventsKeys[i];
       const container = containerEvents[key];
+
       const {
-        children: rangeEvents, width, offsetX, height, top, isColspan,
+        children: rangeEvents, width, offsetX, height, top, isColspan, end,
       } = container;
+
       // 如果有跨栏的，跨栏始终在上
       let notColspanHeight = height;
       notColspanHeight = notColspanHeight < 0.055 ? 0.055 : notColspanHeight;
+
+      const cellContainerHeight = 0.9 * height * (opts.width / 7 * WEEK_COLUMN - 32);
+      const maxCount = Math.floor(cellContainerHeight / MONTH_CELL_HEIGHT) - 1;
+      // 月视图中展示的日期会占据一定的空间
+      const isSameDate = moment(end).isSame(opts.current, 'd');
+      const extraMonthPaddingTop = !isSameDate ? MONTH_CELL_HEIGHT : 7 * (maxCount + 1);
 
       const containerStyle = {
         width: `${width * 100}%`,
         left: `${offsetX * 100}%`,
         top: top ? `${top * 100}%` : 0,
-        height: `${notColspanHeight * 100}%`,
+        paddingTop: opts.type === 'month' ? extraMonthPaddingTop : 0,
+        height: opts.type !== 'month' && `${notColspanHeight * 100}%`,
       };
+
+
       const containerCls = classnames({
         'cell-container': true,
         'colspan-cell': isColspan,
+        'hide-event': !maxCount,
       });
+
       resultScheduleHtml.push(
-        <div className={containerCls} key={container.end} style={containerStyle}>
-          {rangeEvents.map((event, idx) => {
-            const originEvt = event.event;
-            const { start, render } = originEvt;
-            const eStyle = {
-              top: `${event.top * 100}%`,
-              height: `${event.height * 100}%`,
-              left: `${event.offsetX * 100}%`,
-              width: `${event.width * 100}%`,
-            };
-            const content = render && typeof render === 'function' ? render(event) : moment(start).date();
-            return (
-              <div className="kuma-calendar-content-box" key={idx} style={eStyle}>
-                <div className="kuma-calendar-content-wraper">
-                  {content}
-                </div>
-              </div>
-            );
-          })}
+        <div className={containerCls} key={i} style={containerStyle}>
+          {getVisibleEvent(rangeEvents, maxCount)}
         </div>,
       );
-    });
+    }
     return resultScheduleHtml;
   }.bind(null, events);
 };

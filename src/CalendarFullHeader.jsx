@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import { getTodayTime } from 'rc-calendar/lib/util/index';
 import Calendar from './Calendar';
-
+import MonthCalendar from './MonthCalendar';
 
 const SWITCHERS = [
   {
@@ -22,6 +22,36 @@ const SWITCHERS = [
   },
 ];
 function noop() { }
+
+function ShowCalendar(config) {
+  const {
+    headerSize,
+    yearSelectOffset,
+    yearSelectTotal,
+    value,
+    onValueChange,
+    type,
+  } = config;
+  if (type === 'month') {
+    return <MonthCalendar value={value} onSelect={onValueChange} size={headerSize} style={{ top: '40px' }} />;
+  }
+  return (
+    <Calendar
+      showToday={false}
+      showTime={false}
+      allowClear={false}
+      showDateInput={false}
+      showSecond={false}
+      yearSelectOffset={yearSelectOffset}
+      yearSelectTotal={yearSelectTotal}
+      size={headerSize}
+      value={value}
+      onSelect={onValueChange}
+      hasTrigger={false}
+      style={{ top: '40px' }}
+    />
+  );
+}
 
 class CalendarHeader extends Component {
   setToday() {
@@ -89,36 +119,19 @@ class CalendarHeader extends Component {
     onValueChange(newValue);
   }
 
+
   // 日历选择
   initCalendar() {
     const {
-      headerSize,
-      yearSelectOffset,
-      yearSelectTotal,
       prefixCls,
-      value,
-      onValueChange,
-      locale,
     } = this.props;
     const showValue = this.getShowValue();
+
     return (
       <div className={`${prefixCls}-date-select`}>
         <span className={`${prefixCls}-prev-btn`} onClick={this.handlePrev.bind(this)} />
         <input value={showValue} readOnly className={`${prefixCls}-show-input kuma-input`} />
-        <Calendar
-          showToday={false}
-          showTime={false}
-          allowClear={false}
-          showDateInput={false}
-          showSecond={false}
-          yearSelectOffset={yearSelectOffset}
-          yearSelectTotal={yearSelectTotal}
-          size={headerSize}
-          value={value}
-          onSelect={onValueChange}
-          hasTrigger={false}
-          style={{ top: '40px' }}
-        />
+        <ShowCalendar {...this.props} />
         <span className={`${prefixCls}-next-btn`} onClick={this.handleNext.bind(this)} />
       </div>
     );
@@ -151,9 +164,11 @@ class CalendarHeader extends Component {
   }
 
   render() {
-    const { prefixCls } = this.props;
+    const { prefixCls, width } = this.props;
+    const headerStyle = { width };
+
     return (
-      <div className={`${prefixCls}-header`}>
+      <div className={`${prefixCls}-header`} style={headerStyle}>
         {this.todayElement()}
         {this.initCalendar()}
         {this.renderSwitcher()}

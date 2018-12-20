@@ -301,7 +301,6 @@ class Demo extends React.Component {
           <CalendarFull
             value={this.state.value}
             onSelect={this.onSelect}
-            width={800}
             fullscreen
             type="month"
             locale="zh-cn"

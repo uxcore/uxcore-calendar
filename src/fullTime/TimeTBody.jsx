@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
-import { getTime, getTimeLine } from '../util';
+import { getTime } from '../calendarFullUtil';
+import LeftTimeLine from '../LeftTimeLine';
 
 export default class WeekBody extends React.Component {
   constructor(props) {
@@ -37,7 +38,7 @@ export default class WeekBody extends React.Component {
       const computedTime = current.clone();
       let leftTimeLine = '';
       if (iIndex <= slicePiece) {
-        leftTimeLine = getTimeLine(this.props, computedTime);
+        leftTimeLine = <LeftTimeLine prefixCls={prefixCls} step={step} current={computedTime} key={iIndex} />;
       }
 
       for (let jIndex = 0; jIndex < dataCount + 1; jIndex++) {
@@ -96,8 +97,25 @@ export default class WeekBody extends React.Component {
 }
 
 WeekBody.displayName = 'WeekBody';
-WeekBody.defaultProps = {};
+WeekBody.defaultProps = {
+  prefixCls: '',
+  timeRender: null,
+  slicePiece: 0,
+  step: 60,
+  value: {},
+  disabledTime: null,
+  dataCount: 0,
+  onSelect: null,
+  onDayHover: null,
+};
 WeekBody.propTypes = {
   prefixCls: PropTypes.string,
   timeRender: PropTypes.func,
+  slicePiece: PropTypes.number,
+  step: PropTypes.number,
+  value: PropTypes.object,
+  disabledTime: PropTypes.func,
+  dataCount: PropTypes.number,
+  onSelect: PropTypes.func,
+  onDayHover: PropTypes.func,
 };

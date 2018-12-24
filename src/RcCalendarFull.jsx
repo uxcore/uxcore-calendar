@@ -28,7 +28,6 @@ const FullCalendar = createReactClass({
     headerRender: PropTypes.func,
     showHeader: PropTypes.bool,
     disabledDate: PropTypes.func,
-    width: PropTypes.number,
     showCount: PropTypes.number,
   },
   mixins: [CommonMixin, CalendarMixin],
@@ -66,6 +65,7 @@ const FullCalendar = createReactClass({
         onSelect={this.onSelect}
         value={value}
         disabledDate={disabledDate}
+        seeEventsDetail={this.seeEventsDetail}
         {...others}
       />
     );
@@ -117,9 +117,15 @@ const FullCalendar = createReactClass({
         return '';
     }
   },
+  seeEventsDetail(type, value) {
+    const { originLocale } = this.props;
+    this.setValue(moment(value).locale(originLocale));
+    this.setType(type);
+  },
+
   initHeader() {
     const {
-      locale, prefixCls, showHeader, headerComponent, headerRender, type,
+      prefixCls, showHeader, headerComponent, headerRender, type,
     } = this.props;
 
     const { value } = this.state;
@@ -145,12 +151,11 @@ const FullCalendar = createReactClass({
     return header;
   },
   render() {
-    const { prefixCls, fullscreen, width } = this.props;
+    const { prefixCls, fullscreen } = this.props;
     const header = this.initHeader();
-    const headerStyle = { width };
     const children = [
       header,
-      <div key="calendar-body" className={`${prefixCls}-calendar-body`} style={headerStyle}>
+      <div key="calendar-body" className={`${prefixCls}-calendar-body`}>
         {this.getPanel()}
       </div>,
     ];

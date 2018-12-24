@@ -164,11 +164,10 @@ class CalendarHeader extends Component {
   }
 
   render() {
-    const { prefixCls, width } = this.props;
-    const headerStyle = { width };
+    const { prefixCls } = this.props;
 
     return (
-      <div className={`${prefixCls}-header`} style={headerStyle}>
+      <div className={`${prefixCls}-header`}>
         {this.todayElement()}
         {this.initCalendar()}
         {this.renderSwitcher()}

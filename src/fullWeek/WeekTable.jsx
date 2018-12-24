@@ -6,17 +6,17 @@ import WeekTBody from './WeekTBody';
 class WeekTable extends React.Component {
   constructor(props) {
     super(props);
-    this.getTimeLine = this.getTimeLine.bind(this);
     this.state = {
       slicePiece: 0,
     };
+    this.getSlicePiece = this.getSlicePiece.bind(this);
   }
 
   componentDidMount() {
-    this.getTimeLine();
+    this.getSlicePiece();
   }
 
-  getTimeLine() {
+  getSlicePiece() {
     let { startHour, step, endHour } = this.props;
     startHour = startHour ? parseInt(startHour, 10) : 9;
     endHour = endHour ? parseInt(endHour, 10) : 23;
@@ -30,12 +30,12 @@ class WeekTable extends React.Component {
 
   renderEvents() {
     const {
-      scheduleRender, startHour, step, endHour, value, type, width,
+      scheduleRender, startHour, step, endHour, value, type,
     } = this.props;
 
     const { slicePiece } = this.state;
     const renderOpts = {
-      startHour, step, endHour, slicePiece, type, current: value, width, ...this.props,
+      startHour, step, endHour, slicePiece, type, current: value, ...this.props,
     };
     if (scheduleRender) {
       const content = scheduleRender(renderOpts);
@@ -47,7 +47,7 @@ class WeekTable extends React.Component {
   render() {
     const { slicePiece } = this.state;
     const { prefixCls } = this.props;
-    const weekCls = `${prefixCls}-date`;
+    const weekCls = `${prefixCls}-week`;
     return (
       <div className={weekCls}>
         <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
@@ -61,6 +61,8 @@ class WeekTable extends React.Component {
 }
 WeekTable.displayName = 'WeekTable';
 WeekTable.defaultProps = {
+  prefixCls: '',
+  weekRender: null,
   startHour: 9,
   endHour: 23,
   step: 60,

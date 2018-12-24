@@ -1,0 +1,67 @@
+.@{__calendarPrefixCls}-mini-week {
+  position: relative;
+  width: 100%;
+  .@{__calendarPrefixCls}-mini-prev-btn,
+  .@{__calendarPrefixCls}-mini-next-btn {
+    display: block;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    bottom: 10%;
+    z-index: 99;
+    cursor: pointer;
+    color: rgba(31, 56, 88, 0.4);
+    border-radius: 3px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .@{__calendarPrefixCls}-mini-prev-btn,
+  .@{__calendarPrefixCls}-mini-next-btn {
+    &:after {
+      position: absolute;
+      left: 0;
+      width: 24px;
+      font-family: "uxcore";
+      font-size: 16px;
+      text-indent: 0;
+    }
+  }
+  .@{__calendarPrefixCls}-mini-prev-btn {
+    left: 0;
+    &:after {
+      content: "\e65c";
+    }
+  }
+  .@{__calendarPrefixCls}-mini-next-btn {
+    right: 0;
+    &:after {
+      content: "\e65b";
+    }
+  }
+  .@{__calendarPrefixCls}-mini-date {
+    margin: 0 auto;
+    width: 90%;
+    line-height: 35px;
+  }
+  .@{__calendarPrefixCls}-mini-day {
+    display: inline-block;
+    width: calc(1/7*100%);
+    text-align: center;
+    &.today {
+      .header-date {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: @brand-primary;
+        color: #ffffff;
+        border-radius: 4px;
+      }
+    }
+    &.rest,
+    &.past {
+      .header-date {
+        color: rgba(31, 56, 88, 0.3);
+      }
+    }
+  }
+}

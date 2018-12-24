@@ -7,7 +7,7 @@ import Calendar from '../src';
 import events from './events';
 
 const {
-  MonthCalendar, YearCalendar, RangeCalendar, CalendarFull,
+  MonthCalendar, YearCalendar, RangeCalendar, CalendarFull, MiniWeek,
 } = Calendar;
 
 function disabledDate(current) {
@@ -34,7 +34,7 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // value: new Date().getTime(),
+      value: new Date().getTime(),
     };
     this.onSelect = this.onSelect.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -43,6 +43,11 @@ class Demo extends React.Component {
 
   componentDidMount() {
     this.forceUpdate();
+    window.onresize = () => {
+      this.setState({
+        value: new Date().getTime(),
+      });
+    };
   }
 
   onSelect(value, formatted) {
@@ -80,6 +85,10 @@ class Demo extends React.Component {
   contentRender(current, value) {
     // console.log('.....', current);
     // console.log('2222', value);
+  }
+
+  miniWeekRender(events, dateInfo) {
+
   }
 
   render() {
@@ -292,7 +301,6 @@ class Demo extends React.Component {
           className="kuma-form-field"
           style={{
             marginBottom: '30px',
-            width: '800px',
           }}
         >
           <p>
@@ -305,18 +313,20 @@ class Demo extends React.Component {
             type="month"
             locale="zh-cn"
             format="yyyy/MM/dd"
-            // headerRender={this.calendarFullRender}
-            scheduleRender={Calendar.util.generateScheduleContent(events)}
-
-            // timeRender={this.getTimeRender}
-            // weekRender={this.getTimeRender}
-            // dateRender={this.getTimeRender}
-            // disabledDate={disabledDate}
-            // disabledTime={disabledTime}
+            // scheduleRender={Calendar.fullUtil.generateScheduleContent(events)}
             startHour={8}
             endHour={18}
             step={60}
           />
+          <MiniWeek
+            locale="zh-cn"
+            events={events}
+            scheduleRender={this.miniWeekRender}
+          >
+            <div className="schedule-container">
+              <h3>这是日程渲染事件</h3>
+            </div>
+          </MiniWeek>
         </div>
       </div>
     );

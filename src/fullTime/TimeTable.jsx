@@ -6,17 +6,17 @@ import TimeTBody from './TimeTBody';
 class TimeTable extends React.Component {
   constructor(props) {
     super(props);
-    this.getTimeLine = this.getTimeLine.bind(this);
     this.state = {
       slicePiece: 0,
     };
+    this.getSlicePiece = this.getSlicePiece.bind(this);
   }
 
   componentDidMount() {
-    this.getTimeLine();
+    this.getSlicePiece();
   }
 
-  getTimeLine() {
+  getSlicePiece() {
     let { startHour, step, endHour } = this.props;
     startHour = startHour ? parseInt(startHour, 10) : 9;
     endHour = endHour ? parseInt(endHour, 10) : 23;
@@ -30,11 +30,11 @@ class TimeTable extends React.Component {
 
   renderEvents() {
     const {
-      scheduleRender, startHour, step, endHour, value, type, width,
+      scheduleRender, startHour, step, endHour, value, type,
     } = this.props;
     const { slicePiece } = this.state;
     const renderOpts = {
-      startHour, step, endHour, type, slicePiece, current: value, width, ...this.props,
+      startHour, step, endHour, type, slicePiece, current: value, ...this.props,
     };
     if (scheduleRender) {
       const content = scheduleRender(renderOpts);

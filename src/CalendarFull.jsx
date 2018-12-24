@@ -193,7 +193,6 @@ FullCalendar.defaultProps = {
   startHour: 9,
   endHour: 23,
   step: 60,
-  width: 800,
   onTypeChange() { },
 
 };
@@ -208,7 +207,6 @@ FullCalendar.propTypes = {
   startHour: PropTypes.number,
   endHour: PropTypes.number,
   step: PropTypes.number,
-  width: PropTypes.number,
   onSelect: PropTypes.func,
   onTypeChange: PropTypes.func,
   contentRender: PropTypes.func,

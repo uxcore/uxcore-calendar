@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
-import { getTime, getTimeLine } from '../util';
+import { getTime } from '../calendarFullUtil';
+import LeftTimeLine from '../LeftTimeLine';
 
 const DATE_COL_COUNT = 8;
 export default class WeekBody extends React.Component {
@@ -12,30 +13,26 @@ export default class WeekBody extends React.Component {
   }
 
   getTableCell() {
-    let {
+    const {
       prefixCls,
       weekRender,
       slicePiece,
-      startHour,
-      endHour,
       step,
       value,
       disabledTime,
       disabledDate,
-      contentRender,
       onSelect,
       onDayHover,
     } = this.props;
 
-    step = step ? parseInt(step, 10) : 60;
-    if (endHour < startHour) {
-      endHour = startHour;
-    }
-    const now = moment();
-    value = value || now;
+    const newStep = step ? parseInt(step, 10) : 60;
 
-    let nowDay = value.day();
+    const now = moment();
+    const newValue = value || now;
+
+    let nowDay = newValue.day();
     nowDay = nowDay === 0 ? 7 : nowDay;
+
     const trDateClass = `${prefixCls}-date-tr`;
     const tableHtml = [];
     let current = getTime(this.props);
@@ -46,7 +43,7 @@ export default class WeekBody extends React.Component {
       const computedTime = current.clone();
       let leftTimeLine = '';
       if (iIndex <= slicePiece) {
-        leftTimeLine = getTimeLine(this.props, computedTime);
+        leftTimeLine = <LeftTimeLine prefixCls={prefixCls} step={newStep} current={computedTime} key={iIndex} />;
       }
 
       for (let jIndex = 0; jIndex < DATE_COL_COUNT; jIndex++) {
@@ -62,18 +59,18 @@ export default class WeekBody extends React.Component {
             : moment(computedTime).add(Math.abs(gapDay), 'days');
 
           if (disabledDate) {
-            if (disabledDate(current, value)) {
+            if (disabledDate(current, newValue)) {
               disableDate = true;
             }
           }
           if (disabledTime) {
-            if (disabledTime(current, value)) {
+            if (disabledTime(current, newValue)) {
               disableTime = true;
             }
           }
 
           if (jIndex !== 0 && weekRender) {
-            dateHtml = weekRender(current, value);
+            dateHtml = weekRender(current, newValue);
           }
 
           const disabled = disableTime || disableDate;
@@ -100,7 +97,7 @@ export default class WeekBody extends React.Component {
           );
         }
       }
-      cloneCurrent = moment(cloneCurrent).add(step, 'm');
+      cloneCurrent = moment(cloneCurrent).add(newStep, 'm');
       current = cloneCurrent;
       tableHtml.push(
         <tr key={iIndex} role="row" className={trDateClass}>
@@ -118,8 +115,27 @@ export default class WeekBody extends React.Component {
 }
 
 WeekBody.displayName = 'WeekBody';
-WeekBody.defaultProps = {};
+WeekBody.defaultProps = {
+  prefixCls: '',
+  weekRender: null,
+  slicePiece: 0,
+  step: 60,
+  value: {},
+  disabledTime: null,
+  dataCount: 0,
+  onSelect: null,
+  onDayHover: null,
+  disabledDate: null,
+};
 WeekBody.propTypes = {
   prefixCls: PropTypes.string,
   weekRender: PropTypes.func,
+  slicePiece: PropTypes.number,
+  step: PropTypes.number,
+  value: PropTypes.object,
+  disabledTime: PropTypes.func,
+  dataCount: PropTypes.number,
+  onSelect: PropTypes.func,
+  onDayHover: PropTypes.func,
+  disabledDate: PropTypes.func,
 };

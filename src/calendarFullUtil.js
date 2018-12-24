@@ -41,6 +41,11 @@ function getMomentValue(date, hour) {
     .second(0)
     .valueOf();
 }
+
+function getFormatDate(value, format) {
+  return moment(value).format(format);
+}
+
 /**
  * 获取日期是星期几
  * @param {object} date;
@@ -59,8 +64,11 @@ function inSameRow(target, source) {
   if (!target || !source) {
     return false;
   }
-  const isLt = moment(source.start).isBefore(moment(source.start)) && moment(source.start).isAfter(moment(target.end));
-  const isEq = moment(source.start).isSame(moment(source.start)) && moment(source.end).isSame(moment(source.end));
+  let isLt = moment(source.start).isBefore(moment(source.start));
+  isLt = isLt && moment(source.start).isAfter(moment(target.end));
+  let isEq = moment(source.start).isSame(moment(source.start));
+  isEq = isEq && moment(source.end).isSame(moment(source.end));
+
   return isLt || isEq;
 }
 
@@ -68,19 +76,38 @@ function inSameRow(target, source) {
  * 获取当前日期在月面板的第几行
  */
 function getMonthEventTop(start) {
-  const firstDateOfMonth = moment(+new Date(start)).startOf('month');
-  const diffDate = firstDateOfMonth.day();
+  const diffDate = moment(+new Date(start)).startOf('month').day();
   const firstDayOfMonthPanel = diffDate + moment(start).date() - 1;
   return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
 }
 
 /**
- * 判断是否在同一天
+ * 判断是日期相同
  * @param {object} target 比较对象
  * @param {object} source 被比较对象
  */
-function isSameDte(target, source) {
-  return moment(target).isSame(source, 'date');
+function isSameDateByType(target, source, type = 'date') {
+  return moment(target).isSame(source, type);
+}
+
+function getWeekStartEnd(current) {
+  const day = getDateDay(current);
+  const firstDate = moment(current).subtract(day - 1, 'd');
+  const lastDate = moment(current).add(7 - day, 'd');
+  return { firstDate, lastDate };
+}
+
+/**
+ * 判断是否在同一周
+ * @param {moment} start 事件的开始时间
+ * @param {moment} current 当前时间
+ */
+function inSameWeek(start, current) {
+  const { firstDate, lastDate } = getWeekStartEnd(current);
+  if (moment(start).isBetween(firstDate, lastDate)) {
+    return true;
+  }
+  return moment(start).isSame(firstDate, 'Date') || moment(start).isSame(lastDate, 'Date');
 }
 
 /**
@@ -94,22 +121,29 @@ function isInCurrentPanle(event, opts) {
   if (moment(end).valueOf() - moment(start).valueOf() < 0) {
     return false;
   }
-
-  if (type === 'time') {
-    return isSameDte(current, start);
-  }
-
   if (type === 'week') {
-    const day = getDateDay(current);
-    const firstDate = moment(current).subtract(day - 1, 'd');
-    const lastDate = moment(current).add(7 - day, 'd');
-    const isInEdgeDate = moment(start).isSame(firstDate, 'Date') || moment(start).isSame(lastDate, 'Date');
-
-    return moment(start).isBetween(firstDate, lastDate) || isInEdgeDate;
+    return inSameWeek(start, current);
   }
-
-  return moment(start).isSame(current, 'month');
+  const typeHash = { time: 'date', month: 'month' };
+  return isSameDateByType(start, current, typeHash[type]);
 }
+
+/**
+ * 根据指定格式、分隔符获取hash值
+ * @param {moment} start 开始时间
+ * @param {moment} end 结束时间
+ * @param {string} format 格式
+ * @param {string} splitStr 分隔符
+ */
+function getHashKeyByFomart(start, end, format, splitStr) {
+  const startKey = getFormatDate(start, format);
+  if (start && end) {
+    const endKey = getFormatDate(end, format);
+    return `${startKey}${splitStr}${endKey}`;
+  }
+  return startKey;
+}
+
 
 /**
  * 获取月面板中的容器hash值
@@ -117,14 +151,8 @@ function isInCurrentPanle(event, opts) {
  */
 function getMonthContainerHash(event) {
   const { start } = event;
-  const startDay = getDateDay(start);
-  const startKey = moment(start)
-    .subtract(startDay - 1, 'd')
-    .format('YYYY-MM-DD');
-  const endKey = moment(start)
-    .add(7 - startDay, 'd')
-    .format('YYYY-MM-DD');
-  return `${startKey}~${endKey}`;
+  const { firstDate, lastDate } = getWeekStartEnd(start);
+  return getHashKeyByFomart(firstDate, lastDate, 'YYYY-MM-DD', '~');
 }
 
 /**
@@ -133,16 +161,11 @@ function getMonthContainerHash(event) {
  * @param {objec} opts ;
  */
 function getHashKey(event, opts) {
-  let hashKey = '';
   if (opts.type === 'month') {
-    hashKey = getMonthContainerHash(event);
-  } else {
-    const { start, end } = event;
-    const startKey = moment(start).format('YYYY-MM-DD');
-    const endKey = moment(end).format('YYYY-MM-DD');
-    hashKey = `${startKey}~${endKey}`;
+    return getMonthContainerHash(event);
   }
-  return hashKey;
+  const { start, end } = event;
+  return getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~');
 }
 
 /**
@@ -746,6 +769,8 @@ const generateScheduleContent = events => function scheduleRender(evts, opts, ta
 
 export default {
   handlePropsEvents,
+  getFormatDate,
+  inSameWeek,
   generateScheduleContent,
   getTime,
 };

@@ -7,7 +7,7 @@ import React from 'react';
 import moment from 'moment';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { handlePropsEvents } from '../calendarFullUtil';
+import { handlePropsEvents, getFormatDate, inSameWeek } from '../calendarFullUtil';
 
 const DATE_COL_COUNT = 7;
 const proptypes = {
@@ -71,8 +71,8 @@ class MiniWeek extends React.Component {
     if (weekDays && weekDays.length) {
       const { value: firstValue } = weekDays[0];
       const { value: endValue } = weekDays[weekDays.length - 1];
-      const firstMonth = moment(firstValue).format('YYYY-MM');
-      const endMonth = moment(endValue).format('YYYY-MM');
+      const firstMonth = getFormatDate(firstValue, 'YYYY-MM');
+      const endMonth = getFormatDate(endValue, 'YYYY-MM');
       if (firstMonth === endMonth) {
         return firstMonth;
       }
@@ -100,7 +100,7 @@ class MiniWeek extends React.Component {
       } else {
         current = moment(cloneValue).subtract(diff, 'd');
       }
-      const key = moment(current).format('YYYY-MM-DD');
+      const key = getFormatDate(current, 'YYYY-MM-DD');
 
       weekDays[i] = {};
       weekDays[i].label = localeData.weekdaysShort(current);
@@ -112,11 +112,7 @@ class MiniWeek extends React.Component {
 
   evaluateEventVisible(event, date) {
     const { value } = this.state;
-    const day = moment(value).day();
-    const firstDate = moment(value).subtract(day - 1, 'd');
-    const lastDate = moment(value).add(7 - day, 'd');
-    const isInEdgeDate = moment(date).isSame(firstDate, 'Date') || moment(date).isSame(lastDate, 'Date');
-    return moment(date).isBetween(firstDate, lastDate) || isInEdgeDate;
+    return inSameWeek(date, value);
   }
 
   handlePrev() {

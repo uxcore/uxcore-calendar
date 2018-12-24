@@ -161,7 +161,8 @@ function getMonthContainerHash(event) {
  * @param {objec} opts ;
  */
 function getHashKey(event, opts) {
-  if (opts.type === 'month') {
+  const type = opts ? opts.type : 'week';
+  if (type === 'month') {
     return getMonthContainerHash(event);
   }
   const { start, end } = event;
@@ -460,25 +461,23 @@ function handleSplitEvent(event, continuousDay) {
  * 处理事件，拆分为天
  * @param {array} events 事件数组
  */
-function handlePropsEvents(events) {
-  const resultEvents = {};
+function handlePropsEvents(events, results = {}) {
   events.forEach((event) => {
     const { start, end } = event;
     const startKey = moment(start).format('YYYY-MM-DD');
     const diffDate = moment(end).diff(moment(start), 'days');
     if (diffDate > 0) {
       const splitResultEvents = handleSplitEvent(event, diffDate);
-      const loopResult = handleEvents(splitResultEvents);
+      handlePropsEvents(splitResultEvents, results);
     } else {
-      if (!resultEvents[startKey]) {
-        resultEvents[startKey] = {
+      if (!results[startKey]) {
+        results[startKey] = {
           events: [],
         };
       }
-      resultEvents[startKey].events.push(event);
+      results[startKey].events.push(event);
     }
   });
-  return resultEvents;
 }
 
 function getEventTopHeight(event, opts, sourceDate) {

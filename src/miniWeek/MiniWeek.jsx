@@ -86,7 +86,9 @@ class MiniWeek extends React.Component {
     const { value: stateValue } = this.state;
     const value = newValue || stateValue;
     const { events } = this.props;
-    const visibleEvents = this.getVisibleEvents(handlePropsEvents(events));
+    const visibleEvents = {};
+    handlePropsEvents(events, visibleEvents);
+    this.getVisibleEvents(visibleEvents);
     let current = moment(value || new Date()).locale(locale);
     const cloneValue = current.clone();
     const localeData = current.localeData();

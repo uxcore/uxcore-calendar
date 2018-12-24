@@ -7,6 +7,7 @@ import React from 'react';
 import moment from 'moment';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import { handlePropsEvents } from '../calendarFullUtil';
 
 const DATE_COL_COUNT = 7;
 const proptypes = {
@@ -32,18 +33,60 @@ class MiniWeek extends React.Component {
     super(props);
     this.state = {
       value: props.value || new Date(),
+      weekDays: [],
     };
+  }
+
+  componentDidMount() {
+    this.setWeekDays();
+  }
+
+  setWeekDays() {
+    this.setState({
+      weekDays: this.getRenderData(),
+    });
+  }
+
+  getVisibleEvents(eventsHash) {
+    const objectKeys = Object.keys(eventsHash);
+    const resultEventsHash = {};
+    objectKeys.forEach((eventKey) => {
+      resultEventsHash[eventKey] = { events: [] };
+      const { events } = eventsHash[eventKey];
+      const visibleEvents = events.filter(event => this.evaluateEventVisible(event, eventKey));
+      resultEventsHash[eventKey].events = visibleEvents;
+    });
+    return resultEventsHash;
   }
 
   setValue(newValue) {
     this.setState({
       value: newValue,
+      weekDays: this.getRenderData(newValue),
     });
   }
 
-  getRenderData() {
+  getRenderShow() {
+    const { weekDays } = this.state;
+    if (weekDays && weekDays.length) {
+      const { value: firstValue } = weekDays[0];
+      const { value: endValue } = weekDays[weekDays.length - 1];
+      const firstMonth = moment(firstValue).format('YYYY-MM');
+      const endMonth = moment(endValue).format('YYYY-MM');
+      if (firstMonth === endMonth) {
+        return firstMonth;
+      }
+      return `${firstMonth}-${endMonth}`;
+    }
+    return '--';
+  }
+
+  getRenderData(newValue) {
     const { locale } = this.props;
-    const { value } = this.state;
+    const { value: stateValue } = this.state;
+    const value = newValue || stateValue;
+    const { events } = this.props;
+    const visibleEvents = this.getVisibleEvents(handlePropsEvents(events));
     let current = moment(value || new Date()).locale(locale);
     const cloneValue = current.clone();
     const localeData = current.localeData();
@@ -57,52 +100,86 @@ class MiniWeek extends React.Component {
       } else {
         current = moment(cloneValue).subtract(diff, 'd');
       }
+      const key = moment(current).format('YYYY-MM-DD');
+
       weekDays[i] = {};
       weekDays[i].label = localeData.weekdaysShort(current);
       weekDays[i].value = current;
+      weekDays[i].events = visibleEvents[key] ? visibleEvents[key].events : null;
     }
     return weekDays;
   }
 
+  evaluateEventVisible(event, date) {
+    const { value } = this.state;
+    const day = moment(value).day();
+    const firstDate = moment(value).subtract(day - 1, 'd');
+    const lastDate = moment(value).add(7 - day, 'd');
+    const isInEdgeDate = moment(date).isSame(firstDate, 'Date') || moment(date).isSame(lastDate, 'Date');
+    return moment(date).isBetween(firstDate, lastDate) || isInEdgeDate;
+  }
 
   handlePrev() {
     const { value } = this.state;
-    let newValue = moment(value);
-    newValue = newValue.subtract(1, 'w');
+    const newValue = moment(value).subtract(1, 'w');
     this.setValue(newValue);
   }
 
   handleNext() {
     const { value } = this.state;
-    let newValue = moment(value);
-    newValue = moment(newValue).add(1, 'w');
+    const newValue = moment(value).add(1, 'w');
     this.setValue(newValue);
   }
 
+  generateRender(dayInfo) {
+    const { value } = dayInfo;
+    this.setValue(value);
+    const { scheduleRender } = this.props;
+    if (scheduleRender) {
+      scheduleRender(dayInfo);
+    }
+  }
+
+
   render() {
     const { prefixCls } = this.props;
+    const { weekDays } = this.state;
     const now = moment();
-    const weekDays = this.getRenderData();
-
+    const showTitle = this.getRenderShow();
     const weekDaysEls = weekDays.map((day) => {
-      const { value, label } = day;
+      const { value, label, events } = day;
+      const { value: stateValue } = this.state;
       const currentDay = moment(value).day();
       const cls = classnames({
         [`${prefixCls}-day`]: true,
         today: value && moment(value).isSame(now, 'day'),
         rest: currentDay === 6 || currentDay === 0,
         past: moment(value).isBefore(now, 'date'),
+        active: moment(value).isSame(stateValue),
+        import: !!value.import,
+
       });
       return (
-        <div key={value} role="columnheader" title={label} className={cls}>
+        <div
+          key={value}
+          title={label}
+          className={cls}
+          onClick={this.generateRender.bind(this, day)}
+        >
           <p>{label}</p>
-          <p className="header-date">{value && value.date()}</p>
+          <p className={classnames('header-date', {
+            event: !!events,
+          })}
+          >
+            {value && value.date()}
+          </p>
         </div>
       );
     });
     return (
       <div className={`${prefixCls}-week`}>
         <span className={`${prefixCls}-prev-btn`} onClick={this.handlePrev.bind(this)} />
+        <div className="title">{showTitle}</div>
         <div className={`${prefixCls}-date`}>{weekDaysEls}</div>
         <span className={`${prefixCls}-next-btn`} onClick={this.handleNext.bind(this)} />
       </div>

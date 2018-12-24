@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'uxcore-button';
+import Icon from 'uxcore-icon';
 import classnames from 'classnames';
 import moment from 'moment';
 import { getTodayTime } from 'rc-calendar/lib/util/index';
@@ -21,7 +22,7 @@ const SWITCHERS = [
     value: 'month',
   },
 ];
-function noop() { }
+const TYPE_HASH = { time: 'd', week: 'w', month: 'M' };
 
 function ShowCalendar(config) {
   const {
@@ -83,6 +84,7 @@ class CalendarHeader extends Component {
     const { showToday, locale } = this.props;
     return showToday ? (
       <Button type="secondary" onClick={this.setToday.bind(this)} className="today-btn">
+        <Icon usei name="zhixiang-qianjin" className="forward" />
         {locale.today}
       </Button>
     ) : null;
@@ -91,13 +93,7 @@ class CalendarHeader extends Component {
   handlePrev() {
     const { type, onValueChange, value } = this.props;
     let newValue = value || moment();
-    if (type === 'time') {
-      newValue = newValue.subtract(1, 'd');
-    } else if (type === 'week') {
-      newValue = newValue.subtract(1, 'w');
-    } else {
-      newValue = newValue.subtract(1, 'M');
-    }
+    newValue = newValue.subtract(1, TYPE_HASH[type]);
     onValueChange(newValue);
   }
 
@@ -109,13 +105,7 @@ class CalendarHeader extends Component {
   handleNext() {
     const { type, onValueChange, value } = this.props;
     let newValue = value || moment();
-    if (type === 'time') {
-      newValue = moment(newValue).add(1, 'd');
-    } else if (type === 'week') {
-      newValue = moment(newValue).add(1, 'w');
-    } else {
-      newValue = moment(newValue).add(1, 'M');
-    }
+    newValue = newValue.add(1, TYPE_HASH[type]);
     onValueChange(newValue);
   }
 
@@ -188,7 +178,7 @@ CalendarHeader.propTypes = {
 CalendarHeader.defaultProps = {
   yearSelectOffset: 10,
   yearSelectTotal: 20,
-  onValueChange: noop,
+  onValueChange: null,
   showToday: true,
   type: 'time',
   showTypeSwitch: true,

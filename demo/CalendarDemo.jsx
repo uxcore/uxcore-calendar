@@ -87,8 +87,8 @@ class Demo extends React.Component {
     // console.log('2222', value);
   }
 
-  miniWeekRender(events, dateInfo) {
-
+  miniWeekRender(dateInfo) {
+    console.log(dateInfo);
   }
 
   render() {
@@ -313,7 +313,7 @@ class Demo extends React.Component {
             type="month"
             locale="zh-cn"
             format="yyyy/MM/dd"
-            // scheduleRender={Calendar.fullUtil.generateScheduleContent(events)}
+            scheduleRender={Calendar.fullUtil.generateScheduleContent(events)}
             startHour={8}
             endHour={18}
             step={60}

@@ -413,6 +413,51 @@ function initEvents(events, opts) {
 
   return resultEvents;
 }
+
+/**
+ * 拆分跨日程事件
+ * @param {object} event  事件
+ * @param {number} continuousDay 连续的天数
+ */
+function handleSplitEvent(event, continuousDay) {
+  const arrs = [];
+  const { start, render } = event;
+
+  for (let i = 0; i <= continuousDay; i++) {
+    const startTime = moment(start).add(i, 'd');
+
+    arrs.push({
+      start: startTime, end: startTime, render,
+    });
+  }
+  return arrs;
+}
+
+/**
+ * 处理事件，拆分为天
+ * @param {array} events 事件数组
+ */
+function handlePropsEvents(events) {
+  const resultEvents = {};
+  events.forEach((event) => {
+    const { start, end } = event;
+    const startKey = moment(start).format('YYYY-MM-DD');
+    const diffDate = moment(end).diff(moment(start), 'days');
+    if (diffDate > 0) {
+      const splitResultEvents = handleSplitEvent(event, diffDate);
+      const loopResult = handleEvents(splitResultEvents);
+    } else {
+      if (!resultEvents[startKey]) {
+        resultEvents[startKey] = {
+          events: [],
+        };
+      }
+      resultEvents[startKey].events.push(event);
+    }
+  });
+  return resultEvents;
+}
+
 function getEventTopHeight(event, opts, sourceDate) {
   const {
     startHour, current, slicePiece, step, type,
@@ -700,6 +745,7 @@ const generateScheduleContent = events => function scheduleRender(evts, opts, ta
 }.bind(null, events);
 
 export default {
+  handlePropsEvents,
   generateScheduleContent,
   getTime,
 };

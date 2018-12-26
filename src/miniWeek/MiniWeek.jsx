@@ -7,6 +7,7 @@ import React from 'react';
 import moment from 'moment';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import Assign from 'object-assign';
 import { handlePropsEvents, getFormatDate, inSameWeek } from '../calendarFullUtil';
 
 const DATE_COL_COUNT = 7;
@@ -132,9 +133,12 @@ class MiniWeek extends React.Component {
   generateRender(dayInfo) {
     const { value } = dayInfo;
     this.setValue(value);
+    const renderInfo = {};
+    Assign(renderInfo, dayInfo);
+    renderInfo.value = moment(value).toDate();
     const { scheduleRender } = this.props;
     if (scheduleRender) {
-      scheduleRender(dayInfo);
+      scheduleRender(renderInfo);
     }
   }
 

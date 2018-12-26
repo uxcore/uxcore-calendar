@@ -311,7 +311,7 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
             fullscreen
             type="week"
-            locale="zh-cn"
+            locale="en-us"
             format="yyyy/MM/dd"
             scheduleRender={Calendar.fullUtil.generateScheduleContent(events)}
             startHour={8}
@@ -319,9 +319,15 @@ class Demo extends React.Component {
             step={60}
           />
           <MiniWeek
-            locale="zh-cn"
-            events={events}
-            scheduleRender={this.miniWeekRender}
+            value="2018-12-24"
+            locale="en-us"
+            events={[{
+              start: '2018-12-24 14:00', // 事件开始时间
+              end: '2018-12-24 16:00', // 事件结束时间
+              important: true,
+              // 事件的渲染函数
+              render: () => <div>24</div>,
+            }]}
           >
             <div className="schedule-container">
               <h3>这是日程渲染事件</h3>

@@ -43,7 +43,7 @@ $ npm start
 ```js
 var Calendar = require('uxcore-calendar');
 const {
-  MonthCalendar, YearCalendar, RangeCalendar, CalendarFull,
+  MonthCalendar, YearCalendar, RangeCalendar, CalendarFull, MiniWeek
 } = Calendar;
 React.render(
   (<Calendar />),
@@ -96,7 +96,7 @@ http://uxco.re/components/calendar/
 
 #### disabledTime 例子
 
-``` js
+``` javascript
 function range(start, end) {
   const result = [];
   for (let i = start; i < end; i++) {
@@ -162,6 +162,15 @@ function disabledTime() {
 |headerRender|头部自定义渲染函数|function(current,type)|||
 |scheduleRender|渲染面板中的函数，可以跨日程显示详情|Calendar.util.generateScheduleContent(events)|||
 
+
+### MiniWeek props
+
+|参数|说明|类型|可选值|默认值|
+|------|----|---|------|-|
+|locale|中英文|string|zh-cn/en|zh-cn|
+|events|渲染的日程事件|array||[]|
+|scheduleRender|用来渲染具体日程下的事件|function(dateInfo)|||
+
 ####  CalendarFull 例子
 ``` js
 //events.js
@@ -184,6 +193,30 @@ const events =  [
   endHour={18}
   step={40}
   />
+```
+
+####  MiniWeek 例子
+```js
+miniWeekRender(dateInfo){
+  /**
+   * 返回的dateInfo结构如下
+   * { 
+   *   events: [],当前时间下的日程事件
+   *   label: 当前时间是星期几
+   *   value: 当前日期
+   * }
+  */
+}
+
+<MiniWeek
+  locale="zh-cn"
+  events={events}
+  scheduleRender={this.miniWeekRender}
+>
+  <div className="schedule-container">
+    <h3>这是日程渲染事件</h3>
+  </div>
+</MiniWeek>
 ```
 
 

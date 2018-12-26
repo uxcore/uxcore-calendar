@@ -30,15 +30,14 @@ class TimeTable extends React.Component {
 
   renderEvents() {
     const {
-      scheduleRender, startHour, step, endHour, value, type,
+      scheduleRender, startHour, step, endHour, value, type, 
     } = this.props;
     const { slicePiece } = this.state;
     const renderOpts = {
       startHour, step, endHour, type, slicePiece, current: value, ...this.props,
     };
     if (scheduleRender) {
-      const content = scheduleRender(renderOpts);
-      return <div className="events-wrapper">{content}</div>;
+      return scheduleRender(renderOpts);
     }
     return null;
   }

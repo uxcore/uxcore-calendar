@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'uxcore-button';
 import Icon from 'uxcore-icon';
+import Select from 'uxcore-select2';
 import classnames from 'classnames';
 import moment from 'moment';
 import { getTodayTime } from 'rc-calendar/lib/util/index';
 import Calendar from './Calendar';
 import MonthCalendar from './MonthCalendar';
+
+const { Option } = Select;
 
 const SWITCHERS = [
   {
@@ -80,12 +83,58 @@ class CalendarHeader extends Component {
     return moment(value).format(newFormat);
   }
 
+  getSelectSwitcher() {
+    const { type, locale } = this.props;
+    return (
+      <Select
+        defaultValue={type}
+        className="select-switcher"
+        onSelect={this.changeType.bind(this)}
+        size="small"
+      >
+        {
+          SWITCHERS.map(switcher => (
+            <Option value={switcher.value} key={switcher.value}>
+              {locale[switcher.label] || '日'}
+            </Option>
+          ))
+        }
+      </Select>
+
+    );
+  }
+
+  getExpandedSwitcher() {
+    const {
+      prefixCls, type, locale,
+    } = this.props;
+    const switchCls = `${prefixCls}-header-switcher`;
+    return (
+      <span className={switchCls}>
+        {SWITCHERS.map(s => (
+          <span
+            onClick={this.changeType.bind(this, s.value)}
+            key={s.label}
+            className={classnames({
+              [`${switchCls}-normal`]: true,
+              [`${switchCls}-time`]: s.value === 'time',
+              [`${switchCls}-week`]: s.value === 'week',
+              [`${switchCls}-date`]: s.value === 'month',
+              [`${switchCls}-focus`]: type === s.value,
+            })}
+          >
+            {locale[s.label] || '日'}
+          </span>))}
+      </span>
+    );
+  }
+
   todayElement() {
     const { showToday, locale } = this.props;
     return showToday ? (
       <Button type="secondary" onClick={this.setToday.bind(this)} className="today-btn">
         <Icon usei name="zhixiang-qianjin" className="forward" />
-        {locale.today}
+        {this.fullHeader && this.fullHeader.offsetWidth > 380 && locale.today}
       </Button>
     ) : null;
   }
@@ -129,35 +178,22 @@ class CalendarHeader extends Component {
 
   renderSwitcher() {
     const {
-      prefixCls, showTypeSwitch, type, locale,
+      showTypeSwitch,
     } = this.props;
-    const switchCls = `${prefixCls}-header-switcher`;
-    return showTypeSwitch ? (
-      <span className={switchCls}>
-        {SWITCHERS.map(s => (
-          <span
-            onClick={this.changeType.bind(this, s.value)}
-            key={s.label}
-            className={classnames({
-              [`${switchCls}-normal`]: true,
-              [`${switchCls}-time`]: s.value === 'time',
-              [`${switchCls}-week`]: s.value === 'week',
-              [`${switchCls}-date`]: s.value === 'month',
-              [`${switchCls}-focus`]: type === s.value,
-            })}
-          >
-            {locale[s.label] || '日'}
-          </span>
-        ))}
-      </span>
-    ) : null;
+    if (!showTypeSwitch) {
+      return null;
+    }
+    if (this.fullHeader && this.fullHeader.offsetWidth < 380) {
+      return this.getSelectSwitcher();
+    }
+    return this.getExpandedSwitcher();
   }
 
   render() {
     const { prefixCls } = this.props;
 
     return (
-      <div className={`${prefixCls}-header`}>
+      <div className={`${prefixCls}-header`} ref={(c) => { this.fullHeader = c; }}>
         {this.todayElement()}
         {this.initCalendar()}
         {this.renderSwitcher()}
@@ -183,6 +219,7 @@ CalendarHeader.defaultProps = {
   type: 'time',
   showTypeSwitch: true,
   typeChange() { },
+  prefixCls: '',
 };
 
 export default CalendarHeader;

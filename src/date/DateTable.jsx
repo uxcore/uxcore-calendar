@@ -29,8 +29,7 @@ export default class DateTable extends React.Component {
       startHour, step, endHour, type, current: value, ...this.props,
     };
     if (scheduleRender) {
-      const content = scheduleRender(renderOpts, tableHeight);
-      return <div className="events-month-wrapper">{content}</div>;
+      return scheduleRender(renderOpts, tableHeight);
     }
     return '';
   }

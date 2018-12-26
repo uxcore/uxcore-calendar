@@ -308,6 +308,7 @@ function computeEventStyle(event, type) {
     };
   }
 
+
   if (event.leaves) {
     const totalCount = event.leaves.length + 2;
     const avaliableWidth = event.container.width;
@@ -316,6 +317,7 @@ function computeEventStyle(event, type) {
     offsetx = avaliableWidth + event.container.offsetX + averOffsetX;
     return { width: avaliableWidth, offsetX: offsetx };
   }
+
   const { leaves, offsetX } = event.row;
   const idx = leaves.indexOf(event);
   const averOffsetX = offsetX - event.row.width;
@@ -422,9 +424,11 @@ function splitEvents(event, diffDays, opts) {
 
 function initEvents(events, opts) {
   let resultEvents = [];
+
   events.forEach((event) => {
     const { start, end } = event;
     const diffDate = moment(end).diff(moment(start), 'days');
+
     if (diffDate > 0) {
       resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts));
     } else {
@@ -553,10 +557,12 @@ function handleEventsInSameDate(eventsContainer, opts) {
 function getEventContainer(events, opts) {
   // 拆分事件，为week时，跨两天拆分为两天
   const { type, current } = opts;
-  const newEvents = initEvents(events, opts);
+  const targetEvents = JSON.parse(JSON.stringify(events));
+  const newEvents = initEvents(targetEvents, opts);
 
   // 对事件进行排序
   const sortedEvents = sortByEventRender(newEvents);
+
 
   // 获取同一段事件的容器位置
   const containerEvents = handleEvents(sortedEvents, opts);
@@ -679,8 +685,11 @@ function getVisibleEvent(events, maxCount, opts) {
       resultArr.push((
         <div className={importantCls} key={i} style={eStyle}>
           <div className="kuma-calendar-content-wraper">
-            {important && <span className="import-event" />}
-            {content}
+            <div>
+              {important && <Icon name="zhongyaoshijian" usei className="import-event" />}
+              {content}
+            </div>
+
           </div>
         </div>
       ));
@@ -704,6 +713,10 @@ function getVisibleEvent(events, maxCount, opts) {
  * })
  */
 const generateScheduleContent = events => function scheduleRender(evts, opts, tableHeight) {
+  if (!evts || !evts.length) {
+    return;
+  }
+
   const containerEvents = getEventContainer(evts, opts);
   const resultScheduleHtml = [];
   const eventsKeys = Object.keys(containerEvents);
@@ -763,7 +776,11 @@ const generateScheduleContent = events => function scheduleRender(evts, opts, ta
       </div>,
     );
   }
-  return resultScheduleHtml;
+  return (
+    <div className={classnames('events-wrapper', { 'events-month-wrapper': isMonthType })}>
+      {resultScheduleHtml}
+    </div>
+  );
 }.bind(null, events);
 
 export default {

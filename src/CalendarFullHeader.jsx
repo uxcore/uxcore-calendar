@@ -131,10 +131,15 @@ class CalendarHeader extends Component {
 
   todayElement() {
     const { showToday, locale } = this.props;
+    const isSuperMini = this.fullHeader ? this.fullHeader.offsetWidth <= 380 : false;
+    const cls = classnames({
+      'today-btn': true,
+      'super-mini': isSuperMini,
+    });
     return showToday ? (
-      <Button type="secondary" onClick={this.setToday.bind(this)} className="today-btn">
+      <Button type="secondary" onClick={this.setToday.bind(this)} className={cls}>
         <Icon usei name="zhixiang-qianjin" className="forward" />
-        {this.fullHeader && this.fullHeader.offsetWidth > 380 && locale.today}
+        {this.fullHeader && !isSuperMini && locale.today}
       </Button>
     ) : null;
   }

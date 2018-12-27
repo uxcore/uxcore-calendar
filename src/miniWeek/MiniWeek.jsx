@@ -8,6 +8,7 @@ import moment from 'moment';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Assign from 'object-assign';
+import Icon from 'uxcore-icon';
 import { handlePropsEvents, getFormatDate, inSameWeek } from '../calendarFullUtil';
 
 const DATE_COL_COUNT = 7;
@@ -29,6 +30,7 @@ const defaultProps = {
   events: [],
   scheduleRender: null,
 };
+
 class MiniWeek extends React.Component {
   constructor(props) {
     super(props);
@@ -40,6 +42,13 @@ class MiniWeek extends React.Component {
 
   componentDidMount() {
     this.setWeekDays();
+  }
+
+  getImportantEvents(events) {
+    if (!events || !events.length) {
+      return false;
+    }
+    return events.some(event => event.important);
   }
 
   setWeekDays() {
@@ -68,16 +77,22 @@ class MiniWeek extends React.Component {
   }
 
   getRenderShow() {
+    let { locale } = this.props;
+    locale = locale.toLowerCase();
     const { weekDays } = this.state;
     if (weekDays && weekDays.length) {
       const { value: firstValue } = weekDays[0];
       const { value: endValue } = weekDays[weekDays.length - 1];
-      const firstMonth = getFormatDate(firstValue, 'YYYY-MM');
-      const endMonth = getFormatDate(endValue, 'YYYY-MM');
-      if (firstMonth === endMonth) {
-        return firstMonth;
+      let firstMonthFormat = getFormatDate(firstValue, 'YYYY年MM月');
+      let endMonthFormat = getFormatDate(endValue, 'YYYY年MM月');
+      if (locale === 'en-us') {
+        firstMonthFormat = getFormatDate(firstValue, 'YYYY.MMM ');
+        endMonthFormat = getFormatDate(endValue, 'YYYY.MMM');
       }
-      return `${firstMonth}-${endMonth}`;
+      if (firstValue.isSame(endValue, 'month')) {
+        return firstMonthFormat;
+      }
+      return `${firstMonthFormat}-${endMonthFormat}`;
     }
     return '--';
   }
@@ -104,11 +119,11 @@ class MiniWeek extends React.Component {
         current = moment(cloneValue).subtract(diff, 'd');
       }
       const key = getFormatDate(current, 'YYYY-MM-DD');
-
+      const weekDaysEvents = visibleEvents[key] ? visibleEvents[key].events : null;
       weekDays[i] = {};
       weekDays[i].label = localeData.weekdaysShort(current);
       weekDays[i].value = current;
-      weekDays[i].events = visibleEvents[key] ? visibleEvents[key].events : null;
+      weekDays[i].events = weekDaysEvents;
     }
     return weekDays;
   }
@@ -150,6 +165,7 @@ class MiniWeek extends React.Component {
     const showTitle = this.getRenderShow();
     const weekDaysEls = weekDays.map((day) => {
       const { value, label, events } = day;
+
       const { value: stateValue } = this.state;
       const currentDay = moment(value).day();
       const cls = classnames({
@@ -158,9 +174,9 @@ class MiniWeek extends React.Component {
         rest: currentDay === 6 || currentDay === 0,
         past: moment(value).isBefore(now, 'date'),
         active: moment(value).isSame(stateValue),
-        import: !!value.import,
 
       });
+      const important = this.getImportantEvents(events);
       return (
         <div
           key={value}
@@ -169,12 +185,14 @@ class MiniWeek extends React.Component {
           onClick={this.generateRender.bind(this, day)}
         >
           <p>{label}</p>
-          <p className={classnames('header-date', {
+          <div className={classnames('header-date', {
             event: !!events,
+            important,
           })}
           >
-            {value && value.date()}
-          </p>
+            {important && <Icon name="zhongyaoshijian" usei className="import-event" />}
+            {value && <p>{value.date()}</p>}
+          </div>
         </div>
       );
     });

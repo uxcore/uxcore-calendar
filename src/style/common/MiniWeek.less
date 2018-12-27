@@ -72,6 +72,22 @@
           border-radius: 50%;
           background: @brand-primary
         }
+        &.important {
+          position: relative;
+          &:before {
+            display: none;
+          }
+          .import-event {
+            position: absolute;
+            position: absolute;
+            top: -11px;
+            left: 10px;
+            font-size: 12px;
+          }
+          p {
+            margin-top: 3px;
+          }
+        }
       }
     }
     &.today {

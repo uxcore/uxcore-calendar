@@ -237,7 +237,7 @@ const DateTBody = createClass({
         <tr key={iIndex} role="row">
           {weekNumberCell}
           {dateCells}
-        </tr>
+        </tr>,
       );
     }
     return <tbody className={`${prefixCls}-tbody`}>{tableHtml}</tbody>;

@@ -65,13 +65,13 @@ export default class FullCalendar extends React.Component {
 
   getDateValue() {
     const {
-      value,
       defaultValue,
       timeRender,
       dateRender,
       weekRender,
       scheduleRender,
       contentRender,
+      value,
     } = this.props;
     const newOptions = {};
 
@@ -138,6 +138,8 @@ export default class FullCalendar extends React.Component {
       type,
       ...otherProps
     } = p;
+
+    const { type: stateType } = this.state;
     const calendarOptions = {
       className: classnames({ [className]: !!className }),
       style: p.style,
@@ -162,7 +164,7 @@ export default class FullCalendar extends React.Component {
       format: generalizeFormat(this.getFormat()),
       locale: CalendarLocale[locale],
       originLocale: locale,
-      type: this.state.type,
+      type: stateType,
     };
     const newOption = this.getDateValue();
     objectAssign(calendarOptions, newOption);

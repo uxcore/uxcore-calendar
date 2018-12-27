@@ -19,6 +19,7 @@ const FullCalendar = createReactClass({
     locale: PropTypes.object,
     setType: PropTypes.func,
     fullscreen: PropTypes.bool,
+    selectedValue: PropTypes.any,
     onSelect: PropTypes.func,
     dateRender: PropTypes.func,
     weekRender: PropTypes.func,
@@ -47,6 +48,7 @@ const FullCalendar = createReactClass({
     const { originLocale } = this.props;
     this.setValue(moment(resultVal).locale(originLocale));
   },
+
   setType(type) {
     const { setType } = this.props;
     setType(type);
@@ -54,16 +56,16 @@ const FullCalendar = createReactClass({
 
   getDateTableElement() {
     const {
-      locale, prefixCls, disabledDate, ...others
+      locale, prefixCls, disabledDate, onSelect, ...others
     } = this.props;
-    const { value } = this.state;
-
+    const { value, selectedValue } = this.state;
     return (
       <DateTable
         locale={locale}
         prefixCls={prefixCls}
-        onSelect={this.onSelect}
         value={value}
+        onSelect={this.handleSelect}
+        selectedValue={selectedValue}
         disabledDate={disabledDate}
         seeEventsDetail={this.seeEventsDetail}
         {...others}
@@ -117,6 +119,11 @@ const FullCalendar = createReactClass({
         return '';
     }
   },
+
+  handleSelect(value) {
+    this.onSelect(value);
+  },
+
   seeEventsDetail(type, value) {
     const { originLocale } = this.props;
     this.setValue(moment(value).locale(originLocale));

@@ -597,7 +597,7 @@ function go2More(event, opts) {
  * @param {array} moreInfoEvents 更多事件数组
  */
 function handleShowMoreInfo(event, moreInfoEvents) {
-  const { start, end } = event;
+  const { start, end, important } = event;
   const startDate = moment(start).date();
   const endDate = moment(end).date();
   const diffDate = endDate - startDate;
@@ -610,6 +610,7 @@ function handleShowMoreInfo(event, moreInfoEvents) {
     } else {
       moreInfoEvents[startKey] = {
         key: startKey,
+        important,
         count: 1,
         offsetX: (day - 1) / 7,
         width: 1 / 7,
@@ -621,21 +622,28 @@ function handleShowMoreInfo(event, moreInfoEvents) {
 function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
   const jsxArr = [];
   const eventKeys = Object.keys(moreInfoEvents);
+  const now = new Date();
   eventKeys.forEach((event) => {
     const info = moreInfoEvents[event];
     const {
-      offsetX, count, key, width,
+      offsetX, count, key, width, important,
     } = info;
     const moreStyle = {
       left: `${offsetX * 100}%`,
       width: `${width * 100}%`,
     };
+    const moreEvent = classnames({
+      'more-event': true,
+      important: !!important,
+    });
     const moreIcon = classnames({
       'more-icon': maxCount > -1,
       'hot-icon': maxCount === -1,
+      past: moment(event).isBefore(moment(now), 'date'),
+      today: moment(event).isSame(moment(now), 'date'),
     });
     jsxArr.push((
-      <div className="more-event" style={moreStyle} key={key} onClick={go2More.bind(this, event, opts)}>
+      <div className={moreEvent} style={moreStyle} key={key} onClick={go2More.bind(this, event, opts)}>
         {
           maxCount > -1 && (
             <span>
@@ -644,7 +652,8 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
             </span>
           )
         }
-        <span className={moreIcon} />
+        {!!important && maxCount === -1 && <Icon name="zhongyaoshijian" usei className="import-event" />}
+        {(!important || maxCount > -1) && <span className={moreIcon} />}
       </div>
     ));
   });
@@ -659,7 +668,9 @@ function getVisibleEvent(events, maxCount, opts) {
   const isMonthType = opts.type === 'month';
   let resultArr = [];
   const moreInfoEvents = {};
-  for (let i = 0, len = events.length; i < len; i++) {
+  const eventLen = events.length;
+
+  for (let i = 0; i < eventLen; i++) {
     const event = events[i];
     const originEvt = event.event;
     const { start, render, important } = originEvt;
@@ -686,7 +697,7 @@ function getVisibleEvent(events, maxCount, opts) {
         <div className={importantCls} key={i} style={eStyle}>
           <div className="kuma-calendar-content-wraper">
             <div>
-              {important && <Icon name="zhongyaoshijian" usei className="import-event" />}
+              {!!important && <Icon name="zhongyaoshijian" usei className="import-event" />}
               {content}
             </div>
 
@@ -696,7 +707,8 @@ function getVisibleEvent(events, maxCount, opts) {
     }
   }
 
-  if (isMonthType && (resultArr.length === maxCount || resultArr.length === 0)) {
+
+  if (isMonthType && (resultArr.length < eventLen || resultArr.length === 0)) {
     resultArr = resultArr.concat(getJSXfromMoreInfos(moreInfoEvents, maxCount, opts));
   }
 
@@ -751,7 +763,7 @@ const generateScheduleContent = events => function scheduleRender(evts, opts, ta
     // 月视图中展示的日期会占据一定的空间
     const isSameDate = moment(end).isSame(opts.current, 'd');
     const extraMonthPaddingTop = !isSameDate
-      ? MONTH_CELL_HEIGHT
+      ? 25
       : 7 * (maxCount + 1);
 
     const containerStyle = {

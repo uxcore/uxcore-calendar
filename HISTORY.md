@@ -1,5 +1,5 @@
 # History
-## 0.10.14
+## 0.10.15
 * `CHANGE` when select a quickSelectRanges, close the tooltip
 
 ## 0.10.13

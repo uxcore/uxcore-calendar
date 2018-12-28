@@ -79,8 +79,7 @@ class Demo extends React.Component {
       <div className="schedule-container">
         <h3>
           这是
-          {value}
-          -
+          {/* {value} */}
           {label}
           日程渲染事件
         </h3>

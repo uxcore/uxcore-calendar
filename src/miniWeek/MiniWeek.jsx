@@ -137,57 +137,6 @@ class MiniWeek extends React.Component {
     return weekDays;
   }
 
-  evaluateEventVisible(event, date) {
-    const { value } = this.state;
-    return inSameWeek(date, value);
-  }
-
-  handlePrev() {
-    const { value } = this.state;
-    const newValue = moment(value).subtract(1, 'w');
-    this.setValue(newValue);
-  }
-
-  handleNext() {
-    const { value } = this.state;
-    const newValue = moment(value).add(1, 'w');
-    this.setValue(newValue);
-  }
-
-  generateRender(dayInfo) {
-    const { value } = dayInfo;
-    const { value: stateValue } = this.state;
-    if (value && !value.isSame(stateValue, 'date')) {
-      const renderInfo = {};
-      Assign(renderInfo, dayInfo);
-      renderInfo.value = moment(value).toDate();
-      this.setState({
-        currentDayInfo: renderInfo,
-        value,
-      });
-    }
-  }
-
-  getScheduleRender() {
-    const { currentDayInfo } = this.state;
-    const { scheduleRender, getPopupContainer } = this.props;
-    let content = null;
-    if (JSON.stringify(currentDayInfo) !== '{}' && currentDayInfo.events && scheduleRender) {
-      content = scheduleRender(currentDayInfo);
-      if (getPopupContainer) {
-        const mountNode = getPopupContainer();
-        if (!mountNode) {
-          return null;
-        }
-        return ReactDOM.createPortal(
-          content,
-          mountNode,
-        );
-      }
-    }
-    return content;
-  }
-
   getWeekDayContent() {
     const { weekDays, value: stateValue } = this.state;
     const { prefixCls } = this.props;
@@ -225,6 +174,57 @@ class MiniWeek extends React.Component {
     });
   }
 
+  getScheduleRender() {
+    const { currentDayInfo } = this.state;
+    const { scheduleRender, getPopupContainer } = this.props;
+    let content = null;
+    if (JSON.stringify(currentDayInfo) !== '{}' && currentDayInfo.events && scheduleRender) {
+      content = scheduleRender(currentDayInfo);
+      if (getPopupContainer) {
+        const mountNode = getPopupContainer();
+        if (!mountNode) {
+          return null;
+        }
+        return ReactDOM.createPortal(
+          content,
+          mountNode,
+        );
+      }
+    }
+    return content;
+  }
+
+
+  evaluateEventVisible(event, date) {
+    const { value } = this.state;
+    return inSameWeek(date, value);
+  }
+
+  handlePrev() {
+    const { value } = this.state;
+    const newValue = moment(value).subtract(1, 'w');
+    this.setValue(newValue);
+  }
+
+  handleNext() {
+    const { value } = this.state;
+    const newValue = moment(value).add(1, 'w');
+    this.setValue(newValue);
+  }
+
+  generateRender(dayInfo) {
+    const { value } = dayInfo;
+    const { value: stateValue } = this.state;
+    if (value && !value.isSame(stateValue, 'date')) {
+      const renderInfo = {};
+      Assign(renderInfo, dayInfo);
+      renderInfo.value = moment(value).toDate();
+      this.setState({
+        currentDayInfo: renderInfo,
+        value,
+      });
+    }
+  }
 
   render() {
     const { prefixCls } = this.props;

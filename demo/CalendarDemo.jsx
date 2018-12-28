@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import Button from 'uxcore-button';
 import CalendarLocale from 'rc-calendar/lib/locale/zh_CN';
 import React from 'react';
@@ -5,6 +6,7 @@ import moment from 'moment';
 import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
 import events from './events';
+
 
 const {
   MonthCalendar, YearCalendar, RangeCalendar, CalendarFull, MiniWeek,
@@ -38,27 +40,19 @@ class Demo extends React.Component {
     };
     this.onSelect = this.onSelect.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.calendarFullRender = this.calendarFullRender.bind(this);
+    this.miniWeekRender = this.miniWeekRender.bind(this);
   }
 
   componentDidMount() {
     this.forceUpdate();
-    window.onresize = () => {
-      this.setState({
-        value: new Date().getTime(),
-      });
-    };
+    const node = <div>2222</div>;
+    ReactDOM.createPortal(node, this.miniRender);
   }
 
-  onSelect(value, formatted) {
+  onSelect(value) {
     this.setState({
       value,
     });
-  }
-
-  calendarFullRender(value, type) {
-    console.log(value, type);
-    return <div>333333</div>;
   }
 
   onRangeSelect(value) {
@@ -88,8 +82,32 @@ class Demo extends React.Component {
   }
 
   miniWeekRender(dateInfo) {
-    console.log(dateInfo);
+    const { value } = this.state;
+    const { events: eventsInfo, label } = dateInfo;
+    if (!events || !events.length) {
+      return null;
+    }
+    return (
+      <div className="schedule-container">
+        <h3>
+          这是
+          {label}
+          日程渲染事件
+        </h3>
+        {
+          eventsInfo.map((event, idx) => (
+            <div key={idx}>
+              开始时间
+              {event.start}
+              -结束时间
+              {event.end}
+            </div>
+          ))
+        }
+      </div>
+    );
   }
+
 
   render() {
     const me = this;
@@ -322,11 +340,10 @@ class Demo extends React.Component {
             value="2018-12-24"
             locale="en-us"
             events={events}
-          >
-            <div className="schedule-container">
-              <h3>这是日程渲染事件</h3>
-            </div>
-          </MiniWeek>
+            scheduleRender={this.miniWeekRender}
+            getPopupContainer={() => this.miniRender}
+          />
+          <div className="miniweek-container" ref={(c) => { this.miniRender = c; }} />
         </div>
       </div>
     );

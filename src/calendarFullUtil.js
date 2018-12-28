@@ -452,8 +452,7 @@ function handleSplitEvent(event, continuousDay) {
   const { start, render } = event;
 
   for (let i = 0; i <= continuousDay; i++) {
-    const startTime = moment(start).add(i, 'd');
-
+    const startTime = moment(start).add(i, 'd').format('YYYY-MM-DD');
     arrs.push({
       start: startTime, end: startTime, render,
     });

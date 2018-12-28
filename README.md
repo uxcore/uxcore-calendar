@@ -161,6 +161,7 @@ function disabledTime() {
 |headerComponent|头部自定义组件|React Element|||
 |headerRender|头部自定义渲染函数|function(current,type)|||
 |scheduleRender|渲染面板中的函数，可以跨日程显示详情|Calendar.util.generateScheduleContent(events)|||
+|getPopupContainer|指定渲染日程的容器|function|||
 
 
 ### MiniWeek props
@@ -212,11 +213,22 @@ miniWeekRender(dateInfo){
   locale="zh-cn"
   events={events}
   scheduleRender={this.miniWeekRender}
->
+  >
   <div className="schedule-container">
     <h3>这是日程渲染事件</h3>
-  </div>
+  </div
 </MiniWeek>
+```
+
+```js
+ <MiniWeek
+  value="2018-12-24"
+  locale="en-us"
+  events={events}
+  scheduleRender={this.miniWeekRender}
+  getPopupContainer={() => this.miniRender}
+/>
+<div className="miniweek-container" ref={(c) => { this.miniRender = c; }} />
 ```
 
 

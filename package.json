@@ -64,6 +64,7 @@
     "uxcore-formatter": "^0.1.2",
     "uxcore-icon": "^0.1.2",
     "uxcore-select2": "^0.5.0",
+    "uxcore-tag": "^2.2.3",
     "uxcore-tooltip": "^0.4.0"
   }
 }

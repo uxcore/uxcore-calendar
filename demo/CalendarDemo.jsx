@@ -61,25 +61,13 @@ class Demo extends React.Component {
     });
   }
 
+
   handleClick() {
     this.setState({
       value: '2017-01-05',
     });
   }
 
-  getTimeRender(current, value) {
-    return (
-      <div>
-        <span>{value}</span>
-        <span>测试测试测试测试测试测试</span>
-      </div>
-    );
-  }
-
-  contentRender(current, value) {
-    // console.log('.....', current);
-    // console.log('2222', value);
-  }
 
   miniWeekRender(dateInfo) {
     const { value } = this.state;
@@ -91,6 +79,8 @@ class Demo extends React.Component {
       <div className="schedule-container">
         <h3>
           这是
+          {value}
+          -
           {label}
           日程渲染事件
         </h3>
@@ -122,7 +112,7 @@ class Demo extends React.Component {
     const { value, rangeValue } = this.state;
     return (
       <div className="kuma-form">
-        {/* <div
+        <div
           className="kuma-form-field"
           style={{
             width: '400px',
@@ -191,7 +181,7 @@ class Demo extends React.Component {
             value={value}
             onSelect={this.onSelect}
           />
-        </div> */}
+        </div>
         <div
           className="kuma-form-field"
           style={{
@@ -214,7 +204,7 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
           />
         </div>
-        {/* <div
+        <div
           className="kuma-form-field"
           style={{
             width: '400px',
@@ -255,7 +245,7 @@ class Demo extends React.Component {
             size="large"
             value={value}
             onSelect={this.onSelect}
-            disabledDate={(current) => { }}
+            disabledDate={() => { }}
           />
         </div>
         <div
@@ -310,22 +300,22 @@ class Demo extends React.Component {
             size="large"
             value={rangeValue}
             onSelect={(v, formatted) => {
-              console.log(v, formatted);
               this.onRangeSelect(v, formatted);
             }}
           />
-        </div> */}
+        </div>
         <div
           className="kuma-form-field"
           style={{
             marginBottom: '30px',
+            width: '500px',
           }}
         >
           <p>
             大日历日期选择,跨日程，提供Calendar.util.generateScheduleContent方法，返回具体日程的相关信息
           </p>
           <CalendarFull
-            value={this.state.value}
+            value={value}
             onSelect={this.onSelect}
             fullscreen
             type="month"

@@ -1,4 +1,6 @@
 # History
+## 0.10.14
+* `CHANGE` when select a quickSelectRanges, close the tooltip
 
 ## 0.10.13
 * `FIXED` add new prop quickSelectRanges for RangeCalendar

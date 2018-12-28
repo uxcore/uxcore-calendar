@@ -38,8 +38,8 @@ const CalendarHeader = createClass({
     return {
       enableNext: 1,
       enablePrev: 1,
-      yearSelectOffset: 50,
-      yearSelectTotal: 100,
+      yearSelectOffset: 100,
+      yearSelectTotal: 150,
     };
   },
 

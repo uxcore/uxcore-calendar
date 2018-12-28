@@ -118,8 +118,8 @@ class Demo extends React.Component {
             allowClear={false}
             showSecond={false}
             locale="en-us"
-            yearSelectOffset={20}
-            yearSelectTotal={50}
+            yearSelectOffset={100}
+            yearSelectTotal={200}
             size="middle"
             disabledTime={() => (
               {
@@ -289,6 +289,24 @@ class Demo extends React.Component {
         >
           <p>
             区间日期选择
+          </p>
+          <RangeCalendar
+            size="middle"
+            value={rangeValue}
+            onSelect={(v, formatted) => {
+              console.log(v, formatted);
+              this.onRangeSelect(v, formatted);
+            }}
+          />
+        </div>
+        <div
+          className="kuma-form-field"
+          style={{
+            width: '400px',
+          }}
+        >
+          <p>
+            快捷区间日期选择
           </p>
           <RangeCalendar
             size="large"

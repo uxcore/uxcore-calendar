@@ -92,8 +92,14 @@ class Calendar extends React.Component {
 
   handleQuickRangeSelect = (start, end) => {
     this.handleChange([moment(start), moment(end)])
+    this.hideQuickSelector()
   };
 
+  hideQuickSelector() {
+    const overlay = document.querySelector('.date-quick-range-selector')
+    const classList = overlay.classList;
+    classList.add('kuma-tooltip-hidden');
+  }
   render() {
     const me = this;
     const p = me.props;

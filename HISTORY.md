@@ -1,4 +1,7 @@
 # History
+## 0.10.16
+* `CHANGE` lock rc-calendar version
+
 ## 0.10.15
 * `CHANGE` when select a quickSelectRanges, close the tooltip
 

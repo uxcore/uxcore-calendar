@@ -320,7 +320,7 @@ class Demo extends React.Component {
           </p>
           <RangeCalendar
             size="middle"
-            value={[undefined, undefined]}
+            value={rangeValue}
             onSelect={(v, formatted) => {
               console.log(v, formatted);
               this.onRangeSelect(v, formatted);

@@ -115,7 +115,35 @@ class Demo extends React.Component {
           <Calendar
             showToday
             showTime={false}
-            allowClear={false}
+            allowClear
+            showSecond={false}
+            locale="en-us"
+            yearSelectOffset={100}
+            yearSelectTotal={200}
+            size="middle"
+            disabledTime={() => (
+              {
+                disabledMinutes: () => disabledMinutes,
+              }
+            )}
+            value={value}
+            onSelect={this.onSelect}
+            showDateInput
+          />
+        </div>
+        <div
+          className="kuma-form-field"
+          style={{
+            width: '50px',
+          }}
+        >
+          <p>
+            显示空间不够
+          </p>
+          <Calendar
+            showToday
+            showTime={false}
+            allowClear
             showSecond={false}
             locale="en-us"
             yearSelectOffset={100}
@@ -292,7 +320,7 @@ class Demo extends React.Component {
           </p>
           <RangeCalendar
             size="middle"
-            value={rangeValue}
+            value={[undefined, undefined]}
             onSelect={(v, formatted) => {
               console.log(v, formatted);
               this.onRangeSelect(v, formatted);

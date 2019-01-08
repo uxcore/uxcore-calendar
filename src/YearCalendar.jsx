@@ -184,7 +184,7 @@ YearCalendar.propTypes = {
   hasTrigger: PropTypes.bool,
   showDateInput: PropTypes.bool,
   align: PropTypes.object,
-  transitionName: PropTypes.bool,
+  transitionName: PropTypes.string,
 };
 
 export default YearCalendar;

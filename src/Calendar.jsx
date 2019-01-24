@@ -151,6 +151,8 @@ class Calendar extends React.Component {
       prefixCls: 'kuma-calendar',
       yearSelectOffset: p.yearSelectOffset,
       yearSelectTotal: p.yearSelectTotal,
+      renderSidebar: p.renderSidebar ? p.renderSidebar : () => null,
+      renderFooter: p.renderFooter ? p.renderFooter : () => null
     };
     const pickerOptions = {
       disabled: p.disabled,
@@ -176,9 +178,8 @@ class Calendar extends React.Component {
       const value = this.getDate(p.defaultValue);
       calendarOptions.defaultValue = value;
       pickerOptions.defaultValue = value;
-    } else {
-      const value = this.getDate(p.defaultOpenValue || new Date().getTime());
-      calendarOptions.defaultValue = value;
+    } else if (!calendarOptions.defaultValue) {
+      calendarOptions.defaultValue = this.getDate(p.defaultOpenValue || new Date().getTime());
     }
     if (p.hasTrigger) {
       pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender" />;

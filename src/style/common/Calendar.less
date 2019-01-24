@@ -207,6 +207,14 @@
   position: relative;
   display: inline-block;
   width: 100%;
+  min-width: 80px;
+
+  .kuma-input{
+    padding-right: 28px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
   .kuma-input[readonly] {
     background-color: white;
     border-color: @border-color;

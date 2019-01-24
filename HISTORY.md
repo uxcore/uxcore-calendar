@@ -1,6 +1,31 @@
-# History
 
----
+# History
+## 0.10.17
+* `CHANGE` auto hidden value text when width is too small
+           give a min-width to input-span: 80px which can at least show full year like 2019
+           fix a wrong prop type of YearCalendar.transitionName
+
+## 0.10.16
+* `CHANGE` lock rc-calendar version
+
+## 0.10.15
+* `CHANGE` when select a quickSelectRanges, close the tooltip
+
+## 0.10.13
+* `FIXED` add new prop quickSelectRanges for RangeCalendar
+
+## 0.10.11
+
+* `CHANGED` modify footer close button text
+
+## 0.10.10
+
+* `NEW` add new prop quickSelectRanges for RangeCalendar
+
+## 0.10.9
+
+* `FIXED` year can not changed when defaultValue is not set in monthCalendar
+* `NEW` add new prop allowedMonthRange for MonthCalendar
 
 ## 0.10.7
 
@@ -9,7 +34,7 @@
 
 ## 0.10.6
 
-* `CHANEGD` `Calendar`, `MonthCalendar`, `YearCalendar`, new prop `defaultOpenValue` 
+* `CHANEGD` `Calendar`, `MonthCalendar`, `YearCalendar`, new prop `defaultOpenValue`
 * `FIXED` some eslint error
 
 ## 0.10.4
@@ -84,7 +109,7 @@
 
 ## 0.9.7
 
-* `CHANGED` support new props `yearSelectOffset` & `yearSelectTotal` 
+* `CHANGED` support new props `yearSelectOffset` & `yearSelectTotal`
 
 ## 0.9.6
 
@@ -160,7 +185,7 @@
 
 ## 0.6.2
 
-`FIXED` missing method `getTimeConfig` 
+`FIXED` missing method `getTimeConfig`
 
 ## 0.6.1
 
@@ -237,7 +262,7 @@
 `FIXED` fix camelcase of picker.js
 
 ## 0.2.5
-`FIXED` fix issue #12 
+`FIXED` fix issue #12
 
 ## 0.2.4
 `CHANGED` update scaffold

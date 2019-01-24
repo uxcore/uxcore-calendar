@@ -1,6 +1,6 @@
 {
   "name": "uxcore-calendar",
-  "version": "0.10.8",
+  "version": "0.10.17",
   "description": "calendar componment for react",
   "main": "build/index.js",
   "scripts": {
@@ -56,7 +56,7 @@
     "moment": "^2.17.1",
     "object-assign": "^4.0.0",
     "prop-types": "15.x",
-    "rc-calendar": "^9.6.0",
+    "rc-calendar": "~9.9.0",
     "rc-time-picker": "^3.0.0",
     "rc-util": "4.x",
     "react-lifecycles-compat": "^3.0.4",
@@ -64,6 +64,7 @@
     "uxcore-formatter": "^0.1.2",
     "uxcore-icon": "^0.1.2",
     "uxcore-select2": "^0.5.0",
+    "uxcore-tag": "^2.2.3",
     "uxcore-tooltip": "^0.4.0"
   }
 }

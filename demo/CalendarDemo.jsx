@@ -16,12 +16,14 @@ function disabledDate(current) {
   if (current) {
     return current.getTime() > Date.now();
   }
+  return false;
 }
 function disabledTime(current) {
   if (current) {
     const hours = current.getHours();
     return hours < new Date().getHours();
   }
+  return false;
 }
 
 const enabledMinutes = [0, 15, 30, 45];

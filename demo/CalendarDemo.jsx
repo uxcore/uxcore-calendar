@@ -300,6 +300,22 @@ class Demo extends React.Component {
           <RangeCalendar
             size="large"
             value={rangeValue}
+            quickSelectRanges={[
+              {
+                text: '19年1、2月份',
+                value: {
+                  start: '2019-01',
+                  end: '2019-02'
+                }
+              },
+              {
+                text: '18年S2',
+                value: {
+                  start: '2018-09',
+                  end: '2019-03'
+                }
+              }
+            ]}
             onSelect={(v, formatted) => {
               this.onRangeSelect(v, formatted);
             }}

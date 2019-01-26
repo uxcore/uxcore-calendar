@@ -6,7 +6,7 @@
 [![build status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Dependency Status][dep-image]][dep-url]
-[![devDependency Status][devdep-image]][devdep-url] 
+[![devDependency Status][devdep-image]][devdep-url]
 [![NPM downloads][downloads-image]][npm-url]
 
 [![Sauce Test Status][sauce-image]][sauce-url]
@@ -76,8 +76,8 @@ http://uxco.re/components/calendar/
 |getPopupContainer| 弹出的菜单渲染在哪个容器中 | function(trigger:Node):Node | () => document.body|
 |size| 尺寸，支持 large/middle/small | string | large |
 |allowClear| 是否支持清空 | boolean | true |
-|onOpenChange | 在下拉面板展开、收起时调用 | function(open) | noop | 
-|defaultOpenValue| 在值为空的情况下，日历面板默认展示的值 | boolean |  | 
+|onOpenChange | 在下拉面板展开、收起时调用 | function(open) | noop |
+|defaultOpenValue| 在值为空的情况下，日历面板默认展示的值 | boolean |  |
 
 ### props
 
@@ -138,6 +138,34 @@ function disabledTime() {
 |---|----|---|------|
 |value|日期|array|无|
 |defaultValue|日期|array|无|
+|quickSelectRanges|快捷日期选择|array|无|
+
+####  RangeCalendar 例子
+``` js
+<RangeCalendar
+    size="large"
+    value={rangeValue}
+    quickSelectRanges={[
+        {
+            text: '19年1、2月份',
+            value: {
+                start: '2019-01',
+                end: '2019-02'
+            }
+        },
+        {
+            text: '18年S2',
+            value: {
+                start: '2018-09',
+                end: '2019-03'
+            }
+        }
+    ]}
+    onSelect={(v, formatted) => {
+      this.onRangeSelect(v, formatted);
+    }}
+/>
+```
 
 ### CalendarFull props
 
@@ -201,7 +229,7 @@ const events =  [
 miniWeekRender(dateInfo){
   /**
    * 返回的dateInfo结构如下
-   * { 
+   * {
    *   events: [],当前时间下的日程事件
    *   label: 当前时间是星期几
    *   value: 当前日期
@@ -239,7 +267,7 @@ miniWeekRender(dateInfo){
 * Calendar.util.generateContentRender(code, locale): 用于在日历上标注非常规的休假、上班以及日程。
     * code should be an object like this {'xxxx-xx-xx': ['work/leave/schedule']}
     * locale should be `zh-cn` or `en-us`
- 
+
 * Calendar.util.generateScheduleContent(events):用于在日历中展示跨日程详情
  > Tips:当不确定日程详情中是否有跨日程事件时，推荐使用scheduleRender
    events 为对象数组，格式如下：
@@ -248,6 +276,6 @@ miniWeekRender(dateInfo){
     start: '2018-10-16 13:00',//事件开始时间
     end: '2018-10-16 14:00',//事件结束时间
     //事件的回调函数
-    render: () => <div>10-10 </div> 
+    render: () => <div>10-10 </div>
 }]
-``` 
+```

@@ -1,5 +1,9 @@
 
 # History
+## 0.10.18
+* `NEW` add miniWeek、fullWeek component and fix some documents
+
+
 ## 0.10.17
 * `CHANGE` auto hidden value text when width is too small
            give a min-width to input-span: 80px which can at least show full year like 2019

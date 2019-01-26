@@ -12,10 +12,12 @@ import Calendar from './Calendar';
 import RangeCalendar from './RangeCalendar';
 import Pmam from './timePicker/Pmam';
 import CalendarFull from './CalendarFull';
+import MiniWeek from './miniWeek/MiniWeek';
 
 Calendar.MonthCalendar = MonthCalendar;
 Calendar.YearCalendar = YearCalendar;
 Calendar.RangeCalendar = RangeCalendar;
 Calendar.Pmam = Pmam;
 Calendar.CalendarFull = CalendarFull;
+Calendar.MiniWeek = MiniWeek;
 export default Calendar;

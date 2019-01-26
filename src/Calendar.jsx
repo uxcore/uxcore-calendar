@@ -7,6 +7,7 @@ import Icon from 'uxcore-icon';
 import TimePicker from './timePicker/Normal';
 import RcCalendar from './RcCalendar';
 import util from './util';
+import fullUtil from './calendarFullUtil';
 import i18n from './locale';
 
 const CalendarLocale = {};
@@ -238,7 +239,7 @@ class Calendar extends React.Component {
 Calendar.displayName = 'Calendar';
 Calendar.defaultProps = {
   placeholder: '请选择日期',
-  onSelect() {},
+  onSelect() { },
   locale: 'zh-cn',
   align: {
     offset: [0, 0],
@@ -277,5 +278,6 @@ Calendar.propTypes = {
 
 Calendar.CalendarPanel = RcCalendar;
 Calendar.util = util;
+Calendar.fullUtil = fullUtil;
 
 export default Calendar;

@@ -6,17 +6,17 @@ import TimeTBody from './TimeTBody';
 class TimeTable extends React.Component {
   constructor(props) {
     super(props);
-    this.getTimeLine = this.getTimeLine.bind(this);
     this.state = {
       slicePiece: 0,
     };
+    this.getSlicePiece = this.getSlicePiece.bind(this);
   }
 
   componentDidMount() {
-    this.getTimeLine();
+    this.getSlicePiece();
   }
 
-  getTimeLine() {
+  getSlicePiece() {
     let { startHour, step, endHour } = this.props;
     startHour = startHour ? parseInt(startHour, 10) : 9;
     endHour = endHour ? parseInt(endHour, 10) : 23;
@@ -30,27 +30,32 @@ class TimeTable extends React.Component {
 
   renderEvents() {
     const {
-      scheduleRender, startHour, step, endHour, value, type,
+      scheduleRender, startHour, step, endHour, value, type, 
     } = this.props;
     const { slicePiece } = this.state;
     const renderOpts = {
-      startHour, step, endHour, type, slicePiece, current: value,
+      startHour, step, endHour, type, slicePiece, current: value, ...this.props,
     };
     if (scheduleRender) {
-      const content = scheduleRender(renderOpts);
-      return <div className="events-wrapper">{content}</div>;
+      return scheduleRender(renderOpts);
     }
     return null;
   }
 
   render() {
     const { slicePiece } = this.state;
-    const { showCount, prefixCls } = this.props;
+    const {
+      showCount, prefixCls, cellMaxheight, cellMinheight,
+    } = this.props;
     const timeCls = `${prefixCls}-time`;
     const tableCls = `${prefixCls}-table`;
+    const realSlices = slicePiece + 2;
+    const maxCellHeight = cellMaxheight * realSlices + 32;
+    const minCellHeight = cellMinheight * realSlices + 32;
+    const tableStyle = { minHeight: minCellHeight, maxHeight: maxCellHeight };
     return (
       <div className={timeCls}>
-        <table className={tableCls} cellSpacing="0" role="grid">
+        <table className={tableCls} cellSpacing="0" role="grid" style={tableStyle}>
           <TimeTHead {...this.props} dataCount={showCount} />
           <TimeTBody {...this.props} slicePiece={slicePiece} dataCount={showCount} />
         </table>
@@ -65,6 +70,8 @@ TimeTable.defaultProps = {
   startHour: 9,
   endHour: 23,
   step: 60,
+  cellMaxheight: 68,
+  cellMinheight: 32,
 };
 TimeTable.propTypes = {
   prefixCls: PropTypes.string,
@@ -73,5 +80,7 @@ TimeTable.propTypes = {
   startHour: PropTypes.number,
   endHour: PropTypes.number,
   step: PropTypes.number,
+  cellMaxheight: PropTypes.number,
+  cellMinheight: PropTypes.number,
 };
 export default TimeTable;

@@ -5,11 +5,28 @@
   position: relative;
   outline: none;
   width: 100%;
+  min-width: 330px;
   overflow: hidden;
   list-style: none;
   font-size: 12px;
   text-align: left;
   background-color: #fff;
+  .today-btn {
+    padding: 0 6px;
+    .forward {
+      display: inline-block;
+      padding-right: 8px;
+      font-size: 14px;
+      &.uxicon-zhixiang-qianjin::before {
+        content: "\e731";
+      }
+    }
+    &.super-mini {
+      .forward {
+        padding-right: 0;
+      }
+    }
+  }
   .cell-container {
     position: absolute;
   }
@@ -20,6 +37,17 @@
     width: ~"calc(100% - 61px)";
     height: ~"calc(100% - 32px)";
   }
+  &-date {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 8px;
+    left: 8px;
+    bottom: 0;
+    right: 0;
+    border-radius: 3px;
+    cursor: pointer;
+  }
   .events-month-wrapper {
     position: absolute;
     top: 32px;
@@ -27,46 +55,101 @@
     width: 100%;
     height: ~"calc(100% - 32px)";
     .cell-container {
-      position: absolute; // display: inline-block;
-      overflow-y: scroll; // padding: 8px;
-      z-index: 9999;
+      position: absolute;
+      overflow-y: scroll;
       .kuma-calendar-content-box {
         position: relative;
         background: transparent;
         border: none;
         border-radius: 0;
         top: 0 !important;
-        width: 86px;
-        height: 18px !important;
+        width: 100%;
+        height: 20px !important;
+        max-height: 20px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        padding: 0 8px 0px 10px;
-        &::before {
-          display: block;
-          content: " ";
-          position: absolute;
-          width: 6px;
-          height: 6px;
-          top: 5px;
-          left: 0px;
-          border-radius: 6px;
-          background: @brand-primary;
-        }
+        padding: 0 2px 2px 2px;
       }
     }
     .colspan-cell {
       z-index: 99;
       .kuma-calendar-content-box {
         width: 100%;
-        border-radius: 5px;
+        border-radius: 3px;
         margin-bottom: 3px;
         padding: 0;
-        border: 1px solid @brand-primary;
         background: #fff; // color: #fff;
         &::before {
           display: none;
         }
+      }
+    }
+    .more-event {
+      position: absolute;
+      bottom: 0;
+      margin-top: 4px;
+      text-align: center;
+      cursor: pointer;
+      color: rgba(31, 56, 88, 0.3)
+    }
+    .more-icon {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin-left: 6px;
+      border-top: 4px solid transparent;
+      border-left: 4px solid rgba(31, 56, 88, 0.3);
+      border-bottom: 4px solid transparent;
+    }
+  }
+  .super-mini {
+    .more-event {
+      top: 3px;
+      &.important {
+        top: 0;
+      }
+    }
+    .hot-icon {
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      margin-left: -3px;
+      border-radius: 5px;
+      background: @brand-primary;
+      &.today {
+        background: #fff;
+      }
+    }
+    .@{__calendarPrefixCls}-full-column-header {
+      border-right: none;
+    }
+    .@{__calendarPrefixCls}-full-cell {
+      border: none;
+    }
+    .@{__calendarPrefixCls}-full-date {
+      padding-top: 25%;
+      width: 80%;
+      height: 80%;
+      top: 10%;
+      left: 10%;
+      text-align: center;
+    }
+    .@{__calendarPrefixCls}-full-today {
+      .@{__calendarPrefixCls}-full-date {
+        background: @brand-primary-alpha-7;
+        color: @brand-primary;
+        max-width: none;
+        max-height: none;
+      }
+    }
+    .@{__calendarPrefixCls}-full-selected-day {
+      background-color: transparent;
+      .@{__calendarPrefixCls}-full-date {
+        background: @brand-primary;
+        color: #fff;
       }
     }
   }
@@ -77,17 +160,28 @@
   .kuma-calendar-content-box {
     position: absolute;
     background: #fff;
-    border: 1px solid @brand-primary;
     border-radius: 5px;
     .kuma-calendar-content-wraper {
       background: @brand-primary-alpha-7;
       width: 100%;
       height: 100%;
-    }
-    div {
-      white-space: nowrap;
+      border-radius: 3px;
       overflow: hidden;
-      text-overflow: ellipsis;
+      div {
+        padding-left: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 100%;
+        border-left: 3px solid @brand-primary;
+      }
+    }
+    &.red-important {
+      .kuma-calendar-content-wraper {
+        div {
+          border-left: 3px solid #F04631;
+        }
+      }
     }
   }
   &-date-select {
@@ -140,7 +234,7 @@
     }
   }
   &-header {
-    padding: 5px 10px;
+    padding: 3px 10px;
     text-align: center;
     user-select: none;
     -webkit-user-select: none;
@@ -159,6 +253,10 @@
       color: #666;
       line-height: 28px;
       width: 70px;
+    }
+    .select-switcher {
+      float: right;
+      width: 50px;
     }
     &-switcher {
       float: right;
@@ -209,8 +307,9 @@
     table-layout: fixed;
   }
   &-cell {
-    padding: 8px;
-    height: 97px;
+    position: relative;
+    height: 0;
+    padding-bottom: calc(100%/7);
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.8);
@@ -219,7 +318,6 @@
     border-bottom: 1px solid #e8ebee;
     border-right: 1px solid #e8ebee;
     &:hover {
-      // border-color: #ff6f00;
       background-color: @brand-primary-alpha-7;
       color: @brand-primary;
     }
@@ -244,15 +342,18 @@
   }
   &-today {
     .@{__calendarPrefixCls}-full-date {
-      display: inline-block;
-      padding: 3px 4px;
+      width: 21%;
+      height: 21%;
+      max-width: 25px;
+      max-height: 25px;
+      min-width: 18px;
+      min-height: 18px;
       background: @brand-primary;
       border-radius: 3px;
       font-size: 12px;
       color: #ffffff;
       letter-spacing: 0;
       text-align: center;
-      line-height: 18px;
     }
   }
   &-month-panel-table {
@@ -288,5 +389,10 @@
   .kuma-input {
     cursor: pointer;
     border: none !important;
+  }
+  .import-event {
+    display: inline-block;
+    color: #F04631;
+    font-size: 12px;
   }
 }

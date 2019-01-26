@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import Button from 'uxcore-button';
 import CalendarLocale from 'rc-calendar/lib/locale/zh_CN';
 import React from 'react';
@@ -6,20 +7,23 @@ import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
 import events from './events';
 
+
 const {
-  MonthCalendar, YearCalendar, RangeCalendar, CalendarFull,
+  MonthCalendar, YearCalendar, RangeCalendar, CalendarFull, MiniWeek,
 } = Calendar;
 
 function disabledDate(current) {
   if (current) {
     return current.getTime() > Date.now();
   }
+  return false;
 }
 function disabledTime(current) {
   if (current) {
     const hours = current.getHours();
     return hours < new Date().getHours();
   }
+  return false;
 }
 
 const enabledMinutes = [0, 15, 30, 45];
@@ -34,30 +38,23 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // value: new Date().getTime(),
+      value: new Date().getTime(),
     };
     this.onSelect = this.onSelect.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.calendarFullRender = this.calendarFullRender.bind(this);
+    this.miniWeekRender = this.miniWeekRender.bind(this);
   }
 
   componentDidMount() {
     this.forceUpdate();
+    const node = <div>2222</div>;
+    ReactDOM.createPortal(node, this.miniRender);
   }
 
-  onSelect(value, formatted) {
+  onSelect(value) {
     this.setState({
       value,
     });
-  }
-
-  calendarFullRender(value, type) {
-    console.log(value, type);
-    return (
-      <div>
-333333
-</div>
-    );
   }
 
   onRangeSelect(value) {
@@ -66,29 +63,42 @@ class Demo extends React.Component {
     });
   }
 
+
   handleClick() {
     this.setState({
       value: '2017-01-05',
     });
   }
 
-  getTimeRender(current, value) {
+
+  miniWeekRender(dateInfo) {
+    const { value } = this.state;
+    const { events: eventsInfo, label } = dateInfo;
+    if (!events || !events.length) {
+      return null;
+    }
     return (
-      <div>
-        <span>
-          {value}
-        </span>
-        <span>
-测试测试测试测试测试测试
-        </span>
+      <div className="schedule-container">
+        <h3>
+          这是
+          {/* {value} */}
+          {label}
+          日程渲染事件
+        </h3>
+        {
+          eventsInfo.map((event, idx) => (
+            <div key={idx}>
+              开始时间
+              {event.start}
+              -结束时间
+              {event.end}
+            </div>
+          ))
+        }
       </div>
     );
   }
 
-  contentRender(current, value) {
-    // console.log('.....', current);
-    // console.log('2222', value);
-  }
 
   render() {
     const me = this;
@@ -115,39 +125,11 @@ class Demo extends React.Component {
           <Calendar
             showToday
             showTime={false}
-            allowClear
+            allowClear={false}
             showSecond={false}
             locale="en-us"
-            yearSelectOffset={100}
-            yearSelectTotal={200}
-            size="middle"
-            disabledTime={() => (
-              {
-                disabledMinutes: () => disabledMinutes,
-              }
-            )}
-            value={value}
-            onSelect={this.onSelect}
-            showDateInput
-          />
-        </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '50px',
-          }}
-        >
-          <p>
-            显示空间不够
-          </p>
-          <Calendar
-            showToday
-            showTime={false}
-            allowClear
-            showSecond={false}
-            locale="en-us"
-            yearSelectOffset={100}
-            yearSelectTotal={200}
+            yearSelectOffset={20}
+            yearSelectTotal={50}
             size="middle"
             disabledTime={() => (
               {
@@ -215,7 +197,6 @@ class Demo extends React.Component {
             showSecond
             showHour
             showTime
-            // renderSidebar={this.sidebarRender}
             size="small"
             timezone={8}
             defaultOpenValue={new Date(2018, 8, 1, 3, 12)}
@@ -248,8 +229,6 @@ class Demo extends React.Component {
             size="middle"
             value={value}
             disabledDate={disabledDate}
-            allowedMonthRange={[ { start: '2018-11', end: '2018-12' }, { end: '2016-12' } ]}
-            defaultOpenValue={new Date(2016, 8, 1, 3, 12)}
             onSelect={this.onSelect}
             showDateInput
           />
@@ -267,48 +246,48 @@ class Demo extends React.Component {
             size="large"
             value={value}
             onSelect={this.onSelect}
-            disabledDate={(current) => { }}
+            disabledDate={() => { }}
           />
         </div>
-        {/*<div*/}
-          {/*className="kuma-form-field"*/}
-          {/*style={{*/}
-            {/*width: '400px',*/}
-          {/*}}*/}
-        {/*>*/}
-          {/*<p>*/}
-            {/*显示日期和日程*/}
-          {/*</p>*/}
-          {/*<p>*/}
-            {/*Calendar 通过开放 contentRender 参数来完成日期渲染上的定制，并提供了一个默认的渲染函数 Calendar.util.generateContentRender(code) 来完成通用定制。*/}
-          {/*</p>*/}
-          {/*<Calendar*/}
-            {/*value={value}*/}
-            {/*onSelect={this.onSelect}*/}
-            {/*contentRender={Calendar.util.generateContentRender(*/}
-              {/*{*/}
-                {/*'2016-01-07': 'leave',*/}
-                {/*'2016-01-09': 'work',*/}
-                {/*'2016-01-08': 'schedule',*/}
-              {/*},*/}
-              {/*'en',*/}
-            {/*)}*/}
-          {/*/>*/}
-        {/*</div>*/}
-        {/*<div*/}
-          {/*className="kuma-form-field"*/}
-          {/*style={{*/}
-            {/*width: '400px',*/}
-          {/*}}*/}
-        {/*>*/}
-          {/*<p>*/}
-            {/*直接渲染面板*/}
-          {/*</p>*/}
-          {/*<RcCalendar {...panelOptions} className="panel-demo" />*/}
-        {/*</div>*/}
-        {/*<Button onClick={me.handleClick}>*/}
-          {/*changeTime*/}
-        {/*</Button>*/}
+        <div
+          className="kuma-form-field"
+          style={{
+            width: '400px',
+          }}
+        >
+          <p>
+            显示日期和日程
+          </p>
+          <p>
+            Calendar 通过开放 contentRender 参数来完成日期渲染上的定制，并提供了一个默认的渲染函数 Calendar.util.generateContentRender(code) 来完成通用定制。
+          </p>
+          <Calendar
+            value={value}
+            onSelect={this.onSelect}
+            contentRender={Calendar.util.generateContentRender(
+              {
+                '2016-01-07': 'leave',
+                '2016-01-09': 'work',
+                '2016-01-08': 'schedule',
+              },
+              'en',
+            )}
+          />
+        </div>
+        <div
+          className="kuma-form-field"
+          style={{
+            width: '400px',
+          }}
+        >
+          <p>
+            直接渲染面板
+          </p>
+          <RcCalendar {...panelOptions} className="panel-demo" />
+        </div>
+        <Button onClick={me.handleClick}>
+          changeTime
+        </Button>
         <div
           className="kuma-form-field"
           style={{
@@ -319,53 +298,9 @@ class Demo extends React.Component {
             区间日期选择
           </p>
           <RangeCalendar
-            size="middle"
-            value={rangeValue}
-            onSelect={(v, formatted) => {
-              console.log(v, formatted);
-              this.onRangeSelect(v, formatted);
-            }}
-          />
-        </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            快捷区间日期选择
-          </p>
-          <RangeCalendar
             size="large"
             value={rangeValue}
-            quickSelectRanges={
-              [
-                {
-                  text: '本周',
-                  value: {
-                    start: '2018-11-12',
-                    end: '2018-11-19'
-                  }
-                },
-                {
-                  text: '本月',
-                  value: {
-                    start: '2018-11-01',
-                    end: '2018-11-30'
-                  }
-                },
-                {
-                  text: '2018-S1',
-                  value: {
-                    start: '2018-04-01',
-                    end: '2018-10-31'
-                  }
-                }
-              ]
-            }
             onSelect={(v, formatted) => {
-              console.log(v, formatted);
               this.onRangeSelect(v, formatted);
             }}
           />
@@ -373,32 +308,33 @@ class Demo extends React.Component {
         <div
           className="kuma-form-field"
           style={{
-            width: '800px',
             marginBottom: '30px',
+            width: '500px',
           }}
         >
           <p>
             大日历日期选择,跨日程，提供Calendar.util.generateScheduleContent方法，返回具体日程的相关信息
           </p>
           <CalendarFull
-            value={this.state.value}
+            value={value}
             onSelect={this.onSelect}
             fullscreen
             type="month"
             locale="zh-cn"
             format="yyyy/MM/dd"
-            // headerRender={this.calendarFullRender}
-            scheduleRender={Calendar.util.generateScheduleContent(events)}
-
-            // timeRender={this.getTimeRender}
-            // weekRender={this.getTimeRender}
-            // dateRender={this.getTimeRender}
-            // disabledDate={disabledDate}
-            // disabledTime={disabledTime}
-            startHour={12}
+            scheduleRender={Calendar.fullUtil.generateScheduleContent(events)}
+            startHour={8}
             endHour={18}
-            step={40}
+            step={60}
           />
+          <MiniWeek
+            value="2018-12-24"
+            locale="en-us"
+            events={events}
+            scheduleRender={this.miniWeekRender}
+            getPopupContainer={() => this.miniRender}
+          />
+          <div className="miniweek-container" ref={(c) => { this.miniRender = c; }} />
         </div>
       </div>
     );

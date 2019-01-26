@@ -1,0 +1,128 @@
+.@{__calendarPrefixCls}-mini-week {
+  position: relative;
+  width: 100%;
+  .header-container {
+    position: relative;
+    overflow: hidden;
+  }
+  .title {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  .@{__calendarPrefixCls}-mini-prev-btn,
+  .@{__calendarPrefixCls}-mini-next-btn {
+    display: block;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    bottom: 10%;
+    z-index: 99;
+    cursor: pointer;
+    color: rgba(31, 56, 88, 0.4);
+    border-radius: 3px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .@{__calendarPrefixCls}-mini-prev-btn,
+  .@{__calendarPrefixCls}-mini-next-btn {
+    &:after {
+      position: absolute;
+      left: 0;
+      width: 24px;
+      font-family: "uxcore";
+      font-size: 16px;
+      text-indent: 0;
+    }
+  }
+  .@{__calendarPrefixCls}-mini-prev-btn {
+    left: 0;
+    &:after {
+      content: "\e65c";
+    }
+  }
+  .@{__calendarPrefixCls}-mini-next-btn {
+    right: 0;
+    &:after {
+      content: "\e65b";
+    }
+  }
+  .@{__calendarPrefixCls}-mini-date {
+    margin: 0 auto;
+    width: 90%;
+    line-height: 35px;
+  }
+  .@{__calendarPrefixCls}-mini-day {
+    display: inline-block;
+    width: calc(1/7*100%);
+    text-align: center;
+    .header-date {
+      position: relative;
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      border-radius: 4px;
+      &.event {
+        &:before {
+          position: absolute;
+          content: '';
+          display: inline-block;
+          width: 4px;
+          height: 4px;
+          top: 2px;
+          left: 50%;
+          margin-left: -2px;
+          border-radius: 50%;
+          background: @brand-primary
+        }
+        &.important {
+          position: relative;
+          &:before {
+            display: none;
+          }
+          .import-event {
+            position: absolute;
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    &.today {
+      .header-date {
+        background: @brand-primary-alpha-7;
+        color: @brand-primary;
+        &.event {
+          &:before {
+            background: @brand-primary;
+          }
+        }
+      }
+    }
+    &.rest,
+    &.past {
+      .header-date {
+        color: rgba(31, 56, 88, 0.3);
+        &.event {
+          &:before {
+            background: rgba(31, 56, 88, 0.3);
+          }
+        }
+      }
+    }
+    &.active {
+      .header-date {
+        background: @brand-primary;
+        color: #fff;
+        &.event {
+          &:before {
+            background: #fff;
+          }
+        }
+      }
+    }
+  }
+}

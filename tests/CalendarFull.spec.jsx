@@ -20,7 +20,7 @@ describe('CalendarFull', () => {
 
     it('locale', () => {
       wrapper = mount(<CalendarFull locale="en-us" type="month" />);
-      expect(wrapper.find('.today-btn').at(0).text()).to.be('Today');
+      expect(wrapper.find('.kuma-calendar-full-header-switcher-time').at(0).text()).to.be('date');
     });
 
     it('format', () => {
@@ -51,7 +51,7 @@ describe('CalendarFull', () => {
         step={30}
         startHour={12}
         endHour={18}
-        scheduleRender={Calendar.util.generateScheduleContent([
+        scheduleRender={Calendar.fullUtil.generateScheduleContent([
           {
             start: '2018-10-23 13:00',
             end: '2018-10-23 14:00',
@@ -59,7 +59,7 @@ describe('CalendarFull', () => {
           },
         ])}
       />);
-      expect(wrapper.find('.cell-container').length).to.be(1);
+      expect(wrapper.find('.events-wrapper').length).to.be(1);
     });
 
 

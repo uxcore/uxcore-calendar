@@ -300,6 +300,7 @@ class Demo extends React.Component {
           <RangeCalendar
             size="large"
             value={rangeValue}
+            // locale={'en-us'}
             quickSelectRanges={[
               {
                 text: '19年1、2月份',

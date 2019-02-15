@@ -216,7 +216,7 @@ class Calendar extends React.Component {
                 value={newValue}
                 readOnly
                 disabled={me.props.disabled}
-                placeholder={me.props.placeholder}
+                placeholder={me.props.placeholder || calendarOptions.locale.placeholder}
                 className={inputClassName}
               />
               {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
@@ -238,7 +238,7 @@ class Calendar extends React.Component {
 
 Calendar.displayName = 'Calendar';
 Calendar.defaultProps = {
-  placeholder: '请选择日期',
+  placeholder: '',
   onSelect() { },
   locale: 'zh-cn',
   align: {

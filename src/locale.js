@@ -8,6 +8,7 @@ const locale = {
     time: '日',
     week: '周',
     close: '关闭',
+    placeholder: '请选择日期'
   },
   'en-us': {
     work: 'work',
@@ -18,6 +19,7 @@ const locale = {
     time: 'date',
     week: 'week',
     close: 'close',
+    placeholder: 'Please select date'
   },
   'pl-pl': {
     work: 'zadanie',
@@ -28,6 +30,7 @@ const locale = {
     time: 'DATE',
     week: 'WEEK',
     close: 'close',
+    placeholder: 'Please select date'
   },
 };
 

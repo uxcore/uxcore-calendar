@@ -125,6 +125,10 @@ class Calendar extends React.Component {
         return current.date();
       },
       disabledDate: (current) => {
+        if (!current) {
+          current = this.getDate(p.defaultOpenValue || new Date().getTime());
+        }
+        
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -133,6 +137,9 @@ class Calendar extends React.Component {
         return false;
       },
       disabledTime: (current) => {
+        if (!current) {
+          current = this.getDate(p.defaultOpenValue || new Date().getTime());
+        }
         if (typeof p.disabledTime === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;

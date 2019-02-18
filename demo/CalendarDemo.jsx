@@ -124,7 +124,7 @@ class Demo extends React.Component {
           </p>
           <Calendar
             showToday
-            showTime={false}
+            showTime={true}
             allowClear={false}
             showSecond={false}
             locale="en-us"

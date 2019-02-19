@@ -2,7 +2,7 @@
  * 提供基础的mini周日历
  * 提供当天事件业务自己渲染
  * 提供基本信息
-*/
+ */
 import React from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import moment from 'moment';
@@ -16,11 +16,7 @@ const DATE_COL_COUNT = 7;
 const proptypes = {
   prefixCls: PropTypes.string,
   getPopupContainer: PropTypes.func,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   events: PropTypes.array,
   locale: PropTypes.string,
   scheduleRender: PropTypes.func,
@@ -42,6 +38,8 @@ class MiniWeek extends React.Component {
       currentDayInfo: {},
       weekDays: [],
     };
+    const { locale } = props;
+    this.locale = locale ? locale.toLowerCase().replace('_', '-') : 'zh-cn';
   }
 
   componentDidMount() {
@@ -64,7 +62,7 @@ class MiniWeek extends React.Component {
   getVisibleEvents(eventsHash) {
     const objectKeys = Object.keys(eventsHash);
     const resultEventsHash = {};
-    objectKeys.forEach((eventKey) => {
+    objectKeys.forEach(eventKey => {
       resultEventsHash[eventKey] = { events: [] };
       const { events } = eventsHash[eventKey];
       const visibleEvents = events.filter(event => this.evaluateEventVisible(event, eventKey));
@@ -81,15 +79,13 @@ class MiniWeek extends React.Component {
   }
 
   getRenderShow() {
-    let { locale } = this.props;
-    locale = locale.toLowerCase();
     const { weekDays } = this.state;
     if (weekDays && weekDays.length) {
       const { value: firstValue } = weekDays[0];
       const { value: endValue } = weekDays[weekDays.length - 1];
       let firstMonthFormat = getFormatDate(firstValue, 'YYYY年MM月');
       let endMonthFormat = getFormatDate(endValue, 'YYYY年MM月');
-      if (locale === 'en-us') {
+      if (this.locale === 'en-us') {
         firstMonthFormat = getFormatDate(firstValue, 'YYYY.MMM ');
         endMonthFormat = getFormatDate(endValue, 'YYYY.MMM');
       }
@@ -102,10 +98,9 @@ class MiniWeek extends React.Component {
   }
 
   getRenderData(newValue) {
-    const { locale } = this.props;
     const { value: stateValue } = this.state;
     const value = newValue || stateValue;
-    let current = moment(value || new Date()).locale(locale);
+    let current = moment(value || new Date()).locale(this.locale);
     const cloneValue = current.clone();
     const localeData = current.localeData();
     const currentDay = moment(value).day();
@@ -141,7 +136,7 @@ class MiniWeek extends React.Component {
     const { weekDays, value: stateValue } = this.state;
     const { prefixCls } = this.props;
     const now = moment();
-    return weekDays.map((day) => {
+    return weekDays.map(day => {
       const { value, label, events } = day;
       const currentDay = moment(value).day();
       const cls = classnames({
@@ -150,7 +145,6 @@ class MiniWeek extends React.Component {
         rest: currentDay === 6 || currentDay === 0,
         past: moment(value).isBefore(now, 'date'),
         active: moment(value).isSame(stateValue),
-
       });
       const important = this.getImportantEvents(events);
       return (
@@ -161,10 +155,11 @@ class MiniWeek extends React.Component {
           onClick={this.generateRender.bind(this, day)}
         >
           <p>{label}</p>
-          <div className={classnames('header-date', {
-            event: !!events,
-            important,
-          })}
+          <div
+            className={classnames('header-date', {
+              event: !!events,
+              important,
+            })}
           >
             {important && <Icon name="zhongyaoshijian" usei className="import-event" />}
             {value && <p>{value.date()}</p>}
@@ -185,15 +180,11 @@ class MiniWeek extends React.Component {
         if (!mountNode) {
           return null;
         }
-        return ReactDOM.createPortal(
-          content,
-          mountNode,
-        );
+        return ReactDOM.createPortal(content, mountNode);
       }
     }
     return content;
   }
-
 
   evaluateEventVisible(event, date) {
     const { value } = this.state;

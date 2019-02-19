@@ -28,16 +28,16 @@ const SWITCHERS = [
 const TYPE_HASH = { time: 'd', week: 'w', month: 'M' };
 
 function ShowCalendar(config) {
-  const {
-    headerSize,
-    yearSelectOffset,
-    yearSelectTotal,
-    value,
-    onValueChange,
-    type,
-  } = config;
+  const { headerSize, yearSelectOffset, yearSelectTotal, value, onValueChange, type } = config;
   if (type === 'month') {
-    return <MonthCalendar value={value} onSelect={onValueChange} size={headerSize} style={{ top: '40px' }} />;
+    return (
+      <MonthCalendar
+        value={value}
+        onSelect={onValueChange}
+        size={headerSize}
+        style={{ top: '40px' }}
+      />
+    );
   }
   return (
     <Calendar
@@ -68,7 +68,8 @@ class CalendarHeader extends Component {
     const { value, type, format } = this.props;
     if (type === 'time') {
       return moment(value).format(format);
-    } if (type === 'week') {
+    }
+    if (type === 'week') {
       let day = moment(value).day();
       day = day === 0 ? 7 : day;
       const firstDate = moment(value)
@@ -92,22 +93,17 @@ class CalendarHeader extends Component {
         onSelect={this.changeType.bind(this)}
         size="small"
       >
-        {
-          SWITCHERS.map(switcher => (
-            <Option value={switcher.value} key={switcher.value}>
-              {locale[switcher.label] || '日'}
-            </Option>
-          ))
-        }
+        {SWITCHERS.map(switcher => (
+          <Option value={switcher.value} key={switcher.value}>
+            {locale[switcher.label] || '日'}
+          </Option>
+        ))}
       </Select>
-
     );
   }
 
   getExpandedSwitcher() {
-    const {
-      prefixCls, type, locale,
-    } = this.props;
+    const { prefixCls, type, locale } = this.props;
     const switchCls = `${prefixCls}-header-switcher`;
     return (
       <span className={switchCls}>
@@ -124,7 +120,8 @@ class CalendarHeader extends Component {
             })}
           >
             {locale[s.label] || '日'}
-          </span>))}
+          </span>
+        ))}
       </span>
     );
   }
@@ -139,7 +136,7 @@ class CalendarHeader extends Component {
     return showToday ? (
       <Button type="secondary" onClick={this.setToday.bind(this)} className={cls}>
         <Icon usei name="zhixiang-qianjin" className="forward" />
-        {this.fullHeader && !isSuperMini && locale.today}
+        {!isSuperMini && locale.today}
       </Button>
     ) : null;
   }
@@ -163,12 +160,9 @@ class CalendarHeader extends Component {
     onValueChange(newValue);
   }
 
-
   // 日历选择
   initCalendar() {
-    const {
-      prefixCls,
-    } = this.props;
+    const { prefixCls } = this.props;
     const showValue = this.getShowValue();
 
     return (
@@ -182,9 +176,7 @@ class CalendarHeader extends Component {
   }
 
   renderSwitcher() {
-    const {
-      showTypeSwitch,
-    } = this.props;
+    const { showTypeSwitch } = this.props;
     if (!showTypeSwitch) {
       return null;
     }
@@ -198,7 +190,12 @@ class CalendarHeader extends Component {
     const { prefixCls } = this.props;
 
     return (
-      <div className={`${prefixCls}-header`} ref={(c) => { this.fullHeader = c; }}>
+      <div
+        className={`${prefixCls}-header`}
+        ref={c => {
+          this.fullHeader = c;
+        }}
+      >
         {this.todayElement()}
         {this.initCalendar()}
         {this.renderSwitcher()}
@@ -223,7 +220,7 @@ CalendarHeader.defaultProps = {
   showToday: true,
   type: 'time',
   showTypeSwitch: true,
-  typeChange() { },
+  typeChange() {},
   prefixCls: '',
 };
 

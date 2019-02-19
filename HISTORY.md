@@ -1,5 +1,8 @@
 
 # History
+## 0.10.21
+# `Feat` Compatible with different locale formats
+
 ## 0.10.20
 # `Fix` fix disabledDate & disabledTime is not working when init
 

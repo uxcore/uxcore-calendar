@@ -57,7 +57,7 @@ export default class FullCalendar extends React.Component {
   }
 
   getDate(date) {
-    return getDate(date, this.props);
+    return getDate(date, {...this.props, locale: this.locale});
   }
 
   getDateValue() {

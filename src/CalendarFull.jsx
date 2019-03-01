@@ -24,6 +24,8 @@ export default class FullCalendar extends React.Component {
     this.state = {
       type: props.type || 'week',
     };
+    const { locale } = props;
+    this.locale = locale ? locale.toLowerCase().replace('_', '-') : 'zh-cn';
   }
 
   onSelect(value) {
@@ -36,7 +38,7 @@ export default class FullCalendar extends React.Component {
 
   getFormat(key) {
     const newKey = key || 'day';
-    const { format, locale } = this.props;
+    const { format } = this.props;
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': { day: 'YYYY-MM-DD', time: 'YYYY-MM-DD HH:mm' },
@@ -44,7 +46,7 @@ export default class FullCalendar extends React.Component {
       en: { day: 'DD/MM/YYYY', time: 'DD/MM/YYYY HH:mm' },
     };
 
-    return defaultFormatMap[locale][newKey];
+    return defaultFormatMap[this.locale][newKey];
   }
 
   setType(type) {
@@ -106,7 +108,10 @@ export default class FullCalendar extends React.Component {
 
   handleCellRender(renderType, current, value) {
     if (renderType && value && this.props[renderType]) {
-      return this.props[renderType](moment(current).toDate(), value.format(generalizeFormat(this.getFormat('time'))));
+      return this.props[renderType](
+        moment(current).toDate(),
+        value.format(generalizeFormat(this.getFormat('time'))),
+      );
     }
     return '';
   }
@@ -139,7 +144,7 @@ export default class FullCalendar extends React.Component {
       className: classnames({ [className]: !!className }),
       style: p.style,
       prefixCls: 'kuma-calendar-full',
-      disabledDate: (current) => {
+      disabledDate: current => {
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -147,7 +152,7 @@ export default class FullCalendar extends React.Component {
         }
         return false;
       },
-      disabledTime: (current) => {
+      disabledTime: current => {
         if (typeof p.disabledTime === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -157,8 +162,8 @@ export default class FullCalendar extends React.Component {
         return false;
       },
       format: generalizeFormat(this.getFormat()),
-      locale: CalendarLocale[locale],
-      originLocale: locale,
+      locale: CalendarLocale[this.locale],
+      originLocale: this.locale,
       type: stateType,
     };
     const newOption = this.getDateValue();

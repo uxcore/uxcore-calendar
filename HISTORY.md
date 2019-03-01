@@ -1,5 +1,14 @@
 
 # History
+## 0.10.21
+# `Feat` Compatible with different locale formats
+
+## 0.10.20
+# `Fix` fix disabledDate & disabledTime is not working when init
+
+## 0.10.19
+* `Fix` placeholder support i18n
+
 ## 0.10.18
 * `NEW` add miniWeek、fullWeek component and fix some documents
 

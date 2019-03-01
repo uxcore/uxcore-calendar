@@ -93,6 +93,8 @@ http://uxco.re/components/calendar/
 |timePicker|自己传入定制的 timePicker|React Element|-|
 |yearSelectOffset | 年选择器中第一个年份与当前选中值之间的距离，例如当前为 1997 年，距离为 50，则最早可选择年份为 1947 年 | number | 50 |
 |yearSelectTotal| 年选择器中年份的总数，如最早可选为 1947 年，总数为 100，则可选年份范围为 1947 - 2047 | number | 100 |
+|renderSidebar|sidebar|React Element|() => React.Node
+|renderFooter|extra foot|React Element|() => React.Node
 
 #### disabledTime 例子
 
@@ -121,6 +123,7 @@ function disabledTime() {
 |value|日期|string/number|无|
 |defaultValue|日期|string/number|无|
 |format|展示的日期格式|string|'yyyy-MM'|
+|allowedMonthRange|允许的月份范围,与disableDate互斥|object|
 
 ### YearCalendar Props
 

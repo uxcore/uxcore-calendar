@@ -14,7 +14,7 @@ const {
 
 function disabledDate(current) {
   if (current) {
-    return current.getTime() > Date.now();
+    return current.isAfter(Date.now());
   }
   return false;
 }
@@ -228,7 +228,8 @@ class Demo extends React.Component {
           <MonthCalendar
             size="middle"
             value={value}
-            disabledDate={disabledDate}
+            // disabledDate={disabledDate}
+            allowedMonthRange={[{start: '2017-07', end: '2018-07'}]}
             onSelect={this.onSelect}
             showDateInput
           />

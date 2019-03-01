@@ -71,8 +71,12 @@ class MonthCalendar extends React.Component {
       orient: ['top', 'left'],
       showDateInput: p.showDateInput,
       prefixCls: 'kuma-calendar',
-      onChange: p.onChange ? p.onChange : () => {},
-      disabledDate: (moment) => {
+      onChange: p.onChange ? p.onChange : () => {}
+    };
+    if (p.disabledDate) {
+      calendarOptions.disabledDate = p.disabledDate
+    } else if (p.allowedMonthRange) {
+      calendarOptions.disabledDate = (moment) => {
         const range = p.allowedMonthRange;
         if (!range || typeof range === 'string') {
           return false
@@ -97,7 +101,8 @@ class MonthCalendar extends React.Component {
         }
         return ret;
       }
-    };
+    }
+
     const pickerOptions = {
       disabled: p.disabled,
       onOpenChange: p.onOpenChange,

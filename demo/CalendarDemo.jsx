@@ -131,6 +131,7 @@ class Demo extends React.Component {
             yearSelectOffset={20}
             yearSelectTotal={50}
             size="middle"
+            firstDayOfWeek={1}
             disabledTime={() => (
               {
                 disabledMinutes: () => disabledMinutes,
@@ -155,6 +156,7 @@ class Demo extends React.Component {
             format="YYYY/MM/DD"
             onSelect={this.onSelect}
             showDateInput
+            firstDayOfWeek={1}
           />
         </div>
         <div
@@ -166,7 +168,7 @@ class Demo extends React.Component {
           <p>
             选择日期
           </p>
-          <Calendar onSelect={this.onSelect} value={value} />
+          <Calendar onSelect={this.onSelect} value={value} firstDayOfWeek={1}/>
         </div>
         <div
           className="kuma-form-field"

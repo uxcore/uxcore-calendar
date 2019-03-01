@@ -1,5 +1,8 @@
 
 # History
+## 0.10.22
+# `NEW` add new prop firstDayOfWeek
+
 ## 0.10.21
 # `Feat` Compatible with different locale formats
 

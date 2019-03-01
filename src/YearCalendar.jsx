@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import Datepicker from 'rc-calendar/lib/Picker';
 import RcYearCalendar from './RcYearCalendar';
 import util from './util';
+import { getDate } from './utils'
 
 const CalendarLocale = {};
 
@@ -29,13 +30,7 @@ class YearCalendar extends React.Component {
   }
 
   getDate(date) {
-    const me = this;
-    const { timezone, locale } = me.props;
-    const value = moment(date).locale(locale);
-    if (timezone) {
-      return value.utcOffset(parseInt(timezone, 10) * 60);
-    }
-    return value;
+    return getDate(date, this.props);
   }
 
   clearValue(e) {
@@ -172,6 +167,7 @@ YearCalendar.defaultProps = {
   hasTrigger: true,
   getPopupContainer: undefined,
   inputWidth: undefined,
+  firstDayOfWeek: 7,
 };
 YearCalendar.propTypes = {
   allowClear: PropTypes.bool,
@@ -185,6 +181,7 @@ YearCalendar.propTypes = {
   showDateInput: PropTypes.bool,
   align: PropTypes.object,
   transitionName: PropTypes.string,
+  firstDayOfWeek: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]),
 };
 
 export default YearCalendar;

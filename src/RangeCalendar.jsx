@@ -10,6 +10,7 @@ import util from './util';
 import i18n from './locale';
 import DateRangeSelector from "./DateRangeSelector";
 import Tooltip from 'uxcore-tooltip'
+import { getDates } from './utils';
 
 const CalendarLocale = {};
 
@@ -37,13 +38,7 @@ class Calendar extends React.Component {
   }
 
   getDate(date = []) {
-    const me = this;
-    const { timezone, locale } = me.props;
-    const value = date.map(item => moment(item).locale(locale));
-    if (timezone) {
-      return value.map(item => item.utcOffset(parseInt(timezone, 10) * 60));
-    }
-    return value;
+    return getDates(date, this.props);
   }
 
   getFormat() {
@@ -267,7 +262,8 @@ Calendar.defaultProps = {
   showDateInput: true,
   hasTrigger: true,
   transitionName: 'calendarSlideUp',
-  quickSelectRanges: []
+  quickSelectRanges: [],
+  firstDayOfWeek: 7,
 };
 Calendar.propTypes = {
   format: PropTypes.string,
@@ -281,7 +277,8 @@ Calendar.propTypes = {
   showTime: PropTypes.bool,
   showHour: PropTypes.bool,
   getPopupContainer: PropTypes.func,
-  quickSelectRanges: PropTypes.array
+  quickSelectRanges: PropTypes.array,
+  firstDayOfWeek: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]),
 };
 
 

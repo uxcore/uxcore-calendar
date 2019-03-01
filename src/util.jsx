@@ -3,6 +3,7 @@ import Formatter from 'uxcore-formatter';
 import Tooltip from 'uxcore-tooltip';
 import classnames from 'classnames';
 import i18n from './locale';
+import moment from 'moment'
 
 /**
  * code should be an object like this {'xxxx-xx-xx': 'work/leave/schedule'}
@@ -76,8 +77,26 @@ function generalizeFormat(format) {
   return format.replace(/y|d/g, value => value.toUpperCase());
 }
 
+const getDate = (date, { timezone, locale, firstDayOfWeek }) => {
+  moment.locale(locale, { week: { dow: firstDayOfWeek } });
+  const value = moment(date);
+  if (timezone) {
+    return value.utcOffset(parseInt(timezone, 10) * 60);
+  }
+  return value;
+};
+
+const getDates = (dates, { timezone, locale, firstDayOfWeek }) => {
+  if (Array.isArray(dates)) {
+    return dates.map(date => getDate(date, { timezone, locale, firstDayOfWeek }));
+  }
+  return [];
+};
+
 export default {
   generateContentRender,
   getCalendarContainer,
   generalizeFormat,
+  getDate,
+  getDates
 };

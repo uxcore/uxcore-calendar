@@ -2,11 +2,9 @@ import Datepicker from 'rc-calendar/lib/Picker';
 import RcMonthCalendar from 'rc-calendar/lib/MonthCalendar';
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import Icon from 'uxcore-icon';
 import classnames from 'classnames';
 import util from './util';
-import { getDate } from './utils';
 
 const CalendarLocale = {};
 const { getCalendarContainer, generalizeFormat } = util;
@@ -28,7 +26,7 @@ class MonthCalendar extends React.Component {
   }
 
   getDate(date) {
-    return getDate(date, this.props);
+    return util.getDate(date, this.props);
   }
 
   clearValue(e) {

@@ -10,7 +10,6 @@ import util from './util';
 import i18n from './locale';
 import DateRangeSelector from "./DateRangeSelector";
 import Tooltip from 'uxcore-tooltip'
-import { getDates } from './utils';
 
 const CalendarLocale = {};
 
@@ -38,7 +37,7 @@ class Calendar extends React.Component {
   }
 
   getDate(date = []) {
-    return getDates(date, this.props);
+    return util.getDates(date, this.props);
   }
 
   getFormat() {

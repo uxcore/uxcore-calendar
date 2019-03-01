@@ -96,6 +96,8 @@ http://uxco.re/components/calendar/
 |yearSelectTotal| 年选择器中年份的总数，如最早可选为 1947 年，总数为 100，则可选年份范围为 1947 - 2047 | number | 100 |
 |renderSidebar|sidebar|React Element|() => React.Node
 |renderFooter|extra foot|React Element|() => React.Node
+|firstDayOfWeek|星期起始日,可选值（1-7）|Number|7|
+
 
 #### disabledTime 例子
 

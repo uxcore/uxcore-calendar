@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import Icon from 'uxcore-icon';
 import classnames from 'classnames';
 import Datepicker from 'rc-calendar/lib/Picker';
 import RcYearCalendar from './RcYearCalendar';
 import util from './util';
-import { getDate } from './utils'
 
 const CalendarLocale = {};
 
@@ -30,7 +28,7 @@ class YearCalendar extends React.Component {
   }
 
   getDate(date) {
-    return getDate(date, this.props);
+    return util.getDate(date, this.props);
   }
 
   clearValue(e) {

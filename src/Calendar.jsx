@@ -9,7 +9,6 @@ import RcCalendar from './RcCalendar';
 import util from './util';
 import fullUtil from './calendarFullUtil';
 import i18n from './locale';
-import { getDate } from './utils';
 
 const CalendarLocale = {};
 
@@ -37,7 +36,7 @@ class Calendar extends React.Component {
   }
 
   getDate(date) {
-    return getDate(date, this.props);
+    return util.getDate(date, this.props);
   }
 
   getFormat() {
@@ -98,7 +97,7 @@ class Calendar extends React.Component {
   }
 
   render() {
-    
+
     const me = this;
     const p = me.props;
 
@@ -125,7 +124,7 @@ class Calendar extends React.Component {
         if (!current) {
           current = this.getDate(p.defaultOpenValue || new Date().getTime());
         }
-        
+
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;

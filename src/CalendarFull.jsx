@@ -6,7 +6,6 @@ import objectAssign from 'object-assign';
 import util from './util';
 import i18n from './locale';
 import RcCalendarFull from './RcCalendarFull';
-import { getDate } from './utils'
 
 const CalendarLocale = {};
 
@@ -57,7 +56,7 @@ export default class FullCalendar extends React.Component {
   }
 
   getDate(date) {
-    return getDate(date, {...this.props, locale: this.locale});
+    return util.getDate(date, {...this.props, locale: this.locale});
   }
 
   getDateValue() {

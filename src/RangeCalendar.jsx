@@ -37,7 +37,13 @@ class Calendar extends React.Component {
   }
 
   getDate(date = []) {
-    return util.getDates(date, this.props);
+    const me = this;
+    const { timezone, locale } = me.props;
+    const value = date.map(item => moment(item).locale(locale));
+    if (timezone) {
+      return value.map(item => item.utcOffset(parseInt(timezone, 10) * 60));
+    }
+    return value;
   }
 
   getFormat() {
@@ -261,8 +267,7 @@ Calendar.defaultProps = {
   showDateInput: true,
   hasTrigger: true,
   transitionName: 'calendarSlideUp',
-  quickSelectRanges: [],
-  firstDayOfWeek: 7,
+  quickSelectRanges: []
 };
 Calendar.propTypes = {
   format: PropTypes.string,
@@ -276,8 +281,7 @@ Calendar.propTypes = {
   showTime: PropTypes.bool,
   showHour: PropTypes.bool,
   getPopupContainer: PropTypes.func,
-  quickSelectRanges: PropTypes.array,
-  firstDayOfWeek: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]),
+  quickSelectRanges: PropTypes.array
 };
 
 

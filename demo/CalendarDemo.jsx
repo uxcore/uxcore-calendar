@@ -14,7 +14,7 @@ const {
 
 function disabledDate(current) {
   if (current) {
-    return current.isAfter(Date.now());
+    return current.getTime() > Date.now();
   }
   return false;
 }
@@ -131,7 +131,6 @@ class Demo extends React.Component {
             yearSelectOffset={20}
             yearSelectTotal={50}
             size="middle"
-            firstDayOfWeek={1}
             disabledTime={() => (
               {
                 disabledMinutes: () => disabledMinutes,
@@ -156,7 +155,6 @@ class Demo extends React.Component {
             format="YYYY/MM/DD"
             onSelect={this.onSelect}
             showDateInput
-            firstDayOfWeek={1}
           />
         </div>
         <div
@@ -168,7 +166,7 @@ class Demo extends React.Component {
           <p>
             选择日期
           </p>
-          <Calendar onSelect={this.onSelect} value={value} firstDayOfWeek={1}/>
+          <Calendar onSelect={this.onSelect} value={value} />
         </div>
         <div
           className="kuma-form-field"
@@ -230,8 +228,7 @@ class Demo extends React.Component {
           <MonthCalendar
             size="middle"
             value={value}
-            // disabledDate={disabledDate}
-            allowedMonthRange={[{start: '2017-07', end: '2018-07'}]}
+            disabledDate={disabledDate}
             onSelect={this.onSelect}
             showDateInput
           />

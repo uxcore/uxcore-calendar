@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Icon from 'uxcore-icon';
 import classnames from 'classnames';
 import Datepicker from 'rc-calendar/lib/Picker';
@@ -28,7 +29,13 @@ class YearCalendar extends React.Component {
   }
 
   getDate(date) {
-    return util.getDate(date, this.props);
+    const me = this;
+    const { timezone, locale } = me.props;
+    const value = moment(date).locale(locale);
+    if (timezone) {
+      return value.utcOffset(parseInt(timezone, 10) * 60);
+    }
+    return value;
   }
 
   clearValue(e) {
@@ -165,7 +172,6 @@ YearCalendar.defaultProps = {
   hasTrigger: true,
   getPopupContainer: undefined,
   inputWidth: undefined,
-  firstDayOfWeek: 7,
 };
 YearCalendar.propTypes = {
   allowClear: PropTypes.bool,
@@ -179,7 +185,6 @@ YearCalendar.propTypes = {
   showDateInput: PropTypes.bool,
   align: PropTypes.object,
   transitionName: PropTypes.string,
-  firstDayOfWeek: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]),
 };
 
 export default YearCalendar;

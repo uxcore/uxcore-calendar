@@ -36,7 +36,13 @@ class Calendar extends React.Component {
   }
 
   getDate(date) {
-    return util.getDate(date, this.props);
+    const me = this;
+    const { timezone, locale } = me.props;
+    const value = moment(date).locale(locale);
+    if (timezone) {
+      return value.utcOffset(parseInt(timezone, 10) * 60);
+    }
+    return value;
   }
 
   getFormat() {
@@ -97,10 +103,8 @@ class Calendar extends React.Component {
   }
 
   render() {
-
     const me = this;
     const p = me.props;
-
     const timePaneNumber = 1 + p.showHour + p.showSecond;
     const calendarOptions = {
       className: classnames({
@@ -259,7 +263,6 @@ Calendar.defaultProps = {
   getPopupContainer: undefined,
   showTime: false,
   timePicker: undefined,
-  firstDayOfWeek: 7,
 };
 Calendar.propTypes = {
   format: PropTypes.string,
@@ -278,7 +281,6 @@ Calendar.propTypes = {
   showHour: PropTypes.bool,
   getPopupContainer: PropTypes.func,
   size: PropTypes.oneOf(['large', 'middle', 'small']),
-  firstDayOfWeek: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]),
 };
 
 Calendar.CalendarPanel = RcCalendar;

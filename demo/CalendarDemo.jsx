@@ -153,6 +153,7 @@ class Demo extends React.Component {
           <Calendar
             value={value}
             format="YYYY/MM/DD"
+            locale="en-us"
             onSelect={this.onSelect}
             showDateInput
           />
@@ -180,6 +181,7 @@ class Demo extends React.Component {
           <Calendar
             disabledDate={disabledDate}
             value={value}
+            locale={'en-us'}
             onSelect={this.onSelect}
           />
         </div>
@@ -300,7 +302,7 @@ class Demo extends React.Component {
           <RangeCalendar
             size="large"
             value={rangeValue}
-            // locale={'en-us'}
+            locale={'en-us'}
             quickSelectRanges={[
               {
                 text: '19年1、2月份',

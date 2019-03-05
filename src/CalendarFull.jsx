@@ -56,13 +56,7 @@ export default class FullCalendar extends React.Component {
   }
 
   getDate(date) {
-    const me = this;
-    const { timezone } = me.props;
-    const value = moment(date).locale(this.locale);
-    if (timezone) {
-      return value.utcOffset(parseInt(timezone, 10) * 60);
-    }
-    return value;
+    return util.getDate(date, {...this.props, locale: this.locale});
   }
 
   getDateValue() {
@@ -201,6 +195,7 @@ FullCalendar.defaultProps = {
   endHour: 23,
   step: 60,
   onTypeChange() {},
+  firstDayOfWeek: 7
 };
 FullCalendar.propTypes = {
   align: PropTypes.object,
@@ -224,4 +219,5 @@ FullCalendar.propTypes = {
   headerRender: PropTypes.func,
   disabledDate: PropTypes.func,
   disabledTime: PropTypes.func,
+  firstDayOfWeek: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]),
 };

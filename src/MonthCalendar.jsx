@@ -2,7 +2,6 @@ import Datepicker from 'rc-calendar/lib/Picker';
 import RcMonthCalendar from 'rc-calendar/lib/MonthCalendar';
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import Icon from 'uxcore-icon';
 import classnames from 'classnames';
 import util from './util';
@@ -27,13 +26,7 @@ class MonthCalendar extends React.Component {
   }
 
   getDate(date) {
-    const me = this;
-    const { timezone, locale } = me.props;
-    const value = moment(date).locale(locale);
-    if (timezone) {
-      return value.utcOffset(parseInt(timezone, 10) * 60);
-    }
-    return value;
+    return util.getDate(date, this.props)
   }
 
   clearValue(e) {
@@ -194,6 +187,7 @@ MonthCalendar.defaultProps = {
   hasTrigger: true,
   getPopupContainer: undefined,
   inputWidth: undefined,
+  firstDayOfWeek: 7
 };
 MonthCalendar.propTypes = {
   allowClear: PropTypes.bool,
@@ -207,6 +201,7 @@ MonthCalendar.propTypes = {
   showDateInput: PropTypes.bool,
   align: PropTypes.object,
   transitionName: PropTypes.string,
+  firstDayOfWeek: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]),
 };
 
 

@@ -78,8 +78,7 @@ function generalizeFormat(format) {
 }
 
 const getDate = (date, { timezone, locale, firstDayOfWeek }) => {
-  moment.locale(locale, { week: { dow: firstDayOfWeek } });
-  const value = moment(date);
+  const value = moment(date).locale(locale, { week: { dow: firstDayOfWeek } });
   if (timezone) {
     return value.utcOffset(parseInt(timezone, 10) * 60);
   }

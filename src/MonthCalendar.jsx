@@ -66,11 +66,11 @@ class MonthCalendar extends React.Component {
       prefixCls: 'kuma-calendar',
       onChange: p.onChange ? p.onChange : () => {},
       disabledDate: (moment) => {
-        if (typeof p.disabledDate === 'function' && moment) {
-          const date = moment.clone();
-          date.getTime = moment.valueOf;
-          return p.disabledDate(date);
-        }
+        // if (typeof p.disabledDate === 'function' && moment) {
+        //   const date = moment.clone();
+        //   date.getTime = moment.valueOf;
+        //   return p.disabledDate(date);
+        // }
         const range = p.allowedMonthRange;
         if (!range || typeof range === 'string') {
           return false

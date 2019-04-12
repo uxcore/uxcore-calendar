@@ -76,6 +76,7 @@ const Calendar = createClass({
     renderSidebar: PropTypes.func,
     yearSelectTotal: PropTypes.number,
     yearSelectOffset: PropTypes.number,
+    localeStr: PropTypes.string
   },
 
   mixins: [CommonMixin, CalendarMixin],
@@ -210,6 +211,7 @@ const Calendar = createClass({
       disabledTime,
       yearSelectOffset,
       yearSelectTotal,
+      localeStr
     } = this.props;
     const { value, selectedValue, showTimePicker } = this.state;
     const disabledTimeConfig = showTimePicker && disabledTime && timePicker
@@ -257,6 +259,7 @@ const Calendar = createClass({
           <div className={`${prefixCls}-date-panel`}>
             <CalendarHeader
               locale={locale}
+              localeStr={localeStr}
               onValueChange={this.onHeaderSelect}
               value={value}
               yearSelectOffset={yearSelectOffset}
@@ -267,6 +270,7 @@ const Calendar = createClass({
             <div className={`${prefixCls}-body`}>
               <DateTable
                 locale={locale}
+                localeStr={localeStr}
                 value={value}
                 selectedValue={selectedValue}
                 prefixCls={prefixCls}

@@ -32,6 +32,7 @@ const CalendarHeader = createClass({
     onValueChange: PropTypes.func,
     yearSelectOffset: PropTypes.number,
     yearSelectTotal: PropTypes.number,
+    localeStr: PropTypes.string
   },
 
   getDefaultProps() {
@@ -40,6 +41,7 @@ const CalendarHeader = createClass({
       enablePrev: 1,
       yearSelectOffset: 100,
       yearSelectTotal: 150,
+      localeStr: 'zh-cn'
     };
   },
 
@@ -85,7 +87,7 @@ const CalendarHeader = createClass({
     const props = this.props;
     const prefixCls = props.prefixCls;
     const locale = props.locale;
-    const value = props.value;
+    const value = props.value.locale(props.localeStr);
     const monthBeforeYear = locale.monthBeforeYear;
     const selectClassName = `${prefixCls}-${monthBeforeYear ? 'my-select' : 'ym-select'}`;
     const yearValue = value.year();

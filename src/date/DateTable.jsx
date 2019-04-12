@@ -1,11 +1,20 @@
 // customized rc-calendar https://github.com/react-component/calendar/blob/master/
 
 import React from 'react';
+import PropTypes from 'prop-types'
 import classnames from 'classnames';
 import DateTHead from './DateTHead';
 import DateTBody from './DateTBody';
 
 export default class DateTable extends React.Component {
+
+  static propTypes = {
+    localeStr: PropTypes.string
+  }
+  static defaultProps = {
+    localeStr: 'zh-cn'
+  }
+
   constructor(props) {
     super(props);
     this.state = {

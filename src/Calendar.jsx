@@ -159,7 +159,8 @@ class Calendar extends React.Component {
       yearSelectOffset: p.yearSelectOffset,
       yearSelectTotal: p.yearSelectTotal,
       renderSidebar: p.renderSidebar ? p.renderSidebar : () => null,
-      renderFooter: p.renderFooter ? p.renderFooter : () => null
+      renderFooter: p.renderFooter ? p.renderFooter : () => null,
+      localeStr: p.locale
     };
     const pickerOptions = {
       disabled: p.disabled,
@@ -170,6 +171,7 @@ class Calendar extends React.Component {
       prefixCls: 'kuma-calendar-picker',
       placement: 'bottomLeft',
       getCalendarContainer: p.getPopupContainer || getCalendarContainer,
+      localeStr: p.locale
     };
 
     if (p.value) {

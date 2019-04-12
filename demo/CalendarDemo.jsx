@@ -38,7 +38,7 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: new Date().getTime(),
+      value: '',
     };
     this.onSelect = this.onSelect.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -108,7 +108,7 @@ class Demo extends React.Component {
       showDateInput: false,
       locale: CalendarLocale,
       prefixCls: 'kuma-calendar',
-      value: moment(me.state.value).locale('zh-cn'),
+      value: moment(me.state.value|| new Date().getTime()).locale('zh-cn'),
     };
     const { value, rangeValue } = this.state;
     return (
@@ -127,7 +127,7 @@ class Demo extends React.Component {
             showTime={true}
             allowClear={false}
             showSecond={false}
-            locale="en-us"
+            // locale="en-us"
             yearSelectOffset={20}
             yearSelectTotal={50}
             size="middle"

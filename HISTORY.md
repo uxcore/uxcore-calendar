@@ -1,5 +1,9 @@
 
 # History
+## 0.10.24
+
+# `FIXED` locale fix
+
 ## 0.10.23
 # `FIX` revert to 0.10.21
 

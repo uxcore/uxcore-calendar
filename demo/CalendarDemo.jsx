@@ -127,6 +127,7 @@ class Demo extends React.Component {
             showTime={true}
             allowClear={false}
             showSecond={false}
+            firstDayOfWeek={3}
             // locale="en-us"
             yearSelectOffset={20}
             yearSelectTotal={50}

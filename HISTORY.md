@@ -1,7 +1,10 @@
 
-# History
-## 0.10.24
 
+# History
+## 0.10.25
+# `CHANGED` change date picker offset in MonthCalendar & YearCalendar
+
+## 0.10.24
 # `FIXED` locale fix
 
 ## 0.10.23

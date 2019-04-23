@@ -144,6 +144,7 @@ class MonthCalendar extends React.Component {
         calendar={calendar}
         onChange={me.handleChange}
         {...pickerOptions}
+        dropdownClassName={`date-picker-dropdown-offset-${p.size}`}
       >
         {({ value }) => {
           const showClear = p.allowClear ? (value && !p.disabled) : false;

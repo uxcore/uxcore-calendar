@@ -7,7 +7,6 @@ import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
 import events from './events';
 
-
 const {
   MonthCalendar, YearCalendar, RangeCalendar, CalendarFull, MiniWeek,
 } = Calendar;
@@ -63,13 +62,11 @@ class Demo extends React.Component {
     });
   }
 
-
   handleClick() {
     this.setState({
       value: '2017-01-05',
     });
   }
-
 
   miniWeekRender(dateInfo) {
     const { value } = this.state;
@@ -85,20 +82,17 @@ class Demo extends React.Component {
           {label}
           日程渲染事件
         </h3>
-        {
-          eventsInfo.map((event, idx) => (
-            <div key={idx}>
-              开始时间
-              {event.start}
-              -结束时间
-              {event.end}
-            </div>
-          ))
-        }
+        {eventsInfo.map((event, idx) => (
+          <div key={idx}>
+            开始时间
+            {event.start}
+            -结束时间
+            {event.end}
+          </div>
+        ))}
       </div>
     );
   }
-
 
   render() {
     const me = this;
@@ -119,9 +113,7 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>
-            基本
-          </p>
+          <p>基本</p>
           <Calendar
             showToday
             showTime={true}
@@ -131,11 +123,9 @@ class Demo extends React.Component {
             yearSelectOffset={20}
             yearSelectTotal={50}
             size="middle"
-            disabledTime={() => (
-              {
-                disabledMinutes: () => disabledMinutes,
-              }
-            )}
+            disabledTime={() => ({
+              disabledMinutes: () => disabledMinutes,
+            })}
             value={value}
             onSelect={this.onSelect}
             showDateInput
@@ -147,15 +137,8 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>
-            日期格式
-          </p>
-          <Calendar
-            value={value}
-            format="YYYY/MM/DD"
-            onSelect={this.onSelect}
-            showDateInput
-          />
+          <p>日期格式</p>
+          <Calendar value={value} format="YYYY/MM/DD" onSelect={this.onSelect} showDateInput />
         </div>
         <div
           className="kuma-form-field"
@@ -163,9 +146,7 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>
-            选择日期
-          </p>
+          <p>选择日期</p>
           <Calendar onSelect={this.onSelect} value={value} />
         </div>
         <div
@@ -174,24 +155,11 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>
-            范围
-          </p>
-          <Calendar
-            disabledDate={disabledDate}
-            value={value}
-            onSelect={this.onSelect}
-          />
+          <p>范围</p>
+          <Calendar disabledDate={disabledDate} value={value} onSelect={this.onSelect} />
         </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            时间选择
-          </p>
+        <div className="kuma-form-field">
+          <p>时间选择</p>
           <Calendar
             hasTrigger
             showSecond
@@ -205,26 +173,12 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
           />
         </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            禁用
-          </p>
+        <div className="kuma-form-field">
+          <p>禁用</p>
           <Calendar value={value} disabled onSelect={this.onSelect} />
         </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            月份
-          </p>
+        <div className="kuma-form-field">
+          <p>月份</p>
           <MonthCalendar
             size="middle"
             value={value}
@@ -239,14 +193,12 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
-          <p>
-            年份
-          </p>
+          <p>年份</p>
           <YearCalendar
             size="large"
             value={value}
             onSelect={this.onSelect}
-            disabledDate={() => { }}
+            disabledDate={() => {}}
           />
         </div>
         <div
@@ -255,11 +207,10 @@ class Demo extends React.Component {
             width: '400px',
           }}
         >
+          <p>显示日期和日程</p>
           <p>
-            显示日期和日程
-          </p>
-          <p>
-            Calendar 通过开放 contentRender 参数来完成日期渲染上的定制，并提供了一个默认的渲染函数 Calendar.util.generateContentRender(code) 来完成通用定制。
+            Calendar 通过开放 contentRender 参数来完成日期渲染上的定制，并提供了一个默认的渲染函数
+            Calendar.util.generateContentRender(code) 来完成通用定制。
           </p>
           <Calendar
             value={value}
@@ -274,29 +225,13 @@ class Demo extends React.Component {
             )}
           />
         </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            直接渲染面板
-          </p>
+        <div className="kuma-form-field">
+          <p>直接渲染面板</p>
           <RcCalendar {...panelOptions} className="panel-demo" />
         </div>
-        <Button onClick={me.handleClick}>
-          changeTime
-        </Button>
-        <div
-          className="kuma-form-field"
-          style={{
-            width: '400px',
-          }}
-        >
-          <p>
-            区间日期选择
-          </p>
+        <Button onClick={me.handleClick}>changeTime</Button>
+        <div className="kuma-form-field">
+          <p>区间日期选择</p>
           <RangeCalendar
             size="large"
             value={rangeValue}
@@ -326,7 +261,6 @@ class Demo extends React.Component {
           className="kuma-form-field"
           style={{
             marginBottom: '30px',
-            width: '500px',
           }}
         >
           <p>
@@ -351,7 +285,12 @@ class Demo extends React.Component {
             scheduleRender={this.miniWeekRender}
             getPopupContainer={() => this.miniRender}
           />
-          <div className="miniweek-container" ref={(c) => { this.miniRender = c; }} />
+          <div
+            className="miniweek-container"
+            ref={(c) => {
+              this.miniRender = c;
+            }}
+          />
         </div>
       </div>
     );

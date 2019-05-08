@@ -149,7 +149,7 @@ export default class FullCalendar extends React.Component {
       className: classnames({ [className]: !!className }),
       style: p.style,
       prefixCls: 'kuma-calendar-full',
-      disabledDate: current => {
+      disabledDate: (current) => {
         if (typeof p.disabledDate === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;
@@ -157,7 +157,7 @@ export default class FullCalendar extends React.Component {
         }
         return false;
       },
-      disabledTime: current => {
+      disabledTime: (current) => {
         if (typeof p.disabledTime === 'function' && current) {
           const date = current.clone();
           date.getTime = current.valueOf;

@@ -338,6 +338,7 @@ function splitMonthEvents(event, diffDays) {
       const startTime = i === 0 ? start : moment(eStart).add(8 - startDay + 7 * (i - 1), 'd');
       const endTime = i === splitDays ? end : moment(eStart).add(7 - startDay + 7 * i, 'd');
       arrs.push({
+        ...event,
         start: startTime,
         end: endTime,
         render,
@@ -349,6 +350,7 @@ function splitMonthEvents(event, diffDays) {
   } else {
     // 头尾在月面板中的一行
     arrs.push({
+      ...event,
       start,
       end,
       render,
@@ -367,7 +369,7 @@ function getCorrectEventsDate(event, opts) {
   const newEnd = eHour > endHour ? moment(end).hour(endHour) : end;
   const sHour = moment(start).hour();
   const newStart = sHour < startHour ? moment(start).hour(startHour) : start;
-  return { newEnd, newStart };
+  return {...event, newEnd, newStart };
 }
 /**
  * 拆分事件，是否为跨天事件
@@ -398,8 +400,8 @@ function splitEvents(event, diffDays, opts) {
       : moment(startTime)
         .hour(endHour)
         .minute(0);
-
     arrs.push({
+      ...event,
       start: startTime,
       end: endTime,
       render,
@@ -639,8 +641,7 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
       >
         {maxCount > -1 && (
         <span>
-          {count}
-条
+          {count} 条
         </span>
         )}
         {!!important && maxCount === -1 && (
@@ -686,7 +687,23 @@ function getVisibleEvent(events, maxCount, opts) {
       resultArr.push(
         <div className={importantCls} key={i} style={eStyle}>
           <div className="kuma-calendar-content-wraper">
-            <div className="kuma-calendar-content-detail">
+            <div
+              className="kuma-calendar-content-detail"
+              data-event-name={originEvt.__name}
+              onMouseEnter={(e) => {
+                const eventName = e.target.getAttribute('data-event-name');
+                document.querySelectorAll('[data-event-name]').forEach(item => {
+                  if (item.getAttribute('data-event-name') === eventName) {
+                    item.classList.add('hover')
+                  }
+                })
+              }}
+              onMouseLeave={() => {
+                document.querySelectorAll('[data-event-name]').forEach(item => {
+                  item.classList.remove('hover')
+                })
+              }}
+            >
               {!!important && <Icon name="zhongyaoshijian" usei className="import-event" />}
               {content}
             </div>
@@ -736,7 +753,7 @@ function getMonthTopAndMaxCount(tableHeight) {
  *  render: function(){}
  * })
  */
-const generateScheduleContent = events => function scheduleRender(evts, opts, tableHeight) {
+const generateScheduleContent = (events) => function scheduleRender(evts, opts, tableHeight) {
   if (!evts || !evts.length) {
     return;
   }
@@ -745,7 +762,6 @@ const generateScheduleContent = events => function scheduleRender(evts, opts, ta
   const resultScheduleHtml = [];
   const eventsKeys = Object.keys(containerEvents);
   const isMonthType = opts.type === 'month';
-
   for (let i = 0, len = eventsKeys.length; i < len; i++) {
     const key = eventsKeys[i];
     const container = containerEvents[key];

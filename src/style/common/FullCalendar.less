@@ -204,10 +204,14 @@
         text-overflow: ellipsis;
         height: 100%;
         border-left: 3px solid @brand-primary;
-
         div {
           display: inline-block;
           border: none;
+        }
+        &.hover,
+        &:hover {
+          cursor: pointer;
+          background: @brand-primary-alpha-5;
         }
       }
     }
@@ -418,7 +422,9 @@
       font-size: 12px;
       color: #ffffff;
       letter-spacing: 0;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 

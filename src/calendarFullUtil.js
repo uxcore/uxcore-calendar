@@ -686,24 +686,27 @@ function getVisibleEvent(events, maxCount, opts) {
       const content = render ? (typeof render === 'function' ? render(event) : render) : (title ? title: moment(start).date());
       resultArr.push(
         <div className={importantCls} key={i} style={eStyle}>
-          <div className="kuma-calendar-content-wraper">
+          <div
+            className="kuma-calendar-content-wraper"
+            data-event-name={originEvt.__name}
+            onMouseEnter={(e) => {
+              const eventName = e.currentTarget.getAttribute('data-event-name');
+              document.querySelectorAll('[data-event-name]').forEach(item => {
+                if (item.getAttribute('data-event-name') === eventName) {
+                  item.classList.add('hover')
+                }
+              })
+            }}
+            onMouseLeave={() => {
+              document.querySelectorAll('[data-event-name]').forEach(item => {
+                item.classList.remove('hover')
+              })
+            }}
+          >
             <div
               className="kuma-calendar-content-detail"
               title={typeof content !== 'object' ? content : ''}
-              data-event-name={originEvt.__name}
-              onMouseEnter={(e) => {
-                const eventName = e.currentTarget.getAttribute('data-event-name');
-                document.querySelectorAll('[data-event-name]').forEach(item => {
-                  if (item.getAttribute('data-event-name') === eventName) {
-                    item.classList.add('hover')
-                  }
-                })
-              }}
-              onMouseLeave={() => {
-                document.querySelectorAll('[data-event-name]').forEach(item => {
-                  item.classList.remove('hover')
-                })
-              }}
+              style={originEvt.style || {}}
             >
               {!!important && <Icon name="zhongyaoshijian" usei className="import-event" />}
               {content}

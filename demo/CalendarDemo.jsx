@@ -261,7 +261,7 @@ class Demo extends React.Component {
           className="kuma-form-field"
           style={{
             marginBottom: '30px',
-            width: '800px'
+            width: '600px'
           }}
         >
           <p>

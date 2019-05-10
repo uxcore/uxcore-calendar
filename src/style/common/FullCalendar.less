@@ -210,7 +210,12 @@
       height: 100%;
       border-radius: 3px;
       overflow: hidden;
-
+      &.hover,
+      &:hover {
+        cursor: pointer;
+        background-color: @brand-primary-alpha-5;
+        opacity: 0.8;
+      }
       .kuma-calendar-content-detail {
         padding-left: 3px;
         white-space: nowrap;
@@ -221,11 +226,6 @@
         div {
           display: inline-block;
           border: none;
-        }
-        &.hover,
-        &:hover {
-          cursor: pointer;
-          background: @brand-primary-alpha-5;
         }
       }
     }

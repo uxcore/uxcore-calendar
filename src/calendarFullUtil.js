@@ -418,7 +418,7 @@ function initEvents(events, opts) {
   events.forEach((event) => {
     const { start, end } = event;
     const diffDate = moment(end).diff(moment(start), 'days');
-
+    event.__name = 'event_' + setTimeout(0)
     if (diffDate > 0) {
       resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts));
     } else {
@@ -666,7 +666,7 @@ function getVisibleEvent(events, maxCount, opts) {
   for (let i = 0; i < eventLen; i++) {
     const event = events[i];
     const originEvt = event.event;
-    const { start, render, important } = originEvt;
+    const { start, render, important, title } = originEvt;
     if (isMonthType) {
       handleShowMoreInfo(originEvt, moreInfoEvents);
     }
@@ -683,15 +683,16 @@ function getVisibleEvent(events, maxCount, opts) {
         width: `${event.width * 100}%`,
       };
 
-      const content = render && typeof render === 'function' ? render(event) : moment(start).date();
+      const content = render ? (typeof render === 'function' ? render(event) : render) : (title ? title: moment(start).date());
       resultArr.push(
         <div className={importantCls} key={i} style={eStyle}>
           <div className="kuma-calendar-content-wraper">
             <div
               className="kuma-calendar-content-detail"
+              title={typeof content !== 'object' ? content : ''}
               data-event-name={originEvt.__name}
               onMouseEnter={(e) => {
-                const eventName = e.target.getAttribute('data-event-name');
+                const eventName = e.currentTarget.getAttribute('data-event-name');
                 document.querySelectorAll('[data-event-name]').forEach(item => {
                   if (item.getAttribute('data-event-name') === eventName) {
                     item.classList.add('hover')
@@ -762,6 +763,8 @@ const generateScheduleContent = (events) => function scheduleRender(evts, opts, 
   const resultScheduleHtml = [];
   const eventsKeys = Object.keys(containerEvents);
   const isMonthType = opts.type === 'month';
+  const isWeekType = opts.type === 'week';
+  const isDayType = opts.type === 'time';
   for (let i = 0, len = eventsKeys.length; i < len; i++) {
     const key = eventsKeys[i];
     const container = containerEvents[key];
@@ -803,7 +806,11 @@ const generateScheduleContent = (events) => function scheduleRender(evts, opts, 
     );
   }
   return (
-    <div className={classnames('events-wrapper', { 'events-month-wrapper': isMonthType })}>
+    <div className={classnames('events-wrapper', {
+      'events-month-wrapper': isMonthType,
+      'events-week-wrapper': isWeekType,
+      'events-day-wrapper': isDayType
+    })}>
       {resultScheduleHtml}
     </div>
   );

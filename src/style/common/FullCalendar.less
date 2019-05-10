@@ -43,6 +43,20 @@
     left: 61px;
     width: ~"calc(100% - 61px)";
     height: ~"calc(100% - 32px)";
+
+    &.events-day-wrapper,
+    &.events-week-wrapper {
+      .kuma-calendar-content-box {
+        .kuma-calendar-content-detail {
+          overflow: auto;
+          text-overflow: inherit;
+          white-space: pre-wrap;
+          div,p,ul,li {
+            white-space: pre-wrap;
+          }
+        }
+      }
+    }
   }
 
   &-date {

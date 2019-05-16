@@ -96,6 +96,7 @@ class Demo extends React.Component {
 
   onScheduleClick = (e, schedule) => {
     console.log(e, schedule)
+    alert(schedule.name)
   }
 
   render() {

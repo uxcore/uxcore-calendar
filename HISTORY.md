@@ -1,6 +1,10 @@
 
 
 # History
+## 0.10.26
+# `CHANGED` change some style in calendarfull
+# `NEW` add new callback for schedule click
+
 ## 0.10.25
 # `CHANGED` change date picker offset in MonthCalendar & YearCalendar
 

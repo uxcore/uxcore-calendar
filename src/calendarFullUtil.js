@@ -771,7 +771,7 @@ const generateScheduleContent = events => function scheduleRender(evts, opts, ta
     }
     // 月视图中展示的日期会占据一定的空间
     const isSameDate = monthTop === getMonthEventTop(opts.current);
-    const extraMonthPaddingTop = !isSameDate ? 32 : currentMonthDateHight;
+    const extraMonthPaddingTop = !isSameDate ? 28 : currentMonthDateHight;
 
     const containerStyle = {
       width: `${width * 100}%`,

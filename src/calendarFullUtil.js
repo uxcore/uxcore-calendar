@@ -732,13 +732,13 @@ function getVisibleEvent(events, maxCount, opts) {
 function getMonthTopAndMaxCount(tableHeight) {
   const fulltMonthTableHeight = tableHeight || 0;
   let maxCount = 99;
-  const cellContainerHeight = 0.8 * ((fulltMonthTableHeight - 32) / WEEK_COLUMN);
-  if (cellContainerHeight <= 42 && cellContainerHeight > 0) {
+  const cellContainerHeight = (fulltMonthTableHeight - 34 - MONTH_CELL_HEIGHT) / WEEK_COLUMN;
+  if (cellContainerHeight <= 50 && cellContainerHeight > 0) {
     maxCount = -1;
-  } else if (cellContainerHeight > 42 && cellContainerHeight <= 50) {
+  } else if (cellContainerHeight > 50 && cellContainerHeight < 65) {
     maxCount = 0;
   } else {
-    maxCount = Math.floor(cellContainerHeight / MONTH_CELL_HEIGHT) - 1;
+    maxCount = Math.floor((cellContainerHeight - MONTH_CELL_HEIGHT) / MONTH_CELL_HEIGHT) - 1;
   }
 
   let currentDateHight = cellContainerHeight * 1.3 * 0.21;
@@ -773,7 +773,14 @@ const generateScheduleContent = (events) => function scheduleRender(evts, opts, 
     const container = containerEvents[key];
 
     const {
-      children: rangeEvents, width, offsetX, height, top, isColspan, end,
+      children: rangeEvents,
+      width,
+      offsetX,
+      height,
+      top,
+      isColspan,
+      end,
+      monthTop,
     } = container;
 
     let monthMaxCount = 99;
@@ -785,8 +792,8 @@ const generateScheduleContent = (events) => function scheduleRender(evts, opts, 
       currentMonthDateHight = currentDateHight;
     }
     // 月视图中展示的日期会占据一定的空间
-    const isSameDate = moment(end).isSame(opts.current, 'd');
-    const extraMonthPaddingTop = !isSameDate ? 25 : currentMonthDateHight;
+    const isSameDate = monthTop === getMonthEventTop(opts.current);
+    const extraMonthPaddingTop = !isSameDate ? 28 : currentMonthDateHight;
 
     const containerStyle = {
       width: `${width * 100}%`,

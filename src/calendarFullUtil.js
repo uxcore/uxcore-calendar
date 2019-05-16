@@ -338,6 +338,7 @@ function splitMonthEvents(event, diffDays) {
       const startTime = i === 0 ? start : moment(eStart).add(8 - startDay + 7 * (i - 1), 'd');
       const endTime = i === splitDays ? end : moment(eStart).add(7 - startDay + 7 * i, 'd');
       arrs.push({
+        ...event,
         start: startTime,
         end: endTime,
         render,
@@ -349,6 +350,7 @@ function splitMonthEvents(event, diffDays) {
   } else {
     // 头尾在月面板中的一行
     arrs.push({
+      ...event,
       start,
       end,
       render,
@@ -367,7 +369,7 @@ function getCorrectEventsDate(event, opts) {
   const newEnd = eHour > endHour ? moment(end).hour(endHour) : end;
   const sHour = moment(start).hour();
   const newStart = sHour < startHour ? moment(start).hour(startHour) : start;
-  return { newEnd, newStart };
+  return {...event, newEnd, newStart };
 }
 /**
  * 拆分事件，是否为跨天事件
@@ -398,8 +400,8 @@ function splitEvents(event, diffDays, opts) {
       : moment(startTime)
         .hour(endHour)
         .minute(0);
-
     arrs.push({
+      ...event,
       start: startTime,
       end: endTime,
       render,
@@ -414,9 +416,9 @@ function initEvents(events, opts) {
   let resultEvents = [];
 
   events.forEach((event) => {
-    const { start, end } = event;
+    const { start, end, name } = event;
     const diffDate = moment(end).diff(moment(start), 'days');
-
+    event.name = name || 'event_' + setTimeout(0)
     if (diffDate > 0) {
       resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts));
     } else {
@@ -639,8 +641,7 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
       >
         {maxCount > -1 && (
         <span>
-          {count}
-条
+          {count} 条
         </span>
         )}
         {!!important && maxCount === -1 && (
@@ -655,9 +656,11 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
 /**
  * 获取月面板中最多能显示的事件个数
  * @param {array} events 传入的事件
- * @param {bumber} maxCount 显示的最大数据
+ * @param {number} maxCount 显示的最大数据
+ * @param {object} opts 日历参数
+ * @param {function} callback 选中后的回调
  */
-function getVisibleEvent(events, maxCount, opts) {
+function getVisibleEvent(events, maxCount, opts, callback) {
   const isMonthType = opts.type === 'month';
   let resultArr = [];
   const moreInfoEvents = {};
@@ -665,7 +668,7 @@ function getVisibleEvent(events, maxCount, opts) {
   for (let i = 0; i < eventLen; i++) {
     const event = events[i];
     const originEvt = event.event;
-    const { start, render, important } = originEvt;
+    const { start, render, important, title } = originEvt;
     if (isMonthType) {
       handleShowMoreInfo(originEvt, moreInfoEvents);
     }
@@ -682,11 +685,31 @@ function getVisibleEvent(events, maxCount, opts) {
         width: `${event.width * 100}%`,
       };
 
-      const content = render && typeof render === 'function' ? render(event) : moment(start).date();
+      const content = render ? (typeof render === 'function' ? render(event) : render) : (title ? title: moment(start).date());
       resultArr.push(
-        <div className={importantCls} key={i} style={eStyle}>
-          <div className="kuma-calendar-content-wraper">
-            <div className="kuma-calendar-content-detail">
+        <div className={importantCls} key={i} style={eStyle} onClick={(e) => {callback(e, originEvt)}}>
+          <div
+            className="kuma-calendar-content-wraper"
+            data-event-name={originEvt.name}
+            onMouseEnter={(e) => {
+              const eventName = e.currentTarget.getAttribute('data-event-name');
+              document.querySelectorAll('[data-event-name]').forEach(item => {
+                if (item.getAttribute('data-event-name') === eventName) {
+                  item.classList.add('hover')
+                }
+              })
+            }}
+            onMouseLeave={() => {
+              document.querySelectorAll('[data-event-name]').forEach(item => {
+                item.classList.remove('hover')
+              })
+            }}
+          >
+            <div
+              className="kuma-calendar-content-detail"
+              title={typeof content !== 'object' ? content : ''}
+              style={originEvt.style || {}}
+            >
               {!!important && <Icon name="zhongyaoshijian" usei className="import-event" />}
               {content}
             </div>
@@ -736,7 +759,7 @@ function getMonthTopAndMaxCount(tableHeight) {
  *  render: function(){}
  * })
  */
-const generateScheduleContent = events => function scheduleRender(evts, opts, tableHeight) {
+const generateScheduleContent = (events, callback) => function scheduleRender(evts, opts, tableHeight) {
   if (!evts || !evts.length) {
     return;
   }
@@ -745,7 +768,8 @@ const generateScheduleContent = events => function scheduleRender(evts, opts, ta
   const resultScheduleHtml = [];
   const eventsKeys = Object.keys(containerEvents);
   const isMonthType = opts.type === 'month';
-
+  const isWeekType = opts.type === 'week';
+  const isDayType = opts.type === 'time';
   for (let i = 0, len = eventsKeys.length; i < len; i++) {
     const key = eventsKeys[i];
     const container = containerEvents[key];
@@ -789,12 +813,16 @@ const generateScheduleContent = events => function scheduleRender(evts, opts, ta
 
     resultScheduleHtml.push(
       <div className={containerCls} key={i} style={containerStyle}>
-        {getVisibleEvent(rangeEvents, monthMaxCount, opts)}
+        {getVisibleEvent(rangeEvents, monthMaxCount, opts, callback)}
       </div>,
     );
   }
   return (
-    <div className={classnames('events-wrapper', { 'events-month-wrapper': isMonthType })}>
+    <div className={classnames('events-wrapper', {
+      'events-month-wrapper': isMonthType,
+      'events-week-wrapper': isWeekType,
+      'events-day-wrapper': isDayType
+    })}>
       {resultScheduleHtml}
     </div>
   );

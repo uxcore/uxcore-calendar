@@ -76,12 +76,12 @@ export default class FullCalendar extends React.Component {
       value,
     } = this.props;
     const newOptions = {};
-
+    let cvalue
     if (value || defaultValue) {
-      const cvalue = this.getDate(value || defaultValue);
+      cvalue = this.getDate(value || defaultValue);
       newOptions.defaultValue = cvalue;
     } else {
-      const cvalue = this.getDate(new Date().getTime());
+      cvalue = this.getDate(new Date().getTime());
       newOptions.defaultValue = cvalue;
     }
     if (timeRender) {

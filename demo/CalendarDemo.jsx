@@ -94,6 +94,10 @@ class Demo extends React.Component {
     );
   }
 
+  onScheduleClick = (e, schedule) => {
+    console.log(e, schedule)
+  }
+
   render() {
     const me = this;
     const panelOptions = {
@@ -261,6 +265,7 @@ class Demo extends React.Component {
           className="kuma-form-field"
           style={{
             marginBottom: '30px',
+            width: '700px'
           }}
         >
           <p>
@@ -273,7 +278,7 @@ class Demo extends React.Component {
             type="month"
             locale="zh-cn"
             format="yyyy/MM/dd"
-            scheduleRender={Calendar.fullUtil.generateScheduleContent(events)}
+            scheduleRender={Calendar.fullUtil.generateScheduleContent(events, this.onScheduleClick)}
             startHour={8}
             endHour={18}
             step={60}

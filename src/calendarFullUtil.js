@@ -416,9 +416,9 @@ function initEvents(events, opts) {
   let resultEvents = [];
 
   events.forEach((event) => {
-    const { start, end } = event;
+    const { start, end, name } = event;
     const diffDate = moment(end).diff(moment(start), 'days');
-    event.__name = 'event_' + setTimeout(0)
+    event.name = name || 'event_' + setTimeout(0)
     if (diffDate > 0) {
       resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts));
     } else {
@@ -656,9 +656,11 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
 /**
  * 获取月面板中最多能显示的事件个数
  * @param {array} events 传入的事件
- * @param {bumber} maxCount 显示的最大数据
+ * @param {number} maxCount 显示的最大数据
+ * @param {object} opts 日历参数
+ * @param {function} callback 选中后的回调
  */
-function getVisibleEvent(events, maxCount, opts) {
+function getVisibleEvent(events, maxCount, opts, callback) {
   const isMonthType = opts.type === 'month';
   let resultArr = [];
   const moreInfoEvents = {};
@@ -685,10 +687,10 @@ function getVisibleEvent(events, maxCount, opts) {
 
       const content = render ? (typeof render === 'function' ? render(event) : render) : (title ? title: moment(start).date());
       resultArr.push(
-        <div className={importantCls} key={i} style={eStyle}>
+        <div className={importantCls} key={i} style={eStyle} onClick={(e) => {callback(e, originEvt)}}>
           <div
             className="kuma-calendar-content-wraper"
-            data-event-name={originEvt.__name}
+            data-event-name={originEvt.name}
             onMouseEnter={(e) => {
               const eventName = e.currentTarget.getAttribute('data-event-name');
               document.querySelectorAll('[data-event-name]').forEach(item => {
@@ -757,7 +759,7 @@ function getMonthTopAndMaxCount(tableHeight) {
  *  render: function(){}
  * })
  */
-const generateScheduleContent = (events) => function scheduleRender(evts, opts, tableHeight) {
+const generateScheduleContent = (events, callback) => function scheduleRender(evts, opts, tableHeight) {
   if (!evts || !evts.length) {
     return;
   }
@@ -811,7 +813,7 @@ const generateScheduleContent = (events) => function scheduleRender(evts, opts, 
 
     resultScheduleHtml.push(
       <div className={containerCls} key={i} style={containerStyle}>
-        {getVisibleEvent(rangeEvents, monthMaxCount, opts)}
+        {getVisibleEvent(rangeEvents, monthMaxCount, opts, callback)}
       </div>,
     );
   }

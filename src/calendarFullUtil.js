@@ -660,7 +660,7 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
  * @param {object} opts 日历参数
  * @param {function} callback 选中后的回调
  */
-function getVisibleEvent(events, maxCount, opts, callback) {
+function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
   const isMonthType = opts.type === 'month';
   let resultArr = [];
   const moreInfoEvents = {};

@@ -1,6 +1,8 @@
 
-
 # History
+## 0.10.28
+# `NEW` add events support for vc-calendar
+
 ## 0.10.26
 # `CHANGED` change some style in calendarfull
 # `NEW` add new callback for schedule click

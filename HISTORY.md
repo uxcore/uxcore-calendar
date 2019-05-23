@@ -1,33 +1,32 @@
 
 # History
 ## 0.10.29
-# `FIX` fix stylest in year panel
+* `FIX` fix styles in year panel
 
 ## 0.10.28
-# `NEW` add events support for vc-calendar
+* `NEW` add events support for vc-calendar
 
 ## 0.10.26
-# `CHANGED` change some style in calendarfull
-# `NEW` add new callback for schedule click
+* `CHANGED` change some style in calendarfull
+* `NEW` add new callback for schedule click
 
 ## 0.10.25
-# `CHANGED` change date picker offset in MonthCalendar & YearCalendar
+* `CHANGED` change date picker offset in MonthCalendar & YearCalendar
 
 ## 0.10.24
-# `FIXED` locale fix
+* `FIXED` locale fix
 
 ## 0.10.23
-# `FIX` revert to 0.10.21
+* `FIX` revert to 0.10.21
 
-# History
 ## 0.10.22
-# `NEW` add new prop firstDayOfWeek
+* `NEW` add new prop firstDayOfWeek
 
 ## 0.10.21
-# `Feat` Compatible with different locale formats
+* `Feat` Compatible with different locale formats
 
 ## 0.10.20
-# `Fix` fix disabledDate & disabledTime is not working when init
+* `Fix` fix disabledDate & disabledTime is not working when init
 
 ## 0.10.19
 * `Fix` placeholder support i18n

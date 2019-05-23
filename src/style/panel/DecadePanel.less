@@ -123,8 +123,15 @@
     -webkit-user-select: none;
   }
   // color: @normal-alpha-4;
-  .@{__calendarPrefixCls}-decade-panel-decade:before {
-    content: '\e645';
-    font-family: 'kuma' !important;
+  .@{__calendarPrefixCls}-decade-panel-decade {
+    position: relative;
+    &:before {
+      content: '\e645';
+      background: #fff;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      font-family: 'kuma' !important;
+    }
   }
 }

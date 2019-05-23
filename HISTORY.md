@@ -1,5 +1,8 @@
 
 # History
+## 0.10.29
+# `FIX` fix stylest in year panel
+
 ## 0.10.28
 # `NEW` add events support for vc-calendar
 

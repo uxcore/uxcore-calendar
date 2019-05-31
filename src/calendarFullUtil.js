@@ -110,7 +110,11 @@ function getMonthEventTop(start, opts = {}) {
     return Math.floor(prevDiffDays / 7);
   }
 
-  return Math.ceil(Math.abs(prevDiffDays / 7));
+  const diffDate = moment(+new Date(start))
+    .startOf('month')
+    .day();
+  const firstDayOfMonthPanel = diffDate + moment(start).date() - 1;
+  return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
 }
 
 /**
@@ -455,6 +459,7 @@ function splitEvents(event, diffDays, opts) {
       eEnd,
     });
   }
+
   return arrs;
 }
 
@@ -596,7 +601,6 @@ function getEventContainer(events, opts) {
   const { type, current } = opts;
   const targetEvents = cloneDeep(events);
   const newEvents = initEvents(targetEvents, opts);
-
   // 对事件进行排序
   const sortedEvents = sortByEventRender(newEvents);
 
@@ -654,12 +658,11 @@ function go2More(event, opts) {
  */
 function handleShowMoreInfo(event, moreInfoEvents) {
   const { start, end, important } = event;
-  const startDate = moment(start).date();
-  const endDate = moment(end).date();
-  const diffDate = endDate - startDate;
+  const diffDate = Math.abs(moment(start).diff(end, 'days'));
   for (let i = 0, len = diffDate; i <= len; i++) {
     const keyDate = moment(start).add(i, 'd');
     const startKey = keyDate.format('YYYY-MM-DD');
+
     const day = getDateDay(keyDate);
     if (moreInfoEvents[startKey]) {
       moreInfoEvents[startKey].count += 1;
@@ -723,8 +726,8 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
 function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
   const isMonthType = opts.type === 'month';
   let resultArr = [];
-  const moreInfoEvents = {};
   const eventLen = events.length;
+  const moreInfoEvents = {};
 
   for (let i = 0; i < eventLen; i++) {
     const event = events[i];

@@ -80,17 +80,26 @@ function getCurrentMonthDiffToStart(source, target) {
   let afterDiffDays = 0;
   let currentFirstOfMonthDay = 0;
   let currentLastOfMonthDay = 0;
+  let currentFirstOfMonth = '';
+  let currentLastOfMonth = '';
 
   if (source) {
-    const currentFirstOfMonth = moment(source).startOf('month');
-    const currentLastOfMonth = moment(source).endOf('month');
+    currentFirstOfMonth = moment(source).startOf('month');
+    currentLastOfMonth = moment(source).endOf('month');
     prevDiffDays = moment(currentFirstOfMonth).diff(target, 'days');
     afterDiffDays = moment(currentLastOfMonth).diff(target, 'days');
 
     currentFirstOfMonthDay = currentFirstOfMonth.day();
     currentLastOfMonthDay = currentLastOfMonth.day();
   }
-  return { prevDiffDays, afterDiffDays, currentFirstOfMonthDay, currentLastOfMonthDay };
+  return {
+    prevDiffDays,
+    afterDiffDays,
+    currentFirstOfMonthDay,
+    currentLastOfMonthDay,
+    currentFirstOfMonth,
+    currentLastOfMonth,
+  };
 }
 
 /**
@@ -98,15 +107,25 @@ function getCurrentMonthDiffToStart(source, target) {
  */
 function getMonthEventTop(start, opts = {}) {
   const { value } = opts;
-  const { prevDiffDays, afterDiffDays } = getCurrentMonthDiffToStart(value, start);
+  const {
+    prevDiffDays,
+    afterDiffDays,
+    currentLastOfMonthDay,
+    currentLastOfMonth,
+  } = getCurrentMonthDiffToStart(value, start);
 
   // 在当月最后一天之后，属于下一个月
+  if (afterDiffDays === 0) {
+    const firstDayOfMonthPanel = currentLastOfMonthDay + moment(currentLastOfMonth).date() - 1;
+    return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
+  }
+
   if (afterDiffDays < 0) {
     return Math.ceil(Math.abs(prevDiffDays / 7));
   }
 
   // 在当月第一天之前，属于上一个月
-  if (prevDiffDays > 0) {
+  if (prevDiffDays >= 0) {
     return Math.floor(prevDiffDays / 7);
   }
 

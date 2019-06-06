@@ -1,7 +1,10 @@
 
 # History
+## 0.10.30
+* `FIXED` fix a style bug in fullcalendar mode when event cross different month panel
+
 ## 0.10.29
-* `FIX` fix styles in year panel
+* `FIXED` fix styles in year panel
 
 ## 0.10.28
 * `NEW` add events support for vc-calendar
@@ -17,19 +20,19 @@
 * `FIXED` locale fix
 
 ## 0.10.23
-* `FIX` revert to 0.10.21
+* `FIXED` revert to 0.10.21
 
 ## 0.10.22
 * `NEW` add new prop firstDayOfWeek
 
 ## 0.10.21
-* `Feat` Compatible with different locale formats
+* `NEW` Compatible with different locale formats
 
 ## 0.10.20
-* `Fix` fix disabledDate & disabledTime is not working when init
+* `FIXED` fix disabledDate & disabledTime is not working when init
 
 ## 0.10.19
-* `Fix` placeholder support i18n
+* `FIXED` placeholder support i18n
 
 ## 0.10.18
 * `NEW` add miniWeek、fullWeek component and fix some documents

@@ -3,7 +3,7 @@
  * step1： initEvents 初始化事件，包括对事件日期是否正确的处理，进行排序;
  * step2: splitEvents 对于跨日程事件进行拆分 splitEvents;
  * step3: sortByEventRender 对于事件按日期进行排序;
- * step4：handleEvents 为日程容器添加日程事件;
+ * step4：handleEvents 为日程事件添加日程容器;
  * step5: computeEventStyle 计算事件在面板中的位置
  */
 
@@ -14,11 +14,12 @@ import moment from 'moment';
 import { sortBy, cloneDeep } from 'lodash';
 
 const WEEK_COLUMN = 6;
-const MONTH_CELL_HEIGHT = 20;
+const MONTH_CELL_HEIGHT = 22;
+const PRE_WHITE_SPACE = 0.005; //为日、周预留的空白距离
 
 function getTime(props) {
   const { startHour, value } = props;
-  const newStartHour = startHour ? parseInt(startHour, 10) : 9;
+  const newStartHour = typeof startHour !== 'undefined' ? parseInt(startHour, 10) : 9;
   return moment(value)
     .hour(newStartHour)
     .minute(0);
@@ -34,9 +35,7 @@ function sortByEventRender(events) {
 
 function getMomentValue(date, hour) {
   return moment(date)
-    .hour(hour)
-    .minute(0)
-    .second(0)
+    .set({ hour: hour, minute: 0, second: 0, millisecond: 0 })
     .valueOf();
 }
 
@@ -133,6 +132,7 @@ function getMonthEventTop(start, opts = {}) {
     .startOf('month')
     .day();
   const firstDayOfMonthPanel = diffDate + moment(start).date() - 1;
+
   return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
 }
 
@@ -142,7 +142,7 @@ function getMonthEventTop(start, opts = {}) {
  * @param {object} source 被比较对象
  */
 function isSameDateByType(target, source, type = 'date') {
-  if (!moment(target).isSame(source, type)) {
+  if (!moment(target).isSame(source, type) && type === 'date') {
     const {
       prevDiffDays,
       afterDiffDays,
@@ -184,17 +184,17 @@ function inSameWeek(start, current) {
  * @param {object} opts 大日历组件传入的相关参数 opts : {type,step,startHour,endHour}
  */
 function isInCurrentPanle(event, opts) {
-  const { current, type } = opts;
+  const { value, type } = opts;
   const { start, end } = event;
 
   if (moment(end).valueOf() - moment(start).valueOf() < 0) {
     return false;
   }
   if (type === 'week') {
-    return inSameWeek(start, current);
+    return inSameWeek(start, value);
   }
-  const typeHash = { time: 'date', month: 'month' };
-  return isSameDateByType(start, current, typeHash[type]);
+  const typeHash = { time: 'day', month: 'month' };
+  return isSameDateByType(start, value, typeHash[type]);
 }
 
 /**
@@ -207,7 +207,13 @@ function isInCurrentPanle(event, opts) {
 function getHashKeyByFomart(start, end, format, splitStr) {
   const startKey = getFormatDate(start, format);
   if (start && end) {
-    const endKey = getFormatDate(end, format);
+    // 说明 是上一天的24点
+    let endKey = '';
+    if (moment(end).hour() === 0) {
+      endKey = startKey;
+    } else {
+      endKey = getFormatDate(end, format);
+    }
     return `${startKey}${splitStr}${endKey}`;
   }
   return startKey;
@@ -238,16 +244,28 @@ function getHashKey(event, opts) {
 }
 
 /**
+ * 判断当前开始时间是否存在于现有容器数组中
+ * @param {array} containers  //
+ * @param {moment} start
+ */
+function findContainer(containers, start) {
+  return containers.find(c => {
+    return moment(c.end).valueOf() > moment(start).valueOf();
+  });
+}
+
+/**
  * 处理事件间的包含所属关系
  * @param {array} events
  */
 function handleEvents(events, opts) {
   const containerEvents = [];
   const wraperHtml = {};
+
   for (let i = 0, len = events.length; i < len; i++) {
     const event = events[i];
-    const hashKey = getHashKey(event, opts);
     const { start, end, isColspan } = event;
+    const hashKey = getHashKey(event, opts);
 
     if (!wraperHtml[hashKey]) {
       wraperHtml[hashKey] = {
@@ -262,7 +280,7 @@ function handleEvents(events, opts) {
     }
 
     wraperHtml[hashKey].children.push(event);
-    const container = containerEvents.find(c => moment(c.end).valueOf() >= moment(start).valueOf());
+    const container = findContainer(containerEvents, start);
 
     if (!container) {
       event.rows = [];
@@ -304,15 +322,16 @@ function computeMonthEventStyle(event) {
 
   if (event.isContainer) {
     return {
-      width: 0.995,
-      offsetX: 0.005,
+      width: 1 - PRE_WHITE_SPACE,
+      offsetX: PRE_WHITE_SPACE,
       top: top / WEEK_COLUMN,
     };
   }
 
   return {
-    width: children && isColspan ? 0.995 : (1 / widthSlice) * diffEvent - 0.005,
-    offsetX: children && isColspan ? 0.005 : offsetx,
+    width:
+      children && isColspan ? 1 - PRE_WHITE_SPACE : (1 / widthSlice) * diffEvent - PRE_WHITE_SPACE,
+    offsetX: children && isColspan ? PRE_WHITE_SPACE : offsetx,
     top: top / WEEK_COLUMN,
   };
 }
@@ -326,21 +345,34 @@ function computeEventStyle(event, type) {
   if (type === 'month') {
     return computeMonthEventStyle(event);
   }
+
   const { end, isColspan, children, start, date } = event;
 
   const eventStart = start || date;
-  const startDate = getDateDay(eventStart);
+  const startDay = getDateDay(eventStart);
 
   let widthSlice = 1;
   let offsetx = 0;
+  let diffEvent = 0;
 
   if (type !== 'time' && (children || isColspan)) {
     widthSlice = 7;
-    const diffEvent = moment(end).date() - moment(eventStart).date() + 1;
-    offsetx = (startDate - 1) / 7;
+    const endDate = moment(end).date();
+    const startDate = moment(eventStart).date();
+
+    // 判断 24 跟 0 的界限，24算当天的最后时间
+    if (endDate - startDate === 1 && moment(end).hour() == 0) {
+      diffEvent = 1;
+    } else {
+      diffEvent = endDate - startDate + 1;
+    }
+    offsetx = (startDay - 1) / 7;
     return {
-      width: children && isColspan ? 1 - 0.005 : (1 / widthSlice) * diffEvent - 0.005,
-      offsetX: children && isColspan ? 0.005 : offsetx,
+      width:
+        children && isColspan
+          ? 1 - PRE_WHITE_SPACE
+          : (1 / widthSlice) * diffEvent - PRE_WHITE_SPACE * 2,
+      offsetX: children && isColspan ? PRE_WHITE_SPACE : offsetx + PRE_WHITE_SPACE,
       top: 0,
     };
   }
@@ -349,10 +381,11 @@ function computeEventStyle(event, type) {
     // 为外层包裹元素
     if (event.isContainer) {
       return {
-        width: 1 / widthSlice - 0.01,
-        offsetX: offsetx + 0.005,
+        width: 1 / widthSlice - PRE_WHITE_SPACE * 2,
+        offsetX: offsetx + PRE_WHITE_SPACE,
       };
     }
+
     return {
       width: 1 / widthSlice,
       offsetX: offsetx,
@@ -362,7 +395,7 @@ function computeEventStyle(event, type) {
   if (event.rows) {
     const columns = event.rows.reduce((max, row) => Math.max(max, row.leaves.length + 1), 0) + 1;
     return {
-      width: 1 / (columns * widthSlice) - 0.01,
+      width: 1 / (columns * widthSlice) - PRE_WHITE_SPACE * 2,
       offsetX: offsetx,
     };
   }
@@ -438,19 +471,24 @@ function getCorrectEventsDate(event, opts) {
   const newStart = sHour < startHour ? moment(start).hour(startHour) : start;
   return { ...event, newEnd, newStart };
 }
+
 /**
  * 拆分事件，是否为跨天事件
+ * @param {object} event
+ * @param {number} diffDays
+ * @param {object} opts
  */
+
 function splitEvents(event, diffDays, opts) {
   const arrs = [];
   const { startHour, endHour, type } = opts;
   const { start, end, render } = event;
+
   if (type === 'month') {
     return splitMonthEvents(event, diffDays);
   }
 
   const { newStart, newEnd } = getCorrectEventsDate(event, opts);
-
   const eStart = moment(start).valueOf();
   const eEnd = moment(end).valueOf();
 
@@ -548,16 +586,17 @@ function handlePropsEvents(events, results = {}) {
 }
 
 function getEventTopHeight(event, opts, sourceDate) {
-  const { startHour, current, slicePiece, step, type } = opts;
+  const { startHour, current, slicePiece, step, type, value } = opts;
   const { start } = event;
   const { sourceStart, sourceEnd } = sourceDate;
-  let startCurrent = getMomentValue(current, startHour);
+  let startCurrent = getMomentValue(value, startHour);
+
   const totalSeconds = (slicePiece + 2) * step * 60 * 1000;
   let evetTop;
   let eventHeight;
 
   if (type === 'time') {
-    const diffStartCurrent = sourceStart - startCurrent + step * 60 * 1000;
+    const diffStartCurrent = Math.abs(sourceStart - startCurrent) + step * 60 * 1000;
     const diffEventHeight = sourceEnd - sourceStart;
     evetTop = diffStartCurrent / totalSeconds + 0.005;
     eventHeight = diffEventHeight / totalSeconds - 0.01;
@@ -565,19 +604,20 @@ function getEventTopHeight(event, opts, sourceDate) {
   }
   if (type === 'week') {
     startCurrent = getMomentValue(start, startHour);
+
     const diffStartCurrent = sourceStart - startCurrent + step * 60 * 1000;
     const diffEventHeight = sourceEnd - sourceStart;
     evetTop = diffStartCurrent / totalSeconds + 0.005;
+
     eventHeight = diffEventHeight / totalSeconds - 0.01;
     return { top: evetTop, height: eventHeight };
   }
   return { top: 0, height: 0 };
 }
 function handleEventsInSameDate(eventsContainer, opts) {
-  const { current, type } = opts;
+  const { value, type } = opts;
   const events = eventsContainer.children;
   const rangeEvents = [];
-
   events.forEach(event => {
     const { start, end } = event;
     const eStart = moment(start).valueOf();
@@ -591,7 +631,7 @@ function handleEventsInSameDate(eventsContainer, opts) {
     if (isInCurrentPanle(event, opts)) {
       // 获取事件的top值和高度
       const { top, height } = getEventTopHeight(event, opts, sourceDate);
-      const { width, offsetX } = computeEventStyle(event, type, current);
+      const { width, offsetX } = computeEventStyle(event, type, value);
       let evetObj = {};
       if (!Number.isNaN(Number(width)) && !Number.isNaN(Number(offsetX))) {
         event.width = width;
@@ -615,11 +655,18 @@ function handleEventsInSameDate(eventsContainer, opts) {
   return rangeEvents;
 }
 
+/**
+ * 获取同事件的容器
+ * @param {*} events
+ * @param {*} opts
+ */
 function getEventContainer(events, opts) {
-  // 拆分事件，为week时，跨两天拆分为两天
   const { type, current } = opts;
   const targetEvents = cloneDeep(events);
+
+  //拆分连续时间超过1天的事件
   const newEvents = initEvents(targetEvents, opts);
+
   // 对事件进行排序
   const sortedEvents = sortByEventRender(newEvents);
 
@@ -637,7 +684,7 @@ function getEventContainer(events, opts) {
  */
 
 function getCanRenderEventInVisiblePan(events, opts) {
-  const { type, current } = opts;
+  const { type, current, value } = opts;
 
   let containerEventsKeys = Object.keys(events);
   containerEventsKeys = (containerEventsKeys || []).filter(key => {
@@ -651,9 +698,8 @@ function getCanRenderEventInVisiblePan(events, opts) {
   containerEventsKeys.forEach(key => {
     if (containerEventsKeys.includes(key)) {
       const wrapSchedule = events[key];
-      const containerStyle = computeEventStyle(wrapSchedule, type, current);
-
-      wrapSchedule.height = type === 'month' ? 1 / 6 - 0.005 : 1;
+      const containerStyle = computeEventStyle(wrapSchedule, type, value);
+      wrapSchedule.height = type === 'month' ? 1 / 6 - PRE_WHITE_SPACE : 1;
       wrapSchedule.top = containerStyle.top;
       wrapSchedule.width = containerStyle.width;
       wrapSchedule.offsetX = containerStyle.offsetX;
@@ -840,9 +886,9 @@ function getMonthTopAndMaxCount(tableHeight) {
     maxCount = Math.floor((cellContainerHeight - MONTH_CELL_HEIGHT) / MONTH_CELL_HEIGHT) - 1;
   }
 
-  let currentDateHight = cellContainerHeight * 1.3 * 0.21;
+  let currentDateHight = cellContainerHeight * 0.22;
   currentDateHight = currentDateHight < 18 ? 18 : currentDateHight;
-  currentDateHight += 12;
+  currentDateHight += 4;
 
   return { maxCount, currentDateHight };
 }
@@ -888,15 +934,20 @@ const generateScheduleContent = (events, callback) =>
 
       let monthMaxCount = 99;
       let currentMonthDateHight = 0;
+      let extraMonthPaddingTop = 0;
 
       if (isMonthType) {
         const { maxCount, currentDateHight } = getMonthTopAndMaxCount(tableHeight);
         monthMaxCount = maxCount;
         currentMonthDateHight = currentDateHight;
+        // 月视图中展示的日期会占据一定的空间
+        const isSameDate = monthTop === getMonthEventTop(opts.current, opts);
+        extraMonthPaddingTop = 28;
+        if (isSameDate) {
+          extraMonthPaddingTop = currentMonthDateHight;
+          monthMaxCount = monthMaxCount - 1;
+        }
       }
-      // 月视图中展示的日期会占据一定的空间
-      const isSameDate = monthTop === getMonthEventTop(opts.current);
-      const extraMonthPaddingTop = !isSameDate ? 28 : currentMonthDateHight;
 
       const containerStyle = {
         width: `${width * 100}%`,

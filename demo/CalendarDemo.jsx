@@ -7,9 +7,7 @@ import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
 import events from './events';
 
-const {
-  MonthCalendar, YearCalendar, RangeCalendar, CalendarFull, MiniWeek,
-} = Calendar;
+const { MonthCalendar, YearCalendar, RangeCalendar, CalendarFull, MiniWeek } = Calendar;
 
 function disabledDate(current) {
   if (current) {
@@ -95,9 +93,9 @@ class Demo extends React.Component {
   }
 
   onScheduleClick = (e, schedule) => {
-    console.log(e, schedule)
-    alert(schedule.name)
-  }
+    console.log(e, schedule);
+    alert(schedule.name);
+  };
 
   render() {
     const me = this;
@@ -246,29 +244,23 @@ class Demo extends React.Component {
                 text: '19年1、2月份',
                 value: {
                   start: '2019-01',
-                  end: '2019-02'
-                }
+                  end: '2019-02',
+                },
               },
               {
                 text: '18年S2',
                 value: {
                   start: '2018-09',
-                  end: '2019-03'
-                }
-              }
+                  end: '2019-03',
+                },
+              },
             ]}
             onSelect={(v, formatted) => {
               this.onRangeSelect(v, formatted);
             }}
           />
         </div>
-        <div
-          className="kuma-form-field"
-          style={{
-            marginBottom: '30px',
-            width: '700px'
-          }}
-        >
+        <div className="kuma-form-field">
           <p>
             大日历日期选择,跨日程，提供Calendar.util.generateScheduleContent方法，返回具体日程的相关信息
           </p>
@@ -276,12 +268,12 @@ class Demo extends React.Component {
             value={value}
             onSelect={this.onSelect}
             fullscreen
-            type="month"
+            type="week"
             locale="zh-cn"
             format="yyyy/MM/dd"
             scheduleRender={Calendar.fullUtil.generateScheduleContent(events, this.onScheduleClick)}
-            startHour={8}
-            endHour={18}
+            startHour={0}
+            endHour={24}
             step={60}
           />
           <MiniWeek
@@ -293,7 +285,7 @@ class Demo extends React.Component {
           />
           <div
             className="miniweek-container"
-            ref={(c) => {
+            ref={c => {
               this.miniRender = c;
             }}
           />

@@ -6,7 +6,7 @@ export default [
     important: true,
     style: {
       background: 'lightblue',
-      color: 'red'
+      color: 'red',
     },
     // 事件的渲染函数
     render: () => <div>事件4</div>,
@@ -32,13 +32,13 @@ export default [
     important: true,
     style: {
       background: 'yellow',
-      color: 'blue'
+      color: 'blue',
     },
     // 事件的渲染函数
     render: () => <div>事件3</div>,
   },
   {
-    start: '2019-05-30 14:00', // 事件开始时间
+    start: '2019-05-22 14:00', // 事件开始时间
     end: '2019-06-03 17:00', // 事件结束时间
     important: true,
     // 事件的渲染函数
@@ -73,12 +73,12 @@ export default [
     render: () => <div>事件3</div>,
   },
   {
-    start: '2019-05-01 14:00', // 事件开始时间
+    start: '2019-06-03 14:00', // 事件开始时间
     end: '2019-06-03 21:00', // 事件结束时间
     important: true,
     style: {
       background: 'lightblue',
-      color: 'white'
+      color: 'white',
     },
     // 事件的渲染函数
     render: () => <div>事件3</div>,

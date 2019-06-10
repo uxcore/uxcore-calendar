@@ -268,7 +268,7 @@ class Demo extends React.Component {
             value={value}
             onSelect={this.onSelect}
             fullscreen
-            type="week"
+            type="month"
             locale="zh-cn"
             format="yyyy/MM/dd"
             scheduleRender={Calendar.fullUtil.generateScheduleContent(events, this.onScheduleClick)}

@@ -18,24 +18,29 @@ class WeekTable extends React.Component {
 
   getSlicePiece() {
     let { startHour, step, endHour } = this.props;
-    startHour = startHour ? parseInt(startHour, 10) : 9;
-    endHour = endHour ? parseInt(endHour, 10) : 23;
+    startHour = typeof startHour !== 'undefined' ? parseInt(startHour, 10) : 9;
+    endHour = typeof endHour !== 'undefined' ? parseInt(endHour, 10) : 23;
     step = step ? parseInt(step, 10) : 60;
     if (endHour < startHour) {
       endHour = startHour;
     }
+
     const slicePiece = Math.ceil(((endHour - startHour) * 60) / step);
     this.setState({ slicePiece });
   }
 
   renderEvents() {
-    const {
-      scheduleRender, startHour, step, endHour, value, type, 
-    } = this.props;
+    const { scheduleRender, startHour, step, endHour, value, type } = this.props;
 
     const { slicePiece } = this.state;
     const renderOpts = {
-      startHour, step, endHour, slicePiece, type, current: value, ...this.props,
+      startHour,
+      step,
+      endHour,
+      slicePiece,
+      type,
+      current: value,
+      ...this.props,
     };
     if (scheduleRender) {
       return scheduleRender(renderOpts);

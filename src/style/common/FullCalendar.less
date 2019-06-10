@@ -51,8 +51,16 @@
           overflow: auto;
           text-overflow: inherit;
           white-space: pre-wrap;
-          div,p,ul,li {
+
+          div,
+          p,
+          ul,
+          li {
             white-space: pre-wrap;
+          }
+
+          div {
+            height: auto;
           }
         }
       }
@@ -73,7 +81,7 @@
 
   .events-month-wrapper {
     position: absolute;
-    top: 32px;
+    top: 38px;
     left: 0;
     width: 100%;
     height: ~"calc(100% - 32px)";
@@ -210,12 +218,14 @@
       height: 100%;
       border-radius: 3px;
       overflow: hidden;
+
       &.hover,
       &:hover {
         cursor: pointer;
         background-color: @brand-primary-alpha-5;
         opacity: 0.8;
       }
+
       .kuma-calendar-content-detail {
         padding-left: 3px;
         white-space: nowrap;
@@ -223,6 +233,7 @@
         text-overflow: ellipsis;
         height: 100%;
         border-left: 3px solid @brand-primary;
+
         div {
           display: inline-block;
           border: none;

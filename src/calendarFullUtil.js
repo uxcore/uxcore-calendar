@@ -213,8 +213,12 @@ function getHashKeyByFomart(start, end, format, splitStr, type) {
   if (start && end) {
     // 说明 是上一天的24点
     let endKey = '';
-    if (moment(end).hour() === 0 && type !== 'month') {
-      endKey = startKey;
+    if (moment(end).hour() === 0) {
+      if (type !== 'month') {
+        endKey = startKey;
+      } else {
+        endKey = getFormatDate(moment(end).subtract(1, 'days'), format);
+      }
     } else {
       endKey = getFormatDate(end, format);
     }
@@ -227,10 +231,21 @@ function getHashKeyByFomart(start, end, format, splitStr, type) {
  * 获取月面板中的容器hash值
  * @param {object} event
  */
-function getMonthContainerHash(event) {
-  const { start } = event;
-  const { firstDate, lastDate } = getWeekStartEnd(start);
-  return getHashKeyByFomart(firstDate, lastDate, 'YYYY-MM-DD', '~', 'month');
+function getMonthContainerHash(event, containerEvents) {
+  const { start, end } = event;
+
+  for (let i = 0, len = containerEvents.length; i < len; i++) {
+    const containerEvent = containerEvents[i];
+    const { start: containerStart, end: containerEnd } = containerEvent;
+    if (
+      moment(start).valueOf() >= moment(containerStart).valueOf() &&
+      moment(end).valueOf() <= moment(containerEnd).valueOf()
+    ) {
+      return getHashKeyByFomart(containerStart, containerEnd, 'YYYY-MM-DD', '~', 'month');
+    }
+  }
+
+  return getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~', 'month');
 }
 
 /**
@@ -238,12 +253,14 @@ function getMonthContainerHash(event) {
  * @param {object} event 获取事件 ;
  * @param {objec} opts ;
  */
-function getHashKey(event, opts) {
+function getHashKey(event, opts, containerEvents) {
   const type = opts ? opts.type : 'week';
+  const { start, end, isColspan } = event;
+
   if (type === 'month') {
-    return getMonthContainerHash(event);
+    return getMonthContainerHash(event, containerEvents);
   }
-  const { start, end } = event;
+
   return getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~');
 }
 
@@ -269,7 +286,7 @@ function handleEvents(events, opts) {
   for (let i = 0, len = events.length; i < len; i++) {
     const event = events[i];
     const { start, end, isColspan } = event;
-    const hashKey = getHashKey(event, opts);
+    const hashKey = getHashKey(event, opts, containerEvents);
 
     if (!wraperHtml[hashKey]) {
       wraperHtml[hashKey] = {

@@ -74,7 +74,7 @@ function inSameRow(target, source) {
  * @param {*} opts
  * @param {*} target
  */
-function getCurrentMonthDiffToStart(source, target) {
+function getCurrentMonthDiffToStart(target, source) {
   let prevDiffDays = 0;
   let afterDiffDays = 0;
   let currentFirstOfMonthDay = 0;
@@ -85,12 +85,13 @@ function getCurrentMonthDiffToStart(source, target) {
   if (source) {
     currentFirstOfMonth = moment(source).startOf('month');
     currentLastOfMonth = moment(source).endOf('month');
+
     prevDiffDays = moment(currentFirstOfMonth).diff(target, 'days');
     afterDiffDays = moment(currentLastOfMonth).diff(target, 'days');
-
     currentFirstOfMonthDay = currentFirstOfMonth.day();
     currentLastOfMonthDay = currentLastOfMonth.day();
   }
+
   return {
     prevDiffDays,
     afterDiffDays,
@@ -106,26 +107,29 @@ function getCurrentMonthDiffToStart(source, target) {
  */
 function getMonthEventTop(start, opts = {}) {
   const { value } = opts;
-  const {
-    prevDiffDays,
-    afterDiffDays,
-    currentLastOfMonthDay,
-    currentLastOfMonth,
-  } = getCurrentMonthDiffToStart(value, start);
 
-  // 在当月最后一天之后，属于下一个月
-  if (afterDiffDays === 0) {
-    const firstDayOfMonthPanel = currentLastOfMonthDay + moment(currentLastOfMonth).date() - 1;
-    return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
-  }
+  if (Object.keys(opts).length !== 0) {
+    const {
+      prevDiffDays,
+      afterDiffDays,
+      currentLastOfMonthDay,
+      currentLastOfMonth,
+    } = getCurrentMonthDiffToStart(start, value);
 
-  if (afterDiffDays < 0) {
-    return Math.ceil(Math.abs(prevDiffDays / 7));
-  }
+    // 在当月最后一天之后，属于下一个月
+    if (afterDiffDays === 0) {
+      const firstDayOfMonthPanel = currentLastOfMonthDay + moment(currentLastOfMonth).date() - 1;
+      return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
+    }
 
-  // 在当月第一天之前，属于上一个月
-  if (prevDiffDays >= 0) {
-    return Math.floor(prevDiffDays / 7);
+    if (afterDiffDays < 0) {
+      return Math.ceil(Math.abs(prevDiffDays / 7));
+    }
+
+    // 在当月第一天之前，属于上一个月
+    if (prevDiffDays >= 0) {
+      return Math.floor(prevDiffDays / 7);
+    }
   }
 
   const diffDate = moment(+new Date(start))
@@ -141,14 +145,14 @@ function getMonthEventTop(start, opts = {}) {
  * @param {object} target 比较对象
  * @param {object} source 被比较对象
  */
-function isSameDateByType(target, source, type = 'date') {
-  if (!moment(target).isSame(source, type) && type === 'date') {
+function isSameDateByType(target, source, type = 'month') {
+  if (!moment(target).isSame(source, type) && type === 'month') {
     const {
       prevDiffDays,
       afterDiffDays,
       currentFirstOfMonthDay,
       currentLastOfMonthDay,
-    } = getCurrentMonthDiffToStart(source, target);
+    } = getCurrentMonthDiffToStart(target, source);
 
     const isPreThenCurrent = prevDiffDays >= 0 && prevDiffDays <= currentFirstOfMonthDay;
     const isAfterThenCurrent = afterDiffDays <= 0 && Math.abs(afterDiffDays) <= 7;
@@ -204,13 +208,17 @@ function isInCurrentPanle(event, opts) {
  * @param {string} format 格式
  * @param {string} splitStr 分隔符
  */
-function getHashKeyByFomart(start, end, format, splitStr) {
+function getHashKeyByFomart(start, end, format, splitStr, type) {
   const startKey = getFormatDate(start, format);
   if (start && end) {
     // 说明 是上一天的24点
     let endKey = '';
     if (moment(end).hour() === 0) {
-      endKey = startKey;
+      if (type !== 'month') {
+        endKey = startKey;
+      } else {
+        endKey = getFormatDate(moment(end).subtract(1, 'days'), format);
+      }
     } else {
       endKey = getFormatDate(end, format);
     }
@@ -223,10 +231,21 @@ function getHashKeyByFomart(start, end, format, splitStr) {
  * 获取月面板中的容器hash值
  * @param {object} event
  */
-function getMonthContainerHash(event) {
-  const { start } = event;
-  const { firstDate, lastDate } = getWeekStartEnd(start);
-  return getHashKeyByFomart(firstDate, lastDate, 'YYYY-MM-DD', '~');
+function getMonthContainerHash(event, containerEvents) {
+  const { start, end } = event;
+
+  for (let i = 0, len = containerEvents.length; i < len; i++) {
+    const containerEvent = containerEvents[i];
+    const { start: containerStart, end: containerEnd } = containerEvent;
+    if (
+      moment(start).valueOf() >= moment(containerStart).valueOf() &&
+      moment(end).valueOf() <= moment(containerEnd).valueOf()
+    ) {
+      return getHashKeyByFomart(containerStart, containerEnd, 'YYYY-MM-DD', '~', 'month');
+    }
+  }
+
+  return getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~', 'month');
 }
 
 /**
@@ -234,12 +253,14 @@ function getMonthContainerHash(event) {
  * @param {object} event 获取事件 ;
  * @param {objec} opts ;
  */
-function getHashKey(event, opts) {
+function getHashKey(event, opts, containerEvents) {
   const type = opts ? opts.type : 'week';
+  const { start, end, isColspan } = event;
+
   if (type === 'month') {
-    return getMonthContainerHash(event);
+    return getMonthContainerHash(event, containerEvents);
   }
-  const { start, end } = event;
+
   return getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~');
 }
 
@@ -265,7 +286,7 @@ function handleEvents(events, opts) {
   for (let i = 0, len = events.length; i < len; i++) {
     const event = events[i];
     const { start, end, isColspan } = event;
-    const hashKey = getHashKey(event, opts);
+    const hashKey = getHashKey(event, opts, containerEvents);
 
     if (!wraperHtml[hashKey]) {
       wraperHtml[hashKey] = {
@@ -458,7 +479,6 @@ function splitMonthEvents(event, diffDays) {
       isColspan: diffDays >= 1,
     });
   }
-
   return arrs;
 }
 
@@ -497,16 +517,16 @@ function splitEvents(event, diffDays, opts) {
       i === 0
         ? newStart
         : moment(eStart)
-            .add(i, 'd')
-            .hour(startHour)
-            .minute(0);
+          .add(i, 'd')
+          .hour(startHour)
+          .minute(0);
 
     const endTime =
       i === diffDays
         ? newEnd
         : moment(startTime)
-            .hour(endHour)
-            .minute(0);
+          .hour(endHour)
+          .minute(0);
     arrs.push({
       ...event,
       start: startTime,
@@ -753,6 +773,7 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
     const moreStyle = {
       left: `${offsetX * 100}%`,
       width: `${width * 100}%`,
+      zIndex: 99
     };
     const moreEvent = classnames({
       'more-event': true,
@@ -812,6 +833,7 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
         height: `${event.height * 100}%`,
         left: `${event.offsetX * 100}%`,
         width: `${event.width * 100}%`,
+        zIndex: 99
       };
 
       const content = render
@@ -819,8 +841,8 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
           ? render(event)
           : render
         : title
-        ? title
-        : moment(start).date();
+          ? title
+          : moment(start).date();
 
       resultArr.push(
         <div

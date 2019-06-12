@@ -1,6 +1,6 @@
 
 # History
-## 0.10.30
+## 0.10.31
 * `FIXED` fix a style bug in fullcalendar mode when event cross different month panel
 
 ## 0.10.29

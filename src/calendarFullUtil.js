@@ -71,8 +71,8 @@ function inSameRow(target, source) {
 
 /**
  * 获取当月第一天或最后一天与target差距的天数
- * @param {*} opts
  * @param {*} target
+ * @param {*} source // 面板的当前时间
  */
 function getCurrentMonthDiffToStart(target, source) {
   let prevDiffDays = 0;
@@ -85,7 +85,6 @@ function getCurrentMonthDiffToStart(target, source) {
   if (source) {
     currentFirstOfMonth = moment(source).startOf('month');
     currentLastOfMonth = moment(source).endOf('month');
-
     prevDiffDays = moment(currentFirstOfMonth).diff(target, 'days');
     afterDiffDays = moment(currentLastOfMonth).diff(target, 'days');
     currentFirstOfMonthDay = currentFirstOfMonth.day();
@@ -112,23 +111,13 @@ function getMonthEventTop(start, opts = {}) {
     const {
       prevDiffDays,
       afterDiffDays,
-      currentLastOfMonthDay,
-      currentLastOfMonth,
     } = getCurrentMonthDiffToStart(start, value);
-
-    // 在当月最后一天之后，属于下一个月
-    if (afterDiffDays === 0) {
-      const firstDayOfMonthPanel = currentLastOfMonthDay + moment(currentLastOfMonth).date() - 1;
-      return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
+    // 是否属于前一个月
+    if (prevDiffDays >= 0 && afterDiffDays > 0) {
+      return 0;
     }
-
-    if (afterDiffDays < 0) {
-      return Math.ceil(Math.abs(prevDiffDays / 7));
-    }
-
-    // 在当月第一天之前，属于上一个月
-    if (prevDiffDays >= 0) {
-      return Math.floor(prevDiffDays / 7);
+    if (prevDiffDays < 0 && afterDiffDays <= 0) {
+      return 5;
     }
   }
 
@@ -151,7 +140,6 @@ function isSameDateByType(target, source, type = 'month') {
       prevDiffDays,
       afterDiffDays,
       currentFirstOfMonthDay,
-      currentLastOfMonthDay,
     } = getCurrentMonthDiffToStart(target, source);
 
     const isPreThenCurrent = prevDiffDays >= 0 && prevDiffDays <= currentFirstOfMonthDay;
@@ -773,7 +761,6 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
     const moreStyle = {
       left: `${offsetX * 100}%`,
       width: `${width * 100}%`,
-      zIndex: 99
     };
     const moreEvent = classnames({
       'more-event': true,
@@ -833,7 +820,6 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
         height: `${event.height * 100}%`,
         left: `${event.offsetX * 100}%`,
         width: `${event.width * 100}%`,
-        zIndex: 99
       };
 
       const content = render
@@ -1012,3 +998,4 @@ export default {
   generateScheduleContent,
   getTime,
 };
+

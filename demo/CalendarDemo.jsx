@@ -132,6 +132,7 @@ class Demo extends React.Component {
             value={value}
             onSelect={this.onSelect}
             showDateInput
+            // renderFooter={() => {return 'aaa'}}
           />
         </div>
         <div

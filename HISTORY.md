@@ -1,5 +1,7 @@
-
 # History
+## 0.10.33
+* `CHANGED` rcCalendar support renderFooter
+
 ## 0.10.32
 * `CHANGED` make a refactor in fullcalendar
 

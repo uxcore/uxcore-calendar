@@ -1,4 +1,7 @@
 # History
+## 0.10.34
+* `FIXED` fix i18n form RangeCalendar
+
 ## 0.10.33
 * `CHANGED` rcCalendar support renderFooter
 

@@ -30,13 +30,14 @@ const CalendarPart = createClass({
       locale, selectedValue, format, placeholder,
       disabledDate, timePicker, disabledTime,
       timePickerDisabledTime, showTimePicker,
-      hoverValue, onInputSelect,
+      hoverValue, onInputSelect, localeStr
     } = props;
     const disabledTimeConfig = showTimePicker && disabledTime && timePicker ?
       getTimeConfig(selectedValue, disabledTime) : null;
     const rangeClassName = `${prefixCls}-range`;
     const newProps = {
       locale,
+      localeStr,
       value,
       prefixCls,
       showTimePicker,

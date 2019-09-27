@@ -391,6 +391,7 @@ const RangeCalendar = createClass({
       timePicker,
       showOk,
       locale,
+      localeStr,
       showClear,
       showToday,
       type,
@@ -408,6 +409,7 @@ const RangeCalendar = createClass({
     const newProps = {
       selectedValue: state.selectedValue,
       onSelect: this.onSelect,
+      localeStr,
       onDayHover:
         (type === 'start' && selectedValue[1]) ||
         (type === 'end' && selectedValue[0]) ||
@@ -435,7 +437,6 @@ const RangeCalendar = createClass({
 
     const startValue = this.getStartValue();
     const endValue = this.getEndValue();
-
     return (
       <div
         ref={c => {

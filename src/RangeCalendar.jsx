@@ -146,6 +146,7 @@ class Calendar extends React.Component {
       timePicker: p.timePicker || (p.showTime ? me.TimePickerElement : null),
       showDateInput: p.showDateInput,
       locale: CalendarLocale[p.locale],
+      localeStr: p.locale,
       prefixCls: 'kuma-calendar',
       renderSidebar: p.renderSidebar ? p.renderSidebar : () => null,
       renderFooter: p.renderFooter ? p.renderFooter : () => null

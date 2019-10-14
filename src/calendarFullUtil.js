@@ -15,7 +15,7 @@ import { sortBy, cloneDeep } from 'lodash';
 
 const WEEK_COLUMN = 6;
 const MONTH_CELL_HEIGHT = 22;
-const PRE_WHITE_SPACE = 0.005; //为日、周预留的空白距离
+const PRE_WHITE_SPACE = 0.005; // 为日、周预留的空白距离
 
 function getTime(props) {
   const { startHour, value } = props;
@@ -35,12 +35,31 @@ function sortByEventRender(events) {
 
 function getMomentValue(date, hour) {
   return moment(date)
-    .set({ hour: hour, minute: 0, second: 0, millisecond: 0 })
+    .set({
+      hour, minute: 0, second: 0, millisecond: 0,
+    })
     .valueOf();
+}
+
+/**
+ * 将日期的时分秒都设为0
+ * @param {*} date
+ */
+function setDateHMSM0(date) {
+  return moment(date).set({
+    hour: 0, minute: 0, second: 0, millisecond: 0,
+  });
 }
 
 function getFormatDate(value, format) {
   return moment(value).format(format);
+}
+
+function getDateFromString(str) {
+  if (!str || str.indexOf('~') < 0) {
+    return [];
+  }
+  return str.split('~');
 }
 
 /**
@@ -71,8 +90,8 @@ function inSameRow(target, source) {
 
 /**
  * 获取当月第一天或最后一天与target差距的天数
- * @param {*} opts
  * @param {*} target
+ * @param {*} source // 面板的当前时间
  */
 function getCurrentMonthDiffToStart(target, source) {
   let prevDiffDays = 0;
@@ -83,13 +102,15 @@ function getCurrentMonthDiffToStart(target, source) {
   let currentLastOfMonth = '';
 
   if (source) {
-    currentFirstOfMonth = moment(source).startOf('month');
-    currentLastOfMonth = moment(source).endOf('month');
-
-    prevDiffDays = moment(currentFirstOfMonth).diff(target, 'days');
-    afterDiffDays = moment(currentLastOfMonth).diff(target, 'days');
+    const computedTarget = setDateHMSM0(target);
+    currentFirstOfMonth = setDateHMSM0(moment(source).startOf('month'));
+    currentLastOfMonth = setDateHMSM0(moment(source).endOf('month'));
+    prevDiffDays = moment(currentFirstOfMonth).diff(computedTarget, 'days');
+    afterDiffDays = moment(currentLastOfMonth).diff(computedTarget, 'days');
     currentFirstOfMonthDay = currentFirstOfMonth.day();
+    currentFirstOfMonthDay = currentFirstOfMonthDay === 0 ? 7 : currentFirstOfMonthDay;
     currentLastOfMonthDay = currentLastOfMonth.day();
+    currentLastOfMonthDay = currentLastOfMonthDay === 0 ? 7 : currentLastOfMonthDay;
   }
 
   return {
@@ -102,42 +123,61 @@ function getCurrentMonthDiffToStart(target, source) {
   };
 }
 
+
+function getMaxDate(event) {
+  const { start, end } = event;
+  return moment(start).date() > moment(end).date ? start : end;
+}
+
 /**
  * 获取当前日期在月面板的第几行
  */
-function getMonthEventTop(start, opts = {}) {
+function getMonthEventTop(date, opts = {}) {
+  const computeDate = setDateHMSM0(date);
   const { value } = opts;
-
   if (Object.keys(opts).length !== 0) {
     const {
       prevDiffDays,
       afterDiffDays,
-      currentLastOfMonthDay,
       currentLastOfMonth,
-    } = getCurrentMonthDiffToStart(start, value);
+      currentFirstOfMonthDay,
+      currentLastOfMonthDay,
+    } = getCurrentMonthDiffToStart(computeDate, value);
 
-    // 在当月最后一天之后，属于下一个月
-    if (afterDiffDays === 0) {
-      const firstDayOfMonthPanel = currentLastOfMonthDay + moment(currentLastOfMonth).date() - 1;
-      return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
+    const newCurrentFirstOfMonthDay = currentFirstOfMonthDay === 0 ? 7 : currentFirstOfMonthDay;
+
+    const lastDayOfMonthPanel = newCurrentFirstOfMonthDay + moment(currentLastOfMonth).date() - 1;
+    const lastDayOfMonthPanelTop = Math.ceil(Math.abs(lastDayOfMonthPanel) / 7) - 1;
+
+
+    if ((currentFirstOfMonthDay + Math.abs(prevDiffDays)) <= 7 && prevDiffDays <= 0) {
+      return 0;
     }
 
-    if (afterDiffDays < 0) {
-      return Math.ceil(Math.abs(prevDiffDays / 7));
+    if ((currentLastOfMonthDay + Math.abs(afterDiffDays) <= 7) && afterDiffDays <= 0) {
+      return lastDayOfMonthPanelTop;
     }
 
-    // 在当月第一天之前，属于上一个月
-    if (prevDiffDays >= 0) {
-      return Math.floor(prevDiffDays / 7);
+
+    if (prevDiffDays >= 0 && afterDiffDays >= 0) {
+      return Math.floor(Math.abs(prevDiffDays) / 7);
+    }
+
+
+    if (prevDiffDays < 0 && afterDiffDays <= 0) {
+      return lastDayOfMonthPanelTop + Math.floor(Math.abs(afterDiffDays) / 7);
     }
   }
 
-  const diffDate = moment(+new Date(start))
-    .startOf('month')
-    .day();
-  const firstDayOfMonthPanel = diffDate + moment(start).date() - 1;
+  const diffDate = setDateHMSM0(moment(new Date(computeDate)).startOf('month'));
+  let startMothDay = moment(diffDate).day();
+  startMothDay = startMothDay === 0 ? 7 : startMothDay;
+  const firstDayOfMonthPanel = startMothDay + moment(computeDate).diff(diffDate, 'days');
 
-  return Math.ceil(Math.abs(firstDayOfMonthPanel) / 7) - 1;
+  if (firstDayOfMonthPanel % 7 === 0) {
+    return firstDayOfMonthPanel / 7 - 1;
+  }
+  return Math.floor(firstDayOfMonthPanel / 7);
 }
 
 /**
@@ -151,7 +191,6 @@ function isSameDateByType(target, source, type = 'month') {
       prevDiffDays,
       afterDiffDays,
       currentFirstOfMonthDay,
-      currentLastOfMonthDay,
     } = getCurrentMonthDiffToStart(target, source);
 
     const isPreThenCurrent = prevDiffDays >= 0 && prevDiffDays <= currentFirstOfMonthDay;
@@ -168,6 +207,16 @@ function getWeekStartEnd(current) {
   const lastDate = moment(current).add(7 - day, 'd');
   return { firstDate, lastDate };
 }
+
+/**
+ * 判断当前开始时间是否存在于现有容器数组中
+ * @param {array} containers  //
+ * @param {moment} start
+ */
+function findContainer(containers, start) {
+  return containers.find(c => moment(c.end).valueOf() > moment(start).valueOf());
+}
+
 
 /**
  * 判断是否在同一周
@@ -217,7 +266,7 @@ function getHashKeyByFomart(start, end, format, splitStr, type) {
       if (type !== 'month') {
         endKey = startKey;
       } else {
-        endKey = getFormatDate(moment(end).subtract(1, 'days'), format);
+        endKey = getFormatDate(end, format);
       }
     } else {
       endKey = getFormatDate(end, format);
@@ -227,25 +276,65 @@ function getHashKeyByFomart(start, end, format, splitStr, type) {
   return startKey;
 }
 
+
+function changeContainerKeyByHash(containerHashEvents,containerEvents,hashKey){
+  if (containerHashEvents.length) {
+    containerHashEvents.forEach((e) => {
+      e.containerKey = hashKey;
+
+      if (!containerEvents[hashKey]) {
+        containerEvents[hashKey] = [];
+      }
+      containerEvents[hashKey].push(e);
+
+    });
+  }
+}
+
+
 /**
  * 获取月面板中的容器hash值
  * @param {object} event
  */
 function getMonthContainerHash(event, containerEvents) {
   const { start, end } = event;
+  const keys = Object.keys(containerEvents);
+  let hashKey = getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~', 'month');
+  event.containerKey = hashKey;
 
-  for (let i = 0, len = containerEvents.length; i < len; i++) {
-    const containerEvent = containerEvents[i];
-    const { start: containerStart, end: containerEnd } = containerEvent;
+  for (let i = 0, len = keys.length; i < len; i++) {
+    const containerEvent = getDateFromString(keys[i]);
+    const containerStart = containerEvent[0];
+    const containerEnd = containerEvent[1];
+    const containerStartValue = moment(containerStart).valueOf();
+    const containerEndValue = moment(containerEnd).valueOf();
+    const containerHashKey = getHashKeyByFomart(containerStart, containerEnd, 'YYYY-MM-DD', '~', 'month');
+    // 当前事件的时间段处于已有的容器时间段中 
     if (
-      moment(start).valueOf() >= moment(containerStart).valueOf() &&
-      moment(end).valueOf() <= moment(containerEnd).valueOf()
+      moment(start).valueOf() >= containerStartValue
+      && moment(end).valueOf() <= containerEndValue
     ) {
-      return getHashKeyByFomart(containerStart, containerEnd, 'YYYY-MM-DD', '~', 'month');
+      hashKey = containerHashKey;
+      event.containerKey = containerHashKey;
+      changeContainerKeyByHash(containerEvents[containerHashKey], containerEvents, containerHashKey);
+      
+    }else{
+       // 当前事件的时间段不处于已有的容器时间段中 ，且可能成为一个新的容器
+      if (
+        moment(new Date(containerEnd)).isSameOrBefore(end) 
+        && moment(new Date(containerStart)).isSameOrAfter(start)
+      ) {
+        changeContainerKeyByHash(containerEvents[containerHashKey],containerEvents,hashKey);
+      }
     }
+    
   }
 
-  return getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~', 'month');
+  if (!containerEvents[hashKey]) {
+    containerEvents[hashKey] = [];
+  }
+  containerEvents[hashKey].push(event);
+  
 }
 
 /**
@@ -255,25 +344,30 @@ function getMonthContainerHash(event, containerEvents) {
  */
 function getHashKey(event, opts, containerEvents) {
   const type = opts ? opts.type : 'week';
-  const { start, end, isColspan } = event;
+  const { start, end } = event;
 
   if (type === 'month') {
-    return getMonthContainerHash(event, containerEvents);
+    getMonthContainerHash(event, containerEvents);
+  }else{
+    const eventHashKey = getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~');
+    event.containerKey = eventHashKey;
   }
-
-  return getHashKeyByFomart(start, end, 'YYYY-MM-DD', '~');
 }
 
 /**
- * 判断当前开始时间是否存在于现有容器数组中
- * @param {array} containers  //
- * @param {moment} start
+ * 获取事件的hashKey
+ * @param {*} events
+ * @param {*} opts
  */
-function findContainer(containers, start) {
-  return containers.find(c => {
-    return moment(c.end).valueOf() > moment(start).valueOf();
+function handleHashKey(events, opts) {
+
+  const hashKeys = {};
+  events.forEach((event) => {
+    getHashKey(event, opts, hashKeys);
   });
+ 
 }
+
 
 /**
  * 处理事件间的包含所属关系
@@ -283,18 +377,20 @@ function handleEvents(events, opts) {
   const containerEvents = [];
   const wraperHtml = {};
 
+  handleHashKey(events, opts);
+
   for (let i = 0, len = events.length; i < len; i++) {
     const event = events[i];
-    const { start, end, isColspan } = event;
-    const hashKey = getHashKey(event, opts, containerEvents);
-
+    const {
+      start, end, isColspan, containerKey: hashKey,
+    } = event;
     if (!wraperHtml[hashKey]) {
       wraperHtml[hashKey] = {
         children: [],
         date: start,
         end,
         isColspan,
-        monthTop: isColspan && getMonthEventTop(start, opts),
+        monthTop: isColspan && getMonthEventTop(end, opts),
         isContainer: true,
         sameDateArr: [],
       };
@@ -324,6 +420,7 @@ function handleEvents(events, opts) {
       }
     }
   }
+  
   return wraperHtml;
 }
 
@@ -332,9 +429,11 @@ function handleEvents(events, opts) {
  * @param {object} event  事件
  */
 function computeMonthEventStyle(event) {
-  const { end, isColspan, monthTop, children, start, date } = event;
+  const {
+    end, isColspan, monthTop, children, start, date,
+  } = event;
   const eventStart = start || date;
-  const top = !Number.isNaN(Number(monthTop)) ? monthTop : getMonthEventTop(eventStart);
+  const top = !Number.isNaN(Number(monthTop)) ? monthTop : getMonthEventTop(end);
   const widthSlice = 7;
   const diffEvent = moment(end).diff(eventStart, 'days') + 1;
 
@@ -367,7 +466,9 @@ function computeEventStyle(event, type) {
     return computeMonthEventStyle(event);
   }
 
-  const { end, isColspan, children, start, date } = event;
+  const {
+    end, isColspan, children, start, date,
+  } = event;
 
   const eventStart = start || date;
   const startDay = getDateDay(eventStart);
@@ -483,8 +584,13 @@ function splitMonthEvents(event, diffDays) {
 }
 
 function getCorrectEventsDate(event, opts) {
-  const { startHour, endHour } = opts;
-  const { start, end } = event;
+  const { startHour, endHour, } = opts;
+  let { start,end } = event;
+  if (moment(end).hour() === 0) {
+    const subtractEnd = moment(end).subtract(1, 'days');
+    event.end = subtractEnd;
+    end = subtractEnd;
+  }
   const eHour = moment(end).hour();
   const newEnd = eHour > endHour ? moment(end).hour(endHour) : end;
   const sHour = moment(start).hour();
@@ -503,30 +609,29 @@ function splitEvents(event, diffDays, opts) {
   const arrs = [];
   const { startHour, endHour, type } = opts;
   const { start, end, render } = event;
+  const { newStart, newEnd } = getCorrectEventsDate(event, opts);
 
   if (type === 'month') {
     return splitMonthEvents(event, diffDays);
   }
 
-  const { newStart, newEnd } = getCorrectEventsDate(event, opts);
+
   const eStart = moment(start).valueOf();
   const eEnd = moment(end).valueOf();
 
   for (let i = 0; i <= diffDays; i++) {
-    const startTime =
-      i === 0
-        ? newStart
-        : moment(eStart)
-            .add(i, 'd')
-            .hour(startHour)
-            .minute(0);
+    const startTime = i === 0
+      ? newStart
+      : moment(eStart)
+        .add(i, 'd')
+        .hour(startHour)
+        .minute(0);
 
-    const endTime =
-      i === diffDays
-        ? newEnd
-        : moment(startTime)
-            .hour(endHour)
-            .minute(0);
+    const endTime = i === diffDays
+      ? newEnd
+      : moment(startTime)
+        .hour(endHour)
+        .minute(0);
     arrs.push({
       ...event,
       start: startTime,
@@ -543,10 +648,10 @@ function splitEvents(event, diffDays, opts) {
 function initEvents(events, opts) {
   let resultEvents = [];
 
-  events.forEach(event => {
+  events.forEach((event) => {
     const { start, end, name } = event;
     const diffDate = moment(end).diff(moment(start), 'days');
-    event.name = name || 'event_' + setTimeout(0);
+    event.name = name || `event_${setTimeout(0)}`;
     if (diffDate > 0) {
       resultEvents = resultEvents.concat(splitEvents(event, diffDate, opts));
     } else {
@@ -587,7 +692,7 @@ function handleSplitEvent(event, continuousDay) {
  * @param {array} events 事件数组
  */
 function handlePropsEvents(events, results = {}) {
-  events.forEach(event => {
+  events.forEach((event) => {
     const { start, end } = event;
     const startKey = moment(start).format('YYYY-MM-DD');
     const diffDate = moment(end).diff(moment(start), 'days');
@@ -606,7 +711,9 @@ function handlePropsEvents(events, results = {}) {
 }
 
 function getEventTopHeight(event, opts, sourceDate) {
-  const { startHour, current, slicePiece, step, type, value } = opts;
+  const {
+    startHour, current, slicePiece, step, type, value,
+  } = opts;
   const { start } = event;
   const { sourceStart, sourceEnd } = sourceDate;
   let startCurrent = getMomentValue(value, startHour);
@@ -638,7 +745,7 @@ function handleEventsInSameDate(eventsContainer, opts) {
   const { value, type } = opts;
   const events = eventsContainer.children;
   const rangeEvents = [];
-  events.forEach(event => {
+  events.forEach((event) => {
     const { start, end } = event;
     const eStart = moment(start).valueOf();
     const eEnd = moment(end).valueOf();
@@ -684,7 +791,7 @@ function getEventContainer(events, opts) {
   const { type, current } = opts;
   const targetEvents = cloneDeep(events);
 
-  //拆分连续时间超过1天的事件
+  // 拆分连续时间超过1天的事件
   const newEvents = initEvents(targetEvents, opts);
 
   // 对事件进行排序
@@ -707,7 +814,7 @@ function getCanRenderEventInVisiblePan(events, opts) {
   const { type, current, value } = opts;
 
   let containerEventsKeys = Object.keys(events);
-  containerEventsKeys = (containerEventsKeys || []).filter(key => {
+  containerEventsKeys = (containerEventsKeys || []).filter((key) => {
     const times = key.split('~');
     return isInCurrentPanle({ start: times[0], end: times[1] }, opts);
   });
@@ -715,7 +822,7 @@ function getCanRenderEventInVisiblePan(events, opts) {
   const renderEvents = [];
 
   // 在当前面板中可视才渲染
-  containerEventsKeys.forEach(key => {
+  containerEventsKeys.forEach((key) => {
     if (containerEventsKeys.includes(key)) {
       const wrapSchedule = events[key];
       const containerStyle = computeEventStyle(wrapSchedule, type, value);
@@ -767,9 +874,11 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
   const jsxArr = [];
   const eventKeys = Object.keys(moreInfoEvents);
   const now = new Date();
-  eventKeys.forEach(event => {
+  eventKeys.forEach((event) => {
     const info = moreInfoEvents[event];
-    const { offsetX, count, key, width, important } = info;
+    const {
+      offsetX, count, key, width, important,
+    } = info;
     const moreStyle = {
       left: `${offsetX * 100}%`,
       width: `${width * 100}%`,
@@ -791,7 +900,13 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
         key={key}
         onClick={go2More.bind(this, event, opts)}
       >
-        {maxCount > -1 && <span>{count} 条</span>}
+        {maxCount > -1 && (
+        <span>
+          {count}
+          {' '}
+条
+        </span>
+        )}
         {!!important && maxCount === -1 && (
           <Icon name="zhongyaoshijian" usei className="import-event" />
         )}
@@ -817,7 +932,9 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
   for (let i = 0; i < eventLen; i++) {
     const event = events[i];
     const originEvt = event.event;
-    const { start, render, important, title } = originEvt;
+    const {
+      start, render, important, title,
+    } = originEvt;
     if (isMonthType) {
       handleShowMoreInfo(originEvt, moreInfoEvents);
     }
@@ -838,32 +955,30 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
         ? typeof render === 'function'
           ? render(event)
           : render
-        : title
-        ? title
-        : moment(start).date();
+        : title || moment(start).date();
 
       resultArr.push(
         <div
           className={importantCls}
           key={i}
           style={eStyle}
-          onClick={e => {
+          onClick={(e) => {
             callback(e, originEvt);
           }}
         >
           <div
             className="kuma-calendar-content-wraper"
             data-event-name={originEvt.name}
-            onMouseEnter={e => {
+            onMouseEnter={(e) => {
               const eventName = e.currentTarget.getAttribute('data-event-name');
-              document.querySelectorAll('[data-event-name]').forEach(item => {
+              document.querySelectorAll('[data-event-name]').forEach((item) => {
                 if (item.getAttribute('data-event-name') === eventName) {
                   item.classList.add('hover');
                 }
               });
             }}
             onMouseLeave={() => {
-              document.querySelectorAll('[data-event-name]').forEach(item => {
+              document.querySelectorAll('[data-event-name]').forEach((item) => {
                 item.classList.remove('hover');
               });
             }}
@@ -922,86 +1037,85 @@ function getMonthTopAndMaxCount(tableHeight) {
  *  render: function(){}
  * })
  */
-const generateScheduleContent = (events, callback) =>
-  function scheduleRender(evts, opts, tableHeight) {
-    if (!evts || !evts.length) {
-      return;
-    }
+const generateScheduleContent = (events, callback) => function scheduleRender(evts, opts, tableHeight) {
+  if (!evts || !evts.length) {
+    return;
+  }
 
-    const containerEvents = getEventContainer(evts, opts);
+  const containerEvents = getEventContainer(evts, opts);
 
-    const resultScheduleHtml = [];
-    const eventsKeys = Object.keys(containerEvents);
+  const resultScheduleHtml = [];
+  const eventsKeys = Object.keys(containerEvents);
 
-    const isMonthType = opts.type === 'month';
-    const isWeekType = opts.type === 'week';
-    const isDayType = opts.type === 'time';
+  const isMonthType = opts.type === 'month';
+  const isWeekType = opts.type === 'week';
+  const isDayType = opts.type === 'time';
 
-    for (let i = 0, len = eventsKeys.length; i < len; i++) {
-      const key = eventsKeys[i];
-      const container = containerEvents[key];
+  for (let i = 0, len = eventsKeys.length; i < len; i++) {
+    const key = eventsKeys[i];
+    const container = containerEvents[key];
 
-      const {
-        children: rangeEvents,
-        width,
-        offsetX,
-        height,
-        top,
-        isColspan,
-        end,
-        monthTop,
-      } = container;
+    const {
+      children: rangeEvents,
+      width,
+      offsetX,
+      height,
+      top,
+      isColspan,
+      end,
+      monthTop,
+    } = container;
 
-      let monthMaxCount = 99;
-      let currentMonthDateHight = 0;
-      let extraMonthPaddingTop = 0;
+    let monthMaxCount = 99;
+    let currentMonthDateHight = 0;
+    let extraMonthPaddingTop = 0;
 
-      if (isMonthType) {
-        const { maxCount, currentDateHight } = getMonthTopAndMaxCount(tableHeight);
-        monthMaxCount = maxCount;
-        currentMonthDateHight = currentDateHight;
-        // 月视图中展示的日期会占据一定的空间
-        const isSameDate = monthTop === getMonthEventTop(opts.current, opts);
-        extraMonthPaddingTop = 28;
-        if (isSameDate) {
-          extraMonthPaddingTop = currentMonthDateHight;
-          monthMaxCount = monthMaxCount - 1;
-        }
+    if (isMonthType) {
+      const { maxCount, currentDateHight } = getMonthTopAndMaxCount(tableHeight);
+      monthMaxCount = maxCount;
+      currentMonthDateHight = currentDateHight;
+      // 月视图中展示的日期会占据一定的空间
+      const isSameDate = monthTop === getMonthEventTop(opts.current, opts);
+      extraMonthPaddingTop = 28;
+      if (isSameDate) {
+        extraMonthPaddingTop = currentMonthDateHight;
+        monthMaxCount -= 1;
       }
-
-      const containerStyle = {
-        width: `${width * 100}%`,
-        left: `${offsetX * 100}%`,
-        top: top ? `${top * 100}%` : 0,
-        paddingTop: isMonthType ? extraMonthPaddingTop : 0,
-        height: `${height * 100}%`,
-      };
-
-      const containerCls = classnames({
-        'cell-container': true,
-        'colspan-cell': isColspan,
-        'hide-event': isMonthType && !monthMaxCount,
-      });
-
-      resultScheduleHtml.push(
-        <div className={containerCls} key={i} style={containerStyle}>
-          {getVisibleEvent(rangeEvents, monthMaxCount, opts, callback)}
-        </div>,
-      );
     }
 
-    return (
-      <div
-        className={classnames('events-wrapper', {
-          'events-month-wrapper': isMonthType,
-          'events-week-wrapper': isWeekType,
-          'events-day-wrapper': isDayType,
-        })}
-      >
-        {resultScheduleHtml}
-      </div>
+    const containerStyle = {
+      width: `${width * 100}%`,
+      left: `${offsetX * 100}%`,
+      top: top ? `${top * 100}%` : 0,
+      paddingTop: isMonthType ? extraMonthPaddingTop : 0,
+      height: `${height * 100}%`,
+    };
+
+    const containerCls = classnames({
+      'cell-container': true,
+      'colspan-cell': isColspan,
+      'hide-event': isMonthType && !monthMaxCount,
+    });
+
+    resultScheduleHtml.push(
+      <div className={containerCls} key={i} style={containerStyle}>
+        {getVisibleEvent(rangeEvents, monthMaxCount, opts, callback)}
+      </div>,
     );
-  }.bind(null, events);
+  }
+
+  return (
+    <div
+      className={classnames('events-wrapper', {
+        'events-month-wrapper': isMonthType,
+        'events-week-wrapper': isWeekType,
+        'events-day-wrapper': isDayType,
+      })}
+    >
+      {resultScheduleHtml}
+    </div>
+  );
+}.bind(null, events);
 
 export default {
   handlePropsEvents,

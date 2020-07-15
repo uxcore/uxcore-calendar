@@ -21,6 +21,7 @@ const FullCalendar = createReactClass({
     fullscreen: PropTypes.bool,
     selectedValue: PropTypes.any,
     onSelect: PropTypes.func,
+    onHeaderSelect: PropTypes.func,
     dateRender: PropTypes.func,
     weekRender: PropTypes.func,
     showTypeSwitch: PropTypes.bool,
@@ -45,7 +46,10 @@ const FullCalendar = createReactClass({
 
   onHeaderSelect(value, formatValue, momentValue) {
     const resultVal = momentValue || value;
-    const { originLocale } = this.props;
+    const { originLocale, onHeaderSelect } = this.props;
+    if (onHeaderSelect) {
+      onHeaderSelect(value, formatValue);
+    }
     this.setValue(moment(resultVal).locale(originLocale));
   },
 

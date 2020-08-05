@@ -1105,7 +1105,7 @@ const generateScheduleContent = (events, callback) =>
         monthTop,
       } = container;
 
-      let newRangeEvents = sortEventsByCount(rangeEvents);
+      const newRangeEvents = sortEventsByCount(rangeEvents);
 
       let monthMaxCount = 99;
       let currentMonthDateHight = 0;

@@ -793,9 +793,7 @@ function getJSXfromMoreInfos(moreInfoEvents, maxCount, opts) {
         {!!important && maxCount === -1 && (
           <Icon name="zhongyaoshijian" usei className="import-event" />
         )}
-        {(!important || (maxCount > -1 && maxCount < count)) && (
-          <span className={moreIcon} />
-        )}
+        {maxCount > -1 && maxCount < count && <span className={moreIcon} />}
       </div>
     );
   });

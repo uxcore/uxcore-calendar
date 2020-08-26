@@ -840,7 +840,7 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
           }}
         >
           <div
-            className="kuma-calendar-content-wraper"
+            className={classnames('kuma-calendar-content-wraper', { [originEvt.contentWrapperClass]: originEvt.contentWrapperClass })}
             data-event-name={originEvt.name}
             onMouseEnter={e => {
               const eventName = e.currentTarget.getAttribute('data-event-name');
@@ -857,7 +857,7 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
             }}
           >
             <div
-              className="kuma-calendar-content-detail"
+              className={classnames('kuma-calendar-content-detail', { [originEvt.contentDetailClass]: originEvt.contentDetailClass })}
               title={typeof content !== 'object' ? content : ''}
               style={originEvt.style || {}}
             >

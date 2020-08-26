@@ -2,7 +2,7 @@
   "name": "uxcore-calendar",
   "version": "0.10.34",
   "description": "calendar componment for react",
-  "main": "build/index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "uxcore-tools run start",
     "server": "uxcore-tools run server",

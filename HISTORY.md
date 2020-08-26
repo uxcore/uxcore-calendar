@@ -1,4 +1,7 @@
 # History
+## 0.10.35
+* `feat` add new prop onHeaderSelect for calendarfull
+
 ## 0.10.34
 * `FIXED` fix i18n form RangeCalendar
 

@@ -44,12 +44,12 @@ export default class DateTable extends React.Component {
   }
 
   render() {
-    const { prefixCls } = this.props;
+    const { prefixCls, defaultCellHeight } = this.props;
     const fullTableHeight = this.fullTable ? this.fullTable.offsetHeight : 0;
     const cellHeight = 0.8 * (fullTableHeight - 32) / 6;
     const tableCls = classnames({
       [`${prefixCls}-table`]: true,
-      'super-mini': cellHeight <= 42 && cellHeight > 0,
+      'super-mini': cellHeight <= (defaultCellHeight || 42) && cellHeight > 0,
 
     });
     return (

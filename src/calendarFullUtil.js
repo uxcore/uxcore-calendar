@@ -910,7 +910,7 @@ function getMonthTopAndMaxCount(tableHeight) {
  *  render: function(){}
  * })
  */
-const generateScheduleContent = (events, callback) =>
+const generateScheduleContent = (events, callback, defaultMaxCount) =>
   function scheduleRender(evts, opts, tableHeight) {
     if (!evts || !evts.length) {
       return;
@@ -973,7 +973,7 @@ const generateScheduleContent = (events, callback) =>
 
       resultScheduleHtml.push(
         <div className={containerCls} key={i} style={containerStyle}>
-          {getVisibleEvent(rangeEvents, monthMaxCount, opts, callback)}
+          {getVisibleEvent(rangeEvents, defaultMaxCount || monthMaxCount, opts, callback)}
         </div>,
       );
     }

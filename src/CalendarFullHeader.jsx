@@ -127,8 +127,8 @@ class CalendarHeader extends Component {
   }
 
   todayElement() {
-    const { showToday, locale } = this.props;
-    const isSuperMini = this.fullHeader ? this.fullHeader.offsetWidth <= 380 : false;
+    const { showToday, locale, miniOffset } = this.props;
+    const isSuperMini = this.fullHeader ? this.fullHeader.offsetWidth <= miniOffset : false;
     const cls = classnames({
       'today-btn': true,
       'super-mini': isSuperMini,
@@ -176,11 +176,11 @@ class CalendarHeader extends Component {
   }
 
   renderSwitcher() {
-    const { showTypeSwitch } = this.props;
+    const { showTypeSwitch, miniOffset } = this.props;
     if (!showTypeSwitch) {
       return null;
     }
-    if (this.fullHeader && this.fullHeader.offsetWidth < 380) {
+    if (this.fullHeader && this.fullHeader.offsetWidth < miniOffset) {
       return this.getSelectSwitcher();
     }
     return this.getExpandedSwitcher();
@@ -206,6 +206,7 @@ class CalendarHeader extends Component {
 CalendarHeader.propTypes = {
   yearSelectOffset: PropTypes.number,
   yearSelectTotal: PropTypes.number,
+  miniOffset: PropTypes.number,
   onValueChange: PropTypes.func,
   typeChange: PropTypes.func,
   prefixCls: PropTypes.string,
@@ -216,6 +217,7 @@ CalendarHeader.propTypes = {
 CalendarHeader.defaultProps = {
   yearSelectOffset: 10,
   yearSelectTotal: 20,
+  miniOffset: 380,
   onValueChange: null,
   showToday: true,
   type: 'time',

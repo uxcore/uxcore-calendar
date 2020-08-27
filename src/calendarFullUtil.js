@@ -852,7 +852,7 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
           }}
         >
           <div
-            className="kuma-calendar-content-wraper"
+            className={classnames('kuma-calendar-content-wraper', { [originEvt.contentWrapperClass]: originEvt.contentWrapperClass })}
             data-event-name={originEvt.name}
             onMouseEnter={(e) => {
               const eventName = e.currentTarget.getAttribute("data-event-name");
@@ -869,8 +869,8 @@ function getVisibleEvent(events, maxCount, opts, callback = () => {}) {
             }}
           >
             <div
-              className="kuma-calendar-content-detail"
-              title={typeof content !== "object" ? content : ""}
+              className={classnames('kuma-calendar-content-detail', { [originEvt.contentDetailClass]: originEvt.contentDetailClass })}
+              title={typeof content !== 'object' ? content : ''}
               style={originEvt.style || {}}
             >
               {!!important && (
@@ -942,7 +942,7 @@ function sortEventsByCount(evets) {
  *  render: function(){}
  * })
  */
-const generateScheduleContent = (events, callback) =>
+const generateScheduleContent = (events, callback, defaultMaxCount) =>
   function scheduleRender(evts, opts, tableHeight) {
     if (!evts || !evts.length) {
       return;
@@ -1009,8 +1009,8 @@ const generateScheduleContent = (events, callback) =>
 
       resultScheduleHtml.push(
         <div className={containerCls} key={i} style={containerStyle}>
-          {getVisibleEvent(newRangeEvents, monthMaxCount, opts, callback)}
-        </div>
+          {getVisibleEvent(rangeEvents, defaultMaxCount || monthMaxCount, opts, callback)}
+        </div>,
       );
     }
 

@@ -12,6 +12,7 @@ const { getCalendarContainer, generalizeFormat } = util;
 
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
+CalendarLocale['zh-hk'] = require('rc-calendar/lib/locale/zh_TW');
 
 class MonthCalendar extends React.Component {
   constructor(props) {

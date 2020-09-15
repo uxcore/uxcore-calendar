@@ -11,9 +11,12 @@ const CalendarLocale = {};
 
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
+CalendarLocale['zh-hk'] = require('rc-calendar/lib/locale/zh_TW');
+
 
 CalendarLocale['zh-cn'] = { ...CalendarLocale['zh-cn'], ...i18n['zh-cn'] };
 CalendarLocale['en-us'] = { ...CalendarLocale['en-us'], ...i18n['en-us'] };
+CalendarLocale['zh-hk'] = { ...CalendarLocale['zh-hk'], ...i18n['zh-hk'] };
 
 const { generalizeFormat } = util;
 
@@ -41,6 +44,7 @@ export default class FullCalendar extends React.Component {
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': { day: 'YYYY-MM-DD', time: 'YYYY-MM-DD HH:mm' },
+      'zh-hk': { day: 'YYYY-MM-DD', time: 'YYYY-MM-DD HH:mm' },
       'en-us': { day: 'DD/MM/YYYY', time: 'DD/MM/YYYY HH:mm' },
       en: { day: 'DD/MM/YYYY', time: 'DD/MM/YYYY HH:mm' },
     };

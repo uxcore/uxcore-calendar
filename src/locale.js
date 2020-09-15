@@ -10,6 +10,17 @@ const locale = {
     close: '关闭',
     placeholder: '请选择日期'
   },
+  'zh-hk': {
+    work: '上班',
+    leave: '休假',
+    am: '上午',
+    pm: '下午',
+    now: '今天',
+    time: '日',
+    week: '周',
+    close: '關閉',
+    placeholder: '請選擇日期'
+  },
   'en-us': {
     work: 'work',
     leave: 'leave',

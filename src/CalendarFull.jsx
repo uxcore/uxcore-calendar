@@ -147,7 +147,9 @@ export default class FullCalendar extends React.Component {
       type,
       ...otherProps
     } = p;
-
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[p.locale], ...localePack.Calendar, ...this.props.localePack };
     const { type: stateType } = this.state;
     const calendarOptions = {
       className: classnames({ [className]: !!className }),
@@ -171,7 +173,7 @@ export default class FullCalendar extends React.Component {
         return false;
       },
       format: generalizeFormat(this.getFormat()),
-      locale: CalendarLocale[this.locale],
+      locale: mergedLang,
       originLocale: this.locale,
       type: stateType,
     };
@@ -196,6 +198,7 @@ FullCalendar.defaultProps = {
     offset: [0, 0],
   },
   locale: 'zh-cn',
+  localePack: {},
   type: 'time',
   format: 'YYYY-MM-DD',
   fullscreen: true,
@@ -212,6 +215,7 @@ FullCalendar.propTypes = {
   format: PropTypes.string,
   fullscreen: PropTypes.bool,
   locale: PropTypes.string,
+  localePack: PropTypes.object,
   type: PropTypes.string,
   showHeader: PropTypes.bool,
   startHour: PropTypes.number,
@@ -229,3 +233,7 @@ FullCalendar.propTypes = {
   disabledDate: PropTypes.func,
   disabledTime: PropTypes.func,
 };
+
+FullCalendar.contextTypes = {
+  localePack: PropTypes.object
+}

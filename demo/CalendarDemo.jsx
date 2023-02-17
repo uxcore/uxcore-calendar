@@ -6,6 +6,7 @@ import moment from 'moment';
 import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
 import events from './events';
+import UxcoreConfigProvider from 'uxcore-config-provider';
 
 const { MonthCalendar, YearCalendar, RangeCalendar, CalendarFull, MiniWeek } = Calendar;
 
@@ -109,6 +110,13 @@ class Demo extends React.Component {
     };
     const { value, rangeValue } = this.state;
     return (
+      <UxcoreConfigProvider localePack={
+        {
+          Calendar: {
+            // placeholder: '这里选择日期'
+          }
+        }
+      }>
       <div className="kuma-form">
         <div
           className="kuma-form-field"
@@ -292,6 +300,7 @@ class Demo extends React.Component {
           />
         </div>
       </div>
+      </UxcoreConfigProvider>
     );
   }
 }

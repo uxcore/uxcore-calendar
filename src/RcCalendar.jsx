@@ -58,6 +58,7 @@ const Calendar = createClass({
     defaultValue: PropTypes.object,
     className: PropTypes.string,
     locale: PropTypes.object,
+    localePack: PropTypes.object,
     showWeekNumber: PropTypes.bool,
     style: PropTypes.object,
     showToday: PropTypes.bool,
@@ -215,6 +216,10 @@ const Calendar = createClass({
       renderFooter,
     } = this.props;
     const { value, selectedValue, showTimePicker } = this.state;
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    // 面板组件既可以作为中间组件，又可以直接作为入口组件，故，需要再合并一下
+    const mergedLang = { ...locale, ...localePack.Calendar, ...this.props.localePack };
     const disabledTimeConfig = showTimePicker && disabledTime && timePicker
       ? getTimeConfig(selectedValue, disabledTime)
       : null;
@@ -224,7 +229,7 @@ const Calendar = createClass({
         showHour: this.props.showHour,
         showSecond: this.props.showSecond,
         showMinute: true,
-        locale,
+        locale: mergedLang,
         ...disabledTimeConfig,
         onChange: this.onDateInputChange,
         defaultOpenValue: value,
@@ -241,7 +246,7 @@ const Calendar = createClass({
         format={this.getFormat()}
         key="date-input"
         value={value}
-        locale={locale}
+        locale={mergedLang}
         placeholder={dateInputPlaceholder}
         showClear={false}
         disabledTime={disabledTime}
@@ -259,7 +264,7 @@ const Calendar = createClass({
         <div className={`fn-clear ${prefixCls}-date-main`}>
           <div className={`${prefixCls}-date-panel`}>
             <CalendarHeader
-              locale={locale}
+              locale={mergedLang}
               localeStr={localeStr}
               onValueChange={this.onHeaderSelect}
               value={value}
@@ -270,7 +275,7 @@ const Calendar = createClass({
             />
             <div className={`${prefixCls}-body`}>
               <DateTable
-                locale={locale}
+                locale={mergedLang}
                 localeStr={localeStr}
                 value={value}
                 selectedValue={selectedValue}
@@ -293,7 +298,7 @@ const Calendar = createClass({
         </div>
         {renderFooter ? renderFooter() : null}
         {timePicker && showTimePicker ? (
-          <CalendarFooter locale={locale} prefixCls={prefixCls} onOk={this.onOk} />
+          <CalendarFooter locale={mergedLang} prefixCls={prefixCls} onOk={this.onOk} />
         ) : null}
       </div>,
     ];
@@ -304,5 +309,9 @@ const Calendar = createClass({
     });
   },
 });
+
+Calendar.contextTypes = {
+  localePack: PropTypes.object
+}
 
 export default Calendar;

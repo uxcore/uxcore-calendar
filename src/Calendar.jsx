@@ -115,6 +115,9 @@ class Calendar extends React.Component {
     const me = this;
     const p = me.props;
     const timePaneNumber = 1 + p.showHour + p.showSecond;
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[p.locale], ...localePack.Calendar, ...this.props.localePack };
     const calendarOptions = {
       className: classnames({
         [p.className]: !!p.className,
@@ -164,6 +167,7 @@ class Calendar extends React.Component {
       timePicker: p.timePicker || (p.showTime ? me.TimePickerElement : null),
       showDateInput: p.showDateInput,
       locale: CalendarLocale[p.locale],
+      localePack: mergedLang,
       prefixCls: 'kuma-calendar',
       yearSelectOffset: p.yearSelectOffset,
       yearSelectTotal: p.yearSelectTotal,
@@ -234,7 +238,7 @@ class Calendar extends React.Component {
                 value={newValue}
                 readOnly
                 disabled={me.props.disabled}
-                placeholder={me.props.placeholder || calendarOptions.locale.placeholder}
+                placeholder={me.props.placeholder || calendarOptions.localePack.placeholder}
                 className={inputClassName}
               />
               {p.hasTrigger ? <Icon usei name="riqi" className={`kuma-calendar-trigger-icon ${showClear ? 'kuma-calendar-trigger-icon__has-clear' : ''}`} /> : null}
@@ -259,6 +263,7 @@ Calendar.defaultProps = {
   placeholder: '',
   onSelect() { },
   locale: 'zh-cn',
+  localePack: {},
   align: {
     offset: [0, 0],
   },
@@ -284,6 +289,7 @@ Calendar.propTypes = {
   transitionName: PropTypes.string,
   onSelect: PropTypes.func,
   locale: PropTypes.string,
+  localePack: PropTypes.object,
   hasTrigger: PropTypes.bool,
   showSecond: PropTypes.bool,
   showTime: PropTypes.bool,
@@ -298,4 +304,7 @@ Calendar.CalendarPanel = RcCalendar;
 Calendar.util = util;
 Calendar.fullUtil = fullUtil;
 
+Calendar.contextTypes = {
+  localePack: PropTypes.object
+}
 export default Calendar;

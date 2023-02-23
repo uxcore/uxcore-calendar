@@ -140,7 +140,7 @@ class Demo extends React.Component {
               value={value}
               onSelect={this.onSelect}
               showDateInput
-            // renderFooter={() => {return 'aaa'}}
+              // renderFooter={() => {return 'aaa'}}
             />
           </div>
           <div
@@ -210,7 +210,7 @@ class Demo extends React.Component {
               size="large"
               value={value}
               onSelect={this.onSelect}
-              disabledDate={() => { }}
+              disabledDate={() => {}}
             />
           </div>
           <div

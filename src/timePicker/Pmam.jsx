@@ -15,13 +15,16 @@ class Pmam extends React.Component {
   }
   render() {
     const { locale, value, prefixCls } = this.props;
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...locale, ...localePack.Calendar, ...this.props.localePack };
     const items = ['am', 'pm'];
     const pmam = value.hour() >= 12 ? 'pm' : 'am';
     return (
       <div>
         <div
           className={`${prefixCls}-panel-selected-value`}
-        >{locale[pmam]}</div>
+        >{mergedLang[pmam]}</div>
         <ul className={`${prefixCls}-pmam-panel`}>
           {items.map(item => (
             <li
@@ -30,7 +33,7 @@ class Pmam extends React.Component {
                 [`${prefixCls}-pmam-item-active`]: item === pmam,
               })}
               onClick={this.handleClick.bind(this, item)}
-            >{locale[item]}</li>
+            >{mergedLang[item]}</li>
           ))}
         </ul>
       </div>
@@ -40,6 +43,7 @@ class Pmam extends React.Component {
 
 Pmam.propTypes = {
   locale: PropTypes.object,
+  localePack: PropTypes.object,
   value: PropTypes.any,
   prefixCls: PropTypes.string,
   onChange: PropTypes.func,
@@ -47,7 +51,12 @@ Pmam.propTypes = {
 
 Pmam.defaultProps = {
   prefixCls: 'kuma-time-picker',
+  localePack: {},
 };
+
+Pmam.contextTypes = {
+  localePack: PropTypes.object
+}
 
 Pmam.displayName = 'Pmam';
 

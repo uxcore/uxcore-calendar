@@ -48,7 +48,8 @@
     "uxcore-kuma": "*",
     "uxcore-tools": "^0.3.0",
     "babel-polyfill": "6.x",
-    "enzyme-adapter-react-16": "1.x"
+    "enzyme-adapter-react-16": "1.x",
+    "uxcore-config-provider": "^0.1.0"
   },
   "dependencies": {
     "classnames": "^2.1.2",

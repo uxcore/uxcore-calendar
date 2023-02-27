@@ -112,6 +112,9 @@ class Calendar extends React.Component {
     const me = this;
     const p = me.props;
     const timePaneNumber = 1 + p.showHour + p.showSecond;
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[p.locale], ...localePack.Calendar, ...this.props.localePack };
     const calendarOptions = {
       className: classnames({
         [p.className]: !!p.className,
@@ -152,7 +155,7 @@ class Calendar extends React.Component {
       showToday: p.showToday,
       timePicker: p.timePicker || (p.showTime ? me.TimePickerElement : null),
       showDateInput: p.showDateInput,
-      locale: CalendarLocale[p.locale],
+      locale: mergedLang,
       localeStr: p.locale,
       prefixCls: 'kuma-calendar',
       renderSidebar: p.renderSidebar ? p.renderSidebar : () => null,
@@ -266,6 +269,7 @@ Calendar.defaultProps = {
   onSelect() {
   },
   locale: 'zh-cn',
+  localePack: {},
   align: {
     offset: [0, 0],
   },
@@ -283,6 +287,7 @@ Calendar.propTypes = {
   placeholder: PropTypes.string,
   onSelect: PropTypes.func,
   locale: PropTypes.string,
+  localePack: PropTypes.object,
   allowClear: PropTypes.bool,
   hasTrigger: PropTypes.bool,
   showSecond: PropTypes.bool,

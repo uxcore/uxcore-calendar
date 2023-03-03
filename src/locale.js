@@ -1,4 +1,4 @@
-const locale = {
+const LANG_PACK = {
   'zh-cn': {
     work: '上班',
     leave: '休假',
@@ -45,7 +45,10 @@ const locale = {
   },
 };
 
-locale.en = locale['en-us'];
-locale.pl = locale['pl-pl'];
+LANG_PACK.en = LANG_PACK['en-us'];
+LANG_PACK.pl = LANG_PACK['pl-pl'];
 
-export default locale;
+LANG_PACK['en_US'] = LANG_PACK['en-us'];
+LANG_PACK['zh_CN'] = LANG_PACK['zh-cn'];
+
+export default LANG_PACK;

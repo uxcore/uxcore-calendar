@@ -1,4 +1,7 @@
 # History
+## 0.10.42
+* `feat` support localePack
+
 ## 0.10.35
 * `feat` add new prop onHeaderSelect for calendarfull
 

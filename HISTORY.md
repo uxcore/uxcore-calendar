@@ -1,4 +1,8 @@
 # History
+
+## 0.10.43
+* `feat` 新增 locale key en_US zh_CN (#76))
+  
 ## 0.10.42
 * `feat` support localePack
 

@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Assign from 'object-assign';
 import Icon from 'uxcore-icon';
+import i18n from '../locale'
 import { handlePropsEvents, getFormatDate, inSameWeek } from '../calendarFullUtil';
 
 const DATE_COL_COUNT = 7;
@@ -19,12 +20,14 @@ const proptypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   events: PropTypes.array,
   locale: PropTypes.string,
+  localePack: PropTypes.object,
   scheduleRender: PropTypes.func,
 };
 const defaultProps = {
   prefixCls: 'kuma-calendar-mini',
   value: new Date(),
   locale: 'zh-cn',
+  localePack: {},
   events: [],
   scheduleRender: null,
   getPopupContainer: null,
@@ -39,6 +42,7 @@ class MiniWeek extends React.Component {
       weekDays: [],
     };
     const { locale } = props;
+    this.momentLocale = 'zh-cn'
     this.locale = locale ? locale.toLowerCase().replace('_', '-') : 'zh-cn';
   }
 
@@ -100,7 +104,7 @@ class MiniWeek extends React.Component {
   getRenderData(newValue) {
     const { value: stateValue } = this.state;
     const value = newValue || stateValue;
-    let current = moment(value || new Date()).locale(this.locale);
+    let current = moment(value || new Date()).locale(this.momentLocale);
     const cloneValue = current.clone();
     const localeData = current.localeData();
     const currentDay = moment(value).day();
@@ -218,10 +222,15 @@ class MiniWeek extends React.Component {
   }
 
   render() {
-    const { prefixCls } = this.props;
+    const { prefixCls, locale } = this.props;
     const showTitle = this.getRenderShow();
     const scheduleContent = this.getScheduleRender();
-
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...i18n[locale], ...localePack.Calendar, ...this.props.localePack };
+    if(mergedLang.locale){
+      this.momentLocale = mergedLang.locale;
+    }
     return (
       <div className={`${prefixCls}-week`}>
         <div className="header-container">
@@ -238,5 +247,8 @@ class MiniWeek extends React.Component {
 MiniWeek.displayName = 'MiniWeek';
 MiniWeek.propTypes = proptypes;
 MiniWeek.defaultProps = defaultProps;
+MiniWeek.contextTypes = {
+  localePack: PropTypes.object
+};
 
 export default MiniWeek;

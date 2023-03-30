@@ -28,6 +28,7 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.momentLocale = 'zh-cn';
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.TimePickerElement = (
@@ -42,7 +43,7 @@ class Calendar extends React.Component {
   getDate(date = []) {
     const me = this;
     const { timezone, locale } = me.props;
-    const value = date.map(item => moment(item).locale(locale));
+    const value = date.map(item => moment(item).locale(this.momentLocale));
     if (timezone) {
       return value.map(item => item.utcOffset(parseInt(timezone, 10) * 60));
     }
@@ -50,7 +51,7 @@ class Calendar extends React.Component {
   }
 
   getFormat() {
-    const { format, locale, showTime } = this.props;
+    const { format, showTime } = this.props;
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': {
@@ -70,7 +71,8 @@ class Calendar extends React.Component {
         time: 'DD/MM/YYYY HH:mm:ss',
       },
     };
-    return defaultFormatMap[locale][showTime ? 'time' : 'day'];
+    const formattedTime = defaultFormatMap[this.momentLocale] || defaultFormatMap['en'];
+    return formattedTime[showTime ? 'time' : 'day'];
   }
 
   clearValue(e) {
@@ -115,6 +117,9 @@ class Calendar extends React.Component {
     const { context = {} } = this;
     const { localePack = {} } = context;
     const mergedLang = { ...CalendarLocale[p.locale], ...localePack.Calendar, ...this.props.localePack };
+    if(mergedLang.locale) {
+      this.momentLocale = mergedLang.locale;
+    }
     const calendarOptions = {
       className: classnames({
         [p.className]: !!p.className,
@@ -156,7 +161,7 @@ class Calendar extends React.Component {
       timePicker: p.timePicker || (p.showTime ? me.TimePickerElement : null),
       showDateInput: p.showDateInput,
       locale: mergedLang,
-      localeStr: p.locale,
+      localeStr: mergedLang.locale,
       prefixCls: 'kuma-calendar',
       renderSidebar: p.renderSidebar ? p.renderSidebar : () => null,
       renderFooter: p.renderFooter ? p.renderFooter : () => null
@@ -197,7 +202,7 @@ class Calendar extends React.Component {
       pickerOptions.trigger = <i className="kuma-icon kuma-icon-calender"/>;
     }
 
-    const calendar = <RcRangeCalendar {...calendarOptions} />;
+    const calendar = <RcRangeCalendar {...calendarOptions}/>;
 
     const triggerStyle = {};
     if (p.inputWidth) {
@@ -296,6 +301,8 @@ Calendar.propTypes = {
   getPopupContainer: PropTypes.func,
   quickSelectRanges: PropTypes.array
 };
-
+Calendar.contextTypes = {
+  localePack: PropTypes.object,
+};
 
 export default Calendar;

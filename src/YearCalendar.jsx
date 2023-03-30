@@ -21,6 +21,7 @@ class YearCalendar extends React.Component {
     super(props);
     this.state = {
     };
+    this.momentLocale = 'zh-cn';
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -32,7 +33,7 @@ class YearCalendar extends React.Component {
   getDate(date) {
     const me = this;
     const { timezone, locale } = me.props;
-    const value = moment(date).locale(locale);
+    const value = moment(date).locale(this.momentLocale);
     if (timezone) {
       return value.utcOffset(parseInt(timezone, 10) * 60);
     }
@@ -65,6 +66,12 @@ class YearCalendar extends React.Component {
   render() {
     const me = this;
     const p = me.props;
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[p.locale], ...localePack.Calendar, ...this.props.localePack };
+    if(mergedLang.locale){
+      this.momentLocale = mergedLang.locale;
+    }
     const calendarOptions = {
       className: classnames(p.className, {
         [`kuma-calendar-${p.size}`]: !!p.size,
@@ -187,6 +194,9 @@ YearCalendar.propTypes = {
   showDateInput: PropTypes.bool,
   align: PropTypes.object,
   transitionName: PropTypes.string,
+};
+YearCalendar.contextTypes = {
+  localePack: PropTypes.object
 };
 
 export default YearCalendar;

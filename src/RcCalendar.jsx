@@ -220,6 +220,7 @@ const Calendar = createClass({
     const { localePack = {} } = context;
     // 面板组件既可以作为中间组件，又可以直接作为入口组件，故，需要再合并一下
     const mergedLang = { ...locale, ...localePack.Calendar, ...this.props.localePack };
+
     const disabledTimeConfig = showTimePicker && disabledTime && timePicker
       ? getTimeConfig(selectedValue, disabledTime)
       : null;
@@ -265,7 +266,7 @@ const Calendar = createClass({
           <div className={`${prefixCls}-date-panel`}>
             <CalendarHeader
               locale={mergedLang}
-              localeStr={localeStr}
+              localeStr={mergedLang.locale}
               onValueChange={this.onHeaderSelect}
               value={value}
               yearSelectOffset={yearSelectOffset}
@@ -276,7 +277,7 @@ const Calendar = createClass({
             <div className={`${prefixCls}-body`}>
               <DateTable
                 locale={mergedLang}
-                localeStr={localeStr}
+                localeStr={mergedLang.locale}
                 value={value}
                 selectedValue={selectedValue}
                 prefixCls={prefixCls}

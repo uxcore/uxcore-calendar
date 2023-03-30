@@ -71,6 +71,7 @@ const RangeCalendar = createClass({
     onOk: PropTypes.func,
     showClear: PropTypes.bool,
     locale: PropTypes.object,
+    localeStr: PropTypes.string,
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
     onValueChange: PropTypes.func,

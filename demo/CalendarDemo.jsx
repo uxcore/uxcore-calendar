@@ -113,7 +113,7 @@ class Demo extends React.Component {
       <UxcoreConfigProvider localePack={
         {
           Calendar: {
-            // placeholder: '这里选择日期'
+            year: ''
           }
         }
       }>
@@ -278,7 +278,6 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
             fullscreen
             type="month"
-            locale="zh-cn"
             format="yyyy/MM/dd"
             scheduleRender={Calendar.fullUtil.generateScheduleContent(events, this.onScheduleClick)}
             startHour={0}

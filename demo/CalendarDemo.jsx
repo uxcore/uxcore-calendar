@@ -111,14 +111,7 @@ class Demo extends React.Component {
     };
     const { value, rangeValue } = this.state;
     return (
-      <UxcoreConfigProvider localePack={
-        {
-          Calendar: {
-            locale: 'es',
-            year: ''
-          }
-        }
-      }>
+      <UxcoreConfigProvider>
         <div className="kuma-form">
         <div
           className="kuma-form-field"
@@ -196,7 +189,6 @@ class Demo extends React.Component {
           <MonthCalendar
             size="middle"
             value={value}
-            format='MM/YYYY'
             disabledDate={disabledDate}
             onSelect={this.onSelect}
             showDateInput

@@ -54,7 +54,7 @@ class Calendar extends React.Component {
     const {
       format, showTime, timePicker,
     } = this.props;
-    const { locale = 'zh-cn' } = this.mergeLang();
+    const { locale } = this.mergeLang();
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': {

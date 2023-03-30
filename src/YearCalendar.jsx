@@ -5,6 +5,7 @@ import Icon from 'uxcore-icon';
 import classnames from 'classnames';
 import Datepicker from 'rc-calendar/lib/Picker';
 import RcYearCalendar from './RcYearCalendar';
+import i18n from './locale';
 import util from './util';
 
 const CalendarLocale = {};
@@ -13,6 +14,10 @@ CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
 CalendarLocale['zh-hk'] = require('rc-calendar/lib/locale/zh_TW');
 
+
+CalendarLocale['zh-cn'] = { ...CalendarLocale['zh-cn'], ...i18n['zh-cn'] };
+CalendarLocale['en-us'] = { ...CalendarLocale['en-us'], ...i18n['en-us'] };
+CalendarLocale['zh-hk'] = { ...CalendarLocale['zh-hk'], ...i18n['zh-hk'] };
 
 const { getCalendarContainer, generalizeFormat } = util;
 

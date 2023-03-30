@@ -102,7 +102,7 @@ class MiniWeek extends React.Component {
 
   getRenderData(newValue) {
     const { value: stateValue } = this.state;
-    const { locale = 'zh-cn' } = this.mergedLang();
+    const { locale } = this.mergedLang();
     const value = newValue || stateValue;
     let current = moment(value || new Date()).locale(locale);
     const cloneValue = current.clone();

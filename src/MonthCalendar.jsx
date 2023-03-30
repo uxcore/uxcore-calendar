@@ -15,7 +15,6 @@ CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
 CalendarLocale['zh-hk'] = require('rc-calendar/lib/locale/zh_TW');
 
-
 CalendarLocale['zh-cn'] = { ...CalendarLocale['zh-cn'], ...i18n['zh-cn'] };
 CalendarLocale['en-us'] = { ...CalendarLocale['en-us'], ...i18n['en-us'] };
 CalendarLocale['zh-hk'] = { ...CalendarLocale['zh-hk'], ...i18n['zh-hk'] };
@@ -227,8 +226,8 @@ MonthCalendar.propTypes = {
   transitionName: PropTypes.string,
   localePack: PropTypes.object,
 };
-
 MonthCalendar.contextTypes = {
   localePack: PropTypes.object
-}
+};
+
 export default MonthCalendar;

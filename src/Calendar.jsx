@@ -114,7 +114,7 @@ class Calendar extends React.Component {
     }
   }
 
-  mergeLang(){
+  mergeLang() {
     const { context = {} } = this;
     const { localePack = {} } = context;
     const mergedLang = { ...CalendarLocale[this.props.locale], ...localePack.Calendar, ...this.props.localePack };

@@ -42,7 +42,7 @@ class Calendar extends React.Component {
   getDate(date) {
     const me = this;
     const { timezone } = me.props;
-    const { locale = 'zh-cn' } = this.mergeLang();
+    const { locale } = this.mergeLang();
     const value = moment(date).locale(locale);
     if (timezone) {
       return value.utcOffset(parseInt(timezone, 10) * 60);

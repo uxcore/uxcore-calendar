@@ -3,6 +3,7 @@ import Button from 'uxcore-button';
 import CalendarLocale from 'rc-calendar/lib/locale/zh_CN';
 import React from 'react';
 import moment from 'moment';
+import 'moment/locale/es';
 import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
 import events from './events';
@@ -113,6 +114,7 @@ class Demo extends React.Component {
       <UxcoreConfigProvider localePack={
         {
           Calendar: {
+            locale: 'es',
             year: ''
           }
         }
@@ -194,6 +196,7 @@ class Demo extends React.Component {
           <MonthCalendar
             size="middle"
             value={value}
+            format='MM/YYYY'
             disabledDate={disabledDate}
             onSelect={this.onSelect}
             showDateInput

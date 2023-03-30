@@ -28,7 +28,6 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.momentLocale = 'zh-cn';
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.TimePickerElement = (
@@ -42,8 +41,9 @@ class Calendar extends React.Component {
 
   getDate(date = []) {
     const me = this;
-    const { timezone, locale } = me.props;
-    const value = date.map(item => moment(item).locale(this.momentLocale));
+    const { timezone } = me.props;
+    const { locale } = this.mergeLang();
+    const value = date.map(item => moment(item).locale(locale));
     if (timezone) {
       return value.map(item => item.utcOffset(parseInt(timezone, 10) * 60));
     }
@@ -71,7 +71,8 @@ class Calendar extends React.Component {
         time: 'DD/MM/YYYY HH:mm:ss',
       },
     };
-    const formattedTime = defaultFormatMap[this.momentLocale] || defaultFormatMap['en'];
+    const { locale } = this.mergeLang();
+    const formattedTime = defaultFormatMap[locale] || defaultFormatMap['en'];
     return formattedTime[showTime ? 'time' : 'day'];
   }
 
@@ -110,16 +111,19 @@ class Calendar extends React.Component {
       overlay.classList.add('kuma-tooltip-hidden')
     }
   }
+
+  mergeLang() {
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
+    return mergedLang;
+  }
+
   render() {
     const me = this;
     const p = me.props;
     const timePaneNumber = 1 + p.showHour + p.showSecond;
-    const { context = {} } = this;
-    const { localePack = {} } = context;
-    const mergedLang = { ...CalendarLocale[p.locale], ...localePack.Calendar, ...this.props.localePack };
-    if(mergedLang.locale) {
-      this.momentLocale = mergedLang.locale;
-    }
+    const mergedLang = this.mergeLang();
     const calendarOptions = {
       className: classnames({
         [p.className]: !!p.className,

@@ -42,7 +42,6 @@ class MiniWeek extends React.Component {
       weekDays: [],
     };
     const { locale } = props;
-    this.momentLocale = 'zh-cn'
     this.locale = locale ? locale.toLowerCase().replace('_', '-') : 'zh-cn';
   }
 
@@ -103,8 +102,9 @@ class MiniWeek extends React.Component {
 
   getRenderData(newValue) {
     const { value: stateValue } = this.state;
+    const { locale = 'zh-cn' } = this.mergedLang();
     const value = newValue || stateValue;
-    let current = moment(value || new Date()).locale(this.momentLocale);
+    let current = moment(value || new Date()).locale(locale);
     const cloneValue = current.clone();
     const localeData = current.localeData();
     const currentDay = moment(value).day();
@@ -221,16 +221,18 @@ class MiniWeek extends React.Component {
     }
   }
 
-  render() {
-    const { prefixCls, locale } = this.props;
-    const showTitle = this.getRenderShow();
-    const scheduleContent = this.getScheduleRender();
+  mergedLang(){
     const { context = {} } = this;
     const { localePack = {} } = context;
-    const mergedLang = { ...i18n[locale], ...localePack.Calendar, ...this.props.localePack };
-    if(mergedLang.locale){
-      this.momentLocale = mergedLang.locale;
-    }
+    const mergedLang = { ...i18n[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
+    return mergedLang;
+  }
+
+  render() {
+    const { prefixCls } = this.props;
+    const showTitle = this.getRenderShow();
+    const scheduleContent = this.getScheduleRender();
+   
     return (
       <div className={`${prefixCls}-week`}>
         <div className="header-container">

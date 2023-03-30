@@ -28,7 +28,6 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.momentLocale = 'zh-cn';
     this.clearValue = this.clearValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.TimePickerElement = (
@@ -43,7 +42,8 @@ class Calendar extends React.Component {
   getDate(date) {
     const me = this;
     const { timezone } = me.props;
-    const value = moment(date).locale(this.momentLocale);
+    const { locale = 'zh-cn' } = this.mergeLang();
+    const value = moment(date).locale(locale);
     if (timezone) {
       return value.utcOffset(parseInt(timezone, 10) * 60);
     }
@@ -54,6 +54,7 @@ class Calendar extends React.Component {
     const {
       format, showTime, timePicker,
     } = this.props;
+    const { locale = 'zh-cn' } = this.mergeLang();
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': {
@@ -86,7 +87,7 @@ class Calendar extends React.Component {
         key = 'time';
       }
     }
-    const formattedTime = defaultFormatMap[this.momentLocale] || defaultFormatMap['en'];
+    const formattedTime = defaultFormatMap[locale] || defaultFormatMap['en'];
     return formattedTime[key];
   }
 
@@ -113,16 +114,18 @@ class Calendar extends React.Component {
     }
   }
 
+  mergeLang(){
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
+    return mergedLang;
+  }
+
   render() {
     const me = this;
     const p = me.props;
     const timePaneNumber = 1 + p.showHour + p.showSecond;
-    const { context = {} } = this;
-    const { localePack = {} } = context;
-    const mergedLang = { ...CalendarLocale[p.locale], ...localePack.Calendar, ...this.props.localePack };
-    if(mergedLang.locale){
-      this.momentLocale = mergedLang.locale
-    }
+    const mergedLang = this.mergeLang();
     const calendarOptions = {
       className: classnames({
         [p.className]: !!p.className,

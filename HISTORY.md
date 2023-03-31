@@ -1,7 +1,10 @@
 # History
 
+## 0.10.44
+* `feat` 支持更完善的国际化方案 (#77)
+
 ## 0.10.43
-* `feat` 新增 locale key en_US zh_CN (#76))
+* `feat` 新增 locale key en_US zh_CN (#76)
   
 ## 0.10.42
 * `feat` support localePack

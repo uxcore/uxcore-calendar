@@ -1,6 +1,7 @@
 const LANG_PACK = {
   'zh-cn': {
     work: '上班',
+    locale: 'zh-cn',
     leave: '休假',
     am: '上午',
     pm: '下午',
@@ -12,6 +13,7 @@ const LANG_PACK = {
   },
   'zh-hk': {
     work: '上班',
+    locale: 'zh-hk',
     leave: '休假',
     am: '上午',
     pm: '下午',
@@ -24,6 +26,7 @@ const LANG_PACK = {
   'en-us': {
     work: 'work',
     leave: 'leave',
+    locale: 'en-us',
     am: 'AM',
     pm: 'PM',
     now: 'now',
@@ -35,6 +38,7 @@ const LANG_PACK = {
   'pl-pl': {
     work: 'zadanie',
     leave: 'porzuć',
+    locale: 'pl',
     am: 'AM',
     pm: 'PM',
     now: 'NOW',

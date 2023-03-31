@@ -60,12 +60,13 @@ const FullCalendar = createReactClass({
 
   getDateTableElement() {
     const {
-      locale, prefixCls, disabledDate, onSelect, ...others
+      locale, originLocale, prefixCls, disabledDate, onSelect, ...others
     } = this.props;
     const { value, selectedValue } = this.state;
     return (
       <DateTable
         locale={locale}
+        localeStr={originLocale}
         prefixCls={prefixCls}
         value={value}
         onSelect={this.handleSelect}
@@ -138,7 +139,6 @@ const FullCalendar = createReactClass({
     const {
       prefixCls, showHeader, headerComponent, headerRender, type,
     } = this.props;
-
     const { value } = this.state;
     let header = null;
     if (showHeader) {
@@ -146,6 +146,7 @@ const FullCalendar = createReactClass({
         header = headerRender(moment(value).toDate(), type);
       } else {
         const TheHeader = headerComponent || CalendarFullHeader;
+
         header = (
           <TheHeader
             key="calendar-header"

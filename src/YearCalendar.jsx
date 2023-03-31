@@ -5,6 +5,7 @@ import Icon from 'uxcore-icon';
 import classnames from 'classnames';
 import Datepicker from 'rc-calendar/lib/Picker';
 import RcYearCalendar from './RcYearCalendar';
+import i18n from './locale';
 import util from './util';
 
 const CalendarLocale = {};
@@ -13,6 +14,10 @@ CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
 CalendarLocale['zh-hk'] = require('rc-calendar/lib/locale/zh_TW');
 
+
+CalendarLocale['zh-cn'] = { ...CalendarLocale['zh-cn'], ...i18n['zh-cn'] };
+CalendarLocale['en-us'] = { ...CalendarLocale['en-us'], ...i18n['en-us'] };
+CalendarLocale['zh-hk'] = { ...CalendarLocale['zh-hk'], ...i18n['zh-hk'] };
 
 const { getCalendarContainer, generalizeFormat } = util;
 
@@ -31,7 +36,8 @@ class YearCalendar extends React.Component {
 
   getDate(date) {
     const me = this;
-    const { timezone, locale } = me.props;
+    const { timezone } = me.props;
+    const { locale } = this.mergeLang();
     const value = moment(date).locale(locale);
     if (timezone) {
       return value.utcOffset(parseInt(timezone, 10) * 60);
@@ -62,9 +68,17 @@ class YearCalendar extends React.Component {
     }
   }
 
+  mergeLang() {
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
+    return mergedLang;
+  }
+
   render() {
     const me = this;
     const p = me.props;
+    
     const calendarOptions = {
       className: classnames(p.className, {
         [`kuma-calendar-${p.size}`]: !!p.size,
@@ -187,6 +201,9 @@ YearCalendar.propTypes = {
   showDateInput: PropTypes.bool,
   align: PropTypes.object,
   transitionName: PropTypes.string,
+};
+YearCalendar.contextTypes = {
+  localePack: PropTypes.object
 };
 
 export default YearCalendar;

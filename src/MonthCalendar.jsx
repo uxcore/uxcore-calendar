@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Icon from 'uxcore-icon';
 import classnames from 'classnames';
+import i18n from './locale';
 import util from './util';
 
 const CalendarLocale = {};
@@ -13,6 +14,10 @@ const { getCalendarContainer, generalizeFormat } = util;
 CalendarLocale['zh-cn'] = require('rc-calendar/lib/locale/zh_CN');
 CalendarLocale['en-us'] = require('rc-calendar/lib/locale/en_US');
 CalendarLocale['zh-hk'] = require('rc-calendar/lib/locale/zh_TW');
+
+CalendarLocale['zh-cn'] = { ...CalendarLocale['zh-cn'], ...i18n['zh-cn'] };
+CalendarLocale['en-us'] = { ...CalendarLocale['en-us'], ...i18n['en-us'] };
+CalendarLocale['zh-hk'] = { ...CalendarLocale['zh-hk'], ...i18n['zh-hk'] };
 
 class MonthCalendar extends React.Component {
   constructor(props) {
@@ -29,7 +34,8 @@ class MonthCalendar extends React.Component {
 
   getDate(date) {
     const me = this;
-    const { timezone, locale } = me.props;
+    const { timezone } = me.props;
+    const { locale } = this.mergeLang();
     const value = moment(date).locale(locale);
     if (timezone) {
       return value.utcOffset(parseInt(timezone, 10) * 60);
@@ -60,15 +66,23 @@ class MonthCalendar extends React.Component {
     }
   }
 
+  mergeLang() {
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
+    return mergedLang;
+  }
+
   render() {
     const me = this;
     const p = me.props;
+    const mergedLang = this.mergeLang();
     const calendarOptions = {
       className: classnames(p.className, {
         [`kuma-calendar-${p.size}`]: !!p.size,
       }),
       style: p.style,
-      locale: CalendarLocale[p.locale],
+      locale: mergedLang,
       orient: ['top', 'left'],
       showDateInput: p.showDateInput,
       prefixCls: 'kuma-calendar',
@@ -188,6 +202,7 @@ MonthCalendar.defaultProps = {
   allowClear: true,
   onSelect() { },
   locale: 'zh-cn',
+  localePack: {},
   transitionName: 'calendarSlideUp',
   align: {
     offset: [0, 0],
@@ -209,7 +224,10 @@ MonthCalendar.propTypes = {
   showDateInput: PropTypes.bool,
   align: PropTypes.object,
   transitionName: PropTypes.string,
+  localePack: PropTypes.object,
 };
-
+MonthCalendar.contextTypes = {
+  localePack: PropTypes.object
+};
 
 export default MonthCalendar;

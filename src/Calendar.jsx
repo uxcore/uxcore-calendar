@@ -41,7 +41,8 @@ class Calendar extends React.Component {
 
   getDate(date) {
     const me = this;
-    const { timezone, locale } = me.props;
+    const { timezone } = me.props;
+    const { locale } = this.mergeLang();
     const value = moment(date).locale(locale);
     if (timezone) {
       return value.utcOffset(parseInt(timezone, 10) * 60);
@@ -51,8 +52,9 @@ class Calendar extends React.Component {
 
   getFormat() {
     const {
-      format, locale, showTime, timePicker,
+      format, showTime, timePicker,
     } = this.props;
+    const { locale } = this.mergeLang();
     if (format) return format;
     const defaultFormatMap = {
       'zh-cn': {
@@ -85,7 +87,8 @@ class Calendar extends React.Component {
         key = 'time';
       }
     }
-    return defaultFormatMap[locale][key];
+    const formattedTime = defaultFormatMap[locale] || defaultFormatMap['en'];
+    return formattedTime[key];
   }
 
   clearValue(e) {
@@ -111,13 +114,18 @@ class Calendar extends React.Component {
     }
   }
 
+  mergeLang() {
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...CalendarLocale[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
+    return mergedLang;
+  }
+
   render() {
     const me = this;
     const p = me.props;
     const timePaneNumber = 1 + p.showHour + p.showSecond;
-    const { context = {} } = this;
-    const { localePack = {} } = context;
-    const mergedLang = { ...CalendarLocale[p.locale], ...localePack.Calendar, ...this.props.localePack };
+    const mergedLang = this.mergeLang();
     const calendarOptions = {
       className: classnames({
         [p.className]: !!p.className,

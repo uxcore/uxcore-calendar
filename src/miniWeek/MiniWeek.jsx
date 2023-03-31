@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Assign from 'object-assign';
 import Icon from 'uxcore-icon';
+import i18n from '../locale'
 import { handlePropsEvents, getFormatDate, inSameWeek } from '../calendarFullUtil';
 
 const DATE_COL_COUNT = 7;
@@ -19,12 +20,14 @@ const proptypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   events: PropTypes.array,
   locale: PropTypes.string,
+  localePack: PropTypes.object,
   scheduleRender: PropTypes.func,
 };
 const defaultProps = {
   prefixCls: 'kuma-calendar-mini',
   value: new Date(),
   locale: 'zh-cn',
+  localePack: {},
   events: [],
   scheduleRender: null,
   getPopupContainer: null,
@@ -99,8 +102,9 @@ class MiniWeek extends React.Component {
 
   getRenderData(newValue) {
     const { value: stateValue } = this.state;
+    const { locale } = this.mergedLang();
     const value = newValue || stateValue;
-    let current = moment(value || new Date()).locale(this.locale);
+    let current = moment(value || new Date()).locale(locale);
     const cloneValue = current.clone();
     const localeData = current.localeData();
     const currentDay = moment(value).day();
@@ -217,11 +221,18 @@ class MiniWeek extends React.Component {
     }
   }
 
+  mergedLang(){
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...i18n[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
+    return mergedLang;
+  }
+
   render() {
     const { prefixCls } = this.props;
     const showTitle = this.getRenderShow();
     const scheduleContent = this.getScheduleRender();
-
+   
     return (
       <div className={`${prefixCls}-week`}>
         <div className="header-container">
@@ -238,5 +249,8 @@ class MiniWeek extends React.Component {
 MiniWeek.displayName = 'MiniWeek';
 MiniWeek.propTypes = proptypes;
 MiniWeek.defaultProps = defaultProps;
+MiniWeek.contextTypes = {
+  localePack: PropTypes.object
+};
 
 export default MiniWeek;

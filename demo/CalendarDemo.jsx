@@ -3,6 +3,7 @@ import Button from 'uxcore-button';
 import CalendarLocale from 'rc-calendar/lib/locale/zh_CN';
 import React from 'react';
 import moment from 'moment';
+import 'moment/locale/es';
 import RcCalendar from '../src/RcCalendar';
 import Calendar from '../src';
 import events from './events';
@@ -110,13 +111,7 @@ class Demo extends React.Component {
     };
     const { value, rangeValue } = this.state;
     return (
-      <UxcoreConfigProvider localePack={
-        {
-          Calendar: {
-            // placeholder: '这里选择日期'
-          }
-        }
-      }>
+      <UxcoreConfigProvider>
         <div className="kuma-form">
         <div
           className="kuma-form-field"
@@ -278,7 +273,6 @@ class Demo extends React.Component {
             onSelect={this.onSelect}
             fullscreen
             type="month"
-            locale="zh-cn"
             format="yyyy/MM/dd"
             scheduleRender={Calendar.fullUtil.generateScheduleContent(events, this.onScheduleClick)}
             startHour={0}

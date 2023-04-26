@@ -130,7 +130,7 @@ export default class FullCalendar extends React.Component {
   mergeLang() {
     const { context = {} } = this;
     const { localePack = {} } = context;
-    const mergedLang = { ...CalendarLocale[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
+    const mergedLang = { locale: this.props.locale, ...CalendarLocale[this.props.locale], ...localePack.Calendar, ...this.props.localePack };
     return mergedLang;
   }
 

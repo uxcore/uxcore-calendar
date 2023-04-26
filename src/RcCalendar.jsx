@@ -205,7 +205,7 @@ const Calendar = createClass({
   mergeLang(){
     const { context = {} } = this;
     const { localePack = {} } = context;
-    const mergedLang = { ...this.props.locale, ...localePack.Calendar, ...this.props.localePack };
+    const mergedLang = { locale: this.props.locale, ...this.props.locale, ...localePack.Calendar, ...this.props.localePack };
     return mergedLang;
   },
   render() {
